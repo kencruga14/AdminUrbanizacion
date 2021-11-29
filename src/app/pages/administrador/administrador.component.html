@@ -1,0 +1,99 @@
+<app-breadcrumb titulo="Administradores de Etapa" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de Administradores de Etapas</h4>
+            <button class="btn btn-dark" (click)="openAdmin(contentAdmin)">Crear nuevo Administrador de Etapa</button>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                 [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let admin of admins | filter:filterName; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td><figure class="avatar avatar-sm">
+                              <img [src]="admin.usuario.imagen" class="rounded-circle" alt="image" width="60px">
+                          </figure></td>
+                            <td>{{admin.usuario.nombres}}</td>
+                            <td>{{admin.usuario.usuario}}</td>
+                            <td>{{admin.usuario.correo}}</td>
+                            <td>{{admin.usuario.telefono}}</td>
+                            <td>
+                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openAdmin(contentAdmin, admin)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(admin.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="(admins).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
+                            
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #contentAdmin let-modal>
+        <div class="modal-header">
+            <h4 *ngIf="!admin.edit" class="modal-title" id="modal-basic-title">Crear nuevo Administrador</h4>
+            <h4 *ngIf="admin.edit" class="modal-title" id="modal-basic-title">Editar nuevo Administrador</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (ngSubmit)="gestionAdmin()" #form="ngForm">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="image-preview mb-3" *ngIf="imagen">
+                      <img class="img-fluid" [src]="imagen" height="500" />
+                  </div>
+                  </div>
+                  <div class="form-group">
+                  <input type="file" name="image" (change)="preview($event)" />
+                </div>
+                <div class="form-group">
+                    <input [value]="nombres"  [(ngModel)]="nombres" name="nombres" class="form-control" type="text" required placeholder="Ingrese el nombre">
+                </div>
+                <div class="form-group">
+                    <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required placeholder="Ingrese el Correo">
+                </div>
+                <div class="form-group">
+                    <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text" required placeholder="Ingrese el usuario">
+                </div>
+                <div class="form-group">
+                  <input [value]="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control" type="text" required placeholder="Ingrese la Contraseña">
+                </div>
+                <div class="form-group">
+                  <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text" required placeholder="Ingrese el Teléfono">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!admin.edit">Guardar</span>
+                    <span *ngIf="admin.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </ng-template>
+
+
+</div>

@@ -1,0 +1,82 @@
+<app-breadcrumb titulo="Mi voto" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de encuentas</h4>
+            <button class="btn btn-dark" (click)="openEncuesta(contentEncuesta)">Crear encuenta</button>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                 [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>Pregunta</th>
+                            <th>Fecha Limite</th>
+                            <th>Votos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let ali of encuestas | filter:filterName; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td>{{ali.pregunta}}</td>
+                            <td>{{ali.fecha_vencimiento | amDateFormat:'MMMM Do YYYY, h:mm:ss a'}}</td>
+                            <td>{{ali.total_votos}}</td>
+                            <td>
+                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openEncuesta(contentEncuesta, ali)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="(encuestas).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
+                            
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #contentEncuesta let-modal>
+        <div class="modal-header">
+            <h4 *ngIf="!encuesta.edit" class="modal-title" id="modal-basic-title">Crear nueva Encuesta</h4>
+            <h4 *ngIf="encuesta.edit" class="modal-title" id="modal-basic-title">Editar nueva Encuesta</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (ngSubmit)="gestionEncuesta()" #form="ngForm">
+            <div class="modal-body">
+                <div class="form-group">
+                  <input [(ngModel)]="encuesta.pregunta" name="pregunta" class="form-control" type="text" required placeholder="Ingrese la pregunta">
+              </div>
+              <div class="form-group">
+                <label>Fecha límite: <strong>{{ fecha_vencimiento | amDateFormat:'DD-MM-YYYY' }}</strong></label>
+                <dl-date-time-picker name="fecha_pago" startView="day" maxView="year" minView="day" [(ngModel)]="encuesta.fecha_vencimiento" ></dl-date-time-picker>
+            </div>
+            
+            <div class="form-group" *ngFor="let opcion of encuesta.opciones ; let i=index ">
+              <label >Ingrese las opciones</label>
+              <input [(ngModel)]="opcion.opcion" name="pregunta" class="form-control" type="text">
+            </div>
+            <button class="btn btn-dark" type="button" (click)="anadirOpcion()" >Añadir Opción</button>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!encuesta.edit">Guardar</span>
+                    <span *ngIf="encuesta.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </ng-template>
+
+
+</div>

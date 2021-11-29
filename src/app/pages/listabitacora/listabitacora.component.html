@@ -1,0 +1,60 @@
+<app-breadcrumb titulo="Registro de ingresos y salidas" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de Registros</h4>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                 [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table  id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Cédula</th>
+                            <th>Asunto</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
+                            <th>Medio</th>
+                            <th>Placa</th>
+                            <th>F.Ingreso</th>
+                            <th>H.Ingreso</th>
+                            <th>F.Salida</th>
+                            <th>H.Salida</th>
+                            <th>Guardia</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
+                            
+                            <th scope="row ">{{i+1}}</th>
+                            <td>{{visit.nombres}}</td>
+                            <td>{{visit.cedula}}</td>
+                            <td>{{visit.motivo}}</td>
+                            <td>{{visit.casa.manzana}}</td>
+                            <td>{{visit.casa.villa}}</td>
+                            <td>{{visit.TipoEntrada}}</td>
+                            <td>{{visit.placa}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{visit.guardia.nombres}}</td>
+                            <td>{{visit.Estado}}</td>
+                        </tr>
+                        <tr *ngIf="(bitacoras).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,90 @@
+<app-breadcrumb titulo="Casas" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de Casas</h4>
+            <button class="btn btn-dark" (click)="openCasa(contentCasa)">Crear Casa</button>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                 [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
+                            <th>Teléfono</th>
+                            <th>Alicuota</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let casa of casas ; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td>{{casa.manzana}}</td>
+                            <td>{{casa.villa}}</td>
+                            <td>{{casa.celular}}</td>
+                            <td>${{casa.valor_alicuotas}}</td>
+                            <td>
+                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openCasa(contentCasa, casa)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(casa.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="(casas).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
+                            
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #contentCasa let-modal>
+        <div class="modal-header">
+            <h4 *ngIf="!casa.edit" class="modal-title" id="modal-basic-title">Crear nueva Casa</h4>
+            <h4 *ngIf="casa.edit" class="modal-title" id="modal-basic-title">Editar nueva Casa</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (ngSubmit)="gestionCasa()" #form="ngForm">
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <input [value]="manzana"  [(ngModel)]="manzana" name="manzana" class="form-control" type="text" required placeholder="Ingrese la manzana">
+                </div>
+                <div class="form-group">
+                    <input [value]="villa" [(ngModel)]="villa" name="villa" class="form-control" type="text" required placeholder="Ingrese la villa">
+                </div>
+              <div class="form-group">
+                <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text" required placeholder="Ingrese el celular">
+            </div>
+           
+            <div class="form-group">
+              <label>Casa</label>
+                <select name="piso" [(ngModel)]="piso" class="form-control custom-select">
+                  <option  [ngValue]="true">Si</option>
+                    <option  [ngValue]="false">No</option>
+                </select>
+            </div>
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!casa.edit">Guardar</span>
+                    <span *ngIf="casa.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </ng-template>
+
+
+</div>

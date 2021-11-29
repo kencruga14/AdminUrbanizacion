@@ -1,0 +1,165 @@
+<app-breadcrumb titulo="Usuarios" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de Usuarios</h4>
+            <button class="btn btn-dark" (click)="openResidente(contentResidente)">Crear Usuario</button>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                 [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Cédula</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Celular</th>
+                            <th>Convencional </th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
+                            <th>Votación</th>
+                            <th>Temporal</th>
+                            <th>Fijo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let et of residentes | filter:filterName; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td>
+                              <figure class="avatar avatar-sm">
+                                <img [src]="et.usuario.imagen" class="rounded-circle" alt="image" width="60px">
+                            </figure>
+                            </td>
+                            <td>{{et.usuario.nombres}}</td>
+                            <td>{{et.cedula}}</td>
+                            <td>{{et.usuario.usuario}}</td>
+                            <td>{{et.usuario.correo}}</td>
+                            <td>{{et.usuario.celular}}</td>
+                            <td>{{et.usuario.telefono}}</td>
+                            <td>{{et.casa.manzana}}</td>
+                            <td>{{et.casa.villa}}</td>
+                            <td *ngIf="et.is_principal == true">Si</td>
+                            <td *ngIf="et.is_principal == false">No</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openResidente(contentResidente, et)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="(residentes).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
+                            
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #contentResidente let-modal>
+        <div class="modal-header">
+            <h4 *ngIf="!residente.edit" class="modal-title" id="modal-basic-title">Crear nuevo Residente</h4>
+            <h4 *ngIf="residente.edit" class="modal-title" id="modal-basic-title">Editar nuevo Residente</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form (ngSubmit)="gestionResidente()" #form="ngForm">
+            <div class="modal-body">
+              <div class="form-group">
+                <div class="image-preview mb-3" *ngIf="imagen">
+                    <img class="img-fluid" [src]="imagen" height="500" />
+                </div>
+            </div>
+                <div class="form-group">
+                    <input [value]="nombres"  [(ngModel)]="nombres" name="nombres" class="form-control" type="text" required placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text" required placeholder="Cédula">
+                </div>
+                <div class="form-group">
+                  <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text" required placeholder="Usuario">
+              </div>
+              <div *ngIf="!residente.edit" class="form-group">
+                <input [value]="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control" type="text" required placeholder="Contraseña">
+            </div>
+              <div class="form-group">
+                <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required placeholder="Correo">
+            </div>
+            <div class="form-group">
+                <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text" required placeholder="Celular">
+            </div>
+                <div class="form-group">
+                    <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text" required placeholder="Convencional">
+                </div>
+                <div class="form-group">
+                    <label>Manzana</label>
+                      <select name="id_casa" [(ngModel)]="id_casa" class="form-control custom-select">
+                          <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.manzana}}</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Villa</label>
+                      <select name="id_casa" [(ngModel)]="id_casa" class="form-control custom-select">
+                          <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.villa}}</option>
+                      </select>
+                  </div>
+              <div class="form-group">
+                <label>Votación</label>
+                  <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
+                    <option  [ngValue]="true">Si</option>
+                      <option  [ngValue]="false">No</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label>Autorización Temporal</label>
+                  <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
+                    <option  [ngValue]="true">Si</option>
+                      <option  [ngValue]="false">No</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label>Autorización Fija</label>
+                  <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
+                    <option  [ngValue]="true">Si</option>
+                      <option  [ngValue]="false">No</option>
+                  </select>
+              </div>
+             
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!residente.edit">Guardar</span>
+                    <span *ngIf="residente.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </ng-template>
+
+
+</div>
+<script type="text/javascript">
+    function showContent() {
+        element = document.getElementById("content");
+        check = document.getElementById("check");
+        if (check.checked) {
+            element.style.display='block';
+        }
+        else {
+            element.style.display='none';
+        }
+    }
+</script>
