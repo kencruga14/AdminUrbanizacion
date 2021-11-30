@@ -5,7 +5,7 @@
             <h4 class="card-title">Áreas de Recreación</h4>
             <button class="btn btn-dark" (click)="openArea(contentArea)">Crear área </button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
                  [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
@@ -13,7 +13,7 @@
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th>#</th>
+                            <th>No</th>
                             <th>Imagen</th>
                             <th>Nombre</th>
                             <th>Hora de Apertura</th>

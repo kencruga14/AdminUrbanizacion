@@ -5,7 +5,7 @@
             <h4 class="card-title">Lista de Casas</h4>
             <button class="btn btn-dark" (click)="openCasa(contentCasa)">Crear Casa</button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
                  [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
@@ -13,7 +13,7 @@
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th>#</th>
+                            <th>No</th>
                             <th>Manzana</th>
                             <th>Villa</th>
                             <th>Teléfono</th>
@@ -48,8 +48,8 @@
     </div>
     <ng-template #contentCasa let-modal>
         <div class="modal-header">
-            <h4 *ngIf="!casa.edit" class="modal-title" id="modal-basic-title">Crear nueva Casa</h4>
-            <h4 *ngIf="casa.edit" class="modal-title" id="modal-basic-title">Editar nueva Casa</h4>
+            <h4 *ngIf="!casa.edit" class="modal-title" id="modal-basic-title">Crear casa</h4>
+            <h4 *ngIf="casa.edit" class="modal-title" id="modal-basic-title">Editar casa</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -66,15 +66,9 @@
               <div class="form-group">
                 <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text" required placeholder="Ingrese el celular">
             </div>
-           
-            <div class="form-group">
-              <label>Casa</label>
-                <select name="piso" [(ngModel)]="piso" class="form-control custom-select">
-                  <option  [ngValue]="true">Si</option>
-                    <option  [ngValue]="false">No</option>
-                </select>
-            </div>
-
+            <!-- <div class="form-group">
+                <input [value]="valor_alicuota" [(ngModel)]="valor_alicuota" name="valor_alicuota" class="form-control" type="number" required placeholder="Valor Alicuota">
+            </div> -->
             </div>
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">

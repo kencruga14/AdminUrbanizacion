@@ -1,0 +1,21 @@
+th,
+td {
+  padding: 10px;
+  width: 50%;
+  white-space: nowrap;
+}
+
+.aceptada {
+  color: green;
+}
+
+.rechazada {
+  color: red;
+}
+
+.esperando {
+  color: yellow;
+}
+.pendiente{
+  color: purple;
+}

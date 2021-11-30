@@ -31,6 +31,10 @@ import { AreasocialComponent } from './pages/areasocial/areasocial.component';
 import { VotacionComponent } from './pages/votacion/votacion.component';
 import { AdmingaritaComponent } from './pages/admingarita/admingarita.component';
 import { ListabitacoraComponent } from './pages/listabitacora/listabitacora.component';
+import { ExpresoescolarComponent } from './pages/expresoescolar/expresoescolar.component';
+import { EmprendimientoComponent } from './pages/emprendimiento/emprendimiento.component';
+import { CamarasComponent } from './pages/camaras/camaras.component';
+import { ReservacionesComponent } from './pages/reservaciones/reservaciones.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,10 @@ import { ListabitacoraComponent } from './pages/listabitacora/listabitacora.comp
     FilterPipe,
     AdmingaritaComponent,
     ListabitacoraComponent,
+    ExpresoescolarComponent,
+    EmprendimientoComponent,
+    CamarasComponent,
+    ReservacionesComponent,
   ],
   imports: [
     BrowserModule,

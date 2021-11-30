@@ -37,7 +37,7 @@ login(body) {
  ).pipe(
    map( (resp: any) => {
      this.guardarToken( resp.respuesta);
-     console.log(resp.respuesta.token);
+    //  console.log(resp.respuesta.token);
      return resp;
    })
  );
@@ -45,7 +45,7 @@ login(body) {
 
 private guardarToken( idToken: any) {
  this.userToken = idToken.token;
- console.log(this.userToken)
+//  console.log(this.userToken)
  this.info = JSON.stringify(idToken);
  this.infoGuard = 1;
  localStorage.setItem('token', idToken.token);
@@ -79,12 +79,13 @@ getDataUrb() {
     })
   );
 }
+
 getDataCasa() {
   const headers = new HttpHeaders({
     token: this.userToken
 
   });
-  return this.http.get(`${environment.apiUrl}/data/casas`, {headers})
+  return this.http.get(`${environment.apiUrl}/data/etapas`, {headers})
   .pipe(
     map( (resp: any) => {
       return resp.respuesta;
@@ -106,7 +107,7 @@ getDataResidentes() {
 
 // ADMINISTRADOR
 getAdmin() {
-  console.log("hola");
+  // console.log("hola");
   const headers = new HttpHeaders({
     token: this.userToken
 
@@ -410,7 +411,9 @@ createResidente(data) {
       this.loading = false;
     }, (error: any) => {
       this.loading = false;
-      this.showAlert(error.error.message, 'error');
+      this.showAlert(error.error.respuesta, 'error');
+      console.log("error crear residente: ", error.error.respuesta);
+
       resolve(false);
     });
   });
@@ -421,14 +424,14 @@ editResidente(id: number, data: any) {
   const headers = new HttpHeaders({
     token: this.userToken
   });
-  return new Promise(resolve => {
+  return new Promise(resolve => {  
     this.http.put(`${environment.apiUrl}/admin-etapa/residente/${id}`, data, {headers}).subscribe((response: any) => {
       this.showAlert(response.message, 'success', 'Listo');
       resolve(true);
       this.loading = false;
     }, (error: any) => {
       this.loading = false;
-      this.showAlert(error.error.message, 'error');
+      this.showAlert(error.error.respuesta, 'error');
       resolve(false);
     });
   });
@@ -871,13 +874,26 @@ editAdminGarita(id: number, data: any) {
   });
 }
 
+getUrbanizaciones(){
+  const headers = new HttpHeaders({
+    token: this.userToken
+
+  });
+  return this.http.get(`${environment.apiUrl}/master/etapa`, {headers})
+  .pipe(
+    map( (resp: any) => {
+      return resp.respuesta;
+    })
+  );   
+}
+
 deleteAdminGarita(id: number) {
   this.loading = true;
   const headers = new HttpHeaders({
     token: this.userToken
   });
   return new Promise(resolve => {
-    this.http.delete(`${environment.apiUrl}/admin-etapa/votacion/${id}`, {headers}).subscribe((response: any) => {
+    this.http.delete(`${environment.apiUrl}/admin-etapa/admin-garita/${id}`, {headers}).subscribe((response: any) => {
       this.showAlert(response.message, 'success', 'Listo');
       resolve(true);
       this.loading = false;
