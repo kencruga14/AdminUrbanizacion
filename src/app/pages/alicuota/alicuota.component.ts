@@ -1,19 +1,37 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,ViewChild  } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { UsuarioModelo } from "src/app/models/usuario.model";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormGroupDirective,
+} from "@angular/forms";
+import { format } from "url";
+
 @Component({
   selector: "app-alicuota",
   templateUrl: "./alicuota.component.html",
   styleUrls: ["./alicuota.component.css"],
 })
 export class AlicuotaComponent implements OnInit {
+  // @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  alicuotaForm: FormGroup;
+  value = this.fb.group({
+    valor: ["", Validators.required],
+    fecha_pago: ["", Validators.required],
+  });
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
   id_casa: 0;
+  id_manzana: 0;
+  submitted = false;
+  id_villa: 0;
   valor: "";
   fecha_pago: "";
   edit: false;
@@ -22,7 +40,7 @@ export class AlicuotaComponent implements OnInit {
   id_alicuota: "";
   changeFoto = false;
   eta = [];
-
+  mes: any;
   filterName = "";
   alicuota = {
     id_casa: 0,
@@ -35,11 +53,28 @@ export class AlicuotaComponent implements OnInit {
     accesos: "",
     id_alicuota: "",
   };
+  meses = [
+    "Saldo",
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+    "Extraordinaria",
+  ];
 
   constructor(
     public auth: AuthService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -48,6 +83,32 @@ export class AlicuotaComponent implements OnInit {
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
+    this.alicuotaForm = this.fb.group({
+      times: this.fb.array([]),
+    });
+  }
+
+  addGroup() {
+    const val = this.fb.group({
+      valor: ["", Validators.required],
+      fecha_pago: ["", Validators.required],
+    });
+    const alicuotaForm = this.alicuotaForm.get("times") as FormArray;
+    alicuotaForm.push(val);
+  }
+
+  removeGroup(index) {
+    const alicuotaForm = this.alicuotaForm.get("times") as FormArray;
+    alicuotaForm.removeAt(index);
+  }
+
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
+  onsubmit() {
+    console.log("valor Formulario: ", this.alicuotaForm.value);
+    console.log("Formulario Validacion: ", this.alicuotaForm.valid);
   }
 
   getCasa() {
@@ -134,5 +195,11 @@ export class AlicuotaComponent implements OnInit {
     if (response) {
       this.getAlicuota();
     }
+  }
+
+  resetsForm() {
+    this.submitted = false;
+    this.alicuotaForm.reset();
+    // this.formGroupDirective.resetForm();
   }
 }

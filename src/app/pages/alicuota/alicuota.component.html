@@ -3,23 +3,51 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Lista de Alicuotas</h4>
-            <button class="btn btn-dark" (click)="openAlicuota(contentAlicuota)">Crear Año</button>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
+            <button class="btn btn-dark" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br>
+            <br>
+            <div class="form-row align-items-center">
+                <div class="form-group col-sm-3 my-1">
+                    <label>Manzana</label>
+                    <select name="manzana" [(ngModel)]="id_manzana" class="form-control custom-select">
+                        <option [selected]>Todo</option>
+                        <option velue="sa">Si</option>
+                        <option value="asa">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-3 my-1">
+                    <label>Villa</label>
+                    <select name="villa" [(ngModel)]="id_villa" class="form-control custom-select">
+                        <option [selected]>Todo</option>
+                        <option ngValue="trasdue">Si</option>
+                        <option ngValue="sda">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-3 my-1">
+                    <label>Estado</label>
+                    <select name="villa" [(ngModel)]="id_villa" class="form-control custom-select">
+                        <!-- <option [selected]>Todo</option> -->
+                        <option ngValue="trasdue">Pagadas</option>
+                        <option ngValue="sda">Vencidas</option>
+                        <option ngValue="sda">Pendientes</option>
+
+                    </select>
+                </div>
             </div>
+
+
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
-                            <th>Mes</th>
-                            <!-- <th>Villa</th> -->
-                            <th>Valor</th>
-                            <!-- <th>Fecha de Pago</th> -->
-                            <!-- <th>Familia</th> -->
-                            <th>Acciones</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
+                            <!-- <th>Enero</th>
+                            <th>Saldo</th>
+                            <th>Enero</th>
+                            <th>Febrero</th> -->
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
@@ -32,13 +60,13 @@
                             <td>${{ali.valor}}</td>
 
                             <!-- <td>{{ali.casa.familia}}</td> -->
-                            <td>
+                            <!-- <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openAlicuota(contentAlicuota, ali)"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
-                            </td>
+                            </td> -->
                         </tr>
                         <tr *ngIf="(alicuotas).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
@@ -57,31 +85,59 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form (ngSubmit)="gestionAlicuota()" #form="ngForm">
+        <form (ngSubmit)="onsubmit()" [formGroup]="alicuotaForm">
             <div class="modal-body">
-                <div class="form-group">
-                    <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number" required
-                        placeholder="Valor de la alicuota">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number"
+                            required placeholder="Valor de la alicuota" [ngModelOptions]="{standalone: true}">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <!-- <label>Manzana</label> -->
+                        <input ngValue="id_manzana" [(ngModel)]="id_manzana" name="id_manzana" class="form-control"
+                            type="text" required placeholder="Manzana" [ngModelOptions]="{standalone: true}">
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <!-- <label>Villa</label> -->
+                        <input ngValue="id_villa" [(ngModel)]="id_villa" name="id_villa" class="form-control" required
+                            placeholder="Villa" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button (click)="addGroup()" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Agregar alicuota">+</button>
+                    </div>
+                    <!-------------------------------------------Form Array--------------------------------------------------------------------------------------------------->
+                    <div formArrayName="times"
+                        *ngFor="let time of alicuotaForm.controls.times?.value; let i = index; trackBy:trackByFn">
+                        <div [formGroupName]="i" style="margin-bottom: 10px;">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <select formControlName="valor" class="form-control custom-select">
+                                        <option *ngFor="let m of meses" [ngValue]="m">{{m}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <input formControlName="fecha_pago" [(ngModel)]="valor" class="form-control"  required
+                                        placeholder="Valor" readonly >
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- <div class="form-group col-md-1">
+                        <button type="button" class="btn btn-success">+</button>
+                    </div> -->
+
+
                 </div>
-                <div class="form-group">
-                    <input ngValue="valor" [(ngModel)]="year" name="year" class="form-control" type="number" required
-                        placeholder="Año">
-                </div>
-                <!-- <div class="form-group">
-                    <label>Fecha de pago de la alicuota: <strong>{{ fecha_pago | amDateFormat:'DD-MM-YYYY'
-                            }}</strong></label>
-                    <dl-date-time-picker name="fecha_pago" startView="day" maxView="year" minView="day"
-                        [(ngModel)]="fecha_pago"></dl-date-time-picker>
-                </div> -->
-                <!-- <div class="form-group">
-                    <label>Familia a asignar</label>
-                    <select name="id_casa" [(ngModel)]="id_casa" class="form-control custom-select">
-                        <option *ngFor="let casa of casas" [ngValue]="casa.ID">{{ casa.familia }}</option>
-                    </select>
-                </div> -->
             </div>
             <div class="modal-footer">
-                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                <button *ngIf="!auth.loading" [disabled]="!alicuotaForm.valid" type="submit"
+                    class="btn btn-outline-dark">
                     <span *ngIf="!alicuota.edit">Guardar</span>
                     <span *ngIf="alicuota.edit">Editar</span>
                 </button>

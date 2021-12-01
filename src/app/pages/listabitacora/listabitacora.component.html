@@ -2,40 +2,65 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
+
             <h4 class="card-title">Lista de Registros</h4>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+            <!-- <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
                 <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
                     [(ngModel)]="filterName">
-            </div>
-            <h6 class="card-subtitle"></h6>
-            <div class="table-responsive m-t-40">
-                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th>No</th>
-                            <th>Imagen</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Cédula</th>
-                            <th>Asunto</th>
-                            <th>Manzana</th>
-                            <th>Villa</th>
-                            <th>Fecha Ingreso</th>
-                            <th>Hora Ingreso</th>
-                            <th>Medio de ingreso</th>
-                            <th>Placa Ingreso</th>
-                            <th>Fecha Salida</th>
-                            <th>Hora Salida</th>
-                            <th>Medio de salida</th>
-                            <th>Placa Salida</th>
-                            <th>Guardia</th>
-                            <th>Estado</th>
-                            <th>Por:</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align: center;">
-                        <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
-                            <!-- <th>Villa</th>
+            </div> -->
+            <div class="form-row align-items-center">
+                <div class="form-group col-sm-3 my-1">
+                    <label>Manzana</label>
+                    <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select">
+                        <option [selected]>Todo</option>
+                        <option velue="sa">Si</option>
+                        <option value="asa">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-3 my-1">
+                    <label>Villa</label>
+                    <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select">
+                        <option [selected]>Todo</option>
+                        <option ngValue="trasdue">Si</option>
+                        <option ngValue="sda">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-3 my-1">
+                    <label>Fecha</label>
+                    <input [value]="fecha" [(ngModel)]="fecha" name="fecha" class="form-control" type="date" required>
+                </div>
+
+                <h6 class="card-subtitle"></h6>
+                <div class="table-responsive m-t-40">
+                    <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>No</th>
+                                <th>Imagen</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Cédula</th>
+                                <th>Asunto</th>
+                                <th>Manzana</th>
+                                <th>Villa</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Hora Ingreso</th>
+                                <th>Medio de ingreso</th>
+                                <th>Placa Ingreso</th>
+                                <th>Fecha Salida</th>
+                                <th>Hora Salida</th>
+                                <th>Medio de salida</th>
+                                <th>Placa Salida</th>
+                                <th>Guardia</th>
+                                <th>Estado</th>
+                                <th>Por:</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                            <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
+                                <!-- <th>Villa</th>
                             <th>Fecha Ingreso</th>
                             <th>Hora Ingreso</th>
                             <th>Medio</th>
@@ -44,62 +69,62 @@
                             <th>Hora Salida</th>
                             <th>Medio</th>
                             <th>Placa</th> -->
-                            <th scope="row ">{{i+1}}</th>
-                            <td>
-                                <figure class="avatar avatar-sm">
-                                    <img [src]="visit.imagen" class="rounded-circle" alt="image" width="60px">
-                                </figure>
-                            </td>
-                            <td>{{visit.nombres}}</td>
-                            <td>{{visit.apellidos}}</td>
-                            <td>{{visit.cedula}}</td>
-                            <td>{{visit.motivo}}</td>
-                            <td>{{visit.casa.manzana}}</td>
-                            <td>{{visit.casa.villa}}</td>
-                            <!-- <td>{{visit.UpdatedAt |1 'dd/mm/yy' }}</td> -->
-                            <td>Fecha Ingreso</td>
-                            <td>hora ingreso</td>
-                            <td>Medio ingreso</td>
-                            <!-- <th>Placa</th> -->
-                            <!-- <td>{{visit.TipoEntrada}}</td> -->
-                            <td>{{visit.placa}}</td>
-                            <td>fecha salida</td>
-                            <td>hora salida</td>
-                            <td>Medio salida</td>
-                            <td>{{visit.placa}}</td>
-                            <td>{{visit.guardia.nombres}}</td>
-                            <td *ngIf="visit.Estado === 'ACEPTADA'">
-                                <Div class="aceptada">
-                                    <strong> {{visit.Estado}}</strong>
-                                </Div>
-                            </td>
-                            <td *ngIf="visit.Estado === 'ESPERANDO'">
-                                <Div class="esperando">
-                                    <strong> {{visit.Estado}}</strong>
-                                </Div>
-                            </td>
-                            <td *ngIf="visit.Estado === 'RECHAZADA'">
-                                <Div class="rechazada">
-                                    <strong> {{visit.Estado}}</strong>
-                                </Div>
-                            </td>
-                            <td *ngIf="visit.Estado === 'PENDIENTE'">
-                                <Div class="pendiente">
-                                    <strong> {{visit.Estado}}</strong>
-                                </Div>
-                            </td>
+                                <th scope="row ">{{i+1}}</th>
+                                <td>
+                                    <figure class="avatar avatar-sm">
+                                        <img [src]="visit.imagen" class="rounded-circle" alt="image" width="60px">
+                                    </figure>
+                                </td>
+                                <td>{{visit.nombres}}</td>
+                                <td>{{visit.apellidos}}</td>
+                                <td>{{visit.cedula}}</td>
+                                <td>{{visit.motivo}}</td>
+                                <td>{{visit.casa.manzana}}</td>
+                                <td>{{visit.casa.villa}}</td>
+                                <!-- <td>{{visit.UpdatedAt |1 'dd/mm/yy' }}</td> -->
+                                <td>Fecha Ingreso</td>
+                                <td>hora ingreso</td>
+                                <td>Medio ingreso</td>
+                                <!-- <th>Placa</th> -->
+                                <!-- <td>{{visit.TipoEntrada}}</td> -->
+                                <td>{{visit.placa}}</td>
+                                <td>fecha salida</td>
+                                <td>hora salida</td>
+                                <td>Medio salida</td>
+                                <td>{{visit.placa}}</td>
+                                <td>{{visit.guardia.nombres}}</td>
+                                <td *ngIf="visit.Estado === 'ACEPTADA'">
+                                    <Div class="aceptada">
+                                        <strong> {{visit.Estado}}</strong>
+                                    </Div>
+                                </td>
+                                <td *ngIf="visit.Estado === 'ESPERANDO'">
+                                    <Div class="esperando">
+                                        <strong> {{visit.Estado}}</strong>
+                                    </Div>
+                                </td>
+                                <td *ngIf="visit.Estado === 'RECHAZADA'">
+                                    <Div class="rechazada">
+                                        <strong> {{visit.Estado}}</strong>
+                                    </Div>
+                                </td>
+                                <td *ngIf="visit.Estado === 'PENDIENTE'">
+                                    <Div class="pendiente">
+                                        <strong> {{visit.Estado}}</strong>
+                                    </Div>
+                                </td>
 
-                            <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
-                        </tr>
-                        <tr *ngIf="(bitacoras).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                    existen datos</label></td>
+                                <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
+                            </tr>
+                            <tr *ngIf="(bitacoras).length === 0">
+                                <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                        existen datos</label></td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>

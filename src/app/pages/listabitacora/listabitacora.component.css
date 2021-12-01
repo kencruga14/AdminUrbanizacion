@@ -16,6 +16,10 @@ td {
 .esperando {
   color: yellow;
 }
-.pendiente{
+.pendiente {
   color: purple;
+}
+
+.linea {
+  white-space: nowrap;
 }

@@ -158,7 +158,7 @@ export class ResidenteComponent implements OnInit {
     if (this.residente.edit) {
       const body = {
         // id_casa: this.id_casa,
-        // is_principal: this.is_principal,
+        is_principal: this.is_principal,
         cedula: this.cedula,
         usuario: {
           apellido: this.apellido,
@@ -176,7 +176,7 @@ export class ResidenteComponent implements OnInit {
     } else {
       const body = {
         id_casa: this.id_casa,
-        // is_principal: this.is_principal,
+        is_principal: this.is_principal,
         cedula: this.cedula,
         usuario: {
           apellido: this.apellido,
