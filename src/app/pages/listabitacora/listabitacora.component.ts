@@ -15,6 +15,7 @@ export class ListabitacoraComponent implements OnInit {
   bitacoras: UsuarioModelo[] = [];
   id_visita: 0;
   cedula: "";
+  imagenPerfil: any;
   buscadorVilla: string;
   buscadorManazana: string;
   id_manzana: 0;
@@ -63,5 +64,12 @@ export class ListabitacoraComponent implements OnInit {
       console.log(resp);
       this.bitacoras = resp;
     });
+  }
+
+  openImage(admin) {
+    console.log("admin seleccionado: ", admin)
+    this.imagenPerfil = admin;
+    console.log("imagen perfil: ", this.imagenPerfil);
+    // this.modalService.open(content);
   }
 }

@@ -5,8 +5,8 @@
             <h4 class="card-title">Lista de Mensajes</h4>
             <button class="btn btn-dark" (click)="openNoticia(contentNoticia)">Crear Mensaje</button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
-                 [(ngModel)]="filterName">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                    [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
@@ -17,6 +17,7 @@
                             <th>Archivos</th>
                             <th>Título</th>
                             <th>Mensaje</th>
+                            <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -26,15 +27,20 @@
                             <th></th>
                             <td>{{noti.titulo}}</td>
                             <td>{{noti.cuerpo}}</td>
+                            <td>{{noti.CreatedAt | date: 'dd/MM/yyyy, h:mm a'}}</td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openNoticia(contentNoticia, noti)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(noti.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+                                <!-- <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openNoticia(contentNoticia, noti)"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(noti.ID)"> <i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a>
 
                             </td>
                         </tr>
                         <tr *ngIf="(noticias).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
-                            
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
+
                         </tr>
 
 
@@ -49,22 +55,23 @@
             <h4 *ngIf="!noticia.edit" class="modal-title" id="modal-basic-title">Crear Mensaje</h4>
             <h4 *ngIf="noticia.edit" class="modal-title" id="modal-basic-title">Editar Mensaje</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <form (ngSubmit)="gestionNoticia()" #form="ngForm">
             <div class="modal-body">
 
                 <div class="form-group">
-                  <input ngValue="titulo" [(ngModel)]="titulo" name="titulo" class="form-control" type="text" required placeholder="Título ">
-              </div>
-              <div class="form-group">
-                <label>Descripción</label>
-                <textarea ngValue="cuerpo" [(ngModel)]="cuerpo" name="cuerpo" id="" cols="55" rows="10"></textarea>
-              </div>
-              <div class="form-group">
-                    <input type="file" [(ngModel)]="archivos" multiple name="archivos"/>
-            </div>
+                    <input ngValue="titulo" [(ngModel)]="titulo" name="titulo" class="form-control" type="text" required
+                        placeholder="Título ">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea ngValue="cuerpo" [(ngModel)]="cuerpo" name="cuerpo" id="" cols="55" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="file" [(ngModel)]="archivos" multiple name="archivos" />
+                </div>
             </div>
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">

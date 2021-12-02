@@ -4,3 +4,24 @@ td {
   width: 50%;
   white-space:nowrap
 } */
+
+.transparente {
+  color: white;
+}
+
+.bordes {
+  margin-left: 5px;
+}
+
+
+.pagado{
+  background-color: green;
+}
+
+.pendiente{
+  background-color: yellow;
+}
+
+.vencido{
+  background-color: red;
+}

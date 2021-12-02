@@ -111,6 +111,10 @@ export class AdmingaritaComponent implements OnInit {
     this.changeFoto = true;
   }
 
+  openImage(content, admin) {
+    this.imagenPerfil = admin;
+    this.modalService.open(content);
+  }
   saveEditPicture(event: any) {
     // console.log("entró preview:");
     const fileData = event.target.files[0];

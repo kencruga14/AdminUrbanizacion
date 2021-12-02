@@ -62,7 +62,7 @@ export class VotacionComponent implements OnInit {
   }
 
   openEncuesta(content, encuesta = null) {
-    console.log("pregunta: ", encuesta.pregunta)
+    console.log("pregunta: ", encuesta)
     if (!encuesta) {
       this.encuesta.id_encuesta = 0;
       this.encuesta.pregunta = "";

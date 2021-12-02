@@ -27,9 +27,9 @@
                             <td>{{ali.fecha_vencimiento | date: 'dd/MM/yyyy'}}</td>
                             <td>{{ali.total_votos}}</td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Editar"
+                                <!-- <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openEncuesta(contentEncuesta, ali)"> <i
-                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
@@ -46,30 +46,37 @@
     <ng-template #contentEncuesta let-modal>
         <div class="modal-header">
             <h4 *ngIf="!encuesta.edit" class="modal-title" id="modal-basic-title">Crear Encuesta</h4>
-            <h4 *ngIf="encuesta.edit" class="modal-title" id="modal-basic-title">Editar Encuesta</h4>
+            <!-- <h4 *ngIf="encuesta.edit" class="modal-title" id="modal-basic-title">Editar Encuesta</h4> -->
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+
         <form (ngSubmit)="gestionEncuesta()" #form="ngForm">
             <div class="modal-body">
                 <div class="form-group">
                     <textarea class="form-control" [(ngModel)]="encuesta.pregunta" name="pregunta" class="form-control"
                         type="text" required placeholder="Ingrese la pregunta" rows="3"></textarea>
                 </div>
-
                 <div class="form-group">
-                    <!-- <label>Fecha límite: <strong>{{ fecha_vencimiento | date: 'dd/MM/yyyy' }}</strong></label> -->
-                    <!-- <dl-date-time-picker name="fecha_pago" startView="day" maxView="year" minView="day"
-                        [(ngModel)]="encuesta.fecha_vencimiento"></dl-date-time-picker> -->
-                    <input type="datetime-local" [(ngModel)]="encuesta.fecha_vencimiento"  [ngModelOptions]="{standalone: true}"  class="form-control" >
-                </div>
+                    <label>Fecha de Finalización</label>
 
-                <div class="form-group" *ngFor="let opcion of encuesta.opciones ; let i=index ">
-                    <label>Ingrese las opciones</label>
-                    <input [(ngModel)]="opcion.opcion" name="pregunta" class="form-control" type="text">
+                    <!-- <label>Fecha límite: <strong>{{ fecha_vencimiento | date: 'dd/MM/yyyy' }}</strong></label> -->
+                    <dl-date-time-picker name="fecha_pago" startView="day" maxView="year" minView="day"
+                        [(ngModel)]="encuesta.fecha_vencimiento"></dl-date-time-picker>
+                    <!-- <input type="date" [(ngModel)]="encuesta.fecha_vencimiento" [ngModelOptions]="{standalone: true}"
+                        class="form-control"> -->
                 </div>
-                <button class="btn btn-dark" type="button" (click)="anadirOpcion()">Añadir Opción</button>
+                <div class="form-row">
+                    <div class="form-group col-md-8" *ngFor="let opcion of encuesta.opciones ; let i=index ">
+                        <label>Ingrese las opciones</label>
+                        <input [(ngModel)]="opcion.opcion" name="pregunta" class="form-control" type="text">
+                    </div>
+                    <div class="class=" form-group col-md-4>
+                        <label class="transparente">.....</label>
+                        <button class="btn btn-dark" type="button" (click)="anadirOpcion()">Añadir Opción</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">

@@ -24,7 +24,7 @@ export class CasaComponent implements OnInit {
   id: 0;
   eta = [];
   valor_alicuota: number;
-
+  id_urbanizacion: any;
   filterName = "";
   casa = {
     id_casa: 0,
@@ -47,7 +47,9 @@ export class CasaComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) {
+    this.id_urbanizacion = Number(localStorage.getItem("id_urbanizacion"));
+  }
 
   ngOnInit() {
     this.getCasa();
@@ -85,11 +87,20 @@ export class CasaComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  // getCasa() {
+  //   this.auth.getCasa().subscribe((resp: any) => {
+  //     console.log(resp);
+  //     this.casas = resp;
+  //   });
+  // }
+
   getCasa() {
-    this.auth.getCasa().subscribe((resp: any) => {
-      console.log(resp);
-      this.casas = resp;
-    });
+    this.auth
+      .getCasaByUrbanizacion(this.id_urbanizacion)
+      .subscribe((resp: any) => {
+        console.log(resp);
+        this.casas = resp;
+      });
   }
 
   async gestionCasa() {

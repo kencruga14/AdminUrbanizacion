@@ -12,7 +12,7 @@
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
-                        <tr style="text-align: center;">
+                        <tr style="text-align: left;">
                             <th>No</th>
                             <th>Imagen</th>
                             <th>Nombre</th>
@@ -23,12 +23,13 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: left;">
                         <tr *ngFor="let admin of admins | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
-                                <figure class="avatar avatar-sm">
-                                    <img [src]="admin.imagen" class="rounded-circle" alt="image" width="60px">
+                                <figure>
+                                    <img class="avatar" [src]="admin.imagen" data-holder-rendered="true" alt="image"
+                                        (click)="openImage(contentImage, admin)">
                                 </figure>
                             </td>
                             <td>{{admin.nombre}}</td>
@@ -42,17 +43,12 @@
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(admin.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
-
                             </td>
                         </tr>
                         <tr *ngIf="(admins).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
-
                         </tr>
-
-
-
                     </tbody>
                 </table>
             </div>
@@ -108,5 +104,17 @@
         </form>
     </ng-template>
 
-
+    <ng-template #contentImage let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Imagen de Perfil</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="imagenPerfil">
+            <figure class="box">
+                <img [src]="imagenPerfil.imagen" alt="image" />
+            </figure>
+        </div>
+    </ng-template>
 </div>

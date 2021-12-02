@@ -71,8 +71,10 @@
                             <th>Placa</th> -->
                                 <th scope="row ">{{i+1}}</th>
                                 <td>
-                                    <figure class="avatar avatar-sm">
-                                        <img [src]="visit.imagen" class="rounded-circle" alt="image" width="60px">
+                                    <figure>
+                                        <img class="avatar" [src]="visit.imagen" alt="image" data-holder-rendered="true"
+                                            (click)="openImage(visit)" data-toggle="modal"
+                                            data-target=".bd-example-modal-lg" />
                                     </figure>
                                 </td>
                                 <td>{{visit.nombres}}</td>
@@ -81,17 +83,16 @@
                                 <td>{{visit.motivo}}</td>
                                 <td>{{visit.casa.manzana}}</td>
                                 <td>{{visit.casa.villa}}</td>
-                                <!-- <td>{{visit.UpdatedAt |1 'dd/mm/yy' }}</td> -->
-                                <td>Fecha Ingreso</td>
-                                <td>hora ingreso</td>
-                                <td>Medio ingreso</td>
-                                <!-- <th>Placa</th> -->
-                                <!-- <td>{{visit.TipoEntrada}}</td> -->
-                                <td>{{visit.placa}}</td>
-                                <td>fecha salida</td>
-                                <td>hora salida</td>
-                                <td>Medio salida</td>
-                                <td>{{visit.placa}}</td>
+                                <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{visit.entrada.hora_entrada | date: 'h:mm a' }}</td>
+                                <td>{{visit.entrada.tipo_entrada}}</td>
+                                <td>{{visit.entrada.placa}}</td> 
+                                <td *ngIf="visit.salida.hora_salida">{{visit.salida.hora_salida | date: 'dd/MM/yyyy'}}
+                                </td>
+                                <td *ngIf="!visit.salida.hora_salida">No hay registro</td>
+                                <td>{{visit.salida.hora_salida | date: 'h:mm a'}}</td>
+                                <td>{{visit.salida.tipo_salida}}</td>
+                                 <td>{{visit.salida.placa}}</td>
                                 <td>{{visit.guardia.nombres}}</td>
                                 <td *ngIf="visit.Estado === 'ACEPTADA'">
                                     <Div class="aceptada">
@@ -113,7 +114,11 @@
                                         <strong> {{visit.Estado}}</strong>
                                     </Div>
                                 </td>
-
+                                <td *ngIf="visit.Estado === 'SIN RESPUESTA'">
+                                    <Div class="rechazada">
+                                        <strong> {{visit.Estado}}</strong>
+                                    </Div>
+                                </td>
                                 <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
                             </tr>
                             <tr *ngIf="(bitacoras).length === 0">
@@ -127,4 +132,39 @@
             </div>
         </div>
 
+        <!-- <ng-template #contentImage let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                    Imagen de Registro Ingreso
+                </h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" *ngIf="imagenPerfil">
+                <figure class="box">
+                    <img [src]="imagenPerfil.imagen" alt="image" />
+                </figure>
+            </div>
+
+        </ng-template> -->
+    </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">
+                        Imagen de Registro Ingreso
+                    </h4>
+                </div>
+
+                <div class="modal-body" *ngIf="imagenPerfil">
+                    <figure class="box">
+                        <img [src]="imagenPerfil.imagen" alt="image" />
+                    </figure>
+                </div>
+            </div>
+        </div>
     </div>

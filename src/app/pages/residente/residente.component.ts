@@ -20,6 +20,7 @@ export class ResidenteComponent implements OnInit {
   imagen = null;
   id: 0;
   imagenPerfila: any;
+  imagenPerfil: any;
   correo: "";
   celular: "";
   usuario: "";
@@ -35,6 +36,7 @@ export class ResidenteComponent implements OnInit {
   votacion: boolean;
   autorizacionTemp: boolean;
   autorizacionFija: boolean;
+  id_urbanizacion: any;
   filterName = "";
   residente = {
     id_casa: 0,
@@ -61,7 +63,9 @@ export class ResidenteComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) {
+    this.id_urbanizacion = Number(localStorage.getItem("id_urbanizacion"));
+  }
 
   ngOnInit() {
     this.getResidente();
@@ -70,6 +74,8 @@ export class ResidenteComponent implements OnInit {
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
+
+  
   getResidente() {
     this.auth.getResidente().subscribe((resp: any) => {
       this.residentes = resp;
@@ -77,10 +83,12 @@ export class ResidenteComponent implements OnInit {
     });
   }
   getCasa() {
-    this.auth.getCasa().subscribe((resp: any) => {
-      console.log(resp);
-      this.casas = resp;
-    });
+    this.auth
+      .getCasaByUrbanizacion(this.id_urbanizacion)
+      .subscribe((resp: any) => {
+        console.log(resp);
+        this.casas = resp;
+      });
   }
   openAcceso(content, acceso) {
     this.acceso.id_residente = acceso.id_etapa;
@@ -112,6 +120,11 @@ export class ResidenteComponent implements OnInit {
       this.imagenEdit = reader.result;
     };
     this.changeFoto = true;
+  }
+
+  openImage(content, admin) {
+    this.imagenPerfil = admin;
+    this.modalService.open(content);
   }
 
   openResidente(content, residente = null) {

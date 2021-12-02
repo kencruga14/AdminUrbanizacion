@@ -45,13 +45,14 @@ login(body) {
 
 private guardarToken( idToken: any) {
  this.userToken = idToken.token;
-//  console.log(this.userToken)
+ console.log("guardar token: ", idToken)
  this.info = JSON.stringify(idToken);
  this.infoGuard = 1;
  localStorage.setItem('token', idToken.token);
  localStorage.setItem('info', JSON.stringify(idToken.usuario));
  localStorage.setItem('info_etapa', JSON.stringify(idToken.nombre_etapa,idToken.nombre_urbanizacion));
  localStorage.setItem('info_urb', JSON.stringify(idToken.nombre_urbanizacion));
+ localStorage.setItem('id_urbanizacion', JSON.stringify(idToken.ID));
 
 }
 
@@ -190,6 +191,18 @@ getCasa() {
   );
 }
 
+getCasaByUrbanizacion(id) {
+  const headers = new HttpHeaders({
+    token: this.userToken
+
+  });
+  return this.http.get(`${environment.apiUrl}/admin-etapa/urbanizacion/${id}/casas`, {headers})
+  .pipe(
+    map( (resp: any) => {
+      return resp.respuesta;
+    })
+  );
+}
 
 createCasa(data) {
   this.loading = true;
@@ -335,7 +348,7 @@ createAlicuota(data) {
     token: this.userToken
   });
   return new Promise(resolve => {
-    this.http.post(`${environment.apiUrl}/admin-etapa/alicuota`, data, {headers}).subscribe((response: any) => {
+    this.http.post(`${environment.apiUrl}/admin-etapa/alicuota/bulk`, data, {headers}).subscribe((response: any) => {
       this.showAlert(response.message, 'success', 'Listo');
       resolve(true);
       this.loading = false;

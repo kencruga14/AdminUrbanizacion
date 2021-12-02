@@ -6,7 +6,7 @@
             <button class="btn btn-dark" (click)="openArea(contentArea)">Crear área </button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
                 <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                 [(ngModel)]="filterName">
+                    [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
@@ -26,64 +26,112 @@
                         <tr *ngFor="let mat of areas | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
-                              <figure class="avatar avatar-sm">
-                                <img [src]="mat.imagen" class="" alt="image" width="25%">
-                            </figure>
+                                <figure class="avatar avatar-sm">
+                                    <img [src]="mat.imagen" class="" alt="image" width="25%">
+                                </figure>
                             </td>
                             <td>{{mat.nombre}}</td>
                             <td>{{mat.hora_apertura}}</td>
                             <td>{{mat.hora_cierre}}</td>
                             <td>${{mat.precio}}</td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openArea(contentArea, mat)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openArea(contentArea, mat)"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"> <i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a>
 
                             </td>
                         </tr>
                         <tr *ngIf="(areas).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
-                            
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
+
                         </tr>
-
-
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+
     <ng-template #contentArea let-modal>
         <div class="modal-header">
             <h4 *ngIf="!area.edit" class="modal-title" id="modal-basic-title">Crear Área Social</h4>
             <h4 *ngIf="area.edit" class="modal-title" id="modal-basic-title">Editar Área Social</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <form (ngSubmit)="gestionArea()" #form="ngForm">
             <div class="modal-body">
-              <div class="form-group">
-                <div class="image-preview mb-3" *ngIf="imagen">
-                    <img class="img-fluid" [src]="imagen" height="500" />
-                </div>
+                <!-- <div class="form-group">
+                    <div class="image-preview mb-3" *ngIf="imagen">
+                        <img class="img-fluid" [src]="imagen" height="500" />
+                    </div>
 
-                <input type="file" name="image" (change)="preview($event)" />
-            </div>
+                    <input type="file" name="image" (change)="preview($event)" />
+                </div> -->
+
+
+                <div class="form-group" *ngIf="imagenEdit">
+                    <!-- editar imagen -->
+                    <div class="image-preview mb-3" *ngIf="imagenEdit">
+                      <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
+                    </div>
+                    <label for="imagen">Imagen de Perfil</label>
+                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                      El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                      359 x 316.
+                    </small>
+                  </div>
+        
+                  <div class="form-group" *ngIf="!imagenEdit">
+                    <!-- ImagenCrear -->
+                    <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                      <img class="img-fluid" [src]="imagenPerfil" height="500" width="100" />
+                    </div>
+                    <label for="imagen">Imagen de Perfil</label>
+                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                      El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                      359 x 316.
+                    </small>
+                  </div>
+        
+
+
                 <div class="form-group">
-                    <input [value]="nombre"  [(ngModel)]="nombre" name="nombre" class="form-control" type="text" required placeholder="Ingrese el nombre">
+                    <input [value]="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" type="text" required
+                        placeholder="Nombre">
                 </div>
                 <div class="form-group">
-                  <input [value]="hora_apertura"  [(ngModel)]="hora_apertura" name="hora_apertura" class="form-control" type="text"  placeholder="Ingrese el horario de apertura">
-              </div>
-              <div class="form-group">
-                <input [value]="hora_cierre"  [(ngModel)]="hora_cierre" name="hora_cierre" class="form-control" type="text" placeholder="Ingrese el horario de cierre">
+                    <label>Horario de apertura</label>
+                    <select name="hora_apertura" [(ngModel)]="hora_apertura" class="form-control custom-select">
+                        <option *ngFor="let ur of horas" value="{{ur}}">{{ur}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Horario de cierre</label>
+                    <select name="seleccihora_cierreonCosto" [(ngModel)]="hora_cierre"
+                        class="form-control custom-select">
+                        <option *ngFor="let ur of horas" value="{{ur}}">{{ur}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>-------------------</label>
+                    <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
+                        <option value="GRATIS">Gratis</option>
+                        <option value="PAGADO">Pagado</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'">
+                    <input [value]="valor" [(ngModel)]="valor" name="hora_cierre" class="form-control" type="number"
+                        placeholder="Valor">
+                </div>
             </div>
-            <div class="form-group">
-              <input [value]="precio"  [(ngModel)]="precio" name="precio" class="form-control" type="text" placeholder="Ingrese el valor">
-          </div>
-
-            </div>
-           <div class="modal-footer">
+            <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!area.edit">Guardar</span>
                     <span *ngIf="area.edit">Editar</span>
@@ -92,6 +140,4 @@
             </div>
         </form>
     </ng-template>
-
-
 </div>
