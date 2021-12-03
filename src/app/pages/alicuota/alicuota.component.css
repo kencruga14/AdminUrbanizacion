@@ -9,19 +9,25 @@ td {
   color: white;
 }
 
+.separador {
+  margin-left: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-right: 5px;
+}
+
 .bordes {
   margin-left: 5px;
 }
 
-
-.pagado{
+.pagado {
   background-color: green;
 }
 
-.pendiente{
+.pendiente {
   background-color: yellow;
 }
 
-.vencido{
+.vencido {
   background-color: red;
 }

@@ -3,7 +3,8 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Lista de Alicuotas</h4>
-            <button class="btn btn-dark" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br>
+            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Saldo</button>
+            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br>
             <br>
             <div class="form-row align-items-center">
                 <!-----filtro manzana-->
@@ -48,14 +49,15 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
-                            <th>Manzana</th>
-                            <th>Villa</th>
-                            <!-- <th>Tipo</th> -->
-                            <!-- <th>Mes</th> -->
-                            <!-- <th>Año</th> -->
-                            <!-- <th>Valor</th> -->
+                            <!-- <th>Manzana</th>
+                            <th>Villa</th> -->
+                            <th>Tipo</th>
+                            <th>Mes</th>
+                            <th>Año</th>
+                            <th>Valor</th>
                             <th>Saldo</th>
-                            <th>Enero</th>
+
+                            <!-- <th>Enero</th>
                             <th>Febrero</th>
                             <th>Marzo</th>
                             <th>Abril</th>
@@ -66,7 +68,7 @@
                             <th>Septiembre</th>
                             <th>Octubre</th>
                             <th>Noviembre</th>
-                            <th>Diciembre</th>
+                            <th>Diciembre</th> -->
                             <th>Acción</th>
 
                         </tr>
@@ -74,14 +76,15 @@
                     <tbody style="text-align: center;">
                         <tr *ngFor="let ali of alicuotas | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
-                            <!-- <th>{{ali.tipo}}</th> -->
+                            <th>{{ali.tipo}}</th>
                             <!-- <td>{{ali.fecha_pago | date: 'dd/MM/yyyy'}}</td>
                             <td>{{ali.fecha_pago | date: 'dd/MM/yyyy'}}</td> -->
-                            <!-- <td>{{ali.fecha_pago | date: 'MMMM' | titlecase }}</td> -->
-                            <!-- <td>{{ali.fecha_pago | date: 'yyyy'}}</td> -->
-                            <!-- <td>${{ali.valor}}</td> -->
+                            <td>{{ali.fecha_pago | date: 'MMMM' | titlecase }}</td>
+                            <td>{{ali.fecha_pago | date: 'yyyy'}}</td>
+                            <td>${{ali.valor}}</td>
                             <td>----</td>
-                            <td>----</td>
+
+                            <!-- <td>----</td>
                             <td>----</td>
                             <td>$50</td>
                             <td>----</td>
@@ -94,7 +97,7 @@
                             <td>----</td>
                             <td>----</td>
                             <td>----</td>
-                            <td>----</td>
+                            <td>----</td> -->
                             <!-- <td>{{ali.estado}}</td> -->
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
@@ -188,21 +191,7 @@
             <div class="modal-body" *ngIf="alicuotas.length <= 0">
                 <div class="form-row">
                     <!-- ---Input Tipo -->
-                    <div class="form-group col-md-6">
-                        <label>Tipo</label>
-                        <input ngValue="saldo" [(ngModel)]="saldo" name="saldo" class="form-control" type="text"
-                            required placeholder="Valor de la alicuota" [ngModelOptions]="{standalone: true}" readonly>
-                    </div>
-
-                    <!-- ---Input Valor -->
-                    <div class="form-group col-md-6">
-                        <label>Valor</label>
-                        <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number"
-                            required placeholder="Valor de la alicuota" [ngModelOptions]="{standalone: true}">
-                    </div>
-
-                    <!-- ---Selector manzana -->
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Manzana</label>
                         <select name="id_manzana" [(ngModel)]="id_manzana" name="id_manzana"
                             class="form-control custom-select" [ngModelOptions]="{standalone: true}">
@@ -211,13 +200,38 @@
                     </div>
 
                     <!-- ---Selector villa -->
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label>Villa</label>
                         <select name="id_casa" [(ngModel)]="id_casa" name="id_casa" class="form-control custom-select"
                             [ngModelOptions]="{standalone: true}">
                             <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.villa}}</option>
                         </select>
                     </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Año</label>
+                        <select name="year_seleccionado" [(ngModel)]="year_seleccionado" name="year_seleccionado"
+                            class="form-control custom-select" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label>Saldo</label>
+                        <input ngValue="saldo" [(ngModel)]="saldo" name="saldo" class="form-control" type="number"
+                            required placeholder="Valor" [ngModelOptions]="{standalone: true}">
+                    </div>
+
+                    <!-- ---Input Valor -->
+                    <div class="form-group col-md-6">
+                        <label>Alícuota</label>
+                        <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number"
+                            required placeholder="Valor" [ngModelOptions]="{standalone: true}">
+                    </div>
+
+                    <!-- ---Selector manzana -->
+
                     <!-- ---boton agregar mes -->
                     <!-- <div class="form-group col-md-1 " *ngIf="seleccionRegistro">
                         <label class="transparente">.</label>

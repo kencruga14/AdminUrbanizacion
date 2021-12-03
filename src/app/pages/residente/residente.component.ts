@@ -83,12 +83,10 @@ export class ResidenteComponent implements OnInit {
     });
   }
   getCasa() {
-    this.auth
-      .getCasaByUrbanizacion(this.id_urbanizacion)
-      .subscribe((resp: any) => {
-        console.log(resp);
-        this.casas = resp;
-      });
+    this.auth.getCasa().subscribe((resp: any) => {
+      console.log(resp);
+      this.casas = resp;
+    });
   }
   openAcceso(content, acceso) {
     this.acceso.id_residente = acceso.id_etapa;

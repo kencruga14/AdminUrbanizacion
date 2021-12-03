@@ -87,21 +87,21 @@ export class CasaComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  // getCasa() {
-  //   this.auth.getCasa().subscribe((resp: any) => {
-  //     console.log(resp);
-  //     this.casas = resp;
-  //   });
-  // }
-
   getCasa() {
-    this.auth
-      .getCasaByUrbanizacion(this.id_urbanizacion)
-      .subscribe((resp: any) => {
-        console.log(resp);
-        this.casas = resp;
-      });
+    this.auth.getCasa().subscribe((resp: any) => {
+      console.log(resp);
+      this.casas = resp;
+    });
   }
+
+  // getCasa() {
+  //   this.auth
+  //     .getCasaByUrbanizacion(this.id_urbanizacion)
+  //     .subscribe((resp: any) => {
+  //       console.log(resp);
+  //       this.casas = resp;
+  //     });
+  // }
 
   async gestionCasa() {
     let response: any;

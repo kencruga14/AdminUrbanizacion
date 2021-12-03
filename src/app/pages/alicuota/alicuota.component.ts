@@ -49,7 +49,7 @@ export class AlicuotaComponent implements OnInit {
   year: number;
   id_alicuota: "";
   changeFoto = false;
-  saldo = "Saldo";
+  saldo: number;
   eta = [];
   valorfirts: number;
   year_seleccionado: any;
