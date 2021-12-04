@@ -4,6 +4,8 @@ import { Router } from "@angular/router";
 import { UsuarioModelo } from "../../models/usuario.model";
 import { AuthService } from "../../services/auth.service";
 import Swal from "sweetalert2";
+import { map } from "rxjs/operators";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Component({
   selector: "app-login",
@@ -16,12 +18,17 @@ export class LoginComponent implements OnInit {
   residentes: UsuarioModelo[] = [];
   usuario: string;
   contrasena: string;
+  validacionUsuario: any;
   titulo: string;
   etapas: UsuarioModelo[] = [];
   nombre: string;
   correo: string;
   descripcion: string;
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.getDataUrb();
@@ -100,5 +107,32 @@ export class LoginComponent implements OnInit {
         });
       }
     );
+  }
+
+  capturarUsuario() {
+    // console.log("usuario valor: ", this.usuario);
+    if (this.usuario) {
+      let usuario = this.usuario;
+      let body = {
+        usuario: this.usuario,
+      };
+      this.auth.solicitudPassword(body).subscribe(
+        (resp) => {
+          this.router.navigate(["/cambiarcontrasena", usuario], {
+            skipLocationChange: true,
+          });
+        },
+        (err) => {
+          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: err.error.respuesta,
+          });
+        }
+      );
+    } else {
+      Swal.fire("Por favor ingrese su usuario");
+    }
   }
 }

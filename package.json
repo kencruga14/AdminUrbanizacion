@@ -12,7 +12,7 @@
   "private": true,
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.1",
-    "@angular/animations": "~8.2.14",
+    "@angular/animations": "^8.2.0",
     "@angular/cdk": "^9.0.0",
     "@angular/common": "~8.2.14",
     "@angular/compiler": "~8.2.14",
@@ -30,6 +30,7 @@
     "angular-material-datepicker": "^1.0.2",
     "angular2-material-datepicker": "^0.5.0",
     "bootstrap": "^4.4.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "ng-pipes": "^0.1.5",
     "ng-select2-component": "^7.0.5",
@@ -37,7 +38,8 @@
     "ngx-color-picker": "^9.0.0",
     "ngx-moment": "^3.5.0",
     "open-iconic": "^1.1.1",
-    "rxjs": "~6.4.0",
+    "primeicons": "^1.0.0",
+    "primeng-lts": "^8.2.9",
     "sweetalert2": "^9.7.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

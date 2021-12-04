@@ -20,9 +20,11 @@ import { ExpresoescolarComponent } from "./pages/expresoescolar/expresoescolar.c
 import { EmprendimientoComponent } from "./pages/emprendimiento/emprendimiento.component";
 import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.component";
 import { CamarasComponent } from "./pages/camaras/camaras.component";
-
+import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 const routes: Routes = [
   { path: "login", component: LoginComponent },
+  { path: "cambiarcontrasena/:usuario", component: CambiarcontrasenaComponent },
+
   {
     path: "home",
     component: HomeComponent,

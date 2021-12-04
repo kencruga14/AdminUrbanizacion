@@ -1,41 +1,41 @@
 #login {
-    width: 100%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    z-index: 1;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
 }
 
 .logoicon {
-    width: 35%;
+  width: 35%;
 }
 .logoicon2 {
   width: 25%;
 }
 
 .form-control {
-    border-inline-end: none;
-    border-block-start: none;
-    border-inline-start: none;
-    border-radius: 30px;
-
+  border-inline-end: none;
+  border-block-start: none;
+  border-inline-start: none;
+  border-radius: 30px;
 }
 
 .btn {
-    background-color: #7875EA;
-    width: -webkit-fill-available;
-    color: white;
-    border-radius: 30px;
+  margin-top: 10px;
+  background-color: #7875ea;
+  width: -webkit-fill-available;
+  color: white;
+  border-radius: 30px;
 }
 
 ul {
@@ -43,7 +43,6 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-
 }
 
 li {
@@ -89,12 +88,12 @@ li a:hover:not(.active) {
 }
 
 .facebook {
-  background: #3B5998;
+  background: #3b5998;
   color: white;
 }
 
 .twitter {
-  background: #55ACEE;
+  background: #55acee;
   color: white;
 }
 
@@ -118,7 +117,6 @@ li a:hover:not(.active) {
   font-size: 30px;
 }
 
-
 @media (max-width: 800px) {
   .pantalla {
     width: -webkit-fill-available;
@@ -126,74 +124,70 @@ li a:hover:not(.active) {
   .video-fluid {
     height: 100% !important;
   }
-  .pantalla-2{
+  .pantalla-2 {
     height: 90% !important;
   }
-  .pantalla-3{
+  .pantalla-3 {
     margin-left: 20px;
     margin-right: 20px;
   }
-  .pantalla-4{
+  .pantalla-4 {
     padding-left: 0px !important;
     padding-right: 0px !important;
   }
-  .pantalla-5{
+  .pantalla-5 {
     width: 110% !important;
   }
-  .pantalla-6{
+  .pantalla-6 {
     height: 230px !important;
   }
-  .pantalla-7{
+  .pantalla-7 {
     height: 222px !important;
   }
-  .pantalla-8{
+  .pantalla-8 {
     width: 22% !important;
   }
-  .pantalla-9{
+  .pantalla-9 {
     height: 25px !important;
     padding-top: 0px !important;
   }
-  .pantalla-10{
+  .pantalla-10 {
     margin-bottom: 10px !important;
   }
-  .pantalla-11{
+  .pantalla-11 {
     margin-bottom: 10px !important;
   }
-  .pantalla-12{
+  .pantalla-12 {
     display: block !important;
   }
-  .pantalla-13{
+  .pantalla-13 {
     display: none;
   }
-  .pantalla-14{
+  .pantalla-14 {
     padding-left: 0px;
     padding-right: 0px;
     padding-bottom: 20px;
     padding-top: 40px;
   }
-  .pantalla-15{
+  .pantalla-15 {
     width: 300px !important;
   }
-  .pantalla-16{
+  .pantalla-16 {
     margin-left: 0px !important;
   }
-  .pantalla-17{
+  .pantalla-17 {
     padding-left: 0px !important;
   }
-  .pantalla-18{
+  .pantalla-18 {
     text-align: center !important;
   }
-  .pantalla-19{
+  .pantalla-19 {
     margin-top: 30px !important;
   }
-  .pantalla-20{
+  .pantalla-20 {
     font-size: x-large !important;
-        font-weight: bold !important;
+    font-weight: bold !important;
   }
- 
- 
-  
-
 }
 
 div.noticia {

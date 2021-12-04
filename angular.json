@@ -27,7 +27,10 @@
                             "src/styles.css",
                             "src/assets/principal/bootstrap/css/bootstrap.min.css",
                             "src/assets/secondary/css/style.css",
-                            "src/assets/secondary/css/colors/blue-dark.css"
+                            "src/assets/secondary/css/colors/blue-dark.css",
+                            "node_modules/primeicons/primeicons.css",
+                            "node_modules/primeng-lts/resources/themes/nova-light/theme.css",
+                            "node_modules/primeng-lts/resources/primeng.min.css"
                         ],
                         "scripts": [
                             "src/assets/principal/jquery/jquery.min.js",

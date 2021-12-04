@@ -1,0 +1,42 @@
+<section id="login" style="background-image:url(./assets/images/Fondo-2.png);padding-left: 0px;z-index: auto;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4 mx-auto">
+                <div class="card_login">
+                    <div class="card">
+                        <div style="background-color : #F1F9FC; border-radius:30px; " class="card-body text-center">
+                            <form (ngSubmit)="login(f)" #f="ngForm">
+                                <div class="padre">
+                                    <h3><strong>Modificar Contraseña</strong></h3>
+                                </div>
+
+                                <!-- <a class="txt1" href="#">
+                                    <img style="margin-bottom: 20px" src="./assets/images/Logo-Admin-Naranja-88.png"
+                                        width="220px" class="logoicon" alt="" />
+                                </a> -->
+                                <h1 class="h3 mb-3 font-weight-normal"></h1>
+                                <div class="form-group">
+                                    <input required usuario class="form-control" name="usuario" [(ngModel)]="usuario"
+                                        type="text" placeholder="Usuario">
+                                    <input style="margin-top: 15px;" name="codigoTemporal" [(ngModel)]="codigoTemporal"
+                                        class="form-control" type="text" placeholder="Código Temporal">
+                                    <small id="emailHelp" class="form-text text-muted">El código temporal se envió a
+                                        su correo electrónico</small>
+
+                                    <input style="margin-top: 15px;" name="password" [(ngModel)]="password"
+                                        class="form-control" type="password" placeholder="Nueva Contraseña">
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn">Modificar contraseña</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</section>

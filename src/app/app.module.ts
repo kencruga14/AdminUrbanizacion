@@ -40,7 +40,11 @@ import { ExpresoescolarComponent } from "./pages/expresoescolar/expresoescolar.c
 import { EmprendimientoComponent } from "./pages/emprendimiento/emprendimiento.component";
 import { CamarasComponent } from "./pages/camaras/camaras.component";
 import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.component";
-
+// import {BrowserModule} from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AccordionModule } from "primeng/accordion";
+import { MenuItem } from "primeng/api";
+import { CambiarcontrasenaComponent } from './pages/cambiarcontrasena/cambiarcontrasena.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,9 +71,10 @@ import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.comp
     EmprendimientoComponent,
     CamarasComponent,
     ReservacionesComponent,
+    CambiarcontrasenaComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
@@ -82,6 +87,7 @@ import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.comp
     MomentModule,
     NgxChartsModule,
     ColorPickerModule,
+    AccordionModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
