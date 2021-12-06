@@ -22,6 +22,8 @@ export class AdministrativoComponent implements OnInit {
   accesos: "";
   id: 0;
   cargo: "";
+  imagenPerfila: any;
+  imagenEdit = null;
   imagen = null;
   changeFoto = false;
   eta = [];
@@ -55,6 +57,21 @@ export class AdministrativoComponent implements OnInit {
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
+  saveEditPicture(event: any) {
+    // console.log("entró preview:");
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagenEdit = reader.result;
+    };
+    this.changeFoto = true;
+    console.log("imagenEDIT: ", this.imagenEdit);
+  }
 
   preview(event: any) {
     const fileData = event.target.files[0];
@@ -66,6 +83,7 @@ export class AdministrativoComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfila = reader.result;
     };
     this.changeFoto = true;
   }
@@ -85,7 +103,7 @@ export class AdministrativoComponent implements OnInit {
       this.cargo = admin.cargo;
       this.celular = admin.celular;
       this.telefono = admin.telefono;
-      this.imagen = null;
+      this.imagenEdit = admin.imagen;
     } else {
       this.id_adminis = 0;
       this.correo = "";
@@ -121,9 +139,10 @@ export class AdministrativoComponent implements OnInit {
         cedula: this.cedula,
         cargo: this.cargo,
         celular: this.celular,
-        imagen: this.imagen,
+        imagen: this.imagenEdit,
       };
       JSON.stringify(body);
+      console.log("body editar administrativo: ", body);
       response = await this.auth.editAdministrativos(this.id, body);
     } else {
       const body = {
@@ -136,13 +155,23 @@ export class AdministrativoComponent implements OnInit {
         imagen: this.imagen,
       };
       JSON.stringify(body);
+      console.log("body crear administrativo: ", body);
       response = await this.auth.createAdministrativos(body);
     }
     if (response) {
       this.modalService.dismissAll();
       this.getAdministrativos();
+      this.imagenPerfil = null;
+      this.imagenPerfila = null;
+      this.imagenEdit = null;
+      this.imagen = null;
     }
+    // this.imagenPerfil = null;
+    // this.imagenPerfila = null;
+    // this.imagenEdit = null;
+    // this.imagen = null;
   }
+
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",

@@ -4,6 +4,8 @@ import { UsuarioModelo } from "src/app/models/usuario.model";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
+import _ from "lodash";
+
 @Component({
   selector: "app-residente",
   templateUrl: "./residente.component.html",
@@ -15,6 +17,8 @@ export class ResidenteComponent implements OnInit {
   id_residente: 0;
   id_casa: 0;
   nombres: "";
+  manzanaselector: [];
+  casasselector: [];
   edit: false;
   telefono: "";
   imagen = null;
@@ -31,6 +35,7 @@ export class ResidenteComponent implements OnInit {
   changeFoto = false;
   is_principal: boolean;
   eta = [];
+  autorizacion: boolean;
   manzana: any;
   id_villa: any;
   votacion: boolean;
@@ -52,6 +57,7 @@ export class ResidenteComponent implements OnInit {
     contrasena: "",
     apellido: "",
     is_principal: false,
+    autorizacion: false,
   };
   acceso = {
     accesos: "",
@@ -75,7 +81,6 @@ export class ResidenteComponent implements OnInit {
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
 
-  
   getResidente() {
     this.auth.getResidente().subscribe((resp: any) => {
       this.residentes = resp;
@@ -84,10 +89,22 @@ export class ResidenteComponent implements OnInit {
   }
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
-      console.log(resp);
+      console.log("casas: ", resp);
       this.casas = resp;
+      this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
+      console.log("Manzana selector: ", this.manzanaselector);
     });
   }
+
+  getVillas(value) {
+    this.auth.getCasasByManzana(value).subscribe((resp: any) => {
+      console.log("getCasasByManzana: ", resp);
+      this.casasselector = resp;
+      // this.c = _.uniqBy(resp, (obj) => obj.manzana);
+      // console.log("Manzana selector: ", this.casasselector);
+    });
+  }
+
   openAcceso(content, acceso) {
     this.acceso.id_residente = acceso.id_etapa;
     this.modalService.open(content);
@@ -105,6 +122,15 @@ export class ResidenteComponent implements OnInit {
     };
     this.changeFoto = true;
   }
+
+  // getManzana(value) {
+  //   console.log("valor filtrar manzana principal: ", value);
+  //   this.auth.getCasasByManzana(value).subscribe((resp: any) => {
+  //     this.casasFiltro = resp;
+  //     console.log("Casas filtradas: ", this.casas);
+  //   });
+  // }
+
   saveEditPicture(event: any) {
     // console.log("entró preview:");
     const fileData = event.target.files[0];
@@ -139,12 +165,13 @@ export class ResidenteComponent implements OnInit {
       this.usuario = residente.usuario.usuario;
       this.imagen = null;
       this.id_casa = residente.id_casa;
-      this.manzana = residente.casa.villa;
+      this.manzana = residente.casa.manzana;
       this.is_principal = residente.is_principal;
       // this.id_casa = residente.id_casa;
       this.id_villa = residente.casa.villa;
       this.apellido = residente.usuario.apellido;
       this.imagenEdit = residente.usuario.imagen;
+      this.autorizacion = residente.autorizacion;
     } else {
       this.id_residente = 0;
       this.correo = "";
@@ -157,7 +184,7 @@ export class ResidenteComponent implements OnInit {
       this.imagen = null;
       this.usuario = "";
       this.id_casa = 0;
-      this.is_principal = false;
+      // this.is_principal = false;
       this.apellido = "";
       this.imagen = this.imagen;
     }
@@ -168,8 +195,8 @@ export class ResidenteComponent implements OnInit {
     let response: any;
     if (this.residente.edit) {
       const body = {
-        // id_casa: this.id_casa,
         is_principal: this.is_principal,
+        autorizacion: this.autorizacion,
         cedula: this.cedula,
         usuario: {
           apellido: this.apellido,
@@ -179,7 +206,6 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
-          // contrasena : this.contrasena,
         },
       };
       console.log("body editar residente: ", body);
@@ -188,12 +214,12 @@ export class ResidenteComponent implements OnInit {
       const body = {
         id_casa: this.id_casa,
         is_principal: this.is_principal,
+        autorizacion: this.autorizacion,
         cedula: this.cedula,
         usuario: {
           apellido: this.apellido,
           celular: this.celular,
           correo: this.correo,
-          // imagen: this.imagen,
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
@@ -209,11 +235,17 @@ export class ResidenteComponent implements OnInit {
       this.imagen = null;
       this.imagenPerfila = null;
       this.imagenEdit = null;
+      // this.manzanaselector = [];
+      // this.casasselector = [];
+      this.id_casa = null;
       // this.getAdmin();
     }
     this.imagen = null;
     this.imagenPerfila = null;
     this.imagenEdit = null;
+    // this.manzanaselector = [];
+    // this.casasselector = [];
+    this.id_casa = null;
     this.getResidente();
   }
 

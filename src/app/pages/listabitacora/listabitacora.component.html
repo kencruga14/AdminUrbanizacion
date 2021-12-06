@@ -11,27 +11,36 @@
             <div class="form-row align-items-center">
                 <div class="form-group col-sm-3 my-1">
                     <label>Manzana</label>
-                    <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select">
-                        <option [selected]>Todo</option>
-                        <option velue="sa">Si</option>
-                        <option value="asa">No</option>
+                    <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select"
+                        (change)="getVillas($event.target.value)">
+                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
 
-                <div class="form-group col-sm-3 my-1">
+                <div class="form-group col-sm-3 my-1" *ngIf="buscadorManazana">
                     <label>Villa</label>
-                    <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select">
-                        <option [selected]>Todo</option>
-                        <option ngValue="trasdue">Si</option>
-                        <option ngValue="sda">No</option>
+                    <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select"
+                        (change)="getFecha($event.target.value)">
+                        <option *ngFor="let ur of casasselector" value="{{ur.villa}}">{{ur.villa}}</option>
                     </select>
                 </div>
 
-                <div class="form-group col-sm-3 my-1">
+                <div class="form-group col-sm-3 my-1" *ngIf="buscadorVilla">
                     <label>Fecha</label>
-                    <input [value]="fecha" [(ngModel)]="fecha" name="fecha" class="form-control" type="date" required>
+                    <!-- <select name="villa" [(ngModel)]="buscadorFecha" class="form-control custom-select"
+                        (change)="filterfecha($event.target.value)"> -->
+                    <!-- <option *ngFor="let ur of fechasfilter" value="{{ur.dia_creacion}}">{{ur.dia_creacion | date:
+                            'dd/MM/yyyy'}}</option> -->
+                    <input type="date" class="form-control" id="fecha" name="fecha" [ngModel]="buscadorFecha"
+                        (change)="filterfecha($event.target.value)">
                 </div>
 
+                <div class="form-group col-sm-1 my-1">
+                    <label class="transparente">dd.</label><br>
+                    <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success"
+                        data-toggle="tooltip" data-placement="right" title="Restablecer filtro"><i
+                            class="fas fa-sync-alt"></i></button>
+                </div>
                 <h6 class="card-subtitle"></h6>
                 <div class="table-responsive m-t-40">
                     <table id="myTable" class="table color-bordered-table inverse-bordered-table">
@@ -83,16 +92,16 @@
                                 <td>{{visit.motivo}}</td>
                                 <td>{{visit.casa.manzana}}</td>
                                 <td>{{visit.casa.villa}}</td>
-                                <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
+                                <!-- <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
                                 <td>{{visit.entrada.hora_entrada | date: 'h:mm a' }}</td>
                                 <td>{{visit.entrada.tipo_entrada}}</td>
-                                <td>{{visit.entrada.placa}}</td> 
+                                <td>{{visit.entrada.placa}}</td>
                                 <td *ngIf="visit.salida.hora_salida">{{visit.salida.hora_salida | date: 'dd/MM/yyyy'}}
                                 </td>
                                 <td *ngIf="!visit.salida.hora_salida">No hay registro</td>
                                 <td>{{visit.salida.hora_salida | date: 'h:mm a'}}</td>
                                 <td>{{visit.salida.tipo_salida}}</td>
-                                 <td>{{visit.salida.placa}}</td>
+                                <td>{{visit.salida.placa}}</td> -->
                                 <td>{{visit.guardia.nombres}}</td>
                                 <td *ngIf="visit.Estado === 'ACEPTADA'">
                                     <Div class="aceptada">

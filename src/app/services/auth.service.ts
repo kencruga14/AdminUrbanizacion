@@ -270,6 +270,20 @@ export class AuthService {
         })
       );
   }
+  alicuotasFilter(mz, villa) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/casa?mz=${mz}&villa=${villa}`, {
+        headers,
+      })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
 
   createCasa(data) {
     this.loading = true;
@@ -819,7 +833,7 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .put(`${environment.apiUrl}/admin-etapa/admnistrativos/${id}`, data, {
+        .put(`${environment.apiUrl}/admin-etapa/administrativos/${id}`, data, {
           headers,
         })
         .subscribe(
@@ -1013,6 +1027,19 @@ export class AuthService {
     });
   }
 
+  getEncuestaById(id: number) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/votacion/${id}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
   editEncuesta(id: number, data: any) {
     this.loading = true;
     const headers = new HttpHeaders({
@@ -1075,15 +1102,41 @@ export class AuthService {
       );
   }
 
-  visitasByFilter(mz: number, villa: number, fecha) {
+  visitasByFilter(mz: number) {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
-      .get(
-        `${environment.apiUrl}/admin-garita/visita?mz=${mz}&villa=${villa}&fecha=${fecha}`,
-        { headers }
-      )
+      .get(`${environment.apiUrl}/admin-etapa/visita?mz=${mz}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  visitasByFilterMzVillas(mz: number, villa: number) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}`, {
+        headers,
+      })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  visitasByFilterMzVillasDate(mz: number, villa: number, fecha) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http.get(`${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}&fecha${fecha}`, {
+        headers,
+      })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;

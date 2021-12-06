@@ -50,8 +50,8 @@
                             <td>{{et.usuario.telefono}}</td>
                             <td *ngIf="et.is_principal == true">Si</td>
                             <td *ngIf="et.is_principal == false">No</td>
-                            <td>Autorizacion</td>
-                            <!-- <td></td> -->
+                            <td *ngIf="et.autorizacion == true">Si</td>
+                            <td *ngIf="et.autorizacion == false">No</td> <!-- <td></td> -->
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openResidente(contentResidente, et)"> <i
@@ -139,15 +139,16 @@
                 </div>
                 <div class="form-group">
                     <label>Manzana</label>
-                    <select name="id_casa" [(ngModel)]="manzana" class="form-control custom-select">
-                        <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.manzana}}</option>
+                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
+                        (change)="getVillas($event.target.value)">
+                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Villa</label>
                     <select name="id_casa" [(ngModel)]="id_casa" class="form-control custom-select">
-                        <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.villa}}</option>
+                        <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -159,7 +160,7 @@
                 </div>
                 <div class="form-group">
                     <label>Crear Autorizaciones</label>
-                    <select name="is_principal" [(ngModel)]="autorizacionTemp" class="form-control custom-select">
+                    <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
                         <option [ngValue]="true">Si</option>
                         <option [ngValue]="false">No</option>
                     </select>

@@ -17,10 +17,14 @@ export class VotacionComponent implements OnInit {
   pregunta: "";
   fecha_vencimiento: "";
   edit: false;
+  encuestaSeleccionada: any;
   id: 0;
   opciones: any;
   changeFoto = false;
   eta = [];
+  imagenPerfila: any;
+  imagenEdit = null;
+  imagen = null;
 
   filterName = "";
   encuesta = {
@@ -62,11 +66,12 @@ export class VotacionComponent implements OnInit {
   }
 
   openEncuesta(content, encuesta = null) {
-    console.log("pregunta: ", encuesta)
+    console.log("pregunta: ", encuesta);
     if (!encuesta) {
       this.encuesta.id_encuesta = 0;
       this.encuesta.pregunta = "";
       this.encuesta.fecha_vencimiento = "";
+      this.imagen = null;
       this.encuesta.edit = false;
       this.encuesta.opciones = [{ opcion: "" }];
       //this.id_encuesta = encuesta.ID;
@@ -79,15 +84,56 @@ export class VotacionComponent implements OnInit {
       this.encuesta = encuesta;
       this.pregunta = encuesta.pregunta;
       this.encuesta.edit = true;
+      // this.imagenEdit = encuesta.imagen;
       // this.fecha_vencimiento = encuesta.fecha_vencimiento;
     }
     this.modalService.open(content);
   }
+
+  openResultado(content, encuesta) {
+    let Id_Encuesta = encuesta.ID;
+    console.log("encuesta seleccionada: ", encuesta.ID);
+    this.auth.getEncuestaById(Id_Encuesta).subscribe((resp: any) => {
+      this.encuestaSeleccionada = resp;
+      console.log("encuesta seleccionada: ", this.encuestaSeleccionada);
+    });
+    this.modalService.open(content);
+  }
+
   getEncuesta() {
     this.auth.getEncuesta().subscribe((resp: any) => {
       console.log(resp);
       this.encuestas = resp;
     });
+  }
+  saveEditPicture(event: any) {
+    // console.log("entró preview:");
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagenEdit = reader.result;
+    };
+    this.changeFoto = true;
+  }
+
+  preview(event: any) {
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagen = reader.result;
+      this.imagenPerfila = reader.result;
+    };
+    this.changeFoto = true;
   }
 
   async gestionEncuesta() {
@@ -95,6 +141,7 @@ export class VotacionComponent implements OnInit {
     if (this.encuesta.edit) {
       const body = {
         pregunta: this.encuesta.pregunta,
+        imagen: this.imagenEdit,
         fecha_vencimiento: this.encuesta.fecha_vencimiento,
         opciones: this.encuesta.opciones,
       };
@@ -102,11 +149,13 @@ export class VotacionComponent implements OnInit {
       response = await this.auth.editEncuesta(this.id, body);
     } else {
       const body = {
+        imagen: this.imagen,
         pregunta: this.encuesta.pregunta,
         fecha_vencimiento: this.encuesta.fecha_vencimiento,
         opciones: this.encuesta.opciones,
       };
       JSON.stringify(body);
+      console.log("body crear pregunta: ", body)
       response = await this.auth.createEncuesta(body);
     }
     if (response) {

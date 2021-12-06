@@ -175,13 +175,7 @@ export class AdmingaritaComponent implements OnInit {
     this.getAdmin();
   }
 
-  visitasByFilter(mz, villa, fecha) {
-    this.auth.visitasByFilter(mz, villa, fecha).subscribe((resp: any) => {
-      this.admins = resp;
-      console.log("filtro: ", resp);
-    });
-  }
-
+  
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",

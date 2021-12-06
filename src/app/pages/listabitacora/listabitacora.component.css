@@ -51,6 +51,10 @@ td {
   /* border-radius: 100%; */
 }
 
-.modal-body{
+.modal-body {
   width: 800px;
+}
+
+.transparente {
+  color: white;
 }

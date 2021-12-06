@@ -2,8 +2,32 @@ th,
 td {
   padding: 10px;
   width: 50%;
-  white-space:nowrap
+  white-space: nowrap;
 }
 .transparente {
   color: white;
 }
+
+.encabezado {
+  color: green;
+}
+.pregunta {
+  font-style: italic;
+  color: black;
+}
+
+.centrado {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 150px;
+  height: 100px;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 150px;
+  height: 70px;
+  /* border-radius: 100%; */
+}
+
