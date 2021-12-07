@@ -1134,7 +1134,26 @@ export class AuthService {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
-    return this.http.get(`${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}&fecha${fecha}`, {
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}&fecha=${fecha}`,
+        {
+          headers,
+        }
+      )
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  filterBitacoraFecha(valor) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/visita?fecha=${valor}`, {
         headers,
       })
       .pipe(

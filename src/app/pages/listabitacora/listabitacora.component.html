@@ -2,14 +2,15 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-
             <h4 class="card-title">Lista de Registros</h4>
-            <!-- <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
-            </div> -->
+            <div style="float:right" *ngIf="!buscadorVilla">
+                <label>Buscar</label>
+                <input type="date" class="form-control" name="fechaDate" [ngModel]="buscadorFechaglobal"
+                    (change)="buscadorfechaGlobal($event.target.value)">
+            </div>
+
             <div class="form-row align-items-center">
-                <div class="form-group col-sm-3 my-1">
+                <div class="form-group col-sm-2 my-1">
                     <label>Manzana</label>
                     <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
@@ -17,7 +18,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-sm-3 my-1" *ngIf="buscadorManazana">
+                <div class="form-group col-sm-2 my-1" *ngIf="buscadorManazana">
                     <label>Villa</label>
                     <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select"
                         (change)="getFecha($event.target.value)">
@@ -25,12 +26,8 @@
                     </select>
                 </div>
 
-                <div class="form-group col-sm-3 my-1" *ngIf="buscadorVilla">
+                <div class="form-group col-sm-2 my-1" *ngIf="buscadorVilla">
                     <label>Fecha</label>
-                    <!-- <select name="villa" [(ngModel)]="buscadorFecha" class="form-control custom-select"
-                        (change)="filterfecha($event.target.value)"> -->
-                    <!-- <option *ngFor="let ur of fechasfilter" value="{{ur.dia_creacion}}">{{ur.dia_creacion | date:
-                            'dd/MM/yyyy'}}</option> -->
                     <input type="date" class="form-control" id="fecha" name="fecha" [ngModel]="buscadorFecha"
                         (change)="filterfecha($event.target.value)">
                 </div>
@@ -41,35 +38,36 @@
                         data-toggle="tooltip" data-placement="right" title="Restablecer filtro"><i
                             class="fas fa-sync-alt"></i></button>
                 </div>
-                <h6 class="card-subtitle"></h6>
-                <div class="table-responsive m-t-40">
-                    <table id="myTable" class="table color-bordered-table inverse-bordered-table">
-                        <thead>
-                            <tr style="text-align: center;">
-                                <th>No</th>
-                                <th>Imagen</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
-                                <th>Cédula</th>
-                                <th>Asunto</th>
-                                <th>Manzana</th>
-                                <th>Villa</th>
-                                <th>Fecha Ingreso</th>
-                                <th>Hora Ingreso</th>
-                                <th>Medio de ingreso</th>
-                                <th>Placa Ingreso</th>
-                                <th>Fecha Salida</th>
-                                <th>Hora Salida</th>
-                                <th>Medio de salida</th>
-                                <th>Placa Salida</th>
-                                <th>Guardia</th>
-                                <th>Estado</th>
-                                <th>Por:</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-align: center;">
-                            <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
-                                <!-- <th>Villa</th>
+            </div>
+
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>No</th>
+                            <th>Imagen</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Cédula</th>
+                            <th>Asunto</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Hora Ingreso</th>
+                            <th>Medio de ingreso</th>
+                            <th>Placa Ingreso</th>
+                            <th>Fecha Salida</th>
+                            <th>Hora Salida</th>
+                            <th>Medio de salida</th>
+                            <th>Placa Salida</th>
+                            <th>Guardia</th>
+                            <th>Estado</th>
+                            <th>Por:</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
+                            <!-- <th>Villa</th>
                             <th>Fecha Ingreso</th>
                             <th>Hora Ingreso</th>
                             <th>Medio</th>
@@ -78,21 +76,21 @@
                             <th>Hora Salida</th>
                             <th>Medio</th>
                             <th>Placa</th> -->
-                                <th scope="row ">{{i+1}}</th>
-                                <td>
-                                    <figure>
-                                        <img class="avatar" [src]="visit.imagen" alt="image" data-holder-rendered="true"
-                                            (click)="openImage(visit)" data-toggle="modal"
-                                            data-target=".bd-example-modal-lg" />
-                                    </figure>
-                                </td>
-                                <td>{{visit.nombres}}</td>
-                                <td>{{visit.apellidos}}</td>
-                                <td>{{visit.cedula}}</td>
-                                <td>{{visit.motivo}}</td>
-                                <td>{{visit.casa.manzana}}</td>
-                                <td>{{visit.casa.villa}}</td>
-                                <!-- <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
+                            <th scope="row ">{{i+1}}</th>
+                            <td>
+                                <figure>
+                                    <img class="avatar" [src]="visit.imagen" alt="image" data-holder-rendered="true"
+                                        (click)="openImage(visit)" data-toggle="modal"
+                                        data-target=".bd-example-modal-lg" />
+                                </figure>
+                            </td>
+                            <td>{{visit.nombres}}</td>
+                            <td>{{visit.apellidos}}</td>
+                            <td>{{visit.cedula}}</td>
+                            <td>{{visit.motivo}}</td>
+                            <td>{{visit.casa.manzana}}</td>
+                            <td>{{visit.casa.villa}}</td>
+                            <!-- <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
                                 <td>{{visit.entrada.hora_entrada | date: 'h:mm a' }}</td>
                                 <td>{{visit.entrada.tipo_entrada}}</td>
                                 <td>{{visit.entrada.placa}}</td>
@@ -102,43 +100,43 @@
                                 <td>{{visit.salida.hora_salida | date: 'h:mm a'}}</td>
                                 <td>{{visit.salida.tipo_salida}}</td>
                                 <td>{{visit.salida.placa}}</td> -->
-                                <td>{{visit.guardia.nombres}}</td>
-                                <td *ngIf="visit.Estado === 'ACEPTADA'">
-                                    <Div class="aceptada">
-                                        <strong> {{visit.Estado}}</strong>
-                                    </Div>
-                                </td>
-                                <td *ngIf="visit.Estado === 'ESPERANDO'">
-                                    <Div class="esperando">
-                                        <strong> {{visit.Estado}}</strong>
-                                    </Div>
-                                </td>
-                                <td *ngIf="visit.Estado === 'RECHAZADA'">
-                                    <Div class="rechazada">
-                                        <strong> {{visit.Estado}}</strong>
-                                    </Div>
-                                </td>
-                                <td *ngIf="visit.Estado === 'PENDIENTE'">
-                                    <Div class="pendiente">
-                                        <strong> {{visit.Estado}}</strong>
-                                    </Div>
-                                </td>
-                                <td *ngIf="visit.Estado === 'SIN RESPUESTA'">
-                                    <Div class="rechazada">
-                                        <strong> {{visit.Estado}}</strong>
-                                    </Div>
-                                </td>
-                                <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
-                            </tr>
-                            <tr *ngIf="(bitacoras).length === 0">
-                                <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                        existen datos</label></td>
+                            <td>{{visit.guardia.nombres}}</td>
+                            <td *ngIf="visit.Estado === 'ACEPTADA'">
+                                <Div class="aceptada">
+                                    <strong> {{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.Estado === 'ESPERANDO'">
+                                <Div class="esperando">
+                                    <strong> {{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.Estado === 'RECHAZADA'">
+                                <Div class="rechazada">
+                                    <strong> {{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.Estado === 'PENDIENTE'">
+                                <Div class="pendiente">
+                                    <strong> {{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.Estado === 'SIN RESPUESTA'">
+                                <Div class="rechazada">
+                                    <strong> {{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
+                        </tr>
+                        <tr *ngIf="(bitacoras).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
 
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
         </div>
 
         <!-- <ng-template #contentImage let-modal>

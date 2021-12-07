@@ -44,7 +44,10 @@ import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.comp
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AccordionModule } from "primeng/accordion";
 import { MenuItem } from "primeng/api";
-import { CambiarcontrasenaComponent } from './pages/cambiarcontrasena/cambiarcontrasena.component';
+import { MatSelectModule } from "@angular/material/select";
+import { MatSliderModule } from '@angular/material/slider';
+
+import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,6 +91,9 @@ import { CambiarcontrasenaComponent } from './pages/cambiarcontrasena/cambiarcon
     NgxChartsModule,
     ColorPickerModule,
     AccordionModule,
+    MatSelectModule,
+    MatSliderModule,
+
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],

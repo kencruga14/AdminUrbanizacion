@@ -147,120 +147,222 @@
             <!---------------Modal Crear-------------->
             <ng-template #contentAlicuota let-modal>
                 <div class="modal-header" *ngIf="alicuotas.length > 0">
-                    <h4 *ngIf="!alicuota.edit" class="modal-title" id="modal-basic-title">Crear alicuota</h4>
+                    <h4 *ngIf="!alicuota.edit" class="modal-title" id="modal-basic-title">Crear alícuota</h4>
                     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
-                    <!-- <form (ngSubmit)="onsubmit()"> -->
 
-                    <div class="modal-body">
+                <!-- <form (ngSubmit)="onsubmit()"> -->
+
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Tipo de Alícuota:</label>
+                            <select name="villa" [(ngModel)]="tipoalicuota" class="form-control custom-select">
+                                <option value="COMUN">Común</option>
+                                <option value="EXTRAORDINARIA">Extraordinaria</option>
+                                <!-- <option value="SALDO">Saldo</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="tipoalicuota ==='EXTRAORDINARIA'"> -->
+                    <!-- ---Selector Manzana -->
+                    <div class="form-row" *ngIf="tipoalicuota ==='EXTRAORDINARIA'">
+
+                        <div class="form-group col-md-12">
+                            <label>Seleccione:</label>
+                            <select name="tipoExtraordinaria" [(ngModel)]="tipoAlicuotaExtraordinaria"
+                                class="form-control custom-select">
+                                <option value="NUEVA">Extraordinaria Nueva</option>
+                                <option value="ANTERIOR">Extraordinaria Anterior</option>
+                                <!-- <option value="SALDO">Saldo</option> -->
+                            </select>
+                        </div>
+                        <!------------------------------------Anterior------------------------------------------------------------------->
+                        <form [formGroup]="alicuotaForm">
+                            <div class="form-row" *ngIf="tipoAlicuotaExtraordinaria === 'ANTERIOR'">
+
+                                <div class="form-group col-md-5">
+                                    <label>Mes:</label>
+                                    <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado"
+                                        name="mes_seleccionado" class="form-control custom-select"
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <label>Año:</label>
+                                    <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
+                                        name="year_seleccionado" class="form-control custom-select"
+                                        [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-1">
+                                    <label class="transparente">DSSDSD.</label>
+                                    <button (click)="addGroup()" type="button" class="btn btn-success">+</button>
+                                </div>
+
+                                <ng-container formArrayName="times"
+                                    *ngFor="let time of alicuotaForm.controls.times?.value; let i = index; trackBy:trackByFn">
+                                    <ng-container [formGroupName]="i" style="margin-bottom: 10px;">
+                                        <div class="form-group col-md-5">
+                                            <label>Manzana</label>
+                                            <mat-select [formControlName]="valor" multiple>
+                                                <mat-option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
+                                                    {{ur.manzana}}</mat-option>
+                                              </mat-select>
+
+                                            <!-- <select formControlName="valor" class="form-control custom-select"
+                                                (change)="getVillas($event.target.value)"
+                                                >
+                                                <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
+                                                    {{ur.manzana}}</option>
+                                            </select> -->
+                                        </div>
+
+                                        <div class="form-group col-md-5">
+                                            <label>Villa</label>
+                                            <select formControlName="fecha_pago" class="form-control custom-select">
+                                                <option *ngFor="let ur of casasselector" value="{{ur.ID}}"> {{ur.villa}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label class="transparente">DSSDSD.</label>
+                                            <button (click)="addGroup()" type="button"
+                                                class="btn btn-success">+</button>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+
+                                <!-- <div class="form-group col-md-6">
+                                    <label>Manzana:</label>
+                                    <select name="id_manzana" [(ngModel)]="id_manzana" name="id_manzana"
+                                        class="form-control custom-select" [ngModelOptions]="{standalone: true}"
+                                        (change)="filtrarVilla($event.target.value)">
+                                        <option *ngFor="let ur of manzanas" value="{{ur.manzana}}">{{ur.manzana}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Villa:</label>
+                                    <select name="id_casa" [(ngModel)]="id_casa" name="id_casa"
+                                        class="form-control custom-select" [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.villa}}
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Valor:</label><br>
+                                    <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" required [ngModelOptions]="{standalone: true}">
+                                </div> -->
+
+                                <div class="form-group col-md-6 ">
+                                    <br>
+                                    <button (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)"
+                                        *ngIf="!auth.loading" [disabled]="!alicuotaForm.valid" type="submit"
+                                        class="btn btn-outline-dark" style="float: right;">
+                                        <span *ngIf="!alicuota.edit">Guardar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!------------------------------------------------Nueva Alicuota------------------------------------------------------------------------------------->
+                    <div class="form-row" *ngIf="tipoAlicuotaExtraordinaria === 'NUEVA'">
+                        <div class="form-group col-md-6">
+                            <label>Mes:</label>
+                            <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado" name="mes_seleccionado"
+                                class="form-control custom-select" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Año:</label>
+                            <select name="year_seleccionado" [(ngModel)]="year_seleccionado" name="year_seleccionado"
+                                class="form-control custom-select" [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Valor</label>
+                            <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number"
+                                required [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <br>
+                            <button (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)" *ngIf="!auth.loading"
+                                [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark"
+                                style="float: right;">
+                                <span *ngIf="!alicuota.edit">Guardar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- <div class="modal-footer">
+                                    <button (click)="onsubmit(tipoalicuota)" *ngIf="!auth.loading"
+                                        [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark">
+                                        <span *ngIf="!alicuota.edit">Guardar</span>
+                                    </button>
+                                    <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+                                </div> -->
+                    <!-- </div> -->
+
+
+                    <!---------------------------------------Eliminar condicion------------------------------------------------------------------------>
+                    <div *ngIf="tipoalicuota ==='COMUN'">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Tipo de Alícuota</label>
-                                <select name="villa" [(ngModel)]="tipoalicuota" class="form-control custom-select">
-                                    <option value="COMUN">Común</option>
-                                    <option value="EXTRAORDINARIA">Extraordinaria</option>
-                                    <option value="SALDO">Saldo</option>
+
+                            <div class="form-group col-md-6">
+                                <label>Mes: </label>
+                                <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado" name="mes_seleccionado"
+                                    class="form-control custom-select" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
                                 </select>
                             </div>
 
-                            <div *ngIf="tipoalicuota ==='SALDO'">
-                                <!-- ---Selector Manzana -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Manzana</label>
-                                        <select name="id_manzana" [(ngModel)]="id_manzana" name="id_manzana"
-                                            class="form-control custom-select" [ngModelOptions]="{standalone: true}"
-                                            (change)="filtrarVilla($event.target.value)">
-                                            <option *ngFor="let ur of manzanas" value="{{ur.manzana}}">{{ur.manzana}}
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <!-- ---Selector villa -->
-                                    <div class="form-group col-md-6">
-                                        <label>Villa</label>
-                                        <select name="id_casa" [(ngModel)]="id_casa" name="id_casa"
-                                            class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let ur of casas" [ngValue]="ur.ID">{{ur.villa}}
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label>Seleccione un Mes</label>
-                                        <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado"
-                                            name="mes_seleccionado" class="form-control custom-select"
-                                            [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label>Seleccione un Año</label>
-                                        <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
-                                            name="year_seleccionado" class="form-control custom-select"
-                                            [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-12">
-                                        <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                            type="number" required placeholder="Valor de la alicuota"
-                                            [ngModelOptions]="{standalone: true}">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button (click)="onsubmit(tipoalicuota)" *ngIf="!auth.loading"
-                                        [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark">
-                                        <span *ngIf="!alicuota.edit">Guardar</span>
-                                        <!-- <span *ngIf="alicuota.edit">Editar</span> -->
-                                    </button>
-                                    <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label>Año:</label>
+                                <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
+                                    name="year_seleccionado" class="form-control custom-select"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                                </select>
                             </div>
 
-                            <div *ngIf="tipoalicuota ==='COMUN' || tipoalicuota ==='EXTRAORDINARIA' ">
-                                <div class="form-row">
-
-                                    <div class="form-group col-md-6">
-                                        <label>Seleccione un Mes</label>
-                                        <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado"
-                                            name="mes_seleccionado" class="form-control custom-select"
-                                            [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label>Seleccione un Año</label>
-                                        <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
-                                            name="year_seleccionado" class="form-control custom-select"
-                                            [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-12">
-                                        <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                            type="number" required placeholder="Valor de la alicuota"
-                                            [ngModelOptions]="{standalone: true}">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button (click)="onsubmit(tipoalicuota)" *ngIf="!auth.loading"
-                                        [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark">
-                                        <span *ngIf="!alicuota.edit">Guardar</span>
-                                    </button>
-                                    <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label>Valor:</label>
+                                <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
+                                    type="number" required [ngModelOptions]="{standalone: true}">
                             </div>
-
+                            <div class="form-group col-md-6 ">
+                                <br>
+                                <button (click)="onsubmit(tipoalicuota)" *ngIf="!auth.loading"
+                                    [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark"
+                                    style="float: right;">
+                                    <span *ngIf="!alicuota.edit">Guardar</span>
+                                </button>
+                            </div>
                         </div>
+                        <!-- <div class="modal-footer">
+                                    <button (click)="onsubmit(tipoalicuota)" *ngIf="!auth.loading"
+                                        [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark">
+                                        <span *ngIf="!alicuota.edit">Guardar</span>
+                                    </button>
+                                    <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+                                </div> -->
                     </div>
-                </form>
+
+                </div>
+                <!-- </div> -->
             </ng-template>
 
             <ng-template #openMAlicuota let-modal>
@@ -270,13 +372,13 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>Mes</label>
-                                <input [ngModel]="fecha_pago | date: 'MMMM' | titlecase" name="mes"
-                                    class="form-control" type="text" readonly>
+                                <input [ngModel]="fecha_pago | date: 'MMMM' | titlecase" name="mes" class="form-control"
+                                    type="text" readonly>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Año</label>
-                                <input [ngModel]="fecha_pago | date: 'yyyy' | titlecase" name="ano"
-                                    class="form-control" type="text" readonly>
+                                <input [ngModel]="fecha_pago | date: 'yyyy' | titlecase" name="ano" class="form-control"
+                                    type="text" readonly>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Valor</label>

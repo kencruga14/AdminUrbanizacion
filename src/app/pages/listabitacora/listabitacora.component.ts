@@ -21,13 +21,14 @@ export class ListabitacoraComponent implements OnInit {
   manzanaselector: any;
   cedula: "";
   imagenPerfil: any;
-  buscadorVilla: string;
-  buscadorManazana: string;
+  buscadorVilla = null;
+  buscadorManazana = null;
   id_manzana: 0;
   id_villa: 0;
   visitasFiltradas: any;
   nombres: "";
-  buscadorFecha: any;
+  buscadorFecha: null;
+  buscadorFechaglobal: any;
   edit: false;
   motivo: "";
   placa: "";
@@ -64,8 +65,6 @@ export class ListabitacoraComponent implements OnInit {
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
-    this.buscadorManazana = "Todo";
-    this.buscadorVilla = "Todo";
   }
 
   getBitacora() {
@@ -90,9 +89,12 @@ export class ListabitacoraComponent implements OnInit {
       // console.log("getCasasByManzana: ", resp);
       this.casasselector = resp;
       this.buscadorManazana = value;
+      // this.buscadorManazana = null;
       this.getvivistasfilter(value);
       // this.c = _.uniqBy(resp, (obj) => obj.manzana);
       console.log("casas selector: ", this.casasselector);
+      this.buscadorVilla = null;
+      this.buscadorFecha = null;
     });
   }
 
@@ -112,8 +114,6 @@ export class ListabitacoraComponent implements OnInit {
     });
   }
 
- 
-
   openImage(admin) {
     console.log("admin seleccionado: ", admin);
     this.imagenPerfil = admin;
@@ -128,7 +128,6 @@ export class ListabitacoraComponent implements OnInit {
   }
 
   filterfecha(value) {
-    
     console.log("fecha escogida: ", value);
     this.getvivistasfilterMzVillaDate(
       this.buscadorManazana,
@@ -139,19 +138,30 @@ export class ListabitacoraComponent implements OnInit {
 
   getvivistasfilterMzVillaDate(manzana, villa, fecha) {
     fecha = moment(fecha).format();
-    console.log("fecha: format ", fecha)
-    this.auth.visitasByFilterMzVillasDate(manzana, villa,fecha).subscribe((resp: any) => {
-      this.bitacoras = resp;
-      console.log("visitas por filtro fecha: ", this.bitacoras);
-    });
+    console.log("fecha: format ", fecha);
+    this.auth
+      .visitasByFilterMzVillasDate(manzana, villa, fecha)
+      .subscribe((resp: any) => {
+        this.bitacoras = resp;
+        console.log("visitas por filtro fecha: ", this.bitacoras);
+      });
   }
 
+  buscadorfechaGlobal(value) {
+    let fecha = moment(value).format();
+    console.log("valor fecha: ", fecha);
+    this.auth.filterBitacoraFecha(fecha).subscribe((resp: any) => {
+      this.bitacoras = resp;
+      console.log("visitas por filtro fecha global: ", this.bitacoras);
+    });
+  }
   restablecerFiltroBusqueda() {
     this.buscadorFecha = null;
     this.buscadorVilla = null;
     this.buscadorManazana = null;
     this.bitacoras = [];
     this.casasselector = [];
+    this.buscadorFechaglobal = null;
     this.getBitacora();
   }
 }

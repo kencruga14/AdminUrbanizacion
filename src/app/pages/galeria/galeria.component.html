@@ -6,35 +6,38 @@
             <button class="btn btn-dark" (click)="openGaleria(contentGaleria)">Subir imagen</button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
                 <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombres..."
-                 [(ngModel)]="filterName">
+                    [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
-                        <tr style="text-align: center;">
+                        <tr style="text-align: left;">
                             <th>No</th>
                             <th>Imagen</th>
+                            <th>Título</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: left;">
                         <tr *ngFor="let mat of imagenes | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
-                              <figure class="avatar avatar-sm">
-                                <img [src]="mat.imagen" class="" alt="image" width="25%">
-                            </figure>
+                                <figure>
+                                    <img [src]="mat.imagen" class="avatar" alt="image" data-holder-rendered="true"
+                                        (click)="openImage(mat)" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                </figure>
                             </td>
+                            <td>{{mat.titulo}}</td>
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
-
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"> <i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
                         </tr>
-
                         <tr *ngIf="(imagenes).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
-                            
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
+
                         </tr>
 
 
@@ -49,21 +52,30 @@
             <h4 *ngIf="!galeria.edit" class="modal-title" id="modal-basic-title">Subir nueva imagen</h4>
             <h4 *ngIf="galeria.edit" class="modal-title" id="modal-basic-title">Editar imagen</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <form (ngSubmit)="gestionGaleria()" #form="ngForm">
             <div class="modal-body">
-              <div class="form-group">
-                <div class="image-preview mb-3" *ngIf="imagen">
-                    <img class="img-fluid" [src]="imagen" height="500" />
+                <div class="form-group">
+                    <div class="image-preview mb-3" *ngIf="imagen">
+                        <img class="img-fluid" [src]="imagen" height="500" width="100" />
+                    </div>
+                    <label for="imagen">Imagen</label><br>
+                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                        359 x 316.
+                    </small>
                 </div>
 
-                <input type="file" name="image" (change)="preview($event)" accept="image/*"/>
-            </div>
+                <div class="form-group">
+                    <input [(ngModel)]="titulo" name="titulo" class="form-control" type="text" required
+                        placeholder="Título">
+                </div>
 
             </div>
-           <div class="modal-footer">
+            <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!galeria.edit">Guardar</span>
                     <span *ngIf="galeria.edit">Editar</span>
@@ -74,4 +86,23 @@
     </ng-template>
 
 
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                    Imagen
+                </h4>
+            </div>
+
+            <div class="modal-body" *ngIf="imagenPerfil">
+                <figure class="box">
+                    <img [src]="imagenPerfil.imagen" alt="image" />
+                </figure>
+            </div>
+        </div>
+    </div>
 </div>

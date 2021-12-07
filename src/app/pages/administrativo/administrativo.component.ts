@@ -26,6 +26,7 @@ export class AdministrativoComponent implements OnInit {
   imagenEdit = null;
   imagen = null;
   changeFoto = false;
+  imagenChange = null;
   eta = [];
 
   filterName = "";
@@ -58,7 +59,6 @@ export class AdministrativoComponent implements OnInit {
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
   saveEditPicture(event: any) {
-    // console.log("entró preview:");
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -70,7 +70,6 @@ export class AdministrativoComponent implements OnInit {
       this.imagenEdit = reader.result;
     };
     this.changeFoto = true;
-    console.log("imagenEDIT: ", this.imagenEdit);
   }
 
   preview(event: any) {
@@ -83,10 +82,10 @@ export class AdministrativoComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
-      this.imagenPerfila = reader.result;
     };
     this.changeFoto = true;
   }
+
   openAcceso(content, acceso) {
     this.acceso.id_adminis = acceso.id_adminis;
     this.modalService.open(content);
@@ -104,6 +103,7 @@ export class AdministrativoComponent implements OnInit {
       this.celular = admin.celular;
       this.telefono = admin.telefono;
       this.imagenEdit = admin.imagen;
+      console.log("admin.edit: ", admin.imagen);
     } else {
       this.id_adminis = 0;
       this.correo = "";
@@ -119,7 +119,7 @@ export class AdministrativoComponent implements OnInit {
   }
   getAdministrativos() {
     this.auth.getAdministrativos().subscribe((resp: any) => {
-      console.log(resp);
+      console.log("administrativos: ", resp);
       this.admins = resp;
     });
   }
@@ -135,13 +135,15 @@ export class AdministrativoComponent implements OnInit {
       const body = {
         nombre: this.nombre,
         correo: this.correo,
-        telefono: this.telefono,
+        // telefono: this.telefono,
         cedula: this.cedula,
         cargo: this.cargo,
         celular: this.celular,
         imagen: this.imagenEdit,
       };
-      JSON.stringify(body);
+      console.log("body imagen: ", body);
+
+      // JSON.stringify(body.imagen);
       console.log("body editar administrativo: ", body);
       response = await this.auth.editAdministrativos(this.id, body);
     } else {
@@ -166,10 +168,10 @@ export class AdministrativoComponent implements OnInit {
       this.imagenEdit = null;
       this.imagen = null;
     }
-    // this.imagenPerfil = null;
-    // this.imagenPerfila = null;
-    // this.imagenEdit = null;
-    // this.imagen = null;
+    this.imagenPerfil = null;
+    this.imagenPerfila = null;
+    this.imagenEdit = null;
+    this.imagen = null;
   }
 
   delete(id: number) {

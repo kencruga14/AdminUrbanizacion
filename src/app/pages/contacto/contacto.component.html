@@ -12,7 +12,7 @@
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
-                        <tr style="text-align: center;">
+                        <tr style="text-align: left;">
                             <th>No</th>
                             <th>Imagen</th>
                             <th>Título</th>
@@ -21,12 +21,13 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: left;">
                         <tr *ngFor="let c of contactos | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
-                                <figure class="avatar avatar-sm">
-                                    <img [src]="c.imagen" class="" alt="image" width="25%">
+                                <figure>
+                                    <img [src]="c.imagen" class="avatar" alt="image" data-holder-rendered="true"
+                                        (click)="openImage(c)" data-toggle="modal" data-target=".bd-example-modal-lg">
                                 </figure>
                             </td>
                             <td>{{c.contacto}}</td>
@@ -44,7 +45,6 @@
                         <tr *ngIf="(contactos).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
-
                         </tr>
 
 
@@ -95,4 +95,23 @@
     </ng-template>
 
 
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                    Imagen Horario
+                </h4>
+            </div>
+
+            <div class="modal-body" *ngIf="imagenPerfil">
+                <figure class="box">
+                    <img [src]="imagenPerfil.imagen" alt="image" />
+                </figure>
+            </div>
+        </div>
+    </div>
 </div>
