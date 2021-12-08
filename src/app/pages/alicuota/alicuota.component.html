@@ -211,25 +211,23 @@
                                     <ng-container [formGroupName]="i" style="margin-bottom: 10px;">
                                         <div class="form-group col-md-5">
                                             <label>Manzana</label>
-                                            <mat-select [formControlName]="valor" multiple>
-                                                <mat-option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
-                                                    {{ur.manzana}}</mat-option>
-                                              </mat-select>
-
-                                            <!-- <select formControlName="valor" class="form-control custom-select"
-                                                (change)="getVillas($event.target.value)"
-                                                >
+                                            <select formControlName="valor" class="form-control custom-select"
+                                            (change)="filtrarVilla($event.target.value)">
+                                            >
                                                 <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
                                                     {{ur.manzana}}</option>
-                                            </select> -->
+                                            </select>
                                         </div>
 
                                         <div class="form-group col-md-5">
                                             <label>Villa</label>
-                                            <select formControlName="fecha_pago" class="form-control custom-select">
-                                                <option *ngFor="let ur of casasselector" value="{{ur.ID}}"> {{ur.villa}}
+                                            <select formControlName="fecha_pago" class="form-control custom-select" multiple>
+                                                <option *ngFor="let ur of manzanaselector" value="{{ur.ID}}"> {{ur.villa}}
                                                 </option>
                                             </select>
+
+                                            <!-- <p-multiSelect [options]="manzanaselector" formControlName="fecha_pago" optionLabel="villa"></p-multiSelect> -->
+
                                         </div>
                                         <div class="form-group col-md-1">
                                             <label class="transparente">DSSDSD.</label>

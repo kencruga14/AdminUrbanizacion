@@ -48,6 +48,10 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from '@angular/material/slider';
 
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
+import {ListboxModule} from 'primeng/listbox';
+import {MultiSelectModule} from 'primeng/multiselect';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +97,8 @@ import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcon
     AccordionModule,
     MatSelectModule,
     MatSliderModule,
-
+    ListboxModule,
+    MultiSelectModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
