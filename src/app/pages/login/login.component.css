@@ -6487,6 +6487,21 @@ img.mfp-img {
   .menu-tel{
     background-color: #00c9db !important;
   }
+  .esWeb{
+display: none;
+  }
+  .esMovil{
+    display: block;
+      }
+  
+}
+@media  (min-width:767px) {
+  .esMovil{
+    display: none;
+      }
+      .esWeb{
+        display: block;
+          }
 }
 .scroll-to-top{
   height: 38px;
