@@ -37,6 +37,9 @@ export class AlicuotaComponent implements OnInit {
   filtromanzana: number;
   years = [];
   pipe: any;
+  paramMz: number;
+  paramVilla: number;
+  paramEstado: string;
   filtroEstado: string;
   alicuotaM: alicuota[] = [];
   id_casa: number;
@@ -201,14 +204,37 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getVillas(value) {
+    this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       console.log("manzana seleccionada: ", value);
       console.log("getCasasByManzana: ", resp);
+      // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
+      //   this.alicuotas = resp;
+      // });
+
+      // alicuotas
       this.casasselector = resp;
     });
   }
+
   getEstado(value) {
+    this.paramVilla = value;
+    console.log("casa: ", value);
+    // this.auth
+    //   .getAlicuotasByMzVil(this.paramMz, value)
+    //   .subscribe((resp: any) => {
+    //     this.alicuotas = resp;
+    //   });
+  }
+
+  getAlicuotaEstado(value) {
     console.log("estado: ", value);
+    // this.paramEstado = value;
+    // this.auth
+    //   .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
+    //   .subscribe((resp: any) => {
+    //     this.alicuotas = resp;
+    //   });
   }
 
   getFiltros(valor: any) {
@@ -219,7 +245,11 @@ export class AlicuotaComponent implements OnInit {
     const porFecha = _.groupBy(comunes, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
-    _.assignIn(porFecha, { SALDO: saldo, EXTRAORDINARIAs: extraordinaria });
+    const ExtraordinariaFecha = _.groupBy(this.extraordinariaAnterior, (ali) =>
+      moment(ali.fecha_pago).format("MMMM YYYY")
+    );
+
+    _.assignIn(porFecha, extraordinaria);
     _.orderBy(
       this.alicuotas,
       ["Created_at", "casa.Manzana", "casa.Villa"],
@@ -231,8 +261,6 @@ export class AlicuotaComponent implements OnInit {
     //   "extraodrinario anterior: ",
     //   Object.entries(this.extraordinariaAnterior).sort()
     // );
-
-    console.log("existente: ", this.existente);
   }
 
   filtrarVilla(value) {
@@ -245,37 +273,36 @@ export class AlicuotaComponent implements OnInit {
   // NUEVA
   async Nueva() {
     let response: any;
-    let fechavalidacion = this.year_seleccionado
+    let validacion: any;
+    let as = this.year_seleccionado
       .concat("/")
       .concat(this.mes_seleccionado)
       .concat("/")
       .concat("1");
-      console.log("fechavalidacion: ", fechavalidacion )
-
-      console.log("alicuotas: ", this.alicuotas )
-    for (let i = 0; i < this.alicuotas.length; i++) {
-      // console.log("areglo validacion: ", this.alicuotas[i].[fecha_pago]);
-      if (this.alicuotas[this.fecha_pago].includes(fechavalidacion)){
-        alert("mes ya se encuentra regisrasdo")
+    let fechavalidacion = moment(as).format();
+    validacion = this.alicuotas.filter(
+      (ali) => ali.fecha_pago === fechavalidacion
+    );
+    if (validacion.length === 0) {
+      for (let i = 0; i < this.casas.length; i++) {
+        this.alicuotaM.push({
+          valor: this.valor,
+          id_casa: this.casas[i].ID,
+          tipo: "COMUN",
+          fecha_pago: as,
+        });
+        this.alicuotaM[i].fecha_pago = moment(
+          this.alicuotaM[i].fecha_pago
+        ).format();
       }
+      console.log("array comun nueva: ", this.alicuotaM);
+      response = await this.auth.createAlicuota(this.alicuotaM);
+    } else {
+      Swal.fire("Error!", "El mes ya se encuentra registrado", "error");
+      this.resetsForm();
+      this.removeGroup(this.nregistros);
+      this.getAlicuota();
     }
-    for (let i = 0; i < this.casas.length; i++) {
-      this.alicuotaM.push({
-        valor: this.valor,
-        id_casa: this.casas[i].ID,
-        tipo: "COMUN",
-        fecha_pago: this.year_seleccionado
-          .concat("/")
-          .concat(this.mes_seleccionado)
-          .concat("/")
-          .concat("1"),
-      });
-      this.alicuotaM[i].fecha_pago = moment(
-        this.alicuotaM[i].fecha_pago
-      ).format();
-    }
-    // console.log("array comun nueva: ", this.alicuotaM);
-    // response = await this.auth.createAlicuota(this.alicuotaM);
     if (response) {
       this.resetsForm();
       this.removeGroup(this.nregistros);
@@ -419,8 +446,6 @@ export class AlicuotaComponent implements OnInit {
     this.auth.getAlicuota().subscribe((resp: any) => {
       this.alicuotas = resp;
       this.clasificarAlicuotas(resp);
-      // this.valores = clasificarAlicuotas;
-      // console.log("valores: ", this.valores);
     });
   }
 
@@ -490,6 +515,9 @@ export class AlicuotaComponent implements OnInit {
     this.filtromanzana = null;
     this.filtroEstado = null;
     this.filtrovilla = null;
+    this.paramEstado = null;
+    this.paramMz = null;
+    this.paramVilla = null;
   }
 
   async UpdatePago() {

@@ -258,6 +258,45 @@ export class AuthService {
       );
   }
 
+  getAlicuotasByMz(mz: number) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getAlicuotasByMzVil(mz: number, villa: number) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getAlicuotasByMzVilEstado(mz: number, villa: number, estado: string) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}&estado=${estado}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
   getCasasByManzana(id: number) {
     const headers = new HttpHeaders({
       token: this.userToken,
@@ -356,7 +395,9 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .delete(`${environment.apiUrl}/admin-etapa/autorizados/${id}`, { headers })
+        .delete(`${environment.apiUrl}/admin-etapa/autorizados/${id}`, {
+          headers,
+        })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");

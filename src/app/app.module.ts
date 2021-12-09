@@ -64,7 +64,7 @@ import { MenuModule } from "primeng/menu";
 import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
 import { ContextMenuModule } from "primeng/contextmenu";
 import {TabMenuModule} from 'primeng/tabmenu';
-
+import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,10 +100,12 @@ import {TabMenuModule} from 'primeng/tabmenu';
     HttpClientModule,
     NgbModule,
     FormsModule,
+    NgbPaginationModule,
     ReactiveFormsModule,
     NgSelectModule,
     NgPipesModule,
     DlDateTimeDateModule,
+    NgbAlertModule,
     DlDateTimePickerModule,
     MomentModule,
     NgxChartsModule,
