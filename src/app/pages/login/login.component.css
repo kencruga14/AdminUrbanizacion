@@ -6480,4 +6480,24 @@ img.mfp-img {
     transform-origin: 100%; }
   .mfp-container {
     padding-left: 6px;
-    padding-right: 6px; } }
+    padding-right: 6px; }
+ 
+  }
+@media  (max-width:767px) {
+  .menu-tel{
+    background-color: #00c9db !important;
+  }
+}
+.scroll-to-top{
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+  position: fixed;
+  background:#00c9db;
+  padding-left: 10px;
+  padding-top: 5px;
+
+  bottom:15px;
+  right: 15px;
+  cursor: pointer;
+}
