@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core';
+
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UsuarioModelo } from "../../models/usuario.model";
@@ -6,6 +7,7 @@ import { AuthService } from "../../services/auth.service";
 import Swal from "sweetalert2";
 import { map } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ViewportScroller } from "@angular/common";
 
 
 
@@ -15,6 +17,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('header', { static: false }) top: Element;
   urbanizaciones: UsuarioModelo[] = [];
   casas: UsuarioModelo[] = [];
   residentes: UsuarioModelo[] = [];
@@ -29,8 +32,13 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private scroll: ViewportScroller
   ) { }
+  pageYoffset = 0;
+  @HostListener('window:scroll', ['$event']) onScroll(event) {
+    this.pageYoffset = window.pageYOffset;
+  }
 
   ngOnInit() {
     this.getDataUrb();
@@ -134,5 +142,8 @@ export class LoginComponent implements OnInit {
     } else {
       Swal.fire("Por favor ingrese su usuario");
     }
+  }
+  scrollToTop($element) {
+    $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
   }
 }

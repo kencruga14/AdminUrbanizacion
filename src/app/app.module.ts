@@ -48,8 +48,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from '@angular/material/slider';
 
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
-import {ListboxModule} from 'primeng/listbox';
-import {MultiSelectModule} from 'primeng/multiselect';
+import { ListboxModule } from 'primeng/listbox';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { IvyCarouselModule } from "angular-responsive-carousel";
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
     CambiarcontrasenaComponent,
   ],
   imports: [
+    IvyCarouselModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -103,4 +105,4 @@ import {MultiSelectModule} from 'primeng/multiselect';
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

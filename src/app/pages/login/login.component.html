@@ -1,4 +1,4 @@
-<header id="Inicio" class="header"
+<header id="Inicio" class="header" #header
     style="background: url('assets/images-home/banner-cambiado.jpg');background-position-x:center;">
     <nav class="navbar navbar-expand-md navbar-dark navbar-custom " style="background:transparent;height:100px;">
         <a class="navbar-brand logo-imag2e" style="max-width:100px;margin-left:-20px" href="/"><img
@@ -10,8 +10,8 @@
             <span class="navbar-toggler-awesome fas fa-times"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault" style="z-index: 2;background:none;">
-            <ul class="navbar-nav ml-auto" style="background:transparent;">
+        <div class="collapse navbar-collapse " id="navbarsExampleDefault" style="z-index: 2;background:none;">
+            <ul class="navbar-nav ml-auto menu-tel" style="background:transparent;">
                 <li class="nav-item">
                     <a class="nav-link page-scroll" style="text-shadow:1.5px 1.5px #000" href="#Inicio">INICIO <span
                             class="sr-only"></span></a>
@@ -514,7 +514,7 @@
                                     Registradas</font>
                             </h4>
                             <p>
-                                <font color="#000">21 Urbanizaciones</font>
+                                <font color="#000">{{urbanizaciones}} Urbanizaciones</font>
                             </p>
                         </div>
                         <HR style="color:#7476EC;border:solid">
@@ -543,39 +543,28 @@
                 <br>
 
                 <br>
-                <!-- Image Slider -->
-                <div class="slider-container">
-                    <div class="swiper-container image-slider">
-                        <div class="swiper-wrapper">
+                <carousel>
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="">
 
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="">
-                            </div>
-                            <div class="swiper-slide">
-                                <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="">
-                            </div>
+                    </div>
+                    <div class="carousel-cell">
 
-                            <!-- end of slide -->
+                        <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
 
-                        </div> <!-- end of swiper-wrapper -->
+                        <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
 
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <!-- end of add arrows -->
-
-                    </div> <!-- end of swiper-container -->
-                </div> <!-- end of slider-container -->
+                        <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="">
+                    </div>
+                </carousel>
+                <!-- end of slider-container -->
                 <!-- end of image slider -->
 
             </div> <!-- end of col -->
@@ -654,6 +643,7 @@
 <!-- end of header -->
 
 <!-- Screenshots -->
+
 <div class="slider-2" style="background-color:#fff">
 
     <div class="container">
@@ -670,64 +660,29 @@
 
 
                 <br>
-                <br>
-                <br>
+
                 <!-- Image Slider -->
-                <div class="slider-container">
-                    <div class="swiper-container image-slider">
-                        <div class="swiper-wrapper">
+                <carousel>
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/cliente1.jpg">
+                    </div>
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/cliente2.jpg" alt="">
 
-                            <!-- Slide -->
-                            <div class="swiper-slide">
+                    </div>
+                    <div class="carousel-cell">
 
-                                <img class="img-fluid" src="assets/images-home/cliente1.jpg" alt="">
+                        <img class="img-fluid" src="assets/images-home/cliente3.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
 
+                        <img class="img-fluid" src="assets/images-home/cliente4.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
 
-                            </div>
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-
-                                <img class="img-fluid" src="assets/images-home/cliente2.jpg" alt="">
-
-                            </div>
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-
-                                <img class="img-fluid" src="assets/images-home/cliente3.jpg" alt="">
-
-                            </div>
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-
-                                <img class="img-fluid" src="assets/images-home/cliente4.jpg" alt="">
-
-                            </div>
-                            <div class="swiper-slide">
-
-                                <img class="img-fluid" src="assets/images-home/cliente10.png" alt="">
-
-                            </div>
-
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-
-                        </div> <!-- end of swiper-wrapper -->
-
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <!-- end of add arrows -->
-
-                    </div> <!-- end of swiper-container -->
-                </div> <!-- end of slider-container -->
-                <!-- end of image slider -->
+                        <img class="img-fluid" src="assets/images-home/cliente10.png" alt="">
+                    </div>
+                </carousel>
 
             </div> <!-- end of col -->
         </div> <!-- end of row -->
@@ -742,15 +697,16 @@
             <div class="col-lg-12 text-center">
                 <h2>CONTÁCTENOS</h2>
                 <h4 style="font-size: 16px;">Estaremos encantados de poder atenderte!</h4>
-                <div class="row justify-content-center mr-5">
-                    <div class="col-md-3 col-12 text-right m-0 p-0">
-                        <i class="fas fa-map-marker-alt"></i> Samborondón
+                <div class="row justify-content-center mr-lg-5">
+                    <div class="col-md-3 col-12  m-0 p-0">
+                        <i class="fas fa-map-marker-alt" style="color: #00c9db;"></i> <a style="color: white;">
+                            Samborondón</a>
                     </div>
-                    <div class="col-md-2 col-12 text-center  m-0 p-0">
+                    <div class="col-md-2 col-12  m-0 p-0">
                         <i class="fas fa-phone" style="color: #00c9db;"></i><a class="blue" href="#">
                             (+593)999687766</a>
                     </div>
-                    <div class="col-md-3 col-12 text-left  m-0 p-0">
+                    <div class="col-md-3 col-12   m-0 p-0">
                         <i class="fas fa-envelope" style="color: #00c9db;"></i><a class="blue" href="#">
                             info@practical.com.ec</a>
                     </div>
@@ -759,25 +715,29 @@
             <br>
             <br> <!-- end of col -->
         </div> <!-- end of row -->
+
         <div class="row mt-5">
             <div class="col-lg-6 offset-lg-3">
 
                 <!-- Contact Form -->
                 <form id="contactForm" data-toggle="validator" data-focus="false">
                     <div class="form-group">
-                        <input type="text" class="form-control-input" id="cname" required>
+                        <input [(ngModel)]="nombre" name="nombre" type="text" class="form-control-input" id="cname"
+                            required>
                         <label class="label-control" for="cname">Ingresa tu nombre</label>
-                        <div class="help-block with-errors" [(ngModel)]="nombre" name="nombre"></div>
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control-input" id="cemail" required>
+                        <input [(ngModel)]="correo" name="correo" type="email" class="form-control-input" id="cemail"
+                            required>
                         <label class="label-control" for="cemail">Ingresa tu correo</label>
-                        <div class="help-block with-errors" [(ngModel)]="correo" name="correo"></div>
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control-textarea" id="cmessage" required></textarea>
+                        <textarea [(ngModel)]="titulo" name="titulo" class="form-control-textarea" id="cmessage"
+                            required></textarea>
                         <label class="label-control" for="cmessage">Tu valioso Mensaje</label>
-                        <div class="help-block with-errors" [(ngModel)]="titulo"></div>
+                        <div class="help-block with-errors"></div>
                     </div>
 
                     <div class="form-group">
@@ -795,6 +755,13 @@
         </div> <!-- end of row -->
     </div> <!-- end of container -->
 </div> <!-- end of form -->
+<div (click)="scrollToTop(header)" class="scroll-to-top" *ngIf="pageYoffset > 0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="white" class="bi bi-chevron-up"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+            d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+    </svg>
+</div>
 <div class="copyright">
     <div class="container">
         <div class="row">
