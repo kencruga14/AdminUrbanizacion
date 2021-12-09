@@ -14,19 +14,23 @@ export class VotacionComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   encuestas: UsuarioModelo[] = [];
   id_encuesta: 0;
-  selectedFiles: FileList;
+  // selectedFiles: FileList;
   pregunta: "";
   fecha_vencimiento: "";
   edit: false;
-  encuestaSeleccionada: any;
   id: 0;
+  images = [];
   opciones: any;
   changeFoto = false;
+  previews: string[] = [];
   eta = [];
   imagenPerfila: any;
   imagenEdit = null;
   imagen = null;
-  imagenes: any;
+  imagenes: any[] = [];
+  selectedFiles?: FileList;
+  carrusels: any;
+  encuestaSeleccionada: any;
   filterName = "";
   encuesta = {
     id_encuesta: 0,
@@ -102,6 +106,16 @@ export class VotacionComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  openCarrusel(content, encuesta) {
+    let Id_Encuesta = encuesta.ID;
+    // console.log("encuesta seleccionada: ", encuesta.ID);
+    this.auth.getEncuestaById(Id_Encuesta).subscribe((resp: any) => {
+      this.carrusels = resp;
+      console.log("  this.carrusel: ", this.carrusels);
+    });
+    this.modalService.open(content);
+  }
+
   getEncuesta() {
     this.auth.getEncuesta().subscribe((resp: any) => {
       console.log(resp);
@@ -125,25 +139,36 @@ export class VotacionComponent implements OnInit {
 
   preview(event: any) {
     console.log("valor evento: ", event);
-    this.selectedFiles = event.target.files;
     // let array = event.target.files.length;
     for (let i = 0; i < event.target.files.length; i++) {
-      this.imagenes.push(event.target.files[i]);
-      // console.log("elementos: ", event.target.files[i].name);
-
-      //   const fileData = event.target.files[i];
-      // const mimeType = fileData.type;
-      // if (mimeType.match(/image\/*/) == null) {
+      const fileData = event.target.files[i];
+      const mimeType = fileData[i].type;
+      // if (mimeType[i].match(/image\/*/) == null) {
       //   return;
       // }
-      // const reader = new FileReader();
-      // reader.readAsDataURL(fileData);
-      // reader.onload = (response) => {
-      //   this.imagen = reader.result;
-      //   this.imagenPerfila = reader.result;
-      // };
+      const reader = new FileReader();
+      reader[i].readAsDataURL(fileData[i]);
+      reader.onload = (response) => {
+        this.imagenes.push(reader.result);
+        // this.imagen = ;
+        // this.imagenPerfila = reader.result;
+      };
     }
     this.changeFoto = true;
+    console.log("Array de iamgenes: ", this.imagenes);
+  }
+
+  onFileChange(e) {
+    if (e.target.files) {
+      var filesAmount = e.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]);
+        reader.onload = (events: any) => {
+          this.images.push(events.target.result);
+        };
+      }
+    }
   }
 
   anadirOpcion() {
@@ -163,21 +188,22 @@ export class VotacionComponent implements OnInit {
         opciones: this.encuesta.opciones,
       };
       JSON.stringify(body);
-      response = await this.auth.editEncuesta(this.id, body);
+      // response = await this.auth.editEncuesta(this.id, body);
     } else {
       const body = {
-        imagenes: this.imagenes,
+        imagenes: this.images,
         pregunta: this.encuesta.pregunta,
         fecha_vencimiento: this.encuesta.fecha_vencimiento,
         opciones: this.encuesta.opciones,
       };
       JSON.stringify(body);
       console.log("body crear pregunta: ", body);
-      // response = await this.auth.createEncuesta(body);
+      response = await this.auth.createEncuesta(body);
     }
     if (response) {
       this.modalService.dismissAll();
       this.getEncuesta();
+      this.images = [];
     }
   }
   delete(id: number) {
