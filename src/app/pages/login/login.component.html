@@ -58,169 +58,173 @@
         </span>
 
     </nav>
-    <div class="row">
-        <div class="col-lg-12" style="background:transparent;align-items:center">
-            <ul class="navbar-nav" style="background:none;align-items:end">
-                <div class="row">
+    <div class="container mr-lg-0">
+        <div class="row justify-content-end">
+            <div class="col-lg-12 " style="background:transparent;align-items:center">
+                <ul class="navbar-nav" style="background:none;align-items:end">
+                    <div class="row">
 
-                    <div class="col-lg-2">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <input [(ngModel)]="usuario" name="usuario"
-                                style="width:130px;height:40px;border-radius: 15px;color:black;background:rgb(255,255,255,0.4);padding-left:40px;padding-bottom:14px;"
-                                type="text" class="form-control-input" id="user" placeholder="Usuario" required>
+                        <div class="col-lg-2">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <input [(ngModel)]="usuario" name="usuario"
+                                    style="width:130px;height:40px;border-radius: 15px;
+                                        color:black;background:rgb(255,255,255,0.4);padding-left:20px;padding-bottom:14px;" type="text"
+                                    class="form-control-input" id="user" placeholder="Usuario" required>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-1">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <input [(ngModel)]="contrasena" name="contrasena"
+                                    style="width:130px;height:40px;border-radius: 15px;padding-top:15px;
+                                        background:rgb(255,255,255,0.4);color:black;line-height: 30px;padding-left:20px;padding-bottom:14px;" type="password"
+                                    class="form-control-input" id="password" placeholder="Contraseña" required>
+                                <a target="_blank">
+                                    <font (click)="capturarUsuario()" color="#000;" style="font-size:12px;color:black">
+                                        Cambiar Contraseña</font>
+                                </a>
+
+                            </div>
 
                         </div>
 
-                    </div>
-                    <div class="col-lg-1">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
+                        <div class="col-lg-3">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <button (click)="login()" style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px; 
+                                        box-shadow: 1.5px 1.5px 0px #000;" type="submit"
+                                    class="form-control-submit-button ">IR</button>
+                            </div>
+
 
                         </div>
 
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <input [(ngModel)]="contrasena" name="contrasena"
-                                style="width:130px;height:40px;border-radius: 15px;padding-top:15px;background:rgb(255,255,255,0.4);color:black;line-height: 30px;padding-left:30px;padding-bottom:14px;"
-                                type="text" class="form-control-input" id="password" placeholder="Contraseña" required>
-                            <a target="_blank">
-                                <font (click)="capturarUsuario()" color="#000;" style="font-size:12px;color:black">
-                                    Cambiar Contraseña</font>
-                            </a>
 
+                        <div class="col-lg-2">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/">
+                                    <font color="#000"> </font>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <!-- 
+                                                        <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
+                                                        -->
+                            </div>
                         </div>
 
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <button (click)="login()"
-                                style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;"
-                                type="submit" class="form-control-submit-button">IR</button>
+                        <div class="col-lg-3">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <!-- 
+                                                        <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
+                                                    -->
+                            </div>
                         </div>
 
-
-                    </div>
-
-
-                    <div class="col-lg-2">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/">
-                                <font color="#000"> </font>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <!-- 
-                                                <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
+                        <div class="col-lg-3">
+                            <div class="text-wrapper" style="text-align:-webkit-center">
+                                <!--     
+                                                        <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
                                                 -->
+                            </div>
                         </div>
                     </div>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="text-wrapper">
 
-                    <div class="col-lg-3">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <!-- 
-                                                <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
-                                            -->
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="text-wrapper" style="text-align:-webkit-center">
-                            <!--     
-                                                <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
-                                        -->
-                        </div>
-                    </div>
                 </div>
-            </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="text-wrapper">
 
             </div>
 
-        </div>
+            <div class="col-lg-6">
+                <div class="text-wrapper">
 
-        <div class="col-lg-6">
-            <div class="text-wrapper">
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-2">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-
+                </div>
 
             </div>
 
-        </div>
+            <div class="col-lg-2">
+                <div class="text-wrapper" style="text-align:-webkit-center">
 
-        <div class="col-lg-2">
-            <div class="text-wrapper" style="text-align:-webkit-center">
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-2">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+
+                </div>
+
 
             </div>
 
+            <div class="col-lg-2">
+                <div class="text-wrapper" style="text-align:-webkit-center">
 
-        </div>
-
-        <div class="col-lg-2">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-
+                </div>
             </div>
-        </div>
 
 
 
 
 
 
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
+                </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-                <!-- 
-                                                <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+                    <!-- 
+                                                        <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
+                                                        -->
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+                    <!-- 
+                                                        <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
+                                                    -->
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+                    <!--     
+                                                        <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
                                                 -->
+                </div>
             </div>
         </div>
-
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-                <!-- 
-                                                <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
-                                            -->
-            </div>
-        </div>
-
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-                <!--     
-                                                <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
-                                        -->
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <!-- Icon Cards Pane -->
+        <div class="row">
+            <!-- Icon Cards Pane -->
 
 
-        <div class="col-lg-9">
-            <div class="text-wrapper" style="text-align:-webkit-right">
+            <div class="col-lg-9">
+                <div class="text-wrapper" style="text-align:-webkit-right">
+
+                </div>
 
             </div>
 
-        </div>
 
 
 
@@ -228,32 +232,36 @@
 
 
 
+            <div class="col-lg-1" style="text-align:center;font-size: 13px;">
+                <div class="text-wrapper" style="text-align:-webkit-left;display:inline">
 
-        <div class="col-lg-1" style="text-align:center;font-size: 13px;">
-            <div class="text-wrapper" style="text-align:-webkit-left;display:inline">
 
-
+                </div>
             </div>
-        </div>
 
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-                <!-- 
-                                                <button style="margin-top:2px;width:50px;height:20%;background:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
-                                            -->
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+                    <!-- 
+                                                        <button style="margin-top:2px;width:50px;height:20%;background:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
+                                                    -->
+                </div>
             </div>
-        </div>
 
-        <div class="col-lg-3">
-            <div class="text-wrapper" style="text-align:-webkit-center">
-                <!--     
-                                                <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
-                                        -->
+            <div class="col-lg-3">
+                <div class="text-wrapper" style="text-align:-webkit-center">
+                    <!--     
+                                                        <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
+                                                -->
+                </div>
             </div>
-        </div>
 
+
+        </div>
 
     </div>
+
+
+
     <h2 style="text-shadow: 1px 1px 1px #000;margin-left:20px;size:27px;text-align:left;">
         &nbsp;&nbsp;&nbsp;Practical, tu hogar desde donde estés. </h2>
 
@@ -311,6 +319,9 @@
         </div> <!-- end of container -->
     </div> <!-- end of header-content -->
 </header> <!-- end of header -->
+
+
+
 <div id="Caracteristicas" class="tabs" style="background:rgb(255, 255, 255)">
     <div class="container">
         <div class="row">
@@ -420,72 +431,73 @@
                                     style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;"></iframe>
 
                             </div>
-                            <div class="row" style="margin-top:30px">
-                                <br>
-                                <br>
-                                <!-- end of image pane -->
-                                <!-- Icon Cards -->
-                                <div class="col-lg-4">
-                                    <div class="card right-pane">
-                                        <div class="card-body">
-                                            <div class="card-icon" style="background:#7476EC">
-                                                <font color="#2f2c3d"><i class="far fa-calendar-check"
-                                                        style="color:#FFF;"></i></font>
-                                            </div>
-                                            <div class="text-wrapper">
-                                                <h4 class="card-title">
-                                                    <font color="#000">Alícuotas</font>
-                                                </h4>
-                                                <p>
-                                                    <font color="#000">Estarás siempre informado con el estado de
-                                                        tus alícuotas.</font>
-                                                </p>
-                                            </div>
+                        </div>
+                        <div class="row" style="margin-top:30px">
+                            <br>
+                            <br>
+                            <!-- end of image pane -->
+                            <!-- Icon Cards -->
+                            <div class="col-lg-4 col-12 ">
+                                <div class="card right-pane">
+                                    <div class="card-body">
+                                        <div class="card-icon" style="background:#7476EC">
+                                            <font color="#2f2c3d"><i class="far fa-calendar-check"
+                                                    style="color:#FFF;"></i></font>
                                         </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-4">
-                                    <div class="card right-pane">
-                                        <div class="card-body">
-                                            <div class="card-icon" style="background:#7476EC">
-                                                <i class="far fa-bookmark" style="color:#FFF;"></i>
-                                            </div>
-                                            <div class="text-wrapper">
-                                                <h4 class="card-title">
-                                                    <font color="#000">911</font>
-                                                </h4>
-                                                <p>
-                                                    <font color="#000">Comunicación directa con números de
-                                                        emergencia.</font>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-4">
-                                    <div class="card right-pane">
-                                        <div class="card-body">
-                                            <div class="card-icon" style="background:#7476EC">
-                                                <i class="fas fa-cube" style="color:#FFF;"></i>
-                                            </div>
-                                            <div class="text-wrapper">
-                                                <h4 class="card-title">
-                                                    <font color="#000">Emprendimientos</font>
-                                                </h4>
-                                                <p>
-                                                    <font color="#000">Da a conocer tu negocio a los demás
-                                                        residentes.</font>
-                                                </p>
-                                            </div>
+                                        <div class="text-wrapper">
+                                            <h4 class="card-title">
+                                                <font color="#000">Alícuotas</font>
+                                            </h4>
+                                            <p>
+                                                <font color="#000">Estarás siempre informado con el estado de
+                                                    tus alícuotas.</font>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- end of row -->
+
+
+                            <div class="col-lg-4 col-12">
+                                <div class="card right-pane">
+                                    <div class="card-body">
+                                        <div class="card-icon" style="background:#7476EC">
+                                            <i class="far fa-bookmark" style="color:#FFF;"></i>
+                                        </div>
+                                        <div class="text-wrapper">
+                                            <h4 class="card-title">
+                                                <font color="#000">911</font>
+                                            </h4>
+                                            <p>
+                                                <font color="#000">Comunicación directa con números de
+                                                    emergencia.</font>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-4 col-12">
+                                <div class="card right-pane">
+                                    <div class="card-body">
+                                        <div class="card-icon" style="background:#7476EC">
+                                            <i class="fas fa-cube" style="color:#FFF;"></i>
+                                        </div>
+                                        <div class="text-wrapper">
+                                            <h4 class="card-title">
+                                                <font color="#000">Emprendimientos</font>
+                                            </h4>
+                                            <p>
+                                                <font color="#000">Da a conocer tu negocio a los demás
+                                                    residentes.</font>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of row -->
                     </div> <!-- end of container -->
                 </div> <!-- end of tab-pane -->
                 <!-- end of tab -->
@@ -543,7 +555,28 @@
                 <br>
 
                 <br>
-                <carousel>
+                <carousel cellsToShow=5 arrowsOutside=true class="esWeb" height="500">
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
+                        <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="">
+
+                    </div>
+                    <div class="carousel-cell">
+
+                        <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
+
+                        <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="">
+                    </div>
+                    <div class="carousel-cell">
+
+                        <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="">
+                    </div>
+                </carousel>
+                <carousel class="esMovil" cellsToShow=1 height="500">
                     <div class="carousel-cell">
                         <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
                     </div>
@@ -766,10 +799,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p class="p-large">Todos los derechos reservados © 2021 - Practical. Desarrollado por <a target="_blank"
-                        href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/">
-                        <font color="#00c3ff">Agencia SEO Barcelona</font>
-                    </a> </p>
+                <p class="p-large">Todos los derechos reservados © 2021 - Practical. </p>
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
     </div> <!-- end of container -->
