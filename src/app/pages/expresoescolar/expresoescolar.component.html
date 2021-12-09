@@ -16,10 +16,11 @@
                             <th>No</th>
                             <th>Imagen</th>
                             <th>Razón social</th>
-                            <th>Documento</th>
+                            <th>Ruc</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
-                            <th>Vehículo</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
                             <th>Placa</th>
                             <th>Año</th>
                             <th>Conductor</th>
@@ -28,29 +29,33 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
-                        <!-- <tr *ngFor="let exp of expresos; let i=index "> -->
-                        <tr>
-                            <!-- <th scope="row ">{{i+1}}</th> -->
-                            <th>1</th>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
-                            <td>---</td>
+                        <tr *ngFor="let exp of expresos; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td>
+                                <figure>
+                                    <img class="avatar" [src]="exp.imagen" alt="image" data-holder-rendered="true"
+                                        data-target=".bd-example-modal-lg" (click)="openImage(contentImage, exp)" />
+                                </figure>
+                            </td>
+                            <td>{{exp.razon_social}}</td>
+                            <td>{{exp.ruc}}</td>
+                            <td>{{exp.correo}}</td>
+                            <td>{{exp.telefono}}</td>
+                            <td>{{exp.marca}}</td>
+                            <td>{{exp.modelo}}</td>
+                            <td>{{exp.placa}}</td>
+                            <td>{{exp.ano}}</td>
+                            <td>{{exp.conductor}}</td>
+                            <td>{{exp.cedula}}</td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
-                                    (click)="openExpreso(contentExpreso, expreso)"> <i
+                                    (click)="openExpreso(contentExpreso, exp)"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(expreso.ID)"> <i
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(exp.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
                         </tr>
-                        <!-- <tr *ngIf="(expresos).length === 0">
+                        <!-- <tr *ngIf="expresos.length < 1">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
                         </tr> -->
@@ -71,6 +76,8 @@
         </div>
         <form (ngSubmit)="gestionExpreso()" #form="ngForm">
             <div class="modal-body">
+                <!--Campo imagen-->
+
                 <div class="form-group" *ngIf="imagenEdit">
                     <div class="image-preview mb-3" *ngIf="imagenEdit">
                         <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
@@ -84,8 +91,8 @@
                 </div>
 
                 <div class="form-group" *ngIf="!imagenEdit">
-                    <div class="image-preview mb-3" *ngIf="imagenPerfila">
-                        <img class="img-fluid" [src]="imagenPerfila" height="500" width="100" />
+                    <div class="image-preview mb-3" *ngIf="imagen">
+                        <img class="img-fluid" [src]="imagen" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen de Expreso</label>
                     <input type="file" name="image" (change)="preview($event)" accept="image/*" />
@@ -94,54 +101,58 @@
                         359 x 316.
                     </small>
                 </div>
-
-
+                <!--Campo Razon social-->
                 <div class="form-group">
                     <input [value]="razon_social" [(ngModel)]="razon_social" name="razon_social" class="form-control"
                         type="text" required placeholder="Razón social">
                 </div>
-
+                <!--Campo Documento-->
                 <div class="form-group">
                     <input [value]="documento" [(ngModel)]="documento" name="documento" class="form-control" type="text"
-                        required placeholder="Documento">
+                        required placeholder="Ruc">
                 </div>
-
+                <!--Campo Correo-->
                 <div class="form-group">
                     <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required
                         placeholder="Correo">
                 </div>
-
+                <!--Campo Telefono-->
                 <div class="form-group">
                     <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text"
                         required placeholder="Teléfono">
                 </div>
-
+                <!--Campo Telefono-->
                 <div class="form-group">
-                    <input [value]="vehiculo" [(ngModel)]="vehiculo" name="vehiculo" class="form-control" type="text"
-                        required placeholder="Vehículo">
+                    <input [value]="marca" [(ngModel)]="marca" name="marca" class="form-control" type="text" required
+                        placeholder="Marca">
                 </div>
-
+                <!--Campo Modelo-->
+                <div class="form-group">
+                    <input [value]="modelo" [(ngModel)]="modelo" name="modelo" class="form-control" type="text"
+                        required placeholder="Modelo">
+                </div>
+                <!--Campo Placa-->
                 <div class="form-group">
                     <input [value]="placa" [(ngModel)]="placa" name="placa" class="form-control" type="text" required
                         placeholder="Placa">
                 </div>
-
+                <!--Campo Año-->
                 <div class="form-group">
-                    <input [value]="year" [(ngModel)]="year" name="year" class="form-control" type="text" required
+                    <input [value]="ano" [(ngModel)]="ano" name="ano" class="form-control" type="text" required
                         placeholder="Año">
                 </div>
-
+                <!--Campo Conductor-->
                 <div class="form-group">
                     <input [value]="conductor" [(ngModel)]="conductor" name="conductor" class="form-control" type="text"
                         required placeholder="Conductor">
                 </div>
-
+                <!--Campo Cedula-->
                 <div class="form-group">
                     <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text" required
                         placeholder="Cédula">
                 </div>
-
             </div>
+            <!--Footer del Modal Botón  Guardar/Editar-->
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!expreso.edit">Guardar</span>
@@ -152,5 +163,18 @@
         </form>
     </ng-template>
 
-
+    <!--Template modal ver imagen -->
+    <ng-template #contentImage let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Imagen de expreso</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="imagenPerfil">
+            <figure class="box">
+                <img [src]="imagenPerfil.imagen" alt="image" />
+            </figure>
+        </div>
+    </ng-template>
 </div>

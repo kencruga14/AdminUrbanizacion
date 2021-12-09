@@ -43,11 +43,11 @@
 
                             </td>
                         </tr>
-                        <tr *ngIf="(areas).length === 0">
+                        <!-- <tr *ngIf="(areas).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
 
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -77,29 +77,29 @@
                 <div class="form-group" *ngIf="imagenEdit">
                     <!-- editar imagen -->
                     <div class="image-preview mb-3" *ngIf="imagenEdit">
-                      <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
+                        <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
-                      El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
-                      359 x 316.
+                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                        359 x 316.
                     </small>
-                  </div>
-        
-                  <div class="form-group" *ngIf="!imagenEdit">
+                </div>
+
+                <div class="form-group" *ngIf="!imagenEdit">
                     <!-- ImagenCrear -->
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                      <img class="img-fluid" [src]="imagenPerfil" height="500" width="100" />
+                        <img class="img-fluid" [src]="imagenPerfil" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
                     <input type="file" name="image" (change)="preview($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
-                      El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
-                      359 x 316.
+                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                        359 x 316.
                     </small>
-                  </div>
-        
+                </div>
+
 
 
                 <div class="form-group">
@@ -120,7 +120,17 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>-------------------</label>
+                    <label>Tiempo de Reserva</label>
+                    <select name="tiempo_reservacion_minutos" [(ngModel)]="tiempo_reservacion_minutos"
+                        class="form-control custom-select">
+                        <option value="30">30 Minutos</option>
+                        <option value="60">60 Minutos</option>
+                        <option value="90">90 Minutos</option>
+                        <option value="120">120 Minutos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Costo</label>
                     <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
                         <option value="GRATIS">Gratis</option>
                         <option value="PAGADO">Pagado</option>

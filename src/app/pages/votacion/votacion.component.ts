@@ -14,6 +14,7 @@ export class VotacionComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   encuestas: UsuarioModelo[] = [];
   id_encuesta: 0;
+  selectedFiles: FileList;
   pregunta: "";
   fecha_vencimiento: "";
   edit: false;
@@ -25,7 +26,7 @@ export class VotacionComponent implements OnInit {
   imagenPerfila: any;
   imagenEdit = null;
   imagen = null;
-
+  imagenes: any;
   filterName = "";
   encuesta = {
     id_encuesta: 0,
@@ -33,6 +34,7 @@ export class VotacionComponent implements OnInit {
     fecha_vencimiento: "",
     edit: false,
     opciones: [{ opcion: "" }],
+    imagenes: [],
   };
   acceso = {
     accesos: "",
@@ -57,13 +59,13 @@ export class VotacionComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  anadirOpcion() {
-    if (this.encuesta.opciones.length < 4) {
-      let opciones = [...this.encuesta.opciones];
-      opciones.push({ opcion: "" });
-      this.encuesta.opciones = opciones;
-    }
-  }
+  // anadirOpcion() {
+  //   if (this.encuesta.opciones.length < 4) {
+  //     let opciones = [...this.encuesta.opciones];
+  //     opciones.push({ opcion: "" });
+  //     this.encuesta.opciones = opciones;
+  //   }
+  // }
 
   openEncuesta(content, encuesta = null) {
     console.log("pregunta: ", encuesta);
@@ -122,20 +124,35 @@ export class VotacionComponent implements OnInit {
   }
 
   preview(event: any) {
-    const fileData = event.target.files[0];
-    const mimeType = fileData.type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
+    console.log("valor evento: ", event);
+    this.selectedFiles = event.target.files;
+    // let array = event.target.files.length;
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.imagenes.push(event.target.files[i]);
+      // console.log("elementos: ", event.target.files[i].name);
+
+      //   const fileData = event.target.files[i];
+      // const mimeType = fileData.type;
+      // if (mimeType.match(/image\/*/) == null) {
+      //   return;
+      // }
+      // const reader = new FileReader();
+      // reader.readAsDataURL(fileData);
+      // reader.onload = (response) => {
+      //   this.imagen = reader.result;
+      //   this.imagenPerfila = reader.result;
+      // };
     }
-    const reader = new FileReader();
-    reader.readAsDataURL(fileData);
-    reader.onload = (response) => {
-      this.imagen = reader.result;
-      this.imagenPerfila = reader.result;
-    };
     this.changeFoto = true;
   }
 
+  anadirOpcion() {
+    if (this.encuesta.opciones.length < 4) {
+      let opciones = [...this.encuesta.opciones];
+      opciones.push({ opcion: "" });
+      this.encuesta.opciones = opciones;
+    }
+  }
   async gestionEncuesta() {
     let response: any;
     if (this.encuesta.edit) {
@@ -149,14 +166,14 @@ export class VotacionComponent implements OnInit {
       response = await this.auth.editEncuesta(this.id, body);
     } else {
       const body = {
-        imagen: this.imagen,
+        imagenes: this.imagenes,
         pregunta: this.encuesta.pregunta,
         fecha_vencimiento: this.encuesta.fecha_vencimiento,
         opciones: this.encuesta.opciones,
       };
       JSON.stringify(body);
-      console.log("body crear pregunta: ", body)
-      response = await this.auth.createEncuesta(body);
+      console.log("body crear pregunta: ", body);
+      // response = await this.auth.createEncuesta(body);
     }
     if (response) {
       this.modalService.dismissAll();

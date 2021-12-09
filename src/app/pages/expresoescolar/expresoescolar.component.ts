@@ -19,15 +19,18 @@ export class ExpresoescolarComponent implements OnInit {
   razon_social: string;
   documento: string;
   correo: string;
+  imagenPerfil: any;
   changeFoto = false;
   telefono: any;
   vehiculo: string;
   placa: string;
-  year: string;
+  ano: string;
   conductor: string;
+  modelo: string;
   imagenEdit = null;
   imagenPerfila = null;
   cedula: string;
+  marca: string;
   filterName = "";
   acceso = {
     accesos: "",
@@ -42,9 +45,10 @@ export class ExpresoescolarComponent implements OnInit {
     telefono: "",
     vehiculo: "",
     placa: "",
-    year: "",
+    ano: "",
     conductor: "",
     cedula: "",
+    marca: "",
     edit: false,
   };
   constructor(
@@ -53,7 +57,9 @@ export class ExpresoescolarComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getExpresos();
+  }
 
   preview(event: any) {
     const fileData = event.target.files[0];
@@ -67,6 +73,17 @@ export class ExpresoescolarComponent implements OnInit {
       this.imagen = reader.result;
     };
     this.changeFoto = true;
+  }
+
+  getExpresos() {
+    this.auth.getExpresos().subscribe((resp: any) => {
+      console.log(resp);
+      this.expresos = resp;
+    });
+  }
+  openImage(content, admin) {
+    this.imagenPerfil = admin;
+    this.modalService.open(content);
   }
 
   saveEditPicture(event: any) {
@@ -90,20 +107,23 @@ export class ExpresoescolarComponent implements OnInit {
   }
 
   openExpreso(content, expreso = null) {
+    console.log("expreso seleccionado: ", expreso);
     if (expreso) {
       this.id_expreso = expreso.ID;
       // this.id = casa.ID;
       this.imagenEdit = expreso.imagen;
       (this.razon_social = expreso.razon_social),
-        (this.documento = expreso.documento);
+        (this.documento = expreso.ruc);
       this.correo = expreso.correo;
       this.telefono = expreso.telefono;
       this.vehiculo = expreso.vehiculo;
       this.placa = expreso.placa;
-      this.year = expreso.year;
+      this.ano = expreso.ano;
       this.conductor = expreso.conductor;
       this.cedula = expreso.cedula;
       this.expreso.edit = true;
+      this.marca = expreso.marca;
+      this.modelo = expreso.modelo;
     } else {
       this.id_expreso = 0;
       this.imagen = null;
@@ -114,9 +134,10 @@ export class ExpresoescolarComponent implements OnInit {
       this.telefono = "";
       this.vehiculo = "";
       this.placa = "";
-      this.year = "";
+      this.ano = "";
       this.conductor = "";
       this.cedula = "";
+      this.marca = "";
     }
     this.modalService.open(content);
   }
@@ -124,41 +145,52 @@ export class ExpresoescolarComponent implements OnInit {
   async gestionExpreso() {
     let response: any;
     if (this.expreso.edit) {
+      if (this.imagenEdit.includes("https")) {
+        // console.log("incluye htpps");
+        this.imagenEdit = ""
+      } 
       const body = {
-        imagen: this.imagenEdit,
+        conductor: this.conductor,
         razon_social: this.razon_social,
-        documento: this.documento,
+        cedula: this.cedula,
+        imagen: this.imagenEdit,
         correo: this.correo,
         telefono: this.telefono,
-        vehiculo: this.vehiculo,
+        ano: this.ano,
         placa: this.placa,
-        year: this.year,
-        conductor: this.conductor,
-        cedula: this.cedula,
+        marca: this.marca,
+        modelo: this.modelo,
+        ruc: this.documento,
+        tipo_usuario: "EXPRESO",
       };
       JSON.stringify(body);
       console.log("cuerpo editar expreso: ", body);
-      // response = await this.auth.editCasa(this.id, body);
+      response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
       const body = {
-        imagen: this.imagen,
+        conductor: this.conductor,
         razon_social: this.razon_social,
-        documento: this.documento,
+        cedula: this.cedula,
+        imagen: this.imagen,
         correo: this.correo,
         telefono: this.telefono,
-        vehiculo: this.vehiculo,
+        ano: this.ano,
         placa: this.placa,
-        year: this.year,
-        conductor: this.conductor,
-        cedula: this.cedula,
+        marca: this.marca,
+        modelo: this.vehiculo,
+        ruc: this.documento,
+        tipo_usuario: "EXPRESO",
       };
       JSON.stringify(body);
       console.log("cuerpo crear expreso: ", body);
-      // response = await this.auth.createCasa(body);
+      response = await this.auth.createExpreso(body);
     }
     if (response) {
       this.modalService.dismissAll();
-      // this.getCasa();
+      this.getExpresos();
+      this.imagenEdit = null;
+      this.imagenPerfila = null;
+      this.imagen = null;
     }
   }
   delete(id: number) {
@@ -179,9 +211,9 @@ export class ExpresoescolarComponent implements OnInit {
   }
 
   async deleteExpreso(id: number) {
-    const response = await this.auth.deleteCasa(id);
+    const response = await this.auth.deleteExpreso(id);
     if (response) {
-      // this.getCasa();
+      this.getExpresos();
     }
   }
 }

@@ -7,6 +7,7 @@ export class UsuarioModelo {
   apellido: string;
   manzana: any;
   villa: any;
+  imagen: any;
   familia: string;
   celular: string;
   valor_alicuotas: any;

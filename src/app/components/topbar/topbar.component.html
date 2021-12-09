@@ -57,9 +57,9 @@
                     <div class="dropdown-menu dropdown-menu-right scale-up">
                         <ul class="dropdown-user">
                             <li>
-                                <div class="dw-user-box">
-                                    <div class="u-img"><img src="../assets/images/Logo-60.png" alt="user"></div>
-                                    <div class="u-text" *ngFor="let m of masters">
+                                <div class="dw-user-box"  *ngFor="let m of masters">
+                                    <div class="u-img"><img [src]="m.imagen" alt="user"></div>
+                                    <div class="u-text">
                                         <h4>{{m.usuario}}</h4>
                                         <p class="text-muted">{{m.correo}}</p>
                                         <p class="text-muted">{{m.telefono}}</p>

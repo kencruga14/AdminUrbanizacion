@@ -5,6 +5,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgPipesModule } from "ng-pipes";
+import { MatFormFieldModule } from "@angular/material/form-field";
+
 import { MomentModule } from "ngx-moment";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { ColorPickerModule } from "ngx-color-picker";
@@ -45,13 +47,17 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AccordionModule } from "primeng/accordion";
 import { MenuItem } from "primeng/api";
 import { MatSelectModule } from "@angular/material/select";
-import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderModule } from "@angular/material/slider";
 
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 import { ListboxModule } from 'primeng/listbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { IvyCarouselModule } from "angular-responsive-carousel";
 
+import { TreeTableModule } from "primeng/treetable";
+import { TreeModule } from "primeng/tree";
+import { TreeNode } from "primeng/api";
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -97,10 +103,13 @@ import { IvyCarouselModule } from "angular-responsive-carousel";
     NgxChartsModule,
     ColorPickerModule,
     AccordionModule,
-    MatSelectModule,
-    MatSliderModule,
+    // MatSelectModule,
+    // MatSliderModule,
     ListboxModule,
     MultiSelectModule,
+    TreeTableModule,
+    TreeModule,
+    MatTreeModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
