@@ -9,6 +9,41 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
   selector: "app-votacion",
   templateUrl: "./votacion.component.html",
   styleUrls: ["./votacion.component.css"],
+  styles: [`
+  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-details > .p-grid {
+      border: 1px solid #b3c2ca;
+      border-radius: 3px;
+      margin: 0.3em;
+      text-align: center;
+      padding: 2em 0 2.25em 0;
+  }
+  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data .car-title {
+      font-weight: 700;
+      font-size: 20px;
+      margin-top: 24px;
+  }
+  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data .car-subtitle {
+      margin: 0.25em 0 2em 0;
+  }
+  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data button {
+      margin-left: 0.5em;
+  }
+  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data button:first-child {
+      margin-left: 0;
+  }
+  .carousel-demo .ui-carousel.custom-carousel .ui-carousel-dot-icon {
+      width: 16px !important;
+      height: 16px !important;
+      border-radius: 50%;
+  }
+  .carousel-demo .ui-carousel.ui-carousel-horizontal .ui-carousel-content .ui-carousel-item.ui-carousel-item-start .car-details > .p-grid {
+      margin-left: 0.6em;
+  }
+  .carousel-demo .ui-carousel.ui-carousel-horizontal .ui-carousel-content .ui-carousel-item.ui-carousel-item-end .car-details > .p-grid {
+      margin-right: 0.6em;
+  }
+`],
+// encapsulation: ViewEncapsulation.None
 })
 export class VotacionComponent implements OnInit {
   casas: UsuarioModelo[] = [];
@@ -19,6 +54,7 @@ export class VotacionComponent implements OnInit {
   fecha_vencimiento: "";
   edit: false;
   id: 0;
+  responsiveOptions;
   images = [];
   opciones: any;
   changeFoto = false;
@@ -49,7 +85,25 @@ export class VotacionComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) {
+    this.responsiveOptions = [
+      {
+        breakpoint: "1024px",
+        numVisible: 3,
+        numScroll: 3,
+      },
+      {
+        breakpoint: "768px",
+        numVisible: 2,
+        numScroll: 2,
+      },
+      {
+        breakpoint: "560px",
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
+  }
 
   ngOnInit() {
     this.getEncuesta();
@@ -110,7 +164,7 @@ export class VotacionComponent implements OnInit {
     let Id_Encuesta = encuesta.ID;
     // console.log("encuesta seleccionada: ", encuesta.ID);
     this.auth.getEncuestaById(Id_Encuesta).subscribe((resp: any) => {
-      this.carrusels = resp;
+      this.carrusels = resp["imagenes"];
       console.log("  this.carrusel: ", this.carrusels);
     });
     this.modalService.open(content);
@@ -158,18 +212,34 @@ export class VotacionComponent implements OnInit {
     console.log("Array de iamgenes: ", this.imagenes);
   }
 
-  onFileChange(e) {
-    if (e.target.files) {
-      var filesAmount = e.target.files.length;
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
         var reader = new FileReader();
-        reader.readAsDataURL(e.target.files[i]);
-        reader.onload = (events: any) => {
-          this.images.push(events.target.result);
+        reader.onload = (event: any) => {
+          console.log("result: ", event.target.result);
+          this.images.push(event.target.result);
         };
+
+        reader.readAsDataURL(event.target.files[i]);
       }
     }
+    console.log("images: ", this.images);
   }
+
+  // onFileChange(e) {
+  //   if (e.target.files) {
+  //     var filesAmount = e.target.files.length;
+  //     for (let i = 0; i < filesAmount; i++) {
+  //       var reader = new FileReader();
+  //       reader.readAsDataURL(e.target.files[i]);
+  //       reader.onload = (events: any) => {
+  //         this.images.push(events.target.result);
+  //       };
+  //     }
+  //   }
+  // }
 
   anadirOpcion() {
     if (this.encuesta.opciones.length < 4) {
@@ -178,6 +248,7 @@ export class VotacionComponent implements OnInit {
       this.encuesta.opciones = opciones;
     }
   }
+
   async gestionEncuesta() {
     let response: any;
     if (this.encuesta.edit) {

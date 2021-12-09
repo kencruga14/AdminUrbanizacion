@@ -50,14 +50,20 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
 
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
-import { ListboxModule } from 'primeng/listbox';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { ListboxModule } from "primeng/listbox";
+import { MultiSelectModule } from "primeng/multiselect";
 import { IvyCarouselModule } from "angular-responsive-carousel";
 
 import { TreeTableModule } from "primeng/treetable";
 import { TreeModule } from "primeng/tree";
 import { TreeNode } from "primeng/api";
-import { MatTreeModule } from '@angular/material/tree';
+import { MatTreeModule } from "@angular/material/tree";
+import { CarouselModule } from "primeng/carousel";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MenuModule } from "primeng/menu";
+import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
+import { ContextMenuModule } from "primeng/contextmenu";
+import {TabMenuModule} from 'primeng/tabmenu';
 
 @NgModule({
   declarations: [
@@ -109,9 +115,14 @@ import { MatTreeModule } from '@angular/material/tree';
     MultiSelectModule,
     TreeTableModule,
     TreeModule,
-    MatTreeModule
+    MatTreeModule,
+    CarouselModule,
+    MatTabsModule,
+    MenuModule,
+    ContextMenuModule,
+    TabMenuModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
