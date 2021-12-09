@@ -18,7 +18,7 @@ import { alicuota } from "../../models/alicuota";
 import * as moment from "moment";
 import { Console } from "console";
 import { ThrowStmt } from "@angular/compiler";
-// const porFecha: [];
+
 @Component({
   selector: "app-alicuota",
   templateUrl: "./alicuota.component.html",
@@ -72,6 +72,7 @@ export class AlicuotaComponent implements OnInit {
   estado: string;
   existente: any;
   titulomes: string;
+  valores: any;
   mes: any;
   estadoalicuota: string;
   filterName = "";
@@ -131,6 +132,54 @@ export class AlicuotaComponent implements OnInit {
     });
   }
 
+  clasificarAlicuotas(alicuotas) {
+    const comunes = _.filter(alicuotas, { tipo: "COMUN" });
+    const saldo = _.orderBy(
+      _.filter(alicuotas, { tipo: "SALDO" }),
+      // ["CreatedAt", "casa.manzana", "casa,villa"],
+      // ["desc", "asc", "asc"]
+      ["casa.manzana", "casa,villa"],
+      ["asc", "asc"]
+    );
+    const extraordinaria = _.orderBy(
+      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
+      // ["CreatedAt", "casa.manzana", "casa,villa"],
+      // ["desc", "asc", "asc"]
+      ["casa.manzana", "casa,villa"],
+      ["asc", "asc"]
+    );
+
+    const porFecha = _.chain(
+      _.groupBy(comunes, (ali) => moment(ali.fecha_pago).format("MMMM YYYY"))
+    )
+      .toPairs()
+      .forEach((ali) => {
+        ali[1] = _.orderBy(
+          ali[1],
+          ["casa.manzana", "casa,villa"],
+          ["asc", "asc"]
+          // ["CreatedAt", "casa.manzana", "casa,villa"],
+          // ["desc", "asc", "asc"]
+        );
+      })
+      .fromPairs()
+      .value();
+
+    this.fechaArray = _.assignIn(porFecha, {
+      SALDO: saldo,
+      EXTRAORDINARIA: extraordinaria,
+    });
+    let as = _.groupBy(extraordinaria, (ali) =>
+      moment(ali.fecha_pago).format("MMMM YYYY")
+    );
+    this.extraordinariaAnterior = Object.entries(as).sort();
+    this.fechaArray = porFecha;
+    this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
+    this.existente.shift();
+    this.existente.shift();
+    console.log("fechaArray: ", this.fechaArray);
+  }
+
   addGroup() {
     const val = this.fb.group({
       valor: ["", Validators.required],
@@ -176,19 +225,13 @@ export class AlicuotaComponent implements OnInit {
       ["Created_at", "casa.Manzana", "casa.Villa"],
       ["desc", "asc", "asc"]
     );
-    let as = _.groupBy(extraordinaria, (ali) =>
-      moment(ali.fecha_pago).format("MMMM YYYY")
-    );
+
     // console.log("final extra anterior: ", this.extraordinariaAnterior);
     // console.log(
     //   "extraodrinario anterior: ",
     //   Object.entries(this.extraordinariaAnterior).sort()
     // );
-    this.extraordinariaAnterior = Object.entries(as).sort();
-    this.fechaArray = porFecha;
-    this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
-    this.existente.shift();
-    this.existente.shift();
+
     console.log("existente: ", this.existente);
   }
 
@@ -202,6 +245,20 @@ export class AlicuotaComponent implements OnInit {
   // NUEVA
   async Nueva() {
     let response: any;
+    let fechavalidacion = this.year_seleccionado
+      .concat("/")
+      .concat(this.mes_seleccionado)
+      .concat("/")
+      .concat("1");
+      console.log("fechavalidacion: ", fechavalidacion )
+
+      console.log("alicuotas: ", this.alicuotas )
+    for (let i = 0; i < this.alicuotas.length; i++) {
+      // console.log("areglo validacion: ", this.alicuotas[i].[fecha_pago]);
+      if (this.alicuotas[this.fecha_pago].includes(fechavalidacion)){
+        alert("mes ya se encuentra regisrasdo")
+      }
+    }
     for (let i = 0; i < this.casas.length; i++) {
       this.alicuotaM.push({
         valor: this.valor,
@@ -218,7 +275,7 @@ export class AlicuotaComponent implements OnInit {
       ).format();
     }
     // console.log("array comun nueva: ", this.alicuotaM);
-    response = await this.auth.createAlicuota(this.alicuotaM);
+    // response = await this.auth.createAlicuota(this.alicuotaM);
     if (response) {
       this.resetsForm();
       this.removeGroup(this.nregistros);
@@ -358,9 +415,12 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getAlicuota() {
+    console.log("get alicuota");
     this.auth.getAlicuota().subscribe((resp: any) => {
       this.alicuotas = resp;
-      this.getFiltros(this.alicuotas);
+      this.clasificarAlicuotas(resp);
+      // this.valores = clasificarAlicuotas;
+      // console.log("valores: ", this.valores);
     });
   }
 

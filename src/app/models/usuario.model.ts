@@ -31,6 +31,7 @@ export class UsuarioModelo {
   hora_apertura: string;
   hora_cierre: string;
   precio: any;
+  fecha_pago: any;
   pregunta: string;
   fecha_vencimiento: any;
   opciones: [];
