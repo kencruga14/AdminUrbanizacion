@@ -10,13 +10,14 @@ import Swal from "sweetalert2";
   styleUrls: ["./areasocial.component.css"],
 })
 export class AreasocialComponent implements OnInit {
-  areas: UsuarioModelo[] = [];
+  areas: any;
 
   id_area: 0;
   nombre: "";
   edit: false;
   imagen = null;
   id: 0;
+  tiempo_reservacion_minutos: string;
   seleccionCosto: string;
   changeFoto = false;
   hora_apertura: "";
@@ -82,6 +83,7 @@ export class AreasocialComponent implements OnInit {
     hora_apertura: "",
     hora_cierre: "",
     precio: "",
+    tiempo_reservacion_minutos: "",
     edit: false,
     imagen: null,
     opciones: [{ opcion: "" }],
@@ -146,12 +148,14 @@ export class AreasocialComponent implements OnInit {
       this.imagenEdit = area.imagen;
       this.area = area;
       this.area.edit = true;
+      // this.tiempo_reservacion_minutos =
     } else {
       this.id_area = 0;
       this.nombre = "";
       this.hora_apertura = "";
       this.hora_cierre = "";
       this.precio = "";
+      this.tiempo_reservacion_minutos = "";
     }
     this.modalService.open(content);
   }
@@ -181,6 +185,7 @@ export class AreasocialComponent implements OnInit {
         hora_cierre: this.hora_cierre,
         precio: parseInt(this.precio),
         imagen: this.imagen,
+        tiempo_reservacion_minutos: this.tiempo_reservacion_minutos
       };
       console.log("body crear: ", body);
       response = await this.auth.createAreaSocial(body);

@@ -19,7 +19,7 @@ masters: UsuarioModelo[] =[];
   ngOnInit() {
     const infomaster = localStorage.getItem("info");
     this.masters = [JSON.parse(infomaster)];
-    // console.log("usuario nabvar: ", this.masters)
+    console.log("usuario nabvar: ", this.masters)
 
   }
 
