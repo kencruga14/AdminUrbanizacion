@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import { map } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
+
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -28,7 +30,7 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getDataUrb();
@@ -77,10 +79,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
+  login() {
+
     const body = {
       usuario: this.usuario,
       contrasena: this.contrasena,
