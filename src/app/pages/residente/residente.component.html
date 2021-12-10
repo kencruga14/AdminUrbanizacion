@@ -25,6 +25,8 @@
                             <th>Celular</th>
                             <th>Convencional </th>
                             <th>Votación</th>
+                            <th>Fecha de nacimiento</th>
+                            <th>Pdf</th>
                             <th>Autorizaciones</th>
                             <!-- <th>Fijo</th> -->
                             <th>Acciones</th>
@@ -50,6 +52,8 @@
                             <td>{{et.usuario.telefono}}</td>
                             <td *ngIf="et.is_principal == true">Si</td>
                             <td *ngIf="et.is_principal == false">No</td>
+                            <td>14-03-1994</td>
+                            <td>pdf</td>
                             <td *ngIf="et.autorizacion == true">Si</td>
                             <td *ngIf="et.autorizacion == false">No</td> <!-- <td></td> -->
                             <td>
@@ -105,7 +109,11 @@
                         359 x 316.
                     </small>
                 </div> -->
-
+                <div class="form-group">
+                    <label>Pdf</label>
+                    <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" type="file" accept="application/pdf"
+                        required>
+                </div>
                 <div class="form-group">
                     <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
                         required placeholder="Nombre">
@@ -164,6 +172,12 @@
                         <option [ngValue]="true">Si</option>
                         <option [ngValue]="false">No</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de nacimiento</label>
+                    <input [value]="fechanacimiento" [(ngModel)]="fechanacimiento" name="fechanacimiento" class="form-control" type="date"
+                        required>
                 </div>
                 <!-- <div class="form-group">
                     <label>Autorización Fija</label>

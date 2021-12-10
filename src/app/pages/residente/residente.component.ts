@@ -21,6 +21,8 @@ export class ResidenteComponent implements OnInit {
   casasselector: [];
   edit: false;
   telefono: "";
+  pdf: any;
+  fechanacimiento: any;
   imagen = null;
   id: 0;
   imagenPerfila: any;

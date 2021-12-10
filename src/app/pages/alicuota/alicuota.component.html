@@ -3,7 +3,10 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Lista de Alicuotas</h4>
-            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br>
+            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button>
+            <!-- <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br> -->
+            <button style="float:right" class="btn btn-dark separador"
+                (click)="openAlicuota(contentAlicuota)">Reportes</button>
             <br>
             <div class="form-row align-items-center">
                 <!-----filtro manzana-->
@@ -104,7 +107,7 @@
                                 <th>Año</th>
                                 <th>Valor</th>
                                 <th>Estado</th>
-                                <th>Botón de pago</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody style="text-align: center;">
@@ -134,9 +137,11 @@
                                     </div>
                                 </td>
                                 <td *ngIf="ali.estado ==='PENDIENTE'">
-                                    <a data-toggle="tooltip" data-original-title="Pagar"
+                                    <button type="button" (click)="openModalAlicuota(openMAlicuota, ali)"
+                                        class="btn btn-success">Pagar</button>
+                                    <!-- <a data-toggle="tooltip" data-original-title="Pagar"
                                         (click)="openModalAlicuota(openMAlicuota, ali)"> <i
-                                            class="fas fa-money-bill-wave text-inverse m-r-10"></i> </a>
+                                            class="fas fa-money-bill-wave text-inverse m-r-10"></i> </a> -->
                                 </td>
                             </tr>
 
@@ -408,39 +413,39 @@
             </ng-template>
 
             <ng-template #openMAlicuota let-modal>
-                pagar alicuota
                 <form>
                     <div class="modal-body">
                         <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Pagar alícuota</label>
+                            </div>
                             <div class="form-group col-md-4">
-                                <label>Mes</label>
+                                <label>Mes:</label>
                                 <input [ngModel]="fecha_pago | date: 'MMMM' | titlecase" name="mes" class="form-control"
                                     type="text" readonly>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Año</label>
+                                <label>Año:</label>
                                 <input [ngModel]="fecha_pago | date: 'yyyy' | titlecase" name="ano" class="form-control"
                                     type="text" readonly>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Valor</label>
+                                <label>Valor:</label>
                                 <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number"
                                     readonly>
                             </div>
-                            <div class="form-group col-md-12">
+                            <!-- <div class="form-group col-md-12">
                                 <label>Estado</label>
                                 <select name="etadoP" [(ngModel)]="estadoalicuota" class="form-control custom-select">
                                     <option value="PAGADO">Pagada</option>
-                                    <option value="VENCIDAS">Vencida</option>
-                                    <!-- <option value="PENDIENTE">Pendientes</option> -->
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button (click)="UpdatePago()" *ngIf="!auth.loading" [disabled]="!alicuotaForm.valid"
-                            type="submit" class="btn btn-outline-dark">
-                            <span>Guardar</span>
+                            type="submit" class="btn btn-success">
+                            <span>Pagar</span>
                         </button>
                         <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
                     </div>

@@ -1,0 +1,28 @@
+.box img {
+  width: 100%;
+  height: auto;
+}
+@supports (object-fit: cover) {
+  .box img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+.encabezado {
+  color: green;
+}
+.bad {
+  font-size: 15px;
+}
+.centrartexto {
+  margin-top: 5px;
+  text-align: center;
+  font-family: cursive;
+}
+
+.listEmprendimientos {
+  font-family: serif;
+  font-size: larger;
+  font-weight: bold;
+}

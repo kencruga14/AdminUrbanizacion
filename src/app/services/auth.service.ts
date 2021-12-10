@@ -154,6 +154,19 @@ export class AuthService {
       );
   }
 
+  getEmprendimientos() {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/emprendimiento`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
   createAdmin(data) {
     this.loading = true;
     const headers = new HttpHeaders({
@@ -276,7 +289,10 @@ export class AuthService {
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}`, { headers })
+      .get(
+        `${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}`,
+        { headers }
+      )
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -289,7 +305,10 @@ export class AuthService {
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}&estado=${estado}`, { headers })
+      .get(
+        `${environment.apiUrl}/admin-etapa/alicuota?mz=${mz}&villa=${villa}&estado=${estado}`,
+        { headers }
+      )
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -961,6 +980,30 @@ export class AuthService {
     return new Promise((resolve) => {
       this.http
         .put(`${environment.apiUrl}/admin-etapa/administrativos/${id}`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+  deleteEmprendimiento(id: number) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .delete(`${environment.apiUrl}/admin-etapa/emprendimiento/${id}`, {
           headers,
         })
         .subscribe(
