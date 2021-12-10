@@ -1,23 +1,102 @@
-
 <app-breadcrumb titulo="Buzón" [menu]="eta"></app-breadcrumb>
 <div class="container-fluid">
-    <mat-tab-group animationDuration="0ms">
-        <mat-tab label="First">Content 1</mat-tab>
-        <mat-tab label="Second">Content 2</mat-tab>
-        <mat-tab label="Third">Content 3</mat-tab>
-      </mat-tab-group>
-    <!-- <div class="card">
-        <div class="card-body"> -->
-          
-            <!-- <mat-tab-group>
-                <mat-tab label="First"> Content 1 </mat-tab>
-                <mat-tab label="Second"> Content 2 </mat-tab>
-                <mat-tab label="Third"> Content 3 </mat-tab>
-              </mat-tab-group> -->
 
 
 
-            <!-- <h4 class="card-title">Lista de Mensajes</h4>
+    <div class="card">
+        <div class="card-body">
+            <nz-tabset>
+                <nz-tab nzTitle="Recibidos ">
+
+                    <button class="btn btn-dark" (click)="openNoticia(contentNoticia)">Crear Mensaje</button>
+                    <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                        <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                            [(ngModel)]="filterName">
+                    </div>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive m-t-40">
+                        <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>Manzana</th>
+                                    <th>Villa</th>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Acción</th>
+                                    <!-- <th>Acciones</th> -->
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr *ngFor="let noti of noticias | filter:filterName; let i=index ">
+                                    <th>Mz</th>
+                                    <th>Villa</th>
+                                    <td>{{noti.titulo}}</td>
+                                    <td>{{noti.CreatedAt | date: 'dd/MM/yyyy, h:mm a'}}</td>
+                                    <td>
+                                        <a data-toggle="tooltip" data-original-title="Editar"
+                                            (click)="openNoticia(contentNoticia, noti)"> <i
+                                                class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Eliminar"
+                                            (click)="delete(noti.ID)"> <i class="fa fa-trash text-danger m-r-10"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="(noticias).length === 0">
+                                    <td style="text-align: center !important;" colspan="10"><label
+                                            class="text-primary">No
+                                            existen datos</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </nz-tab>
+
+                <nz-tab nzTitle="Enviados">
+                    <button class="btn btn-dark" (click)="openNoticia(contentNoticia)">Crear Mensaje</button>
+                    <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                        <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                            [(ngModel)]="filterName">
+                    </div>
+                    <h6 class="card-subtitle"></h6>
+                    <div class="table-responsive m-t-40">
+                        <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>Manzana</th>
+                                    <th>Villa</th>
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Acción</th>
+                                    <!-- <th>Acciones</th> -->
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr *ngFor="let noti of noticias | filter:filterName; let i=index ">
+                                    <th>Mz</th>
+                                    <th>Villa</th>
+                                    <td>{{noti.titulo}}</td>
+                                    <td>{{noti.CreatedAt | date: 'dd/MM/yyyy, h:mm a'}}</td>
+                                    <td>
+                                        <a data-toggle="tooltip" data-original-title="Editar"
+                                            (click)="openNoticia(contentNoticia, noti)"> <i
+                                                class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Eliminar"
+                                            (click)="delete(noti.ID)"> <i class="fa fa-trash text-danger m-r-10"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="(noticias).length === 0">
+                                    <td style="text-align: center !important;" colspan="10"><label
+                                            class="text-primary">No
+                                            existen datos</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+            <!-- 
+    <h4 class="card-title">Lista de Mensajes</h4>
             <button class="btn btn-dark" (click)="openNoticia(contentNoticia)">Crear Mensaje</button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
                 <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
@@ -63,7 +142,7 @@
                     </tbody>
                 </table>
             </div> -->
-        <!-- </div> -->
+        </div>
     </div>
     <ng-template #contentNoticia let-modal>
         <div class="modal-header">
@@ -99,4 +178,4 @@
     </ng-template>
 
 
-<!-- </div> -->
+</div>

@@ -206,11 +206,12 @@ export class AlicuotaComponent implements OnInit {
   getVillas(value) {
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      console.log("manzana seleccionada: ", value);
-      console.log("getCasasByManzana: ", resp);
-      // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
-      //   this.alicuotas = resp;
-      // });
+      // console.log("manzana seleccionada: ", value);
+      // console.log("getCasasByManzana: ", resp);
+      this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
+        this.alicuotas = resp;
+        console.log("alicuotas x manzana: ", this.alicuotas);
+      });
 
       // alicuotas
       this.casasselector = resp;
@@ -220,21 +221,27 @@ export class AlicuotaComponent implements OnInit {
   getEstado(value) {
     this.paramVilla = value;
     console.log("casa: ", value);
-    // this.auth
-    //   .getAlicuotasByMzVil(this.paramMz, value)
-    //   .subscribe((resp: any) => {
-    //     this.alicuotas = resp;
-    //   });
+    this.auth
+      .getAlicuotasByMzVil(this.paramMz, value)
+      .subscribe((resp: any) => {
+        this.alicuotas = resp;
+        console.log("alicuotas x villa: ", this.alicuotas);
+
+      });
   }
 
   getAlicuotaEstado(value) {
     console.log("estado: ", value);
-    // this.paramEstado = value;
-    // this.auth
-    //   .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
-    //   .subscribe((resp: any) => {
-    //     this.alicuotas = resp;
-    //   });
+    this.paramEstado = value;
+    this.auth
+      .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
+      .subscribe((resp: any) => {
+        this.alicuotas = resp;
+        console.log("alicuotas x estado: ", this.alicuotas);
+        console.log("alicuotas x estado: ", resp.length);
+        console.log("alicuotas x estado: ", resp.size());
+
+      });
   }
 
   getFiltros(valor: any) {

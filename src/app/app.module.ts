@@ -63,8 +63,17 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MenuModule } from "primeng/menu";
 import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
 import { ContextMenuModule } from "primeng/contextmenu";
-import {TabMenuModule} from 'primeng/tabmenu';
-import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { TabMenuModule } from "primeng/tabmenu";
+import {
+  NgbPaginationModule,
+  NgbAlertModule,
+} from "@ng-bootstrap/ng-bootstrap";
+import { NzTabsModule } from "ng-zorro-antd/tabs";
+import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
+import { NzButtonModule } from "ng-zorro-antd/button";
+import { CommonModule } from "@angular/common";
+import { IconDefinition } from "@ant-design/icons-angular";
+import * as AllIcons from "@ant-design/icons-angular/icons";
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,8 +113,10 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     NgSelectModule,
     NgPipesModule,
+    CommonModule,
     DlDateTimeDateModule,
     NgbAlertModule,
+    NzTabsModule,
     DlDateTimePickerModule,
     MomentModule,
     NgxChartsModule,
@@ -123,6 +134,8 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
     MenuModule,
     ContextMenuModule,
     TabMenuModule,
+    NgZorroAntdModule,
+    NzButtonModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],

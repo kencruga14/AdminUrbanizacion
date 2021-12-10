@@ -26,7 +26,7 @@
                 <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla">
                     <label>Estado</label>
                     <select name="villa" [(ngModel)]="filtroEstado" class="form-control custom-select"
-                        (change)="getEstado($event.target.value)">
+                        (change)="getAlicuotaEstado($event.target.value)">
                         <option value="PAGADO">Pagadas</option>
                         <option value="VENCIDAS">Vencidas</option>
                         <option value="PENDIENTE">Pendientes</option>
@@ -79,7 +79,7 @@
                                             </Div>
                                         </td>
                                     </tr>
-                                    <tr *ngIf="(alicuotas).length === 0">
+                                    <tr *ngIf="alicuotas === null">
                                         <td style="text-align: center !important;" colspan="10"><label
                                                 class="text-primary">No
                                                 existen datos</label></td>
@@ -108,6 +108,10 @@
                             </tr>
                         </thead>
                         <tbody style="text-align: center;">
+                            <tr *ngIf="alicuotas === null">
+                                <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                        existen datos</label></td>
+                            </tr>
                             <tr *ngFor="let ali of alicuotas | filter:filterName; let i=index ">
                                 <th scope="row ">{{i+1}}</th>
                                 <td *ngIf="ali.tipo === 'COMUN'">{{ali.fecha_pago | date:'MMMM' | titlecase}}</td>
@@ -135,10 +139,7 @@
                                             class="fas fa-money-bill-wave text-inverse m-r-10"></i> </a>
                                 </td>
                             </tr>
-                            <tr *ngIf="(alicuotas).length === 0">
-                                <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                        existen datos</label></td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -219,8 +220,7 @@
 
                             <div class="form-group col-md-12">
                                 <label>Seleccione mes existente: </label>
-                                <select [(ngModel)]="pipe" name="mes_seleccionado"
-                                    class="form-control custom-select">
+                                <select [(ngModel)]="pipe" name="mes_seleccionado" class="form-control custom-select">
                                     <option *ngFor="let m of extraordinariaAnterior" value="{{m[1][0].fecha_pago}}">
                                         {{m[0] | titlecase}}
                                     </option>
