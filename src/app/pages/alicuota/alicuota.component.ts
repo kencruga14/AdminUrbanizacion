@@ -146,11 +146,43 @@ export class AlicuotaComponent implements OnInit {
     );
     const extraordinaria = _.orderBy(
       _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
-      // ["CreatedAt", "casa.manzana", "casa,villa"],
-      // ["desc", "asc", "asc"]
-      ["casa.manzana", "casa,villa"],
-      ["asc", "asc"]
+      ["CreatedAt", "casa.manzana", "casa,villa"],
+      ["desc", "asc", "asc"]
+      // [("casa.manzana", "casa,villa")],
+      // ["asc", "asc"]
     );
+    // _.chain(
+    //   _.groupBy(comunes, (ali) => moment(ali.fecha_pago).format("MMMM YYYY"))
+    // ).toPairs()
+    // .forEach((ali) => {
+    //   ali[1] = _.orderBy(
+    //     ali[1],
+    //     ["casa.manzana", "casa,villa"],
+    //     ["asc", "asc"]
+    //     ["CreatedAt", "casa.manzana", "casa,villa"],
+    //     ["desc", "asc", "asc"]
+    //   );
+    // })
+    // .fromPairs()
+    // .value();
+    const grupoExtraordinara = _.chain(
+      _.groupBy(extraordinaria, (ali) =>
+        "Extraordinaria"
+          .concat(" ")
+          .concat(moment(ali.fecha_pago).format("MMMM YYYY"))
+      )
+    )
+      .toPairs()
+      .forEach((ali) => {
+        ali[1] = _.orderBy(
+          ali[1],
+          ["casa.manzana", "casa,villa"],
+          ["asc", "asc"]
+        );
+      })
+      .fromPairs()
+      .value();
+    console.log("grupoExtraordinara: ", grupoExtraordinara);
 
     const porFecha = _.chain(
       _.groupBy(comunes, (ali) => moment(ali.fecha_pago).format("MMMM YYYY"))
@@ -161,22 +193,18 @@ export class AlicuotaComponent implements OnInit {
           ali[1],
           ["casa.manzana", "casa,villa"],
           ["asc", "asc"]
-          // ["CreatedAt", "casa.manzana", "casa,villa"],
-          // ["desc", "asc", "asc"]
         );
       })
       .fromPairs()
       .value();
 
-    this.fechaArray = _.assignIn(porFecha, {
-      SALDO: saldo,
-      EXTRAORDINARIA: extraordinaria,
-    });
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
     this.extraordinariaAnterior = Object.entries(as).sort();
-    this.fechaArray = porFecha;
+    // this.fechaArray = porFecha;
+    this.fechaArray = _.assignIn(porFecha, grupoExtraordinara);
+
     this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
     this.existente.shift();
     this.existente.shift();
@@ -226,7 +254,6 @@ export class AlicuotaComponent implements OnInit {
       .subscribe((resp: any) => {
         this.alicuotas = resp;
         console.log("alicuotas x villa: ", this.alicuotas);
-
       });
   }
 
@@ -240,7 +267,6 @@ export class AlicuotaComponent implements OnInit {
         console.log("alicuotas x estado: ", this.alicuotas);
         console.log("alicuotas x estado: ", resp.length);
         console.log("alicuotas x estado: ", resp.size());
-
       });
   }
 

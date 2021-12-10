@@ -37,7 +37,6 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng-lts/resources/themes/nova-light/theme.css",
               "node_modules/primeng-lts/resources/primeng.min.css"
-              // "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
 
             ],
             "scripts": [
