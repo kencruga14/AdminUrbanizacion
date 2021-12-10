@@ -74,7 +74,7 @@ export class CamarasComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event) => {
-        this.url = event.target.result; // called once readAsDataURL is completed
+        // this.url = event.target.result; // called once readAsDataURL is completed
         this.camara.imagen = this.url
       }
     }

@@ -2,14 +2,16 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <!-- <div class="form-group">
-                <label>Seleccione el tipo de Emprendimiento</label>
-                <select [(ngModel)]="tipoEmprendimientos" name="idUrbanizacion" class="form-control custom-select"
-                    id="companydropdown" (change)="getTipoEmprendimientos($event.target.value)">
-                    <option value="recomendados">Recomendados</option>
-                    <option value="cercas">Cercanas</option>
-                </select>
-            </div> -->
+            <div class="row">
+                <div class="form-group col-3">
+                    <label>Seleccione la categoría</label>
+                    <select [(ngModel)]="tipoEmprendimientos" name="idUrbanizacion" class="form-control custom-select"
+                        id="companydropdown">
+                        <option value="recomendados">Recomendados</option>
+                        <option value="cercas">Cercanas</option>
+                    </select>
+                </div>
+            </div>
 
             <!-- <div *ngIf="emprendimientoss.length > 0"> -->
             <div class="container-fluid">
