@@ -74,6 +74,7 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { CommonModule } from "@angular/common";
 import { IconDefinition } from "@ant-design/icons-angular";
 import * as AllIcons from "@ant-design/icons-angular/icons";
+import { MultiFilterPipe } from "./pipes/multifilter.pipe";
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +95,7 @@ import * as AllIcons from "@ant-design/icons-angular/icons";
     AdministrativoComponent,
     AreasocialComponent,
     FilterPipe,
+    MultiFilterPipe,
     AdmingaritaComponent,
     ListabitacoraComponent,
     ExpresoescolarComponent,
@@ -140,4 +142,4 @@ import * as AllIcons from "@ant-design/icons-angular/icons";
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

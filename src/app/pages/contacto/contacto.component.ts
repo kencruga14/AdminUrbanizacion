@@ -41,7 +41,7 @@ export class ContactoComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getContacto();
