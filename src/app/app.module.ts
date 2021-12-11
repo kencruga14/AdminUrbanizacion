@@ -42,6 +42,7 @@ import { ExpresoescolarComponent } from "./pages/expresoescolar/expresoescolar.c
 import { EmprendimientoComponent } from "./pages/emprendimiento/emprendimiento.component";
 import { CamarasComponent } from "./pages/camaras/camaras.component";
 import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.component";
+
 // import {BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AccordionModule } from "primeng/accordion";
@@ -64,6 +65,8 @@ import { MenuModule } from "primeng/menu";
 import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
 import { ContextMenuModule } from "primeng/contextmenu";
 import { TabMenuModule } from "primeng/tabmenu";
+import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+
 import {
   NgbPaginationModule,
   NgbAlertModule,
@@ -75,6 +78,18 @@ import { CommonModule } from "@angular/common";
 import { IconDefinition } from "@ant-design/icons-angular";
 import * as AllIcons from "@ant-design/icons-angular/icons";
 import { MultiFilterPipe } from "./pipes/multifilter.pipe";
+import { ComposeComponent } from './pages/mail/compose/compose.component';
+import { ListingComponent } from './pages/mail/listing/listing.component';
+import { DetailComponent } from './pages/mail/detail/detail.component';
+import { MailPanelComponent } from './pages/mail/mail-panel/mail-panel.component';
+import { MailGlobalVariable, MailService } from "./pages/mail/mail.service";
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  wheelSpeed: 1,
+  wheelPropagation: true,
+  minScrollbarLength: 20
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,6 +118,11 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     CamarasComponent,
     ReservacionesComponent,
     CambiarcontrasenaComponent,
+    ComposeComponent,
+    ListingComponent,
+    DetailComponent,
+    MailPanelComponent,
+
   ],
   imports: [
     IvyCarouselModule,
@@ -138,8 +158,13 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     TabMenuModule,
     NgZorroAntdModule,
     NzButtonModule,
+    PerfectScrollbarModule
+
   ],
-  providers: [{ provide: LOCALE_ID, useValue: "es" }],
+  providers: [{ provide: LOCALE_ID, useValue: "es" }, MailService, MailGlobalVariable, {
+    provide: PERFECT_SCROLLBAR_CONFIG,
+    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

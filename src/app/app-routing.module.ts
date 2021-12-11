@@ -21,6 +21,10 @@ import { EmprendimientoComponent } from "./pages/emprendimiento/emprendimiento.c
 import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.component";
 import { CamarasComponent } from "./pages/camaras/camaras.component";
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
+import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
+import { ComposeComponent } from "./pages/mail/compose/compose.component";
+import { DetailComponent } from "./pages/mail/detail/detail.component";
+
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "cambiarcontrasena/:usuario", component: CambiarcontrasenaComponent },
@@ -98,6 +102,21 @@ const routes: Routes = [
         component: CamarasComponent,
         canActivate: [RolGuard],
       },
+      {
+        path: 'mail/:type',
+        component: MailPanelComponent,
+        children: [
+
+          { path: ':id', component: DetailComponent },
+          { path: 'compose', component: ComposeComponent }
+        ],
+        data: {
+          title: '',
+          urls: [
+
+          ]
+        }
+      },
       { path: "**", redirectTo: "casa" },
     ],
   },
@@ -108,4 +127,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
