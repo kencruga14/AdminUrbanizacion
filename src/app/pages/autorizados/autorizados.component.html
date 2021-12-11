@@ -98,41 +98,53 @@
                     <input [(ngModel)]="autorizado.telefono" name="telefono" class="form-control" type="text" required
                         placeholder="Teléfono">
                 </div>
-                <div class="form-group">
-                    <label for="">Permiso 1</label><br>
-                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso1">
-                        <option>
-                            Si
-                        </option>
-                        <option selected>
-                            No
-                        </option>
-                    </select>
-                    <!-- <input [value]="telefono" [(ngModel)]="autorizado.telefono" name="telefono" class="form-control"
-                        type="text" required placeholder="Teléfono"> -->
+                <div class="row">
+                    <div class="col-4">
+                        <input type="checkbox" id="cbox1" [(ngModel)]="autorizado.permisos.alicuota" name="alicuota">
+                        <label for="cbox1">Alicuota</label>
+
+                        <input type="checkbox" id="cbox2" [(ngModel)]="autorizado.permisos.area_social"
+                            name="area_social">
+                        <label for="cbox2">Area Social</label>
+
+                        <input type="checkbox" id="cbox3" name="emprendimiento"
+                            [(ngModel)]="autorizado.permisos.emprendimiento">
+                        <label for="cbox3">Emprendimiento</label>
+
+                        <input type="checkbox" id="cbox4" name="casa" [(ngModel)]="autorizado.permisos.casa">
+                        <label for="cbox4">Casa</label>
+
+                        <input type="checkbox" id="cbox5" [(ngModel)]="autorizado.permisos.usuario" name="usuario">
+                        <label for="cbox5">Usuario</label>
+
+                    </div>
+                    <div class="col-4">
+                        <input type="checkbox" id="cbox6" [(ngModel)]="autorizado.permisos.seguridad" name="seguridad">
+                        <label for="cbox6">Seguridad</label>
+                        <input type="checkbox" id="cbox7" [(ngModel)]="autorizado.permisos.ingreso" name="ingreso">
+                        <label for="cbox7">Ingreso</label>
+                        <input type="checkbox" id="cbox8" name="ingreso" [(ngModel)]="autorizado.permisos.voto"> <label
+                            for="cbox8">Voto</label>
+                        <input type="checkbox" id="cbox9" name="directiva" [(ngModel)]="autorizado.permisos.directiva">
+                        <label for="cbox9">Directiva</label>
+                        <input type="checkbox" id="cbox10" [(ngModel)]="autorizado.permisos.camara" name="camara">
+                        <label for="cbox10">Camara</label>
+
+                    </div>
+                    <div class="col-4">
+                        <input type="checkbox" id="cbox11" [(ngModel)]="autorizado.permisos.horario" name="horario">
+                        <label for="cbox11">Horario</label>
+                        <input type="checkbox" id="cbox12" [(ngModel)]="autorizado.permisos.reserva" name="reserva">
+                        <label for="cbox12">Reserva</label>
+                        <input type="checkbox" id="cbox13" name="reserva"
+                            [(ngModel)]="autorizado.permisos.expreso_escolar"> <label for="cbox13">Expreso
+                            Escolar</label>
+                        <input type="checkbox" id="cbox14" name="buzon" [(ngModel)]="autorizado.permisos.buzon"> <label
+                            for="cbox14">Buzon</label>
+
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="">Permiso 2</label><br>
-                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso2">
-                        <option>
-                            Si
-                        </option>
-                        <option selected>
-                            No
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="">Permiso 3</label><br>
-                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso3">
-                        <option>
-                            Si
-                        </option>
-                        <option selected>
-                            No
-                        </option>
-                    </select>
-                </div>
+
             </div>
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">

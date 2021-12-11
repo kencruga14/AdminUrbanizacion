@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class AutorizadosComponent implements OnInit {
 
-  constructor(private modalService: NgbModal, private auth: AuthService) { }
+  constructor(private modalService: NgbModal, public auth: AuthService) { }
   autorizados = []
   eta = []
   filterName = ''
