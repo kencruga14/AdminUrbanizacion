@@ -75,6 +75,7 @@ import { CommonModule } from "@angular/common";
 import { IconDefinition } from "@ant-design/icons-angular";
 import * as AllIcons from "@ant-design/icons-angular/icons";
 import { MultiFilterPipe } from "./pipes/multifilter.pipe";
+import { AutorizadosComponent } from "./pages/autorizados/autorizados.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +91,7 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     AlicuotaComponent,
     ResidenteComponent,
     NoticiaComponent,
+    AutorizadosComponent,
     ContactoComponent,
     GaleriaComponent,
     AdministrativoComponent,

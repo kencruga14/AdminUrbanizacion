@@ -1,0 +1,148 @@
+<app-breadcrumb titulo="Casas" [menu]="eta"></app-breadcrumb>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista de Autorizados</h4>
+            <button class="btn btn-dark" (click)="openAutorizado(contentAutorizado)">Crear Autorizado</button>
+            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                    [(ngModel)]="filterName">
+            </div>
+            <h6 class="card-subtitle"></h6>
+            <div class="table-responsive m-t-40">
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>No</th>
+                            <th>Imagen</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Cédula</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Permiso 1</th>
+                            <th>Permiso 2</th>
+                            <th>Permiso 3</th>
+                            <th>Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        <tr *ngFor="let autorizado of autorizados ; let i=index ">
+                            <th scope="row ">{{i+1}}</th>
+                            <td>{{autorizado.imagen}}</td>
+                            <td>{{autorizado.nombres}}</td>
+                            <td>{{autorizado.apellidos}}</td>
+                            <td>${{autorizado.cedula}}</td>
+                            <td>${{autorizado.usuario}}</td>
+                            <td>${{autorizado.correo}}</td>
+                            <td>${{autorizado.telefono}}</td>
+                            <td>${{autorizado.permiso1}}</td>
+                            <td>${{autorizado.permiso2}}</td>
+                            <td>${{autorizado.permiso3}}</td>
+                            <td>
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openAutorizado(contentAutorizado, autorizado)"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(autorizado.ID)">
+                                    <i class="fa fa-trash text-danger m-r-10"></i> </a>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="(autorizados).length === 0">
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
+
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #contentAutorizado let-modal>
+        <div class="modal-header">
+            <h4 *ngIf="!autorizado.edit" class="modal-title" id="modal-basic-title">Crear Autorizado</h4>
+            <h4 *ngIf="autorizado.edit" class="modal-title" id="modal-basic-title">Editar Autorizado</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form (ngSubmit)="gestionAutorizado()" #form="ngForm">
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.nombres" name="nombres" class="form-control" type="text" required
+                        placeholder="Nombres">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.apellidos" name="apellidos" class="form-control" type="text" required
+                        placeholder="Apellidos">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.cedula" name="cedula" class="form-control" type="text" required
+                        placeholder="Cédula">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.usuario" name="usuario" class="form-control" type="text" required
+                        placeholder="Usuario">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.correo" name="correo" class="form-control" type="text" required
+                        placeholder="Correo">
+                </div>
+                <div class="form-group">
+                    <input [(ngModel)]="autorizado.telefono" name="telefono" class="form-control" type="text" required
+                        placeholder="Teléfono">
+                </div>
+                <div class="form-group">
+                    <label for="">Permiso 1</label><br>
+                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso1">
+                        <option>
+                            Si
+                        </option>
+                        <option selected>
+                            No
+                        </option>
+                    </select>
+                    <!-- <input [value]="telefono" [(ngModel)]="autorizado.telefono" name="telefono" class="form-control"
+                        type="text" required placeholder="Teléfono"> -->
+                </div>
+                <div class="form-group">
+                    <label for="">Permiso 2</label><br>
+                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso2">
+                        <option>
+                            Si
+                        </option>
+                        <option selected>
+                            No
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Permiso 3</label><br>
+                    <select style="width: 100%;" [(ngModel)]="autorizado.permiso3">
+                        <option>
+                            Si
+                        </option>
+                        <option selected>
+                            No
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!autorizado.edit">Guardar</span>
+                    <span *ngIf="autorizado.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </ng-template>
+
+
+</div>
