@@ -134,7 +134,16 @@ export class AreasocialComponent implements OnInit {
     };
     this.changeFoto = true;
   }
-
+  openImage(admin, area = null) {
+    console.log("admin seleccionado: ", admin);
+    this.imagenPerfil = admin;
+    this.nombre = area.nombre;
+    this.hora_apertura = area.hora_apertura;
+    this.hora_cierre = area.hora_cierre;
+    this.precio = area.precio;
+    console.log("imagen perfil: ", this.imagenPerfil);
+    // this.modalService.open(content);
+  }
   openArea(content, area = null) {
     console.log("content: ", content);
     console.log("area: ", area);

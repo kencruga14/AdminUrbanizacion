@@ -1,14 +1,51 @@
 <app-breadcrumb titulo="Área Social" [menu]="eta"></app-breadcrumb>
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Áreas de Recreación</h4>
-            <button class="btn btn-dark" (click)="openArea(contentArea)">Crear área </button>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
+       
+        <div _ngcontent-yej-c10 class="row">
+        <div _ngcontent-yej-c10 class="col-lg-4 col-md-3 col-sm-12 col-xs-12"  *ngFor="let mat of areas | filter:filterName; let i=index ">
+        <div _ngcontent-mbv-c5 class="card"> 
+            <div _ngcontent-mbv-c5 class="row">
+
+             
+                <!-- <div *ngIf="mat.precio ===0">
+                    <p  class="col-md=1" class="card-text"> Gratis</p>
+                </div>
+                <div *ngIf="mat.precio >0">
+                    <p class="card-text">${{mat.precio}}</p>
+                </div> -->
+           
+            
             </div>
-            <h6 class="card-subtitle"></h6>
+            <img [src]="mat.imagen" class="" alt="Card image cap"  height="104.69"(click)="openImage(mat)" data-toggle="modal" data-target=".bd-example-modal-lg">
+            <div _ngcontent-mbv-c5 class="row">
+
+                <div class="col-md-8">
+                    <p class="card-text">{{mat.nombre}}</p>
+                </div>
+                <div class="col align-self-end" style="text-align:right;">
+                    <a data-toggle="tooltip" data-original-title="Editar" (click)="openArea(contentArea, mat)"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i class="fa fa-trash text-danger m-r-10"></i> </a>
+                </div>
+            </div>
+   
+            </div>
+          </div>
+          <div _ngcontent-mbv-c5="" class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <div _ngcontent-mbv-c5="" class="card" style="height: 128.69px;">
+                <div _ngcontent-mbv-c5="" class="card-body text-center">
+                    <div _ngcontent-mbv-c5="" class="row justify-content-center align-items-center" style="height: 100%;">
+                        <div _ngcontent-mbv-c5="" class="col-12 text-center" (click)="openArea(contentArea)">
+                            <svg _ngcontent-mbv-c5="" class="bi bi-plus" fill="currentColor" height="66" style="font-weight: bolder; color: #7875ea;" viewBox="0 0 16 16" width="66" xmlns="http://www.w3.org/2000/svg">
+                                <path _ngcontent-mbv-c5="" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- 
+            <h6 class="card-subtitle"></h6><br>
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
@@ -42,17 +79,17 @@
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
 
                             </td>
-                        </tr>
+                        </tr> -->
                         <!-- <tr *ngIf="(areas).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
 
                         </tr> -->
-                    </tbody>
+                    <!-- </tbody>
                 </table>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <ng-template #contentArea let-modal>
@@ -101,7 +138,7 @@
                 </div>
 
 
-
+              
                 <div class="form-group">
                     <input [value]="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" type="text" required
                         placeholder="Nombre">
@@ -123,22 +160,26 @@
                     <label>Tiempo de Reserva</label>
                     <select name="tiempo_reservacion_minutos" [(ngModel)]="tiempo_reservacion_minutos"
                         class="form-control custom-select">
-                        <option value="30">30 Minutos</option>
-                        <option value="60">60 Minutos</option>
-                        <option value="90">90 Minutos</option>
-                        <option value="120">120 Minutos</option>
+                        <option value="60">1 hora</option>
+                        <option value="90">2 horas</option>
+                        <option value="120">3 horas</option>
+                        <option value="120">4 horas</option>
+                        <option value="120">5 horas</option>
+
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Costo</label>
+                    <label>Tipo:</label>
                     <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
+                        
                         <option value="GRATIS">Gratis</option>
                         <option value="PAGADO">Pagado</option>
                     </select>
                 </div>
                 <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'">
+                    <label>Valor:</label>
                     <input [value]="valor" [(ngModel)]="valor" name="hora_cierre" class="form-control" type="number"
-                        placeholder="Valor">
+                        placeholder="">
                 </div>
             </div>
             <div class="modal-footer">
@@ -150,4 +191,27 @@
             </div>
         </form>
     </ng-template>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" *ngIf="imagenPerfil">
+                <h4 class="modal-title" id="modal-basic-title" >
+                    {{imagenPerfil.nombre}}
+                </h4>
+            </div>
+
+            <div class="modal-body" *ngIf="imagenPerfil">
+                <figure class="box">
+                    <img [src]="imagenPerfil.imagen" alt="image" />
+                  hora de apertura:{{imagenPerfil.hora_apertura}} -- hora de cierre: {{imagenPerfil.hora_cierre}}
+                  Precio: ${{imagenPerfil.precio}}
+
+                </figure>
+               
+            </div>
+            
+        </div>
+    </div>
 </div>
