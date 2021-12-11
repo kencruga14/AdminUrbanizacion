@@ -135,86 +135,10 @@ export class AlicuotaComponent implements OnInit {
     });
   }
 
-  // clasificarAlicuotas(alicuotas) {
-  //   const comunes = _.filter(alicuotas, { tipo: "COMUN" });
-  //   const saldo = _.orderBy(
-  //     _.filter(alicuotas, { tipo: "SALDO" }),
-  //     // ["CreatedAt", "casa.manzana", "casa,villa"],
-  //     // ["desc", "asc", "asc"]
-  //     ["casa.manzana", "casa,villa"],
-  //     ["asc", "asc"]
-  //   );
-  //   const extraordinaria = _.orderBy(
-  //     _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
-  //     ["CreatedAt", "casa.manzana", "casa,villa"],
-  //     ["desc", "asc", "asc"]
-  //     // [("casa.manzana", "casa,villa")],
-  //     // ["asc", "asc"]
-  //   );
-  //   // _.chain(
-  //   //   _.groupBy(comunes, (ali) => moment(ali.fecha_pago).format("MMMM YYYY"))
-  //   // ).toPairs()
-  //   // .forEach((ali) => {
-  //   //   ali[1] = _.orderBy(
-  //   //     ali[1],
-  //   //     ["casa.manzana", "casa,villa"],
-  //   //     ["asc", "asc"]
-  //   //     ["CreatedAt", "casa.manzana", "casa,villa"],
-  //   //     ["desc", "asc", "asc"]
-  //   //   );
-  //   // })
-  //   // .fromPairs()
-  //   // .value();
-  //   const grupoExtraordinara = _.chain(
-  //     _.groupBy(extraordinaria, (ali) =>
-  //       "Extraordinaria"
-  //         .concat(" ")
-  //         .concat(moment(ali.fecha_pago).format("MMMM YYYY"))
-  //     )
-  //   )
-  //     .toPairs()
-  //     .forEach((ali) => {
-  //       ali[1] = _.orderBy(
-  //         ali[1],
-  //         ["casa.manzana", "casa,villa"],
-  //         ["asc", "asc"]
-  //       );
-  //     })
-  //     .fromPairs()
-  //     .value();
-  //   console.log("grupoExtraordinara: ", grupoExtraordinara);
-
-  //   const porFecha = _.chain(
-  //     _.groupBy(comunes, (ali) => moment(ali.fecha_pago).format("MMMM YYYY"))
-  //   )
-  //     .toPairs()
-  //     .forEach((ali) => {
-  //       ali[1] = _.orderBy(
-  //         ali[1],
-  //         ["casa.manzana", "casa,villa"],
-  //         ["asc", "asc"]
-  //       );
-  //     })
-  //     .fromPairs()
-  //     .value();
-
-    // let as = _.groupBy(extraordinaria, (ali) =>
-    //   moment(ali.fecha_pago).format("MMMM YYYY")
-    // );
-    // this.extraordinariaAnterior = Object.entries(as).sort();
-    // // this.fechaArray = porFecha;
-    // this.fechaArray = _.assignIn(porFecha, grupoExtraordinara);
-
-    // this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
-    // this.existente.shift();
-    // this.existente.shift();
-    // console.log("fechaArray: ", this.fechaArray);
-  // }
-
   chainGroup = (arr, fn1, fn2, fn3) =>
     _.chain(_.groupBy(arr, fn1))
       .toPairs()
-      .orderBy(fn2)
+      .sortBy(fn2)
       .forEach(fn3)
       .fromPairs()
       .value();
@@ -238,11 +162,21 @@ export class AlicuotaComponent implements OnInit {
       (ali) => {
         ali[1] = _.orderBy(
           ali[1],
-          ["casa.manzana", "casa.villa"],
+          [
+            (r) =>
+              !isNaN(parseInt(r.casa.manzana))
+                ? parseInt(r.casa.manzana)
+                : r.casa.manzana,
+            (r) =>
+              !isNaN(parseInt(r.casa.villa))
+                ? parseInt(r.casa.villa)
+                : r.casa.villa,
+          ],
           ["asc", "asc"]
         );
       }
     );
+    console.log(porFecha);
     const saldos = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
@@ -256,7 +190,7 @@ export class AlicuotaComponent implements OnInit {
       EXTRAORDINARIA: extraordinaria,
     })),
       saldos;
-      let as = _.groupBy(extraordinaria, (ali) =>
+    let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
     this.extraordinariaAnterior = Object.entries(as).sort();
@@ -327,32 +261,6 @@ export class AlicuotaComponent implements OnInit {
         console.log("alicuotas x estado: ", resp.length);
         console.log("alicuotas x estado: ", resp.size());
       });
-  }
-
-  getFiltros(valor: any) {
-    console.log("alicuotas form: ", valor);
-    const comunes = _.filter(this.alicuotas, { tipo: "COMUN" });
-    const saldo = _.filter(this.alicuotas, { tipo: "SALDO" });
-    const extraordinaria = _.filter(this.alicuotas, { tipo: "EXTRAORDINARIA" });
-    const porFecha = _.groupBy(comunes, (ali) =>
-      moment(ali.fecha_pago).format("MMMM YYYY")
-    );
-    const ExtraordinariaFecha = _.groupBy(this.extraordinariaAnterior, (ali) =>
-      moment(ali.fecha_pago).format("MMMM YYYY")
-    );
-
-    _.assignIn(porFecha, extraordinaria);
-    _.orderBy(
-      this.alicuotas,
-      ["Created_at", "casa.Manzana", "casa.Villa"],
-      ["desc", "asc", "asc"]
-    );
-
-    // console.log("final extra anterior: ", this.extraordinariaAnterior);
-    // console.log(
-    //   "extraodrinario anterior: ",
-    //   Object.entries(this.extraordinariaAnterior).sort()
-    // );
   }
 
   filtrarVilla(value) {
