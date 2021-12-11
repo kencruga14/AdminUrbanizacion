@@ -154,14 +154,31 @@ export class AuthService {
       );
   }
 
-  getEmprendimientos() {
+  getEmprendimientos(categoriaID) {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/emprendimiento`, { headers })
+      .get(
+        `${environment.apiUrl}/admin-etapa/emprendimiento?id_categoria=${categoriaID}`,
+        { headers }
+      )
       .pipe(
         map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getCategorias() {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/categoria`, { headers })
+      .pipe(
+        map((resp: any) => {
+          console.log({resp})
           return resp.respuesta;
         })
       );

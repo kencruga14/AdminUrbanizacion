@@ -5,10 +5,9 @@
             <div class="row">
                 <div class="form-group col-3">
                     <label>Seleccione la categoría</label>
-                    <select [(ngModel)]="tipoEmprendimientos" name="idUrbanizacion" class="form-control custom-select"
-                        id="companydropdown">
-                        <option value="recomendados">Recomendados</option>
-                        <option value="cercas">Cercanas</option>
+                    <select name="categoria" [(ngModel)]="categorias" class="form-control custom-select"
+                        (change)="ObtenerEmprendimientos($event.target.value)">
+                        <option *ngFor="let ur of categorias" value="{{ ur.ID }}">{{ur.nombre}}</option>
                     </select>
                 </div>
             </div>
@@ -16,8 +15,8 @@
             <!-- <div *ngIf="emprendimientoss.length > 0"> -->
             <div class="container-fluid">
                 <label>Lista de Emprendimientos</label>
-                <div class="row">
-                    <div *ngFor="let item of emprendimientoss" class="col-4">
+                <div *ngIf="emprendimientos.length > 0" class="row">
+                    <div *ngFor="let item of emprendimientos" class="col-4">
                         <figure class="box">
                             <div class="card" style="width: 250px; height: 250px">
                                 <img (click)="openEmprendimiento(contentEmprendimiento, item)"

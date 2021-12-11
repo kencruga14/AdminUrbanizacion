@@ -14,6 +14,8 @@ export class EmprendimientoComponent implements OnInit {
   tipoEmprendimientos: string;
   emprendimientoss: any;
   emprendimiento: any;
+  categorias: any;
+  categoria: any;
   constructor(
     public auth: AuthService,
     private router: Router,
@@ -21,13 +23,21 @@ export class EmprendimientoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.ObtenerEmprendimientos();
+    // this.ObtenerEmprendimientos();
+    this.ObtenerCategorias();
   }
 
-  ObtenerEmprendimientos() {
-    this.auth.getEmprendimientos().subscribe((resp: any) => {
+  ObtenerEmprendimientos(categoria) {
+    this.auth.getEmprendimientos(categoria).subscribe((resp: any) => {
       this.emprendimientos = resp;
-      console.log("emprendimientos: ", this.emprendimientos);
+      console.log("emprendimientos: ", this.emprendimientos.cercas);
+    });
+  }
+
+  ObtenerCategorias() {
+    this.auth.getCategorias().subscribe((resp: any) => {
+      this.categorias = resp;
+      console.log("categorias: ", this.categorias);
     });
   }
 
@@ -47,7 +57,7 @@ export class EmprendimientoComponent implements OnInit {
     const response = await this.auth.deleteEmprendimiento(value);
     if (response) {
       this.modalService.dismissAll();
-      this.ObtenerEmprendimientos();
+      this.ObtenerEmprendimientos(this.categoria);
     }
   }
 }
