@@ -21,9 +21,6 @@
                             <th>Usuario</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
-                            <th>Permiso 1</th>
-                            <th>Permiso 2</th>
-                            <th>Permiso 3</th>
                             <th>Acciones</th>
 
                         </tr>
@@ -32,15 +29,12 @@
                         <tr *ngFor="let autorizado of autorizados ; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>{{autorizado.imagen}}</td>
-                            <td>{{autorizado.nombres}}</td>
+                            <td>{{autorizado.usuario.nombres}}</td>
                             <td>{{autorizado.apellidos}}</td>
                             <td>${{autorizado.cedula}}</td>
-                            <td>${{autorizado.usuario}}</td>
-                            <td>${{autorizado.correo}}</td>
-                            <td>${{autorizado.telefono}}</td>
-                            <td>${{autorizado.permiso1}}</td>
-                            <td>${{autorizado.permiso2}}</td>
-                            <td>${{autorizado.permiso3}}</td>
+                            <td>${{autorizado.usuario.usuario}}</td>
+                            <td>${{autorizado.usuario.correo}}</td>
+                            <td>${{autorizado.usuario.telefono}}</td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openAutorizado(contentAutorizado, autorizado)"> <i
