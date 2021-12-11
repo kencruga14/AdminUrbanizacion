@@ -145,34 +145,46 @@ export class AlicuotaComponent implements OnInit {
 
   clasificarAlicuotas(alicuotas) {
     const comunes = _.filter(alicuotas, { tipo: "COMUN" });
-    const saldo = _.orderBy(
-      _.filter(alicuotas, { tipo: "SALDO" }),
-      ["casa.manzana", "casa,villa"],
-      ["asc", "asc"]
+    const saldo = _.reverse(
+      _.orderBy(
+        _.filter(alicuotas, { tipo: "SALDO" }),
+        [
+          (r) =>
+            !isNaN(parseInt(r.casa.manzana))
+              ? parseInt(r.casa.manzana)
+              : r.casa.manzana,
+        ],
+        ["desc"]
+      )
     );
-    const extraordinaria = _.orderBy(
-      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
-      ["casa.manzana", "casa,villa"],
-      ["asc", "asc"]
+    const extraordinaria = _.reverse(
+      _.orderBy(
+        _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
+        [
+          (r) =>
+            !isNaN(parseInt(r.casa.manzana))
+              ? parseInt(r.casa.manzana)
+              : r.casa.manzana,
+        ],
+        ["desc"]
+      )
     );
     const porFecha = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
       (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
       (ali) => {
-        ali[1] = _.orderBy(
-          ali[1],
-          [
-            (r) =>
-              !isNaN(parseInt(r.casa.manzana))
-                ? parseInt(r.casa.manzana)
-                : r.casa.manzana,
-            (r) =>
-              !isNaN(parseInt(r.casa.villa))
-                ? parseInt(r.casa.villa)
-                : r.casa.villa,
-          ],
-          ["asc", "asc"]
+        ali[1] = _.reverse(
+          _.orderBy(
+            ali[1],
+            [
+              (r) =>
+                !isNaN(parseInt(r.casa.manzana))
+                  ? parseInt(r.casa.manzana)
+                  : r.casa.manzana,
+            ],
+            ["desc"]
+          )
         );
       }
     );
