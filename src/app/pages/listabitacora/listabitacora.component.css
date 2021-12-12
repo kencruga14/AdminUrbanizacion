@@ -36,6 +36,7 @@ td {
   width: 100%;
   height: auto;
 }
+
 @supports (object-fit: cover) {
   .box img {
     height: 100%;
@@ -46,8 +47,8 @@ td {
 
 .avatar {
   vertical-align: middle;
-  width: 150px;
-  height: 70px;
+  width: 37.5px;
+  height: 17.5px;
   /* border-radius: 100%; */
 }
 
@@ -59,7 +60,6 @@ td {
   color: white;
 }
 
-.derecha{
+.derecha {
   float: right;
-
 }
