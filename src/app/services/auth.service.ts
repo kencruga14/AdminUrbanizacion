@@ -1631,6 +1631,7 @@ export class AuthService {
     });
   }
   createAutorizado(data) {
+    console.log(data)
     const headers = new HttpHeaders({
       token: this.userToken,
     });
