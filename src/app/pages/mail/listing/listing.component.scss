@@ -1,0 +1,30 @@
+.main-part{
+    display:flex;
+    height: calc(100vh - 175px);
+    align-items: strech;
+  }
+  $left-part-width: 260px;
+  $border-color: rgba(120, 130, 140, 0.13) !default;
+
+.left-part {
+  width: $left-part-width;
+  border-right: 1px solid $border-color;
+  flex-shrink:0;
+  .show-left-part {
+    position: absolute;
+    top: 25%;
+    right: -41px;
+  }
+}
+
+.right-part {
+  width: 100%;
+  overflow: auto;
+  .dropdown-toggle::after {
+    display: none;
+  }
+}
+.desactivado{
+  cursor: none;
+  opacity: 0.5;
+}

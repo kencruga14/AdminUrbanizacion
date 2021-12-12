@@ -22,6 +22,8 @@ import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.comp
 import { CamarasComponent } from "./pages/camaras/camaras.component";
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 import { AutorizadosComponent } from "./pages/autorizados/autorizados.component";
+
+
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "cambiarcontrasena/:usuario", component: CambiarcontrasenaComponent },

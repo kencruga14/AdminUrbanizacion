@@ -1084,6 +1084,53 @@ export class AuthService {
         })
       );
   }
+  getBuzonRecibidos() {
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .get(`${environment.apiUrl}/admin-etapa/buzon-recibidos`, { headers })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+          },
+          (error: any) => {
+            console.log(error)
+            if (!this.tokenIsValid(error.status)) {
+              // this.showAlert("Error al cargar miembros", "error");
+            }
+            resolve([false]);
+          }
+        );
+    });
+
+  }
+
+  getBuzonEnviados() {
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .get(`${environment.apiUrl}/admin-etapa/buzon-enviados`, { headers })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+          },
+          (error: any) => {
+            console.log(error)
+            if (!this.tokenIsValid(error.status)) {
+              // this.showAlert("Error al cargar miembros", "error");
+            }
+            resolve([false]);
+          }
+        );
+    });
+
+  }
 
   createAreaSocial(data) {
     this.loading = true;
@@ -1098,6 +1145,52 @@ export class AuthService {
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+  enviarMensaje(data) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .post(`${environment.apiUrl}/admin-etapa/buzon`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+  enviarMensajeAdjunto(id, data) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .post(`${environment.apiUrl}/admin-etapa/buzon/${id}/archivos`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
             resolve(true);
             this.loading = false;
           },
