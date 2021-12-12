@@ -29,13 +29,13 @@
                                     <i [class]="mail.icon"></i>
                                 </span>
                                 <h5 class="ml-3 mb-0">{{mail.name}}</h5>
-                                <!-- <div class="ml-auto">
+                                <div class="ml-auto">
                                     <span *ngIf='mail.name==="Bandeja"'
                                         class="badge badge-pill font-medium px-3 d-flex align-items-center"
                                         style="background-color:#7875ea ; color: white;">3</span>
 
 
-                                </div> -->
+                                </div>
                             </a>
                         </div>
 
@@ -88,7 +88,7 @@
                                             <!-- <span class="font-medium" *ngIf='!mail.seen'>
                                             {{mail.Message | slice:0:200}}.. </span>
                                         <span *ngIf='mail.seen'> {{mail.descripcion | slice:0:200}}.. </span> -->
-                                            <span> {{mail.descripcion | slice:0:200}}.. </span>
+                                            <span> {{mail.descripcion | slice:0:30}}.. </span>
 
                                         </p>
                                     </div>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!correo.publico">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Manzana</label>

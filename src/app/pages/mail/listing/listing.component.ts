@@ -119,7 +119,7 @@ export class ListingComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event) => {
-        file.archivo = event.target.result
+        file.archivo = event.target
         // this.url = event.target.result; // called once readAsDataURL is completed
         this.correo.adjuntos = [...this.correo.adjuntos, file];
         console.log(this.correo.adjuntos)
