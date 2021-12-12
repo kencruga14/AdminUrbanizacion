@@ -21,6 +21,7 @@ export class AutorizadosComponent implements OnInit {
   imagenEdit = null;
   changeFoto = false;
   imagen = null;
+  infoPermisos: any = {}
 
   imagenPerfila: any;
 
@@ -141,6 +142,25 @@ export class AutorizadosComponent implements OnInit {
     if (response) {
       this.getAutorizados();
     }
+  }
+
+  mostrarPermisos(content, autorizado) {
+    delete autorizado.permisos.admin_etapa
+    delete autorizado.permisos.id_admin_etapa
+    delete autorizado.permisos.DeletedAt
+    delete autorizado.permisos.CreatedAt
+    delete autorizado.permisos.UpdatedAt
+    delete autorizado.permisos.ID
+
+
+
+    this.infoPermisos = autorizado.permisos
+
+    for (const property in this.infoPermisos) {
+      console.log(`${property}: ${this.infoPermisos[property]}`);
+    }
+    this.modalService.open(content);
+
   }
 
 }
