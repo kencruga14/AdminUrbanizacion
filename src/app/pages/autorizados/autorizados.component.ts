@@ -17,14 +17,50 @@ export class AutorizadosComponent implements OnInit {
   autorizado: any = {}
   permisos: any = {}
   usuario: any = {}
+  imagenPerfil: any;
+  imagenEdit = null;
+  changeFoto = false;
+  imagen = null;
+
+  imagenPerfila: any;
+
+
   ngOnInit(): void {
     this.getAutorizados();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
-
+  saveEditPicture(event: any) {
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagenEdit = reader.result;
+      this.usuario.imagen = this.imagenEdit
+    };
+    this.changeFoto = true;
+  }
+  preview(event: any) {
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagen = reader.result;
+    };
+    this.changeFoto = true;
+  }
   openAutorizado(content, autorizado = null) {
+    this.changeFoto = false;
+
     if (autorizado) {
       this.autorizado = autorizado
       this.usuario = autorizado.usuario
@@ -48,8 +84,13 @@ export class AutorizadosComponent implements OnInit {
       this.autorizados = resp;
     });
   }
+  openImage(admin) {
+    console.log("admin seleccionado: ", admin);
+    this.imagenPerfil = admin;
+    console.log("imagen perfil: ", this.imagenPerfil);
+    // this.modalService.open(content);
+  }
   async gestionAutorizado() {
-
 
     this.autorizado.usuario = this.usuario
 
@@ -60,11 +101,16 @@ export class AutorizadosComponent implements OnInit {
       delete this.permisos.admin_etapa
 
       this.autorizado.permisos = this.permisos
+
       response = await this.auth.editAutorizado(this.autorizado.ID, this.autorizado)
       if (response) {
         this.getAutorizados();
       }
     } else {
+      delete this.permisos.id_admin_etapa
+      delete this.permisos.admin_etapa
+
+      this.autorizado.permisos = this.permisos
       response = await this.auth.createAutorizado(this.autorizado)
       if (response) {
         this.getAutorizados();
