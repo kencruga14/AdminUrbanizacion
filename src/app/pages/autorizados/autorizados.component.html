@@ -30,11 +30,11 @@
                             <th scope="row ">{{i+1}}</th>
                             <td>{{autorizado.imagen}}</td>
                             <td>{{autorizado.usuario.nombres}}</td>
-                            <td>{{autorizado.apellidos}}</td>
-                            <td>${{autorizado.cedula}}</td>
-                            <td>${{autorizado.usuario.usuario}}</td>
-                            <td>${{autorizado.usuario.correo}}</td>
-                            <td>${{autorizado.usuario.telefono}}</td>
+                            <td>{{autorizado.usuario.apellido}}</td>
+                            <td>{{autorizado.cedula}}</td>
+                            <td>{{autorizado.usuario.usuario}}</td>
+                            <td>{{autorizado.usuario.correo}}</td>
+                            <td>{{autorizado.usuario.telefono}}</td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openAutorizado(contentAutorizado, autorizado)"> <i
@@ -69,11 +69,11 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <input [(ngModel)]="autorizado.nombres" name="nombres" class="form-control" type="text" required
+                    <input [(ngModel)]="usuario.nombres" name="nombres" class="form-control" type="text" required
                         placeholder="Nombres">
                 </div>
                 <div class="form-group">
-                    <input [(ngModel)]="autorizado.apellidos" name="apellidos" class="form-control" type="text" required
+                    <input [(ngModel)]="usuario.apellido" name="apellidos" class="form-control" type="text" required
                         placeholder="Apellidos">
                 </div>
                 <div class="form-group">
@@ -81,59 +81,57 @@
                         placeholder="Cédula">
                 </div>
                 <div class="form-group">
-                    <input [(ngModel)]="autorizado.usuario" name="usuario" class="form-control" type="text" required
-                        placeholder="Usuario">
+                    <input [(ngModel)]="usuario.usuario" name="user" class="form-control" type="text" required
+                        placeholder="usuario">
                 </div>
                 <div class="form-group">
-                    <input [(ngModel)]="autorizado.correo" name="correo" class="form-control" type="text" required
+                    <input [(ngModel)]="usuario.correo" name="correo" class="form-control" type="text" required
                         placeholder="Correo">
                 </div>
                 <div class="form-group">
-                    <input [(ngModel)]="autorizado.telefono" name="telefono" class="form-control" type="text" required
+                    <input [(ngModel)]="usuario.telefono" name="telefono" class="form-control" type="text" required
                         placeholder="Teléfono">
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <input type="checkbox" id="cbox1" [(ngModel)]="autorizado.permisos.alicuota" name="alicuota">
+                        <input type="checkbox" id="cbox1" [(ngModel)]="permisos.alicuota" name="alicuota">
                         <label for="cbox1">Alicuota</label>
 
-                        <input type="checkbox" id="cbox2" [(ngModel)]="autorizado.permisos.area_social"
-                            name="area_social">
+                        <input type="checkbox" id="cbox2" [(ngModel)]="permisos.area_social" name="area_social">
                         <label for="cbox2">Area Social</label>
 
-                        <input type="checkbox" id="cbox3" name="emprendimiento"
-                            [(ngModel)]="autorizado.permisos.emprendimiento">
+                        <input type="checkbox" id="cbox3" name="emprendimiento" [(ngModel)]="permisos.emprendimiento">
                         <label for="cbox3">Emprendimiento</label>
 
-                        <input type="checkbox" id="cbox4" name="casa" [(ngModel)]="autorizado.permisos.casa">
+                        <input type="checkbox" id="cbox4" name="casa" [(ngModel)]="permisos.casa">
                         <label for="cbox4">Casa</label>
 
-                        <input type="checkbox" id="cbox5" [(ngModel)]="autorizado.permisos.usuario" name="usuario">
+                        <input type="checkbox" id="cbox5" [(ngModel)]="permisos.usuario" name="usuario">
                         <label for="cbox5">Usuario</label>
 
                     </div>
                     <div class="col-4">
-                        <input type="checkbox" id="cbox6" [(ngModel)]="autorizado.permisos.seguridad" name="seguridad">
+                        <input type="checkbox" id="cbox6" [(ngModel)]="permisos.seguridad" name="seguridad">
                         <label for="cbox6">Seguridad</label>
-                        <input type="checkbox" id="cbox7" [(ngModel)]="autorizado.permisos.ingreso" name="ingreso">
+                        <input type="checkbox" id="cbox7" [(ngModel)]="permisos.ingreso" name="ingreso">
                         <label for="cbox7">Ingreso</label>
-                        <input type="checkbox" id="cbox8" name="ingreso" [(ngModel)]="autorizado.permisos.voto"> <label
+                        <input type="checkbox" id="cbox8" name="ingreso" [(ngModel)]="permisos.voto"> <label
                             for="cbox8">Voto</label>
-                        <input type="checkbox" id="cbox9" name="directiva" [(ngModel)]="autorizado.permisos.directiva">
+                        <input type="checkbox" id="cbox9" name="directiva" [(ngModel)]="permisos.directiva">
                         <label for="cbox9">Directiva</label>
-                        <input type="checkbox" id="cbox10" [(ngModel)]="autorizado.permisos.camara" name="camara">
+                        <input type="checkbox" id="cbox10" [(ngModel)]="permisos.camara" name="camara">
                         <label for="cbox10">Camara</label>
 
                     </div>
                     <div class="col-4">
-                        <input type="checkbox" id="cbox11" [(ngModel)]="autorizado.permisos.horario" name="horario">
+                        <input type="checkbox" id="cbox11" [(ngModel)]="permisos.horario" name="horario">
                         <label for="cbox11">Horario</label>
-                        <input type="checkbox" id="cbox12" [(ngModel)]="autorizado.permisos.reserva" name="reserva">
+                        <input type="checkbox" id="cbox12" [(ngModel)]="permisos.reserva" name="reserva">
                         <label for="cbox12">Reserva</label>
-                        <input type="checkbox" id="cbox13" name="reserva"
-                            [(ngModel)]="autorizado.permisos.expreso_escolar"> <label for="cbox13">Expreso
+                        <input type="checkbox" id="cbox13" name="reserva" [(ngModel)]="permisos.expreso_escolar"> <label
+                            for="cbox13">Expreso
                             Escolar</label>
-                        <input type="checkbox" id="cbox14" name="buzon" [(ngModel)]="autorizado.permisos.buzon"> <label
+                        <input type="checkbox" id="cbox14" name="buzon" [(ngModel)]="permisos.buzon"> <label
                             for="cbox14">Buzon</label>
 
                     </div>
@@ -141,7 +139,7 @@
 
             </div>
             <div class="modal-footer">
-                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                <button *ngIf="!auth.loading" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!autorizado.edit">Guardar</span>
                     <span *ngIf="autorizado.edit">Editar</span>
                 </button>

@@ -14,8 +14,9 @@ export class AutorizadosComponent implements OnInit {
   autorizados = []
   eta = []
   filterName = ''
-  autorizado: any
-
+  autorizado: any = {}
+  permisos: any = {}
+  usuario: any = {}
   ngOnInit(): void {
     this.getAutorizados();
     const info_eta = localStorage.getItem("info_etapa");
@@ -26,10 +27,16 @@ export class AutorizadosComponent implements OnInit {
   openAutorizado(content, autorizado = null) {
     if (autorizado) {
       this.autorizado = autorizado
+      this.usuario = autorizado.usuario
+      this.permisos = autorizado.permisos
+
+      console.log(this.usuario.usuario)
       this.autorizado.edit = true
 
     } else {
       this.autorizado = {}
+      this.usuario = {}
+      this.permisos = {}
       this.autorizado.edit = false
     }
     this.modalService.open(content);
@@ -42,8 +49,17 @@ export class AutorizadosComponent implements OnInit {
     });
   }
   async gestionAutorizado() {
+
+
+    this.autorizado.usuario = this.usuario
+
+
     let response;
     if (this.autorizado.edit) {
+      delete this.permisos.id_admin_etapa
+      delete this.permisos.admin_etapa
+
+      this.autorizado.permisos = this.permisos
       response = await this.auth.editAutorizado(this.autorizado.ID, this.autorizado)
       if (response) {
         this.getAutorizados();
