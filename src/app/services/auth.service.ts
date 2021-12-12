@@ -1601,7 +1601,7 @@ export class AuthService {
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/casa`, { headers })
+      .get(`${environment.apiUrl}/admin-etapa/admin-etapa`, { headers })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -1615,7 +1615,7 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .put(`${environment.apiUrl}/admin-etapa/camaras/${id}`, data, {
+        .put(`${environment.apiUrl}/admin-etapa/admin-etapa/${id}`, data, {
           headers,
         })
         .subscribe(
@@ -1631,12 +1631,13 @@ export class AuthService {
     });
   }
   createAutorizado(data) {
+    console.log(data)
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return new Promise((resolve) => {
       this.http
-        .post(`${environment.apiUrl}/admin-etapa/camaras`, data, { headers })
+        .post(`${environment.apiUrl}/admin-etapa/admin-etapa`, data, { headers })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
@@ -1656,7 +1657,7 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .delete(`${environment.apiUrl}/admin-etapa/casa/${id}`, { headers })
+        .delete(`${environment.apiUrl}/admin-etapa/admin-etapa/${id}`, { headers })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
