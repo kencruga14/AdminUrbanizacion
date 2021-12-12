@@ -31,3 +31,23 @@ td {
 .vencido {
   background-color: red;
 }
+
+.same-line {
+  height: 10px; /*childrens it's all absolute position, so must set height*/
+  position: relative;
+}
+.same-line div{
+  display: inline-block;
+  position: absolute;
+}
+.on-the-left{
+left:0px;
+}
+.on-the-center{
+  left: 0%;
+  right: 0%;
+  text-align: center;
+}
+.on-the-right{
+ right: 0px;
+}

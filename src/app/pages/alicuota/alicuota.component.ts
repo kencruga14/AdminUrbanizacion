@@ -34,6 +34,7 @@ export class AlicuotaComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
+  saldototal: any;
   filtromanzana: number;
   years = [];
   pipe: any;
@@ -70,6 +71,7 @@ export class AlicuotaComponent implements OnInit {
   tipoAlicuotaExtraordinaria: string;
   tipoAlicuotaComun: string;
   valorfirts: number;
+  tipoReporte: string;
   year_seleccionado: any;
   mes_seleccionado: any;
   estado: string;
@@ -77,6 +79,7 @@ export class AlicuotaComponent implements OnInit {
   titulomes: string;
   valores: any;
   mes: any;
+  totalDia: any;
   estadoalicuota: string;
   filterName = "";
   alicuota = {
@@ -123,6 +126,7 @@ export class AlicuotaComponent implements OnInit {
     };
     YEARS();
     this.getAlicuota();
+    // console.log("otal dia: ", this.totalDia);
   }
 
   ngOnInit() {
@@ -133,6 +137,7 @@ export class AlicuotaComponent implements OnInit {
     this.alicuotaForm = this.fb.group({
       times: this.fb.array([]),
     });
+    this.totalDia = moment(new Date()).format("DD-MM-YYYY");
   }
 
   chainGroup = (arr, fn1, fn2, fn3) =>
@@ -145,50 +150,17 @@ export class AlicuotaComponent implements OnInit {
 
   clasificarAlicuotas(alicuotas) {
     const comunes = _.filter(alicuotas, { tipo: "COMUN" });
-    const saldo = _.reverse(
-      _.orderBy(
-        _.filter(alicuotas, { tipo: "SALDO" }),
-        [
-          (r) =>
-            !isNaN(parseInt(r.casa.manzana))
-              ? parseInt(r.casa.manzana)
-              : r.casa.manzana,
-        ],
-        ["desc"]
-      )
+    const saldo = _.orderBy(
+      _.filter(alicuotas, { tipo: "SALDO" }),
+      ["casa.manzana", "casa,villa"],
+      ["asc", "asc"]
     );
-    const extraordinaria = _.reverse(
-      _.orderBy(
-        _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
-        [
-          (r) =>
-            !isNaN(parseInt(r.casa.manzana))
-              ? parseInt(r.casa.manzana)
-              : r.casa.manzana,
-        ],
-        ["desc"]
-      )
+    const extraordinaria = _.orderBy(
+      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
+      ["casa.manzana", "casa,villa"],
+      ["asc", "asc"]
     );
-    const porFecha = this.chainGroup(
-      comunes,
-      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
-      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
-      (ali) => {
-        ali[1] = _.reverse(
-          _.orderBy(
-            ali[1],
-            [
-              (r) =>
-                !isNaN(parseInt(r.casa.manzana))
-                  ? parseInt(r.casa.manzana)
-                  : r.casa.manzana,
-            ],
-            ["desc"]
-          )
-        );
-      }
-    );
-    console.log(porFecha);
+
     const saldos = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
@@ -197,6 +169,31 @@ export class AlicuotaComponent implements OnInit {
         ali[1] = _.sumBy(ali[1], "valor");
       }
     );
+
+    const porFecha = this.chainGroup(
+      comunes,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.orderBy(
+          ali[1],
+          [
+            (r) =>
+              !isNaN(parseInt(r.casa.manzana))
+                ? parseInt(r.casa.manzana)
+                : r.casa.manzana,
+            (r) =>
+              !isNaN(parseInt(r.casa.villa))
+                ? parseInt(r.casa.villa)
+                : r.casa.villa,
+          ],
+          ["asc", "asc"]
+        );
+      }
+    );
+    console.log(porFecha);
+
+    // let asd= saldos;
     (this.fechaArray = _.assignIn(porFecha, {
       SALDO: saldo,
       EXTRAORDINARIA: extraordinaria,
@@ -206,14 +203,12 @@ export class AlicuotaComponent implements OnInit {
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
     this.extraordinariaAnterior = Object.entries(as).sort();
-    // this.fechaArray = porFecha;
-    // this.fechaArray = _.assignIn(porFecha, grupoExtraordinara);
-
     this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
     this.existente.shift();
     this.existente.shift();
-    // console.log("fechaArray: ", this.fechaArray);
     console.log("fecha array: ", this.fechaArray);
+    this.saldototal = saldos;
+    console.log("saldos: ", this.saldototal);
   }
 
   addGroup() {
@@ -276,21 +271,22 @@ export class AlicuotaComponent implements OnInit {
   }
 
   filtrarVilla(value) {
-    // console.log("valor filtrar manzana: ", value);
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       this.casas = resp;
-      // console.log("Casas filtradas: ", this.casas);
     });
   }
   // NUEVA
   async Nueva() {
     let response: any;
     let validacion: any;
+    let d = new Date();
+    d.getDate();
+
     let as = this.year_seleccionado
       .concat("/")
       .concat(this.mes_seleccionado)
       .concat("/")
-      .concat("1");
+      .concat(d.getDate());
     let fechavalidacion = moment(as).format();
     validacion = this.alicuotas.filter(
       (ali) => ali.fecha_pago === fechavalidacion
@@ -325,8 +321,8 @@ export class AlicuotaComponent implements OnInit {
   // ANTERIOR
   async anterior(value) {
     let response: any;
-    // console.log("mes seleccionado: ", this.pipe);
-    // console.log("id_casa: ", this.id_casa);
+    let d = new Date();
+    d.getDate();
     if (value === "EXISTENTE") {
       this.alicuotaM.push({
         valor: this.valor,
@@ -346,7 +342,7 @@ export class AlicuotaComponent implements OnInit {
             .concat("/")
             .concat(this.mes_seleccionado)
             .concat("/")
-            .concat("1"),
+            .concat(d.getDate()),
         });
         this.alicuotaM[i].fecha_pago = moment(
           this.alicuotaM[i].fecha_pago
@@ -366,8 +362,8 @@ export class AlicuotaComponent implements OnInit {
 
   async crearExtraordinaria(value) {
     let response: any;
-    // console.log('value: ', this.form.value);
-    // console.log("valor formulario: ", this.alicuotaForm.value);
+    let d = new Date();
+    d.getDate();
     if (value === "NUEVA") {
       console.log("entro Extraordinaria NUEVA");
       for (let i = 0; i < this.casas.length; i++) {
@@ -379,7 +375,7 @@ export class AlicuotaComponent implements OnInit {
             .concat("/")
             .concat(this.mes_seleccionado)
             .concat("/")
-            .concat("1"),
+            .concat(d.getDate()),
         });
         this.alicuotaM[i].fecha_pago = moment(
           this.alicuotaM[i].fecha_pago
@@ -419,6 +415,9 @@ export class AlicuotaComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  openReporte(content) {
+    this.modalService.open(content);
+  }
   openAlicuota(content, alicuota = null) {
     if (alicuota) {
       this.id_alicuota = alicuota.ID;
@@ -532,11 +531,29 @@ export class AlicuotaComponent implements OnInit {
     this.paramVilla = null;
   }
 
-  async UpdatePago() {
+  UpdatePago() {
+    Swal.fire({
+      title: "¿Está seguro de realizar esta acción?",
+      // text: "Esta acción no se puede reversar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#343A40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.value) {
+        this.pagar();
+      } else {
+      }
+    });
+  }
+
+  async pagar() {
     let id = this.id_alicuota;
     let response: any;
     const body = {
-      estado: this.estadoalicuota,
+      estado: 'PAGADO',
     };
     console.log("update body: ", body);
     response = await this.auth.editAlicuota(id, body);
