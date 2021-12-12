@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: left;">
-                        <tr *ngFor="let c of contactos | filter:filterName; let i=index ">
+                        <tr *ngFor="let c of contactos | horario:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>

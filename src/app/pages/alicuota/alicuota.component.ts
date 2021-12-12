@@ -553,7 +553,7 @@ export class AlicuotaComponent implements OnInit {
     let id = this.id_alicuota;
     let response: any;
     const body = {
-      estado: 'PAGADO',
+      estado: "PAGADO",
     };
     console.log("update body: ", body);
     response = await this.auth.editAlicuota(id, body);
@@ -567,5 +567,9 @@ export class AlicuotaComponent implements OnInit {
       this.filtrovilla = null;
       this.filtroEstado = null;
     }
+  }
+  resetReportes() {
+    this.tipoReporte = null;
+    this.modalService.dismissAll();
   }
 }

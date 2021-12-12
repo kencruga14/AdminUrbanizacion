@@ -29,6 +29,12 @@ import { AlicuotaComponent } from "./pages/alicuota/alicuota.component";
 import { ResidenteComponent } from "./pages/residente/residente.component";
 import { CasaComponent } from "./pages/casa/casa.component";
 import { FilterPipe } from "./pipes/filter.pipe";
+import { GalhorariorPipe } from "./pipes/galhorarior.pipe";
+import { GaleriaPipe } from "./pipes/galeria.pipe";
+import { DirectivosPipe } from "./pipes/directivos.pipe";
+import { PreguntaPipe } from "./pipes/mivoto.pipe";
+import { CasaPipe } from "./pipes/casa.pipe";
+import { ExpresoPipe } from "./pipes/expreso.pipe";
 import {
   DlDateTimeDateModule,
   DlDateTimePickerModule,
@@ -96,6 +102,12 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     AreasocialComponent,
     FilterPipe,
     MultiFilterPipe,
+    GalhorariorPipe,
+    GaleriaPipe,
+    DirectivosPipe,
+    PreguntaPipe,
+    CasaPipe,
+    ExpresoPipe,
     AdmingaritaComponent,
     ListabitacoraComponent,
     ExpresoescolarComponent,
@@ -142,4 +154,4 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
   providers: [{ provide: LOCALE_ID, useValue: "es" }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

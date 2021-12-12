@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: left;">
-                        <tr *ngFor="let mat of imagenes | filter:filterName; let i=index ">
+                        <tr *ngFor="let mat of imagenes | galeria:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>

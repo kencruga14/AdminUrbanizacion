@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: left;">
-                        <tr *ngFor="let admin of admins | filter:filterName; let i=index ">
+                        <tr *ngFor="let admin of admins | directivos:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>

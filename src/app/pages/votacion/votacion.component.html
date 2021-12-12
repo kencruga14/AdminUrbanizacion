@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
-                        <tr *ngFor="let ali of encuestas | filter:filterName; let i=index ">
+                        <tr *ngFor="let ali of encuestas | mivoto:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>
