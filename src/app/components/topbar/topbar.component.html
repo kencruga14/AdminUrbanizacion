@@ -1,12 +1,13 @@
 <header class="topbar">
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html"><b>
+            <div class="navbar-brand"><b>
                     <img src="../assets/images/Logo-60.png" alt="homepage" class="dark-logo" />
                     <img src="../assets/images/Logo-60.png" width="50px" alt="homepage" class="light-logo" />
                 </b><span>
-                 <img src="../assets/images/Logo-60.png" alt="homepage" class="dark-logo" />
-                 <img src="../assets/images/Practical-morado.png" width="150px" class="light-logo" alt="homepage" /></span> </a>
+                    <img src="../assets/images/Logo-60.png" alt="homepage" class="dark-logo" />
+                    <img src="../assets/images/Practical-morado.png" width="150px" class="light-logo"
+                        alt="homepage" /></span> </div>
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
@@ -17,8 +18,11 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav mr-auto mt-md-0">
                 <!-- This is  -->
-                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
-                <li class="nav-item m-l-10"> <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark"
+                        href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                <li class="nav-item m-l-10"> <a
+                        class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark"
+                        href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
                 <!-- ============================================================== -->
                 <!-- Comment -->
                 <!-- ============================================================== -->
@@ -46,32 +50,31 @@
                 <!-- ============================================================== -->
                 <!-- Language -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
-
-                </li>
+                
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngFor="let m of masters"><strong>{{m.nombres }} {{m.apellido}}</strong></a>
-                    <div class="dropdown-menu dropdown-menu-right scale-up">
+                <div *ngFor="let m of masters">
+                    <strong style="color: white;">{{m.nombres }} {{m.apellido+"  "}}</strong>
+                    <a  href="" class="btn btn-rounded btn-danger btn-sm" (click)="logout()">Cerrar Sesión</a>
+                </div>
+                <!--<div class="dropdown-menu dropdown-menu-right scale-up">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box"  *ngFor="let m of masters">
-                                    <div class="u-img"><img [src]="m.imagen" alt="user"></div>
+                                    
                                     <div class="u-text">
                                         <h4>{{m.usuario}}</h4>
                                         <p class="text-muted">{{m.correo}}</p>
                                         <p class="text-muted">{{m.telefono}}</p>
                                         <div style="padding-left: 50px;">
-                                        <a href="" class="btn btn-rounded btn-danger btn-sm" (click)="logout()">Cerrar Sesión</a>
+                                        
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                </li>
+                    </div>-->
             </ul>
         </div>
     </nav>
