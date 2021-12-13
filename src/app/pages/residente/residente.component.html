@@ -52,13 +52,17 @@
                             <td>{{et.usuario.telefono}}</td>
                             <td *ngIf="et.is_principal == true">Si</td>
                             <td *ngIf="et.is_principal == false">No</td>
-                            <td>14-03-1994</td>
-                            <td>pdf</td>
+                            <td>{{et.fecha_nacimiento | date: 'dd-MM-yyyy'}}</td>
+                            <td>
+                                <figure>
+                                    <img class="avatar" src="../assets/images/pdf.jpg" data-holder-rendered="true"
+                                        alt="image" (click)="openImage(contentImage, et)" />
+                                </figure>
+                            </td>
                             <td *ngIf="et.autorizacion == true">Si</td>
                             <td *ngIf="et.autorizacion == false">No</td> <!-- <td></td> -->
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Editar"
-                                    (click)="openResidente(contentResidente, et)"> <i
+                                <a data-toggle="tooltip" data-original-title="pdf"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
@@ -88,11 +92,11 @@
         <form (ngSubmit)="gestionResidente()" #form="ngForm">
             <div class="modal-body">
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label>Pdf</label>
-                    <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" type="file"
-                        accept="application/pdf" required>
-                </div>
+                    <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
+                        type="file" accept="application/pdf" required>
+                </div> -->
                 <div class="form-group">
                     <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
                         required placeholder="Nombre">
@@ -124,31 +128,37 @@
                     <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text"
                         required placeholder="Convencional">
                 </div>
-                <div class="form-group" *ngIf="residente.edit === true">
+                <div class="form-group">
                     <!-- editar -->
                     <label>Manzana</label>
-                    <!-- {{manzana}} -->
-                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select">
-                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
-                    </select>
-                </div>
-
-                <div class="form-group" *ngIf="!residente">
-                    <!-- crear -->
-                    <label>Manzana</label>
-                    <!-- {{manzana}} -->
                     <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
                         <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
 
+                <!-- <div class="form-group" *ngIf="!residente">
+                    crear
+                    <label>Manzana</label>
+                    {{manzana}}
+                    {{villa}}
+                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
+                        (change)="getVillas($event.target.value)">
+                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
+                    </select>
+                </div> -->
 
-                <div class="form-group">
+                <div class="form-group" *ngIf="casasselector?.length > 0">
                     <label>Villa</label>
-                    <!-- {{villa}} -->
                     <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
                         <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group" *ngIf="casasselector?.length  < 1">
+                    <label>Villa</label>
+                    <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
+                        <option>{{villa}}</option>
                     </select>
                 </div>
 
@@ -159,6 +169,7 @@
                         <option [ngValue]="false">No</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label>Crear Autorizaciones</label>
                     <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
@@ -171,7 +182,7 @@
                     <label>Fecha de nacimiento</label>
                     <br>
                     <p-calendar [(ngModel)]="fechanacimiento" [showIcon]="true" [locale]="es" [monthNavigator]="true"
-                        [yearNavigator]="true" yearRange="1940:2021"></p-calendar>
+                        [yearNavigator]="true" yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
                 </div>
 
 

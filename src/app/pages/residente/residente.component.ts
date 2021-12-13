@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
 import _ from "lodash";
+import * as moment from "moment";
 
 @Component({
   selector: "app-residente",
@@ -12,13 +13,13 @@ import _ from "lodash";
   styleUrls: ["./residente.component.css"],
 })
 export class ResidenteComponent implements OnInit {
-  residentes: UsuarioModelo[] = [];
+  residentes: any;
   casas: UsuarioModelo[] = [];
   id_residente: 0;
   id_casa: 0;
   nombres: "";
   manzanaselector: [];
-  casasselector: [];
+  casasselector: any;
   edit: false;
   telefono: "";
   pdf: any;
@@ -46,6 +47,7 @@ export class ResidenteComponent implements OnInit {
   autorizacionFija: boolean;
   id_urbanizacion: any;
   filterName = "";
+  pdfEdit = null;
   villa: any;
   residente = {
     id_casa: 0,
@@ -157,41 +159,25 @@ export class ResidenteComponent implements OnInit {
     this.acceso.id_residente = acceso.id_etapa;
     this.modalService.open(content);
   }
-  preview(event: any) {
+
+  PDF(event: any) {
     const fileData = event.target.files[0];
-    const mimeType = fileData.type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
-      this.imagen = reader.result;
+      this.pdf = reader.result;
     };
-    this.changeFoto = true;
+    console.log("pdf base: ", this.pdf);
   }
 
-  // getManzana(value) {
-  //   console.log("valor filtrar manzana principal: ", value);
-  //   this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-  //     this.casasFiltro = resp;
-  //     console.log("Casas filtradas: ", this.casas);
-  //   });
-  // }
-
-  saveEditPicture(event: any) {
-    // console.log("entró preview:");
+  PDFEDIT(event: any) {
     const fileData = event.target.files[0];
-    const mimeType = fileData.type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
-      this.imagenEdit = reader.result;
+      this.pdfEdit = reader.result;
     };
-    this.changeFoto = true;
+    console.log("pdf base: ", this.pdf);
   }
 
   openImage(content, admin) {
@@ -200,6 +186,7 @@ export class ResidenteComponent implements OnInit {
   }
 
   openResidente(content, residente = null) {
+    console.log("usuario seleccionado: ", residente);
     if (residente) {
       this.id_residente = residente.ID;
       this.id = residente.ID;
@@ -215,8 +202,9 @@ export class ResidenteComponent implements OnInit {
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
       this.is_principal = residente.is_principal;
+      // this.pdf = residente.usuario.pdf
       // this.id_casa = residente.id_casa;
-      this.id_villa = residente.casa.villa;
+      this.villa = residente.casa.villa;
       this.apellido = residente.usuario.apellido;
       this.imagenEdit = residente.usuario.imagen;
       this.autorizacion = residente.autorizacion;
@@ -243,6 +231,7 @@ export class ResidenteComponent implements OnInit {
     let response: any;
     if (this.residente.edit) {
       const body = {
+        id_casa: this.villa,
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
@@ -250,20 +239,22 @@ export class ResidenteComponent implements OnInit {
           apellido: this.apellido,
           celular: this.celular,
           correo: this.correo,
-          // imagen: this.imagenEdit,
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          // fecha_nacimiento: this.fechanacimiento,
+          // documeto: this.pdfEdit,
         },
       };
       console.log("body editar residente: ", body);
       response = await this.auth.editResidente(this.id, body);
     } else {
       const body = {
-        id_casa: this.id_casa,
+        id_casa: this.villa,
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
+        fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
           apellido: this.apellido,
           celular: this.celular,
@@ -271,29 +262,29 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          // documento: this.pdf,
         },
       };
       console.log("body crear residente: ", body);
-
       response = await this.auth.createResidente(body);
     }
     if (response) {
       this.modalService.dismissAll();
-      // this.getResidente();
       this.imagen = null;
       this.imagenPerfila = null;
       this.imagenEdit = null;
-      // this.manzanaselector = [];
-      // this.casasselector = [];
       this.id_casa = null;
-      // this.getAdmin();
+      this.fechanacimiento = null;
+      this.pdfEdit = null;
+      this.pdf = null;
     }
     this.imagen = null;
     this.imagenPerfila = null;
     this.imagenEdit = null;
-    // this.manzanaselector = [];
-    // this.casasselector = [];
     this.id_casa = null;
+    this.fechanacimiento = null;
+    this.pdfEdit = null;
+    this.pdf = null;
     this.getResidente();
   }
 

@@ -7,28 +7,27 @@
                     <label>Seleccione la categoría</label>
                     <select name="categoria" [(ngModel)]="idCategoria" class="form-control custom-select"
                         (change)="ObtenerEmprendimientos($event.target.value)">
+                        <option value="todas"> Todas</option>
                         <option *ngFor="let ur of categorias" value="{{ ur.ID }}">{{ur.nombre}}</option>
                     </select>
                 </div>
             </div>
-
-            <!-- <div *ngIf="emprendimientoss.length > 0"> -->
-            <div class="container-fluid">
-                <label>Lista de Emprendimientos</label>
-                <div class="row">
-                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12" *ngFor="let item of emprendimientos">
-                        <figure class="box">
-                            <div class="card" style="width: 250px; height: 250px">
-                                <img (click)="openEmprendimiento(contentEmprendimiento, item)"
-                                    class="card-img-top centrado" [src]="item.imagen" alt="Error Horarios" />
-                                <p class="card-text centrartexto">{{item.titulo}}</p>
-                            </div>
-                        </figure>
-                        <!-- </div> -->
+            <label>Lista de Emprendimientos</label>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngFor="let item of emprendimientos">
+                    <div class="card" style="width: 90px; height: 90px; margin-bottom: 0;">
+                        <!-- <figure class=""> -->
+                        <img (click)="openEmprendimiento(contentEmprendimiento, item)" style=" height: 100%;
+                            object-fit: cover;
+                            object-position: center center;" [src]="item.imagen" alt="Error Horarios" />
+                        <!-- </figure> -->
                     </div>
+                    <p class="card-text centrartexto">{{item.titulo}}<br>
+                    </p>
+                    <p class="centrartexto separador"> {{item.CreatedAt | date:
+                        'dd/MM/yyyy'}}</p>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- </div> -->
@@ -36,7 +35,8 @@
 
         <div class="modal-header" *ngIf="emprendimiento">
             <h5 class="modal-title" id="exampleModalScrollableTitle">{{emprendimiento.titulo}}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -46,7 +46,6 @@
             </figure>
             <label><strong>Descripción:</strong></label>
             <p>{{emprendimiento.descripcion}}</p>
-
             <div class="row">
                 <div class="col-6">
                     <span class="badge badge-pill badge-info bad">Precio:$ {{emprendimiento.precio}}</span>

@@ -16,13 +16,27 @@
   font-size: 15px;
 }
 .centrartexto {
-  margin-top: 5px;
   text-align: center;
   font-family: cursive;
+  font-size: 12.5px;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-top: 0;
 }
-
+.separador {
+  margin-bottom: 20px;
+}
 .listEmprendimientos {
   font-family: serif;
   font-size: larger;
   font-weight: bold;
+}
+.resp {
+  width: 200px;
+  height: 200px;
+  margin-left: 0.5px;
+  margin-right: 0.5px;
+  border: 1px;
 }
