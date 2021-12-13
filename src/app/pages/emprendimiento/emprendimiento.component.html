@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="form-group col-3">
                     <label>Seleccione la categoría</label>
-                    <select name="categoria" [(ngModel)]="categorias" class="form-control custom-select"
+                    <select name="categoria" [(ngModel)]="idCategoria" class="form-control custom-select"
                         (change)="ObtenerEmprendimientos($event.target.value)">
                         <option *ngFor="let ur of categorias" value="{{ ur.ID }}">{{ur.nombre}}</option>
                     </select>
@@ -15,8 +15,8 @@
             <!-- <div *ngIf="emprendimientoss.length > 0"> -->
             <div class="container-fluid">
                 <label>Lista de Emprendimientos</label>
-                <div *ngIf="emprendimientos.length > 0" class="row">
-                    <div *ngFor="let item of emprendimientos" class="col-4">
+                <div class="row">
+                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12" *ngFor="let item of emprendimientos">
                         <figure class="box">
                             <div class="card" style="width: 250px; height: 250px">
                                 <img (click)="openEmprendimiento(contentEmprendimiento, item)"
@@ -24,46 +24,48 @@
                                 <p class="card-text centrartexto">{{item.titulo}}</p>
                             </div>
                         </figure>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
-<!-- </div> -->
-<ng-template #contentEmprendimiento let-modal>
+    <!-- </div> -->
+    <ng-template #contentEmprendimiento let-modal>
 
-    <div class="modal-header" *ngIf="emprendimiento">
-        <h5 class="modal-title" id="exampleModalScrollableTitle">{{emprendimiento.titulo}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <figure class="box">
-            <img [src]="emprendimiento.imagen" alt="image" />
-        </figure>
-        <label><strong>Descripción:</strong></label>
-        <p>{{emprendimiento.descripcion}}</p>
+        <div class="modal-header" *ngIf="emprendimiento">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">{{emprendimiento.titulo}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <figure class="box">
+                <img [src]="emprendimiento.imagen" alt="image" />
+            </figure>
+            <label><strong>Descripción:</strong></label>
+            <p>{{emprendimiento.descripcion}}</p>
 
-        <div class="row">
-            <div class="col-6">
-                <span class="badge badge-pill badge-info bad">Precio:$ {{emprendimiento.precio}}</span>
-            </div>
-            <div class="col-6">
-                <span class="badge badge-pill badge-info bad">Teléfono: {{emprendimiento.telefono}}</span>
-            </div>
-            <div class="col-6">
-                <span class="badge badge-pill badge-info bad">Usuario: {{emprendimiento.nombre_usuario}}</span>
-            </div>
-            <div class="col-6">
-                <span class="badge badge-pill badge-info bad">Fecha: {{emprendimiento.CreatedAt | date:
-                    'dd/MM/yyyy'}}</span>
+            <div class="row">
+                <div class="col-6">
+                    <span class="badge badge-pill badge-info bad">Precio:$ {{emprendimiento.precio}}</span>
+                </div>
+                <div class="col-6">
+                    <span class="badge badge-pill badge-info bad">Teléfono: {{emprendimiento.telefono}}</span>
+                </div>
+                <div class="col-6">
+                    <span class="badge badge-pill badge-info bad">Usuario: {{emprendimiento.nombre_usuario}}</span>
+                </div>
+                <div class="col-6">
+                    <span class="badge badge-pill badge-info bad">Fecha: {{emprendimiento.CreatedAt | date:
+                        'dd/MM/yyyy'}}</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-        <button (click)="deleteEmprendimiento(emprendimiento.ID)" type="button" class="btn btn-danger">Eliminar</button>
-    </div>
-</ng-template>
+        <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+            <button (click)="deleteEmprendimiento(emprendimiento.ID)" type="button"
+                class="btn btn-danger">Eliminar</button>
+        </div>
+    </ng-template>

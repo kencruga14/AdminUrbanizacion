@@ -2,19 +2,35 @@ th,
 td {
   padding: 10px;
   width: 50%;
-  white-space:nowrap
+  white-space: nowrap;
 }
-
-.box img{
+.md-datepicker-calendar-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1151;
+  border-width: 1px;
+  border-style: solid;
+  background: transparent;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  transition: -webkit-transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .md-datepicker-calendar-pane.md-pane-open {
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+.box img {
   width: 100%;
   height: auto;
 }
-@supports(object-fit: cover){
-    .box img{
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-    }
+@supports (object-fit: cover) {
+  .box img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
 }
 
 .avatar {
@@ -22,4 +38,8 @@ td {
   width: 70px;
   height: 70px;
   border-radius: 100%;
+}
+
+::ng-deep .cdk-overlay-container{
+  z-index: 1200 !important;
 }

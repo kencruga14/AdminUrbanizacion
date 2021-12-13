@@ -15,6 +15,7 @@ export class EmprendimientoComponent implements OnInit {
   emprendimientoss: any;
   emprendimiento: any;
   categorias: any;
+  idCategoria: number;
   categoria: any;
   constructor(
     public auth: AuthService,
@@ -23,14 +24,21 @@ export class EmprendimientoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.ObtenerEmprendimientos();
+    this.getEmprendimientos();
     this.ObtenerCategorias();
   }
 
   ObtenerEmprendimientos(categoria) {
     this.auth.getEmprendimientos(categoria).subscribe((resp: any) => {
-      this.emprendimientos = resp;
-      console.log("emprendimientos: ", this.emprendimientos.cercas);
+      this.emprendimientos = resp["cercas"];
+      console.log("emprendimientos filtrados: ", this.emprendimientos);
+    });
+  }
+
+  getEmprendimientos() {
+    this.auth.obtenerEmprendimeintos().subscribe((resp: any) => {
+      this.emprendimientos = resp["cercas"];
+      console.log("emprendimientos: ", this.emprendimientos);
     });
   }
 
@@ -40,10 +48,6 @@ export class EmprendimientoComponent implements OnInit {
       console.log("categorias: ", this.categorias);
     });
   }
-
-  // getTipoEmprendimientos(value) {
-  //   this.emprendimientoss = this.emprendimientos[value];
-  // }
 
   openEmprendimiento(content, emprendimiento) {
     this.emprendimiento = emprendimiento;

@@ -5,7 +5,8 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
 import _ from "lodash";
-
+import { en_US, zh_CN, NzI18nService } from "ng-zorro-antd/i18n";
+import * as moment from "moment";
 @Component({
   selector: "app-residente",
   templateUrl: "./residente.component.html",
@@ -17,6 +18,7 @@ export class ResidenteComponent implements OnInit {
   id_residente: 0;
   id_casa: 0;
   nombres: "";
+  villa: any;
   manzanaselector: [];
   casasselector: [];
   edit: false;
@@ -32,6 +34,7 @@ export class ResidenteComponent implements OnInit {
   usuario: "";
   cedula: "";
   apellido: "";
+  es: any;
   contrasena: "";
   imagenEdit = null;
   changeFoto = false;
@@ -55,6 +58,8 @@ export class ResidenteComponent implements OnInit {
     correo: "",
     telefono: "",
     usuario: "",
+    villa: "",
+    manzana: "",
     cedula: "",
     contrasena: "",
     apellido: "",
@@ -73,6 +78,50 @@ export class ResidenteComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.id_urbanizacion = Number(localStorage.getItem("id_urbanizacion"));
+    this.es = {
+      firstDayOfWeek: 1,
+      dayNames: [
+        "domingo",
+        "lunes",
+        "martes",
+        "miércoles",
+        "jueves",
+        "viernes",
+        "sábado",
+      ],
+      dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+      dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
+      monthNames: [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+      ],
+      monthNamesShort: [
+        "ene",
+        "feb",
+        "mar",
+        "abr",
+        "may",
+        "jun",
+        "jul",
+        "ago",
+        "sep",
+        "oct",
+        "nov",
+        "dic",
+      ],
+      today: "Hoy",
+      clear: "Borrar",
+    };
   }
 
   ngOnInit() {
@@ -125,13 +174,20 @@ export class ResidenteComponent implements OnInit {
     this.changeFoto = true;
   }
 
-  // getManzana(value) {
-  //   console.log("valor filtrar manzana principal: ", value);
-  //   this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-  //     this.casasFiltro = resp;
-  //     console.log("Casas filtradas: ", this.casas);
-  //   });
-  // }
+  PDF(event: any) {
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.pdf = reader.result;
+    };
+    // this.changeFoto = true;
+    console.log("pdf: ", this.pdf);
+  }
 
   saveEditPicture(event: any) {
     // console.log("entró preview:");
@@ -154,6 +210,7 @@ export class ResidenteComponent implements OnInit {
   }
 
   openResidente(content, residente = null) {
+    console.log("seleccionado: ", residente);
     if (residente) {
       this.id_residente = residente.ID;
       this.id = residente.ID;
@@ -170,10 +227,11 @@ export class ResidenteComponent implements OnInit {
       this.manzana = residente.casa.manzana;
       this.is_principal = residente.is_principal;
       // this.id_casa = residente.id_casa;
-      this.id_villa = residente.casa.villa;
+      this.villa = residente.casa.villa;
       this.apellido = residente.usuario.apellido;
       this.imagenEdit = residente.usuario.imagen;
       this.autorizacion = residente.autorizacion;
+      this.getVillas(this.manzana);
     } else {
       this.id_residente = 0;
       this.correo = "";
@@ -186,6 +244,8 @@ export class ResidenteComponent implements OnInit {
       this.imagen = null;
       this.usuario = "";
       this.id_casa = 0;
+      this.manzana = "";
+      this.villa = "";
       // this.is_principal = false;
       this.apellido = "";
       this.imagen = this.imagen;
@@ -208,10 +268,12 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          documento: this.pdf,
+          fecha_nacimiento: moment().format(this.fechanacimiento),
         },
       };
       console.log("body editar residente: ", body);
-      response = await this.auth.editResidente(this.id, body);
+      // response = await this.auth.editResidente(this.id, body);
     } else {
       const body = {
         id_casa: this.id_casa,
@@ -225,11 +287,13 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          documento: this.pdf,
+          fecha_nacimiento: moment().format(this.fechanacimiento),
         },
       };
       console.log("body crear residente: ", body);
 
-      response = await this.auth.createResidente(body);
+      // response = await this.auth.createResidente(body);
     }
     if (response) {
       this.modalService.dismissAll();

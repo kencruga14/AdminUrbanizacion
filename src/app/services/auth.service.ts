@@ -154,6 +154,22 @@ export class AuthService {
       );
   }
 
+  obtenerEmprendimeintos() {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/emprendimiento`,
+        { headers }
+      )
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
   getEmprendimientos(categoriaID) {
     const headers = new HttpHeaders({
       token: this.userToken,
@@ -178,7 +194,7 @@ export class AuthService {
       .get(`${environment.apiUrl}/admin-etapa/categoria`, { headers })
       .pipe(
         map((resp: any) => {
-          console.log({resp})
+          console.log({ resp });
           return resp.respuesta;
         })
       );

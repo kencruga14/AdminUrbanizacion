@@ -86,33 +86,11 @@
 
         <form (ngSubmit)="gestionResidente()" #form="ngForm">
             <div class="modal-body">
-                <!-- <div class="form-group" *ngIf="imagenEdit">
-                    <div class="image-preview mb-3" *ngIf="imagenEdit">
-                        <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
-                    </div>
-                    <label for="imagen">Imagen de Perfil</label>
-                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
-                    <small id="passwordHelpBlock" class="form-text text-muted">
-                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
-                        359 x 316.
-                    </small>
-                </div>
 
-                <div class="form-group" *ngIf="!imagenEdit">
-                    <div class="image-preview mb-3" *ngIf="imagenPerfila">
-                        <img class="img-fluid" [src]="imagenPerfila" height="500" width="100" />
-                    </div>
-                    <label for="imagen">Imagen de Perfil</label>
-                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
-                    <small id="passwordHelpBlock" class="form-text text-muted">
-                        El peso de la imagen d-ebe ser menor 2Mb a y la resolucion debe ser
-                        359 x 316.
-                    </small>
-                </div> -->
                 <div class="form-group">
                     <label>Pdf</label>
-                    <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" type="file" accept="application/pdf"
-                        required>
+                    <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" type="file"
+                        accept="application/pdf" required>
                 </div>
                 <div class="form-group">
                     <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
@@ -145,20 +123,34 @@
                     <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text"
                         required placeholder="Convencional">
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="residente.edit === true">
+                    <!-- editar -->
                     <label>Manzana</label>
+                    <!-- {{manzana}} -->
+                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select">
+                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group" *ngIf="!residente">
+                    <!-- crear -->
+                    <label>Manzana</label>
+                    <!-- {{manzana}} -->
                     <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
                         <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
 
+
                 <div class="form-group">
                     <label>Villa</label>
-                    <select name="id_casa" [(ngModel)]="id_casa" class="form-control custom-select">
+                    <!-- {{villa}} -->
+                    <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
                         <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label>Votación</label>
                     <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
@@ -176,16 +168,10 @@
 
                 <div class="form-group">
                     <label>Fecha de nacimiento</label>
-                    <input [value]="fechanacimiento" [(ngModel)]="fechanacimiento" name="fechanacimiento" class="form-control" type="date"
-                        required>
+                    <br>
+                    <p-calendar [(ngModel)]="fechanacimiento" [showIcon]="true" [locale]="es" [monthNavigator]="true"
+                        [yearNavigator]="true" yearRange="1940:2021"></p-calendar>
                 </div>
-                <!-- <div class="form-group">
-                    <label>Autorización Fija</label>
-                    <select name="is_principal" [(ngModel)]="autorizacionFija" class="form-control custom-select">
-                        <option [ngValue]="true">Si</option>
-                        <option [ngValue]="false">No</option>
-                    </select>
-                </div> -->
 
 
             </div>

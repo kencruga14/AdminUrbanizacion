@@ -59,7 +59,8 @@
                                                                 </div> -->
 
                                 <span>{{item.key | titlecase}}</span>
-                                <span style="float:right; color:rgb(218, 28, 28) ">${{saldototal[item.key]}}</span>
+                                <span style="float:right; color:rgb(218, 28, 28) ">{{saldototal[item.key] |
+                                    currency}}</span>
                             </p-header>
                             <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                                 <thead>

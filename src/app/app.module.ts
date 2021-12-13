@@ -6,6 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgPipesModule } from "ng-pipes";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import {CalendarModule} from 'primeng/calendar';
 
 import { MomentModule } from "ngx-moment";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
@@ -35,6 +36,8 @@ import { DirectivosPipe } from "./pipes/directivos.pipe";
 import { PreguntaPipe } from "./pipes/mivoto.pipe";
 import { CasaPipe } from "./pipes/casa.pipe";
 import { ExpresoPipe } from "./pipes/expreso.pipe";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+
 import {
   DlDateTimeDateModule,
   DlDateTimePickerModule,
@@ -54,6 +57,7 @@ import { AccordionModule } from "primeng/accordion";
 import { MenuItem } from "primeng/api";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 import { ListboxModule } from "primeng/listbox";
@@ -81,6 +85,8 @@ import { CommonModule } from "@angular/common";
 import { IconDefinition } from "@ant-design/icons-angular";
 import * as AllIcons from "@ant-design/icons-angular/icons";
 import { MultiFilterPipe } from "./pipes/multifilter.pipe";
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from "@angular/material/core";
 @NgModule({
   declarations: [
     AppComponent,
@@ -121,7 +127,9 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    CalendarModule,
     NgbModule,
+    NzDatePickerModule,
     FormsModule,
     NgbPaginationModule,
     ReactiveFormsModule,
@@ -135,6 +143,7 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     MomentModule,
     NgxChartsModule,
     ColorPickerModule,
+    MatDatepickerModule,
     AccordionModule,
     // MatSelectModule,
     // MatSliderModule,
@@ -150,8 +159,14 @@ import { MultiFilterPipe } from "./pipes/multifilter.pipe";
     TabMenuModule,
     NgZorroAntdModule,
     NzButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: "es" }],
+  providers: [
+    MatDatepickerModule,
+    MatNativeDateModule,
+    { provide: LOCALE_ID, useValue: "es" },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
