@@ -2,11 +2,11 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Lista de Alicuotas</h4>
-            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button>
+            <h4 class="card-title">Lista de Alícuotas</h4>
+            <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alícuota</button>
             <!-- <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br> -->
-            <button style="float:right" class="btn btn-dark separador"
-                (click)="openAlicuota(contentAlicuota)">Reportes</button>
+            <button style="float:right" class="btn btn-warning separador"
+                (click)="openReporte(openReportes)">Reportes</button>
             <br>
             <div class="form-row align-items-center">
                 <!-----filtro manzana-->
@@ -44,12 +44,23 @@
                 </div>
             </div>
             <br>
-
             <!------------------------------------------------------Acordeon--------------------------------->
             <div *ngIf="!filtromanzana">
-                <p-accordion *ngFor="let item of fechaArray | keyvalue ">
+                <p-accordion *ngFor="let item of fechaArray | keyvalue; let i = index">
                     <div *ngIf="item.value.length >0">
-                        <p-accordionTab [header]="item.key | titlecase ">
+
+                        <!-- <p-accordionTab header="{{item.key | titlecase}} ${{saldototal[item.key]}}"> -->
+                        <p-accordionTab>
+                            <p-header>
+                                <!-- <div class="same-line">
+                                                                    <div class="on-the-left">{{item.key | titlecase}}</div>
+                                                                    <div class="on-the-center">Pagadas ${{saldototal[item.key]}}</div>
+                                                                    <div class="on-the-right">Vencidas: ${{saldototal[item.key]}}</div>
+                                                                </div> -->
+
+                                <span>{{item.key | titlecase}}</span>
+                                <span style="float:right; color:rgb(218, 28, 28) ">${{saldototal[item.key]}}</span>
+                            </p-header>
                             <table id="myTable" class="table color-bordered-table inverse-bordered-table">
                                 <thead>
                                     <tr style="text-align: center;">
@@ -413,12 +424,15 @@
             </ng-template>
 
             <ng-template #openMAlicuota let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Pagar alícuota</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <form>
                     <div class="modal-body">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Pagar alícuota</label>
-                            </div>
                             <div class="form-group col-md-4">
                                 <label>Mes:</label>
                                 <input [ngModel]="fecha_pago | date: 'MMMM' | titlecase" name="mes" class="form-control"
@@ -448,6 +462,83 @@
                             <span>Pagar</span>
                         </button>
                         <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template #openReportes let-modal>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Reportes alícuotas</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Seleccione:</label>
+                                <select name="tipoComun" [(ngModel)]="tipoReporte" class="form-control custom-select">
+                                    <option value="DIA">Día</option>
+                                    <option value="MES">Mes</option>
+                                    <option value="AÑO">Año</option>
+                                    <option value="TOTAL">Total</option>
+                                </select>
+                            </div>
+                            <div *ngIf="tipoReporte ==='DIA'">
+                                <div class="form-group col-md-12">
+                                    <label>Día:</label>
+                                    <input ngValue="totalDia" [(ngModel)]="totalDia" name="totalDia"
+                                        class="form-control" type="text" readonly>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Pagadas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Pagadas">
+                                </div>
+                            </div>
+                            <div *ngIf="tipoReporte ==='MES'">
+                                <div class="form-group col-md-12">
+                                    <label>Vencidas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Fecha">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Pagadas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Pagadas">
+                                </div>
+                            </div>
+                            <div *ngIf="tipoReporte ==='AÑO'">
+                                <div class="form-group col-md-12">
+                                    <label>Vencidas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Fecha">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Pagadas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Pagadas">
+                                </div>
+                            </div>
+                            <div *ngIf="tipoReporte ==='TOTAL'">
+                                <div class="form-group col-md-12">
+                                    <label>Total Pagadas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Fecha">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Total Vencidas:</label>
+                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
+                                        type="number" readonly placeholder="Pagadas">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button (click)="resetReportes()" type="submit" class="btn btn-info">
+                            <span>Cerrar</span>
+                        </button>
                     </div>
                 </form>
             </ng-template>
