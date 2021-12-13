@@ -4,6 +4,7 @@ import { UsuarioModelo } from "src/app/models/usuario.model";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
+import _ from "lodash";
 @Component({
   selector: "app-casa",
   templateUrl: "./casa.component.html",
@@ -87,10 +88,27 @@ export class CasaComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  sortByMzVilla = (casas) => {
+    let ints = [];
+    let strs = [];
+    _.forEach(casas, (r) => {
+      if (_.isNaN(parseInt(r.manzana))) strs.push(r);
+      else ints.push(_.assign(r, { "r.manzana": parseInt(r.manzana) }));
+    });
+    ints.sort((a, b) => a.manzana - b.manzana || a.villa - b.villa);
+    strs.sort(
+      (a, b) =>
+        a.manzana.localeCompare(b.manzana, "en", {
+          numeric: true,
+        }) || a.villa.localeCompare(b.villa, "en", { numeric: true })
+    );
+    return ints.concat(strs);
+  };
+
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
       console.log(resp);
-      this.casas = resp;
+      this.casas = this.sortByMzVilla(resp);
     });
   }
 

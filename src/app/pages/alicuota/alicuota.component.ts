@@ -140,6 +140,25 @@ export class AlicuotaComponent implements OnInit {
     this.totalDia = moment(new Date()).format("DD-MM-YYYY");
   }
 
+  sortByMzVilla = (ali) => {
+    let ints = [];
+    let strs = [];
+    _.forEach(ali, (r) => {
+      if (_.isNaN(parseInt(r.casa.manzana))) strs.push(r);
+      else ints.push(_.assign(r, { "casa.manzana": parseInt(r.casa.manzana) }));
+    });
+    ints.sort(
+      (a, b) => a.casa.manzana - b.casa.manzana || a.casa.villa - b.casa.villa
+    );
+    strs.sort(
+      (a, b) =>
+        a.casa.manzana.localeCompare(b.casa.manzana, "en", {
+          numeric: true,
+        }) || a.casa.villa.localeCompare(b.casa.villa, "en", { numeric: true })
+    );
+    return ints.concat(strs);
+  };
+
   chainGroup = (arr, fn1, fn2, fn3) =>
     _.chain(_.groupBy(arr, fn1))
       .toPairs()
@@ -150,15 +169,9 @@ export class AlicuotaComponent implements OnInit {
 
   clasificarAlicuotas(alicuotas) {
     const comunes = _.filter(alicuotas, { tipo: "COMUN" });
-    const saldo = _.orderBy(
-      _.filter(alicuotas, { tipo: "SALDO" }),
-      ["casa.manzana", "casa,villa"],
-      ["asc", "asc"]
-    );
-    const extraordinaria = _.orderBy(
-      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" }),
-      ["casa.manzana", "casa,villa"],
-      ["asc", "asc"]
+    const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
+    const extraordinaria = this.sortByMzVilla(
+      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
     );
 
     const saldos = this.chainGroup(
@@ -175,20 +188,7 @@ export class AlicuotaComponent implements OnInit {
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
       (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
       (ali) => {
-        ali[1] = _.orderBy(
-          ali[1],
-          [
-            (r) =>
-              !isNaN(parseInt(r.casa.manzana))
-                ? parseInt(r.casa.manzana)
-                : r.casa.manzana,
-            (r) =>
-              !isNaN(parseInt(r.casa.villa))
-                ? parseInt(r.casa.villa)
-                : r.casa.villa,
-          ],
-          ["asc", "asc"]
-        );
+        ali[1] = this.sortByMzVilla(ali[1]);
       }
     );
     console.log(porFecha);

@@ -11,7 +11,7 @@ import * as moment from "moment";
   providedIn: "root",
 })
 export class AuthService {
-  permisos: any = {}
+  permisos: any = {};
   loading = false;
   master: UsuarioModelo;
   private apikey = "";
@@ -101,7 +101,7 @@ export class AuthService {
     if (localStorage.getItem("token")) {
       this.userToken = localStorage.getItem("token");
       this.info = JSON.parse(localStorage.getItem("info"));
-      this.permisos = JSON.parse(localStorage.getItem("permisos"))
+      this.permisos = JSON.parse(localStorage.getItem("permisos"));
 
       this.infoGuard = 1;
     } else {
@@ -161,12 +161,42 @@ export class AuthService {
       );
   }
 
-  getEmprendimientos() {
+  obtenerEmprendimeintos() {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
       .get(`${environment.apiUrl}/admin-etapa/emprendimiento`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getCategorias() {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/categoria`, { headers })
+      .pipe(
+        map((resp: any) => {
+          console.log({ resp });
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getEmprendimientos(categoriaID) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/emprendimiento?id_categoria=${categoriaID}`,
+        { headers }
+      )
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -1092,7 +1122,7 @@ export class AuthService {
       );
   }
 
-  getReservasAreaSocialxId(id:string) {
+  getReservasAreaSocialxId(id: string) {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1105,25 +1135,7 @@ export class AuthService {
       );
   }
 
-
-  getRecaudacionesAreaSocialxId(id:string, fecha:string) {
-    let params = new HttpParams();
-    params = params.append("fecha", fecha);
-    const headers = new HttpHeaders({
-      token: this.userToken,
-    });
-    return this.http
-      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers , params})
-      .pipe(
-        map((resp: any) => {
-          return resp.respuesta;
-        })
-      );
-  }
-
-
   getBuzonRecibidos() {
-
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1135,7 +1147,7 @@ export class AuthService {
             resolve([true, response.respuesta]);
           },
           (error: any) => {
-            console.log(error)
+            console.log(error);
             if (!this.tokenIsValid(error.status)) {
               // this.showAlert("Error al cargar miembros", "error");
             }
@@ -1143,10 +1155,8 @@ export class AuthService {
           }
         );
     });
-
   }
   getMensajePorId(id) {
-
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1158,7 +1168,7 @@ export class AuthService {
             resolve([true, response.respuesta]);
           },
           (error: any) => {
-            console.log(error)
+            console.log(error);
             if (!this.tokenIsValid(error.status)) {
               // this.showAlert("Error al cargar miembros", "error");
             }
@@ -1166,11 +1176,9 @@ export class AuthService {
           }
         );
     });
-
   }
 
   getBuzonEnviados() {
-
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1182,7 +1190,7 @@ export class AuthService {
             resolve([true, response.respuesta]);
           },
           (error: any) => {
-            console.log(error)
+            console.log(error);
             if (!this.tokenIsValid(error.status)) {
               // this.showAlert("Error al cargar miembros", "error");
             }
@@ -1190,7 +1198,6 @@ export class AuthService {
           }
         );
     });
-
   }
 
   createAreaSocial(data) {
@@ -1808,13 +1815,15 @@ export class AuthService {
     });
   }
   createAutorizado(data) {
-    console.log(data)
+    console.log(data);
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return new Promise((resolve) => {
       this.http
-        .post(`${environment.apiUrl}/admin-etapa/admin-etapa`, data, { headers })
+        .post(`${environment.apiUrl}/admin-etapa/admin-etapa`, data, {
+          headers,
+        })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
@@ -1834,7 +1843,9 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .delete(`${environment.apiUrl}/admin-etapa/admin-etapa/${id}`, { headers })
+        .delete(`${environment.apiUrl}/admin-etapa/admin-etapa/${id}`, {
+          headers,
+        })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
@@ -1851,8 +1862,6 @@ export class AuthService {
   }
 
   // horarios
-
-
 
   createHorario(data) {
     this.loading = true;
@@ -1928,6 +1937,4 @@ export class AuthService {
         );
     });
   }
-
-
 }
