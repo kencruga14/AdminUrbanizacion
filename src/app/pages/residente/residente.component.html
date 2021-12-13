@@ -62,11 +62,15 @@
                             <td *ngIf="et.autorizacion == true">Si</td>
                             <td *ngIf="et.autorizacion == false">No</td> <!-- <td></td> -->
                             <td>
-                                <a data-toggle="tooltip" data-original-title="pdf"> <i
+                                <!-- <a data-toggle="tooltip" data-original-title="pdf"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a> -->
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openResidente(contentResidente, et)"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
-
                             </td>
                         </tr>
                         <tr *ngIf="(residentes).length === 0">

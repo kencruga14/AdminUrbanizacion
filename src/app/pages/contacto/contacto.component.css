@@ -2,7 +2,7 @@ th,
 td {
   padding: 10px;
   width: 50%;
-  white-space:nowrap
+  white-space: nowrap;
 }
 
 .centrado {
@@ -30,4 +30,9 @@ td {
   width: 150px;
   height: 70px;
   /* border-radius: 100%; */
+}
+
+.label {
+  margin: 0;
+  padding: 0;
 }

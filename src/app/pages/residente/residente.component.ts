@@ -231,10 +231,11 @@ export class ResidenteComponent implements OnInit {
     let response: any;
     if (this.residente.edit) {
       const body = {
-        id_casa: this.villa,
+        id_casa: Number(this.villa),
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
+        fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
           apellido: this.apellido,
           celular: this.celular,
@@ -242,7 +243,6 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
-          // fecha_nacimiento: this.fechanacimiento,
           // documeto: this.pdfEdit,
         },
       };
