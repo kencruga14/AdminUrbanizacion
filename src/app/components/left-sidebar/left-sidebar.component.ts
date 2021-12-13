@@ -12,7 +12,7 @@ export class LeftSidebarComponent implements OnInit {
 
   masters: UsuarioModelo[] = [];
   tipo_usuario: '';
-  permisos
+  permisos: any = {}
   constructor(public auth: AuthService,
     private router: Router,
     private modalService: NgbModal,) { }
