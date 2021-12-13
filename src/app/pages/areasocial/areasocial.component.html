@@ -23,7 +23,9 @@
                     <p class="card-text">{{mat.nombre}}</p>
                 </div>
                 <div class="col align-self-end" style="text-align:right;">
-                    <a data-toggle="tooltip" data-original-title="Editar" (click)="openArea(contentArea, mat)"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                 <a data-toggle="tooltip" data-original-title="Reservas" (click)="openReservas(contentAreaReservas, mat)"><i class="fa fa-list text-inverse m-r-10"></i> </a>
+                 <a data-toggle="tooltip" data-original-title="Horarios" (click)="openHorarios(contentHorarios, mat)"><i class="fa fa-clock-o text-inverse m-r-10"></i> </a>
+                <a data-toggle="tooltip" data-original-title="Editar" (click)="openArea(contentArea, mat)"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i class="fa fa-trash text-danger m-r-10"></i> </a>
                 </div>
             </div>
@@ -113,9 +115,13 @@
 
                 <div class="form-group" *ngIf="imagenEdit">
                     <!-- editar imagen -->
-                    <div class="image-preview mb-3" *ngIf="imagenEdit">
-                        <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
+                    <div class="contenedor" >
+                        <div class="image-preview mb-2" *ngIf="imagenEdit">
+                            <img  class="img-fluid" [src]="imagenEdit" height="60%" width="100%" />
+
                     </div>
+                    </div>
+                   
                     <label for="imagen">Imagen de Perfil</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
@@ -123,9 +129,10 @@
                         359 x 316.
                     </small>
                 </div>
-
+              
                 <div class="form-group" *ngIf="!imagenEdit">
                     <!-- ImagenCrear -->
+                   
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
                         <img class="img-fluid" [src]="imagenPerfil" height="500" width="100" />
                     </div>
@@ -143,42 +150,45 @@
                     <input [value]="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" type="text" required
                         placeholder="Nombre">
                 </div>
-                <div class="form-group">
-                    <label>Horario de apertura</label>
-                    <select name="hora_apertura" [(ngModel)]="hora_apertura" class="form-control custom-select">
-                        <option *ngFor="let ur of horas" value="{{ur}}">{{ur}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Horario de cierre</label>
-                    <select name="seleccihora_cierreonCosto" [(ngModel)]="hora_cierre"
-                        class="form-control custom-select">
-                        <option *ngFor="let ur of horas" value="{{ur}}">{{ur}}</option>
-                    </select>
-                </div>
+
+
+                
+          
+              
                 <div class="form-group">
                     <label>Tiempo de Reserva</label>
+
                     <select name="tiempo_reservacion_minutos" [(ngModel)]="tiempo_reservacion_minutos"
                         class="form-control custom-select">
+                        <option selected hidden value="">
+                            Seleccione tiempo
+                          </option>
                         <option value="60">1 hora</option>
-                        <option value="90">2 horas</option>
-                        <option value="120">3 horas</option>
-                        <option value="120">4 horas</option>
-                        <option value="120">5 horas</option>
-
+                        <option value=120>2 horas</option>
+                        <option value=180>3 horas</option>
+                        <option value=240>4 horas</option>
+                        <option value=300>5 horas</option>
                     </select>
                 </div>
+
+              
+
                 <div class="form-group">
                     <label>Tipo:</label>
                     <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
-                        
-                        <option value="GRATIS">Gratis</option>
-                        <option value="PAGADO">Pagado</option>
+                        <option selected hidden value="">
+                            Seleccione tipo
+                          </option>
+                        <option value="GRATIS">GRATIS</option>
+                        <option value="PAGADO">PAGADO</option>
                     </select>
                 </div>
-                <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'">
+
+           
+                
+                <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'  ">
                     <label>Valor:</label>
-                    <input [value]="valor" [(ngModel)]="valor" name="hora_cierre" class="form-control" type="number"
+                    <input [value]="precio" [(ngModel)]="precio" name="precio" class="form-control" type="number"
                         placeholder="">
                 </div>
             </div>
@@ -191,6 +201,209 @@
             </div>
         </form>
     </ng-template>
+
+    
+    <ng-template #contentAreaReservas let-modal>
+        <div class="modal-header">
+            <h4  class="modal-title" id="modal-basic-title"> REGISTRO DE RESERVAS REALIZADAS </h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <div class="modal-body">
+              
+                <div class="card">
+                    <div class="card-body">
+                      <div class="row mt-0">
+                        <div class="col-md-4 mb-2 ml-2">
+                        
+                        </div>
+                      </div>
+                      <div class="table table-responsive">
+                        <table class="col-md-12">
+                          <thead>
+                            <!-- <th scope="col">#</th> -->
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Hora Inicio</th>
+                            <th scope="col">Hora  Fin</th>
+                            <th style="padding-left: 20px;" scope="col">Tipo</th>
+                            <th style="text-align:center" scope="col">Valor</th>
+                            <th [width]="80" scope="col">Residente</th>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let div of reservas; let i = index">
+                              <!-- <td>{{ i + 1 }}</td> -->
+                              <td >{{ div.hora_inicio.split("T")[0] }}</td>
+                              <td style="padding-left: 25px;">{{ div.hora_inicio.split("T")[1].split("-")[0]|slice:0:5 }} </td>
+                              <td style="padding-left: 25px;">{{ div.hora_fin.split("T")[1].split("-")[0]|slice:0:5  }}</td>
+                              <td  *ngIf="div.valor_cancelado!=0"> PAGADO </td>
+                              <td  *ngIf="div.valor_cancelado==0"> GRATIS </td>
+                              <td style="padding-left: 25px;">{{ div.valor_cancelado }}</td>
+                              <td [width]="80" >{{ div.residente.usuario.nombres}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!area.edit">Guardar</span>
+                    <span *ngIf="area.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i> -->
+            </div>
+    </ng-template>
+
+
+
+    
+
+    <ng-template #contentHorarios let-modal>
+        <div class="modal-header">
+            <h4  class="modal-title" id="modal-basic-title"> REGISTRO DE HORARIOS </h4>
+            <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+        </div>
+            <div class="modal-body">
+              
+                <div class="card">
+                    <div class="card-body">
+                      <div class="row mt-0">
+                        <div class="col-md-4 mb-2 ml-2">
+                            <button type="button" class="btn btn-red btn-uppercase ml-1" (click)="open(modal, null)" >
+                                Crear Horario
+                              </button>
+                        </div>
+                      </div>
+                      <div class="table table-responsive">
+                        <table class="col-md-12">
+                          <thead>
+                            <th scope="col">#</th>
+                            <th scope="col">Dia</th>
+                            <th scope="col">Hora Inicio</th>
+                            <th scope="col">Hora Fin</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Fin</th>
+                            <th scope="col">Opciones</th>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let div of horarios; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ div.dia }}</td>
+                              <td>{{ div.hora_inicio.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
+                              <td>{{ div.hora_fin.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
+                              <td>{{ div.fecha_inicio.split("T")[0] }}</td>
+                              <td>{{ div.fecha_fin.split("T")[0]}}</td>
+                              <td>
+                                <a data-toggle="tooltip" data-original-title="Editar" (click)="open(modal, div)"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar"  (click)="eliminarHorario(div.ID)" ><i class="fa fa-trash text-danger m-r-10"></i> </a>
+                              </td> 
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                    <span *ngIf="!area.edit">Guardar</span>
+                    <span *ngIf="area.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i> -->
+            </div>
+
+            
+            <ng-template #modal let-modal>
+                <div class="animate__animated animate__fadeIn">
+                  <div class="modal-header">
+                    <h4 *ngIf="!item.edit" class="modal-title" id="modal-basic-title">
+                      Crear nuevo horario
+                    </h4>
+                    <h4 *ngIf="item.edit" class="modal-title" id="modal-basic-title">
+                      Editar horario
+                    </h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form (ngSubmit)="gestionHorarios()" #form="ngForm">
+                    <div class="modal-body">
+                      <div class="row">
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Dia</label>
+                                <select name="tiempo_reservacion_minutos" [(ngModel)]="item.dia"
+                                    class="form-control custom-select">
+                                    <option value="Lunes"> Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miercoles">Miercoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sabado">Sabado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="hora_inicio">Hora  Inicio</label>
+                                <input id="hora_inicio" [value]="item.hora_inicio" [(ngModel)]="item.hora_inicio" name="hora_inicio"
+                                  class="form-control" type="text" required />
+                              </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="hora_fin">Hora  Fin</label>
+                                <input id="hora_fin" [value]="item.hora_fin" [(ngModel)]="item.hora_fin" name="hora_fin"
+                                  class="form-control" type="text" required />
+                              </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="fecha_inicio">Fecha Inicio</label>
+                                <input id="fecha_inicio" [value]="item.fecha_inicio" [(ngModel)]="item.fecha_inicio" name="fecha_inicio"
+                                  class="form-control" type="date" required />
+                              </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="fecha_fin">Fecha Fin</label>
+                                <input id="fecha_fin" [value]="item.fecha_fin" [(ngModel)]="item.fecha_fin" name="fecha_fin"
+                                  class="form-control" type="date" required />
+                              </div>
+                        </div>
+            
+                        </div>
+                      </div>
+                   
+                    <div class="modal-footer">
+                      <button class="btn btn-red" type="submit" [disabled]="!form.valid">
+                        <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
+                            aria-hidden="true"></span>
+                          Loading...
+                        </span>
+                        <span *ngIf="!auth.loading">Guardar</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+
+
+
+    </ng-template>
+
 </div>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
@@ -215,3 +428,42 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #modal let-modal>
+    <div class="animate__animated animate__fadeIn">
+      <div class="modal-header">
+        <h4 *ngIf="!item.edit" class="modal-title" id="modal-basic-title">
+          Crear nuevo horario
+        </h4>
+        <h4 *ngIf="item.edit" class="modal-title" id="modal-basic-title">
+          Editar horario
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="gestionHorarios()" #form="ngForm">
+        <div class="modal-body">
+          <div class="row">
+              <div class="form-group">
+                <label for="hora_inicio">Hora de Inicio</label>
+                <input id="hora_inicio" [value]="item.hora_inicio" [(ngModel)]="item.hora_inicio" name="hora_inicio"
+                  class="form-control" type="text" required />
+              </div>
+
+            </div>
+          </div>
+       
+        <div class="modal-footer">
+          <button class="btn btn-red" type="submit" [disabled]="!form.valid">
+            <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
+                aria-hidden="true"></span>
+              Loading...
+            </span>
+            <span *ngIf="!auth.loading">Guardar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
