@@ -1,1 +1,187 @@
-<p>detail works!</p>
+<div *ngIf='ms.selectedMail'>
+    <!-- <div class="d-flex align-items-center p-3 border-bottom">
+        <h4 class="mb-0">{{ms.selectedMail.Subject}}
+            <span *ngFor="let l of ms.selectedMail.label" class="ml-2">
+                <span *ngIf='l==="Personal"' class="badge badge-pill badge-danger ml-1 font-12 font-medium"> PERSONAL
+                </span>
+                <span *ngIf='l==="Work"' class="badge badge-pill badge-info ml-1 font-12 font-medium"> WORK </span>
+                <span *ngIf='l==="Payment"' class="badge badge-pill badge-primary ml-1 font-12 font-medium"> PAYMENTS
+                </span>
+                <span *ngIf='l==="Invoice"' class="badge badge-pill badge-warning text-white ml-1 font-12 font-medium">
+                    INVOICES
+                </span>
+                <span *ngIf='l==="Account"' class="badge badge-pill badge-cyan  text-white ml-1 font-12 font-medium">
+                    ACCOUNTS
+                </span>
+            </span>
+        </h4>
+    </div> -->
+    <div class="p-3">
+        <div class="mb-1 ">
+            <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
+            <div>
+                <div class="row">
+                    <div class="col-md-6 text-left" *ngIf="!ms.selectedMail.is_admin">
+                        <h5 class="mb-0">{{ms.selectedMail.publicador.nombres}} {{ms.selectedMail.publicador.apellido}}
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-left" *ngIf="ms.selectedMail.is_admin">
+                        <h5 class="mb-0">De: Administración
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'M-d-yyyy, h:mm a'}}</span>
+
+                    </div>
+                </div>
+
+                <span class="text-muted ml-1">{{ms.selectedMail.titulo}}</span>
+            </div>
+
+        </div>
+        <div class="mb-4">
+            {{ms.selectedMail.descripcion}}
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
+                <button *ngIf="!ms.selectedMail.is_admin" (click)="openModal(content,ms.selectedMail)" type="button"
+                    class="btn btn-outline-info btn-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                    </svg>Responder
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div style="background-color: #f1f1f1; border-color: #f1f1f1; height: 20px;"></div>
+    <div style="height: 500px; overflow-y:scroll; padding-left: 20px;">
+        <div *ngIf='ms.selectedMail.respuestas.length==0' class="h-100 d-none d-lg-block">
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="text-center">
+                    <i class="far fa-envelope display-5"></i>
+                    <h3> No hay respuestas. </h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngFor="let mensaje of ms.selectedMail.respuestas">
+            <div class="p-3">
+                <div class="mb-1 ">
+                    <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6 text-left" *ngIf="!mensaje.is_admin">
+                                <h5 class="mb-0">{{mensaje.publicador.nombres}} {{mensaje.publicador.apellido}}
+                                </h5>
+                            </div>
+                            <div class="col-md-6 text-left" *ngIf="mensaje.is_admin">
+                                <h5 class="mb-0">De: Administración
+                                </h5>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <span class="text-muted">{{mensaje.CreatedAt| date:'M-d-yyyy, h:mm a'}}</span>
+
+                            </div>
+                        </div>
+
+                        <span *ngIf="mensaje.titulo" class="text-muted ml-1">{{mensaje.titulo}}</span>
+                    </div>
+
+                </div>
+                <div class="mb-4">
+                    {{mensaje.descripcion}}
+                </div>
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <button *ngIf="!mensaje.is_admin" (click)="openModal(content,mensaje)" type="button"
+                            class="btn btn-outline-info btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                            </svg>Responder
+                        </button>
+                    </div>
+
+                    <!-- <button (click)="preview()" type="button" class="btn btn-outline-info btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-paperclip" viewBox="0 0 16 16">
+                            <path
+                                d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                        </svg>
+                    </button> -->
+                </div>
+            </div>
+            <hr>
+
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+
+    <div class="modal-header " style="background-color:#7875ea ;">
+
+        <h4 class="modal-title text-white ">Nuevo mensaje</h4>
+
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" class="text-white">&times;</span>
+        </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+        <form action="">
+
+            <div class="form-group">
+                <label for="subject">Asunto</label>
+                <input type="text" class="form-control" id="subject" name="subject" [(ngModel)]="mensaje.titulo">
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="comment" placeholder="Ingrese texto aqui..."
+                    [(ngModel)]="mensaje.descripcion" name="mensaje"></textarea>
+            </div>
+            <div style="height: 100px;">
+                <div class="row ">
+
+                    <div class="col-md-2 text-center" *ngFor="let archivo of mensaje.adjuntos">
+                        <img src="assets/images/clip.png" style="height: 50px;" alt=""> <br>
+                        <span style="font-size: 12px;"> {{archivo.nombre}} </span>
+                    </div>
+                </div>
+            </div>
+            <form #form="ngForm">
+                <div class="d-flex align-items-center justify-content-between py-2 px-3 bg-light">
+                    <div>
+                        <a href="javascript:void(0)" (click)="fileInput.click()" class="link"><i
+                                class="icon-link font-16"></i></a>
+
+                    </div>
+                    <input style="display: none" name="archivos[]" type="file" accept="*/*" (change)="preview($event)"
+                        #fileInput>
+
+                    <div>
+                        <button (click)="descartar()" type="button" class="btn btn-danger ml-3"><i
+                                class="fas fa-trash mr-1"></i>Descartar</button>
+
+                        <button type="button" class="btn btn-secondary ml-3"
+                            (click)="enviarRespuesta(form)">Enviar</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+        </form>
+
+    </div>
+
+</ng-template>

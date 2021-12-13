@@ -12,7 +12,7 @@ export class MailGlobalVariable {
 
     public topLable = '';
     public mailList: any = [];
-    public selectedMail: Mailbox | null = null;
+    public selectedMail: any;
     public selectedUser: User | null = null;
 
     public users: User[] = [];
@@ -26,7 +26,7 @@ export class MailGlobalVariable {
     inboxCount = 0;
     spamCount = 0;
     draftCount = 0;
-    replyShow = false;
+    replyShow = true;
     addClass = true;
     type = '';
 
@@ -37,7 +37,7 @@ export class MailGlobalVariable {
 export class MailService {
 
     public getInbox() {
-        return mailboxList.filter(mail => mail.mailbox === 'Bandeja');
+        return mailboxList.filter(mail => mail.mailbox === 'Recibidos');
     }
     public getSent() {
         return mailboxList.filter(mail => mail.mailbox === 'Enviado');

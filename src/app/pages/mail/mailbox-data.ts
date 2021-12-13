@@ -9,7 +9,7 @@ export const mailboxList: Mailbox[] = [
         Message: '1.The phrase Lorem ipsum dolor sit amet consectetuer appears in Microsoft Word online Help. This phrase has the appearance of an intelligent Latin idiom. Actually, it is nonsense.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: ['Star'],
         label: ['Account', 'Personal']
     },
@@ -21,7 +21,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: ['Important'],
         label: []
     },
@@ -33,7 +33,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: [],
         label: ['Invoice']
     },
@@ -45,7 +45,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'The phrase Lorem ipsum dolor sit amet consectetuer appears. This phrase has the appearance of an intelligent Latin idiom. Actually, it is nonsense.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: [],
         label: ['Personal']
     },
@@ -57,7 +57,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'The phrase Lorem ipsum dolor sit amet consectetuer appears in Microsoft Word online Help. This phrase has the appearance of an intelligent Latin idiom. Actually, it is nonsense.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: ['Star', 'Important'],
         label: []
     },
@@ -69,7 +69,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: [],
         label: []
     },
@@ -93,7 +93,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: [],
         label: ['Personal', 'Invoice']
     },
@@ -105,7 +105,7 @@ export const mailboxList: Mailbox[] = [
         Message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         readStatus: false,
         seen: false,
-        mailbox: 'Bandeja',
+        mailbox: 'Recibidos',
         filter: [],
         label: ['Account']
     },

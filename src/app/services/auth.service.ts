@@ -1107,6 +1107,29 @@ export class AuthService {
     });
 
   }
+  getMensajePorId(id) {
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .get(`${environment.apiUrl}/admin-etapa/buzon/${id}`, { headers })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+          },
+          (error: any) => {
+            console.log(error)
+            if (!this.tokenIsValid(error.status)) {
+              // this.showAlert("Error al cargar miembros", "error");
+            }
+            resolve([false]);
+          }
+        );
+    });
+
+  }
 
   getBuzonEnviados() {
 
@@ -1179,6 +1202,29 @@ export class AuthService {
         );
     });
   }
+  responderMensaje(id, data) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .post(`${environment.apiUrl}/admin-etapa/buzon/${id}/responder`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
   enviarMensajeAdjunto(id, data) {
     this.loading = true;
     const headers = new HttpHeaders({
@@ -1196,7 +1242,7 @@ export class AuthService {
           },
           (error: any) => {
             this.loading = false;
-            this.showAlert(error.error.message, "error");
+            this.showAlert("error", "error");
             resolve(false);
           }
         );
