@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import Swal from "sweetalert2";
 import { environment } from "./../../environments/environment";
 import { UsuarioModelo } from "../models/usuario.model";
@@ -1098,6 +1098,22 @@ export class AuthService {
     });
     return this.http
       .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+
+  getRecaudacionesAreaSocialxId(id:string, fecha:string) {
+    let params = new HttpParams();
+    params = params.append("fecha", fecha);
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers , params})
       .pipe(
         map((resp: any) => {
           return resp.respuesta;

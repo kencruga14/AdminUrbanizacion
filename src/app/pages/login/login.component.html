@@ -1,611 +1,731 @@
-<header id="Inicio" class="header" #header
-    style="background: url('assets/images-home/banner-cambiado.jpg');background-position-x:center;">
-    <nav class="navbar navbar-expand-md navbar-dark navbar-custom " style="background:transparent;height:100px;">
-        <a class="navbar-brand logo-imag2e" style="max-width:100px;margin-left:-20px" href="/"><img
-                src="assets/images-home/tres.png" alt=""></a>
-        <!-- Mobile Menu Toggle Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-awesome fas fa-bars"></span>
-            <span class="navbar-toggler-awesome fas fa-times"></span>
-        </button>
+<header
+  id="Inicio"
+  class="header"
+  #header
+  style="
+    background: url('assets/images-home/banner-cambiado.jpg');
+    background-position-x: center;
+    height: 1220px;
+   
+  "
+>
+  <nav
+    class="navbar navbar-expand-md navbar-dark navbar-custom"
+    style="background: transparent; height: 100px"
+  >
+    <a
+      class="navbar-brand logo-imag2e"
+      style="max-width: 100px; margin-left: -20px"
+      href="/"
+      ><img src="assets/images-home/tres.png" alt=""
+    /></a>
+    <!-- Mobile Menu Toggle Button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarsExampleDefault"
+      aria-controls="navbarsExampleDefault"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-awesome fas fa-bars"></span>
+      <span class="navbar-toggler-awesome fas fa-times"></span>
+    </button>
 
-        <div class="collapse navbar-collapse " id="navbarsExampleDefault" style="z-index: 2;background:none;">
-            <ul class="navbar-nav ml-auto menu-tel" style="background:transparent;">
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" style="text-shadow:1.5px 1.5px #000" href="#Inicio">INICIO <span
-                            class="sr-only"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" style="text-shadow:1.5px 1.5px #000"
-                        href="#Caracteristicas">CARACTERÍSTICAS</a>
-                </li>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarsExampleDefault"
+      style="z-index: 2; background: none"
+    >
+      <ul class="navbar-nav ml-auto menu-tel" style="background: transparent">
+        <li class="nav-item">
+          <a
+            class="nav-link page-scroll"
+            style="text-shadow: 1.5px 1.5px #000"
+            href="#Inicio"
+            >INICIO <span class="sr-only"></span
+          ></a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link page-scroll"
+            style="text-shadow: 1.5px 1.5px #000"
+            href="#Caracteristicas"
+            >CARACTERÍSTICAS</a
+          >
+        </li>
 
+        <li class="nav-item">
+          <a
+            class="nav-link page-scroll"
+            style="text-shadow: 1.5px 1.5px #000"
+            href="#Contactenos"
+            >CONTÁCTENOS</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link page-scroll"
+            target="_blank"
+            href="https://bit.ly/3FLaxYP"
+            style="text-shadow: 1.5px 1.5px #000"
+          >
+            <font size="3px"><i class="fab fa-whatsapp"></i> 0999687766</font>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <span class="nav-item social-icons">
+      <span class="fa-stack">
+        <i
+          class="fas fa-circle fa-stack-2x"
+          style="text-shadow: 1.5px 1.5px #000"
+        ></i>
+        <i class="fab fa-facebook-f fa-stack-1x"></i>
+      </span>
+      <span class="fa-stack">
+        <i
+          class="fas fa-circle fa-stack-2x"
+          style="text-shadow: 1.5px 1.5px #000"
+        ></i>
+        <i class="fab fa-instagram fa-stack-1x"></i>
+      </span>
+      <span class="fa-stack">
+        <i
+          class="fas fa-circle fa-stack-2x"
+          style="text-shadow: 1.5px 1.5px #000"
+        ></i>
+        <i class="fab fa-linkedin fa-stack-1x"></i>
+      </span>
+    </span>
+  </nav>
 
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" style="text-shadow:1.5px 1.5px #000"
-                        href="#Contactenos">CONTÁCTENOS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" target="_blank" href="https://bit.ly/3FLaxYP"
-                        style="text-shadow:1.5px 1.5px #000;">
-                        <font size="3px"><i class="fab fa-whatsapp"></i> 0999687766</font>
-                    </a>
-                </li>
+  <span   *ngIf="banderaLogin" style="margin-left: 76.7%;color: red; margin-bottom: 3rem; padding-bottom: 1rem;" > Usuario y/o contrasena incorrecta </span>   
+  <br>
+  <div class="container mr-lg-0">
+    <div class="row justify-content-end">
+      <div
+        class="col-lg-12"
+        style="background: transparent; align-items: center"
+      >
+        <ul  class="navbar-nav mt-1" style="background: none; align-items: end">
+          <div class="row">
+            <div class="col-lg-2">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <input
+                  [(ngModel)]="usuario"
+                  name="usuario"
+                  style="
+                    width: 130px;
+                    height: 40px;
+                    border-radius: 15px;
+                    color: black;
+                    background: rgb(255, 255, 255, 0.4);
+                    padding-left: 20px;
+                    padding-bottom: 14px;
+                  "
+                  type="text"
+                  class="form-control-input"
+                  id="user"
+                  placeholder="Usuario"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-lg-1">
+              <div
+                class="text-wrapper"
+                style="text-align: -webkit-center"
+              ></div>
+            </div>
+            <div class="col-lg-4">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <input
+                  [(ngModel)]="contrasena"
+                  name="contrasena"
+                  style="
+                    width: 130px;
+                    height: 40px;
+                    border-radius: 15px;
+                    padding-top: 15px;
+                    background: rgb(255, 255, 255, 0.4);
+                    color: black;
+                    line-height: 30px;
+                    padding-left: 20px;
+                    padding-bottom: 14px;
+                  "
+                  type="password"
+                  class="form-control-input"
+                  id="password"
+                  placeholder="Contraseña"
+                  required
+                  (keydown.enter)="login()"
+                />
+                <a target="_blank">
+                  <font
+                    (click)="capturarUsuario()"
+                    color="#000;"
+                    style="font-size: 12px; color: black"
+                  >
+                    Cambiar Contraseña</font
+                  >
+                </a>
+              </div>
+            </div>
 
-            </ul>
-        </div>
-        <span class="nav-item social-icons">
-            <span class="fa-stack">
+            <div class="col-lg-3">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <button
+                  (click)="login()"
+                  style="
+                    margin-top: 2px;
+                    width: 50px;
+                    height: 20%;
+                    background-color: #00c9db;
+                    font-size: 14px;
+                    box-shadow: 1.5px 1.5px 0px #000;
+                  "
+                  type="submit"
+                  class="form-control-submit-button"
+                >
+                  IR
+                </button>
+              </div>
+            </div>
 
-                <i class="fas fa-circle fa-stack-2x" style="text-shadow:1.5px 1.5px #000"></i>
-                <i class="fab fa-facebook-f fa-stack-1x"></i>
-
-            </span>
-            <span class="fa-stack">
-
-                <i class="fas fa-circle fa-stack-2x" style="text-shadow:1.5px 1.5px #000"></i>
-                <i class="fab fa-instagram fa-stack-1x"></i>
-
-            </span>
-            <span class="fa-stack">
-
-                <i class="fas fa-circle fa-stack-2x" style="text-shadow:1.5px 1.5px #000"></i>
-                <i class="fab fa-linkedin fa-stack-1x"></i>
-
-            </span>
-
-        </span>
-
-    </nav>
-    <div class="container mr-lg-0">
-        <div class="row justify-content-end">
-            <div class="col-lg-12 " style="background:transparent;align-items:center">
-                <ul class="navbar-nav" style="background:none;align-items:end">
-                    <div class="row">
-
-                        <div class="col-lg-2">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <input [(ngModel)]="usuario" name="usuario"
-                                    style="width:130px;height:40px;border-radius: 15px;
-                                        color:black;background:rgb(255,255,255,0.4);padding-left:20px;padding-bottom:14px;" type="text"
-                                    class="form-control-input" id="user" placeholder="Usuario" required>
-
-                            </div>
-
-                        </div>
-                        <div class="col-lg-1">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-
-                            </div>
-
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <input [(ngModel)]="contrasena" name="contrasena"
-                                    style="width:130px;height:40px;border-radius: 15px;padding-top:15px;
-                                        background:rgb(255,255,255,0.4);color:black;line-height: 30px;padding-left:20px;padding-bottom:14px;" type="password"
-                                    class="form-control-input" id="password" placeholder="Contraseña" required>
-                                <a target="_blank">
-                                    <font (click)="capturarUsuario()" color="#000;" style="font-size:12px;color:black">
-                                        Cambiar Contraseña</font>
-                                </a>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <button (click)="login()" style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px; 
-                                        box-shadow: 1.5px 1.5px 0px #000;" type="submit"
-                                    class="form-control-submit-button ">IR</button>
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="col-lg-2">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/">
-                                    <font color="#000"> </font>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <!-- 
+            <div class="col-lg-2">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <a
+                  target="_blank"
+                  href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"
+                >
+                  <font color="#000"> </font>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div
+                class="text-wrapper"
+                style="text-align: -webkit-center; display: inline"
+              ></div>
+            </div>
+            <div class="col-lg-3">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <!-- 
                                                         <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
                                                         -->
-                            </div>
-                        </div>
+              </div>
+            </div>
 
-                        <div class="col-lg-3">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <!-- 
+            <div class="col-lg-3">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <!-- 
                                                         <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
                                                     -->
-                            </div>
-                        </div>
+              </div>
+            </div>
 
-                        <div class="col-lg-3">
-                            <div class="text-wrapper" style="text-align:-webkit-center">
-                                <!--     
+            <div class="col-lg-3">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+                <!--     
                                                         <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
                                                 -->
-                            </div>
-                        </div>
-                    </div>
-                </ul>
+              </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="text-wrapper">
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="text-wrapper"></div>
+      </div>
 
-                </div>
+      <div class="col-lg-6">
+        <div class="text-wrapper"></div>
+      </div>
 
-            </div>
+      <div class="col-lg-2">
+        <div class="text-wrapper" style="text-align: -webkit-center"></div>
+      </div>
 
-            <div class="col-lg-6">
-                <div class="text-wrapper">
+      <div class="col-lg-2">
+        <div class="text-wrapper" style="text-align: -webkit-center"></div>
+      </div>
 
-                </div>
+      <div class="col-lg-2">
+        <div class="text-wrapper" style="text-align: -webkit-center"></div>
+      </div>
 
-            </div>
-
-            <div class="col-lg-2">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-2">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-
-                </div>
-
-
-            </div>
-
-            <div class="col-lg-2">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-
-                </div>
-            </div>
-
-
-
-
-
-
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center;display:inline">
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-                    <!-- 
+      <div class="col-lg-3">
+        <div
+          class="text-wrapper"
+          style="text-align: -webkit-center; display: inline"
+        ></div>
+      </div>
+      <div class="col-lg-3">
+        <div class="text-wrapper" style="text-align: -webkit-center">
+          <!-- 
                                                         <input style="margin-left:5px;width:150px;height:20%;border-radius: 15px;padding-top:15px;background:white;color:black" type="text" class="form-control-input" id="password"  placeholder="Password" required>
                                                         -->
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-                    <!-- 
+      <div class="col-lg-3">
+        <div class="text-wrapper" style="text-align: -webkit-center">
+          <!-- 
                                                         <button style="margin-top:2px;width:50px;height:20%;background-color:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
                                                     -->
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-                    <!--     
+      <div class="col-lg-3">
+        <div class="text-wrapper" style="text-align: -webkit-center">
+          <!--     
                                                         <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
                                                 -->
-                </div>
-            </div>
         </div>
-        <div class="row">
-            <!-- Icon Cards Pane -->
+      </div>
+    </div>
+    <div class="row">
+      <!-- Icon Cards Pane -->
 
+      <div class="col-lg-9">
+        <div class="text-wrapper" style="text-align: -webkit-right"></div>
+      </div>
 
-            <div class="col-lg-9">
-                <div class="text-wrapper" style="text-align:-webkit-right">
+      <div class="col-lg-1" style="text-align: center; font-size: 13px">
+        <div
+          class="text-wrapper"
+          style="text-align: -webkit-left; display: inline"
+        ></div>
+      </div>
 
-                </div>
-
-            </div>
-
-
-
-
-
-
-
-
-            <div class="col-lg-1" style="text-align:center;font-size: 13px;">
-                <div class="text-wrapper" style="text-align:-webkit-left;display:inline">
-
-
-                </div>
-            </div>
-
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-                    <!-- 
+      <div class="col-lg-3">
+        <div class="text-wrapper" style="text-align: -webkit-center">
+          <!-- 
                                                         <button style="margin-top:2px;width:50px;height:20%;background:#00c9db;font-size:14px;" type="submit" class="form-control-submit-button" >IR</button>
                                                     -->
-                </div>
-            </div>
+        </div>
+      </div>
 
-            <div class="col-lg-3">
-                <div class="text-wrapper" style="text-align:-webkit-center">
-                    <!--     
+      <div class="col-lg-3">
+        <div class="text-wrapper" style="text-align: -webkit-center">
+          <!--     
                                                         <a target="_blank" href="https://www.sevenmarketingdigital.com/agencia-seo-barcelona/"><font color="black">Cambiar Contraseña</font></a>
                                                 -->
-                </div>
-            </div>
-
-
         </div>
-
+      </div>
     </div>
+  </div>
 
+  <h2
+    style="
+      text-shadow: 1px 1px 1px #000;
+      margin-left: 20px;
+      size: 27px;
+      text-align: left;
+    "
+  >
+    &nbsp;&nbsp;&nbsp;Practical, tu hogar desde donde estés.
+  </h2>
 
+  <div class="col-lg-4" style="text-align: center">
+    <br />
+    <h4
+      style="
+        text-shadow: 1px 1px 1px #000;
+        margin-left: 30px;
+        size: 2px;
+        text-align: center;
+      "
+    >
+      <i
+        >Mantener informados a nuestros residentes <br />por medio de un canal
+        digital siempre será<br />una forma correcta de mantener una buena
+        administración.</i
+      >
+    </h4>
+  </div>
 
-    <h2 style="text-shadow: 1px 1px 1px #000;margin-left:20px;size:27px;text-align:left;">
-        &nbsp;&nbsp;&nbsp;Practical, tu hogar desde donde estés. </h2>
-
-
-
-
-    <div class="col-lg-4" style="text-align:center;">
-        <br>
-        <h4 style="text-shadow: 1px 1px 1px #000;margin-left:30px;size:2px;text-align:center;"><i>Mantener
-                informados a nuestros residentes <br>por medio de un canal digital siempre será<br>una forma
-                correcta de mantener una buena administración.</i></h4>
-    </div>
-
-    <div class="row" style="margin-right:0px">
-        <div class="col-lg-6">
-            <br>
-
-        </div>
-    </div> <!-- end of col -->
+  <div class="row" style="margin-right: 0px">
     <div class="col-lg-6">
-
-    </div> <!-- end of col -->
-    <div class="header-content">
-
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="text-container">
-
-                        <br>
-                        <br>
-                        <br>
-                        <!--
+      <br />
+    </div>
+  </div>
+  <!-- end of col -->
+  <div class="col-lg-6"></div>
+  <!-- end of col -->
+  <div class="header-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="text-container">
+            <br />
+            <br />
+            <br />
+            <!--
                         <p class="p-large" align="justify" style="background: rgba(0, 0, 0, 0.4);">Contamos con una App Móvil con la que podrás admitir el ingreso de personas en tiempo real a tu hogAR, hacer consultas y pagos de alícuotas y hasta vender productos y servicios desde la comodidad de nuestro hogar</p>
                         -->
-                        <br>
-                        <br>
-                        <br>
-
-                    </div>
-                </div> <!-- end of col -->
-                <div class="col-lg-6">
-
-                    <div class="image-container">
-
-                        <!--
+            <br />
+            <br />
+            <br />
+          </div>
+        </div>
+        <!-- end of col -->
+        <div class="col-lg-6">
+          <div class="image-container">
+            <!--
                         <img class="img-fluid" src="images/fondo-telefonos.png" alt="">
                         -->
-
-                    </div> <!-- end of image-container -->
-                </div> <!-- end of col -->
-
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of header-content -->
-</header> <!-- end of header -->
-
-
-<div id="Caracteristicas" class="tabs" style="background:rgb(255, 255, 255)">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <p style="text-align:center;font-size:18px;line-height: 150%">
-                    <font color="black">Practical es una plataforma residencial con seguridad encriptada, creada
-                        para evolucionar el manejo y control de la seguridad en las urbanizaciones. Contamos con una
-                        aplicación móvil desde donde sus residentes podrán permitir o rechazar el ingreso de
-                        personas en tiempo real a sus hogares, hacer consultas y pagos de alícuotas, realizar
-                        compras y hasta vender productos y servicios desde la comodidad de sus hogares.
-
-                        <br><br><b>''Practical, tu hogar desde donde estés''</b>
-                    </font>
-                </p>
-                <br>
-                <h2 style="text-shadow:1px 1px #000">
-                    <font color="#7476EC">Vivir en un conjunto residencial es mas que habitar un lugar. </font>
-                </h2>
-                <br>
-
-                <br>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-
-            <!-- Tabs Links -->
-            <!-- end of tabs links -->
-
-
-            <!-- Tabs Content-->
-            <div class="tab-content" id="lenoTabsContent">
-
-                <!-- Tab -->
-                <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab-1">
-                    <div class="container">
-                        <div class="row">
-                            <!-- Icon Cards Pane -->
-                            <div class="col-lg-4">
-                                <div class="card left-pane">
-                                    <div class="card-body">
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">Seguridad</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Tu seguridad es lo Primero. Accede a las cámaras
-                                                    de seguridad de tu hogar.</font>
-                                            </p>
-                                        </div>
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <i class="far fa-compass" style="color:#FFF;"></i>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card left-pane">
-                                    <div class="card-body">
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">Bitácora de Visitantes</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Sin tu autorización nadie puede pasar por la
-                                                    garita</font>
-                                            </p>
-                                        </div>
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <i class="far fa-file-code" style="color:#FFF;"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="card left-pane">
-                                    <div class="card-body">
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">Reservas</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Reserva de una manera fácil y rápida el área
-                                                    social de tu interés.</font>
-                                            </p>
-                                        </div>
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <i class="far fa-gem" style="color:#FFF;"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <!-- end of icon cards pane -->
-
-
-                            <div
-                                style=" position: relative; padding-bottom: 56.25%; /* 16/9 ratio */ padding-top: 30px; /* IE6 workaround*/height: 100%;width:100%;overflow: hidden; ">
-
-
-
-
-                                <iframe src="https://www.youtube.com/embed/lZR68LS__9A" frameborder="0"
-                                    allowfullscreen="allowfullscreen"
-                                    style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;"></iframe>
-
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top:30px">
-                            <br>
-                            <br>
-                            <!-- end of image pane -->
-                            <!-- Icon Cards -->
-                            <div class="col-lg-4 col-12 ">
-                                <div class="card right-pane">
-                                    <div class="card-body">
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <font color="#2f2c3d"><i class="far fa-calendar-check"
-                                                    style="color:#FFF;"></i></font>
-                                        </div>
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">Alícuotas</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Estarás siempre informado con el estado de
-                                                    tus alícuotas.</font>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-4 col-12">
-                                <div class="card right-pane">
-                                    <div class="card-body">
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <i class="far fa-bookmark" style="color:#FFF;"></i>
-                                        </div>
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">911</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Comunicación directa con números de
-                                                    emergencia.</font>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-4 col-12">
-                                <div class="card right-pane">
-                                    <div class="card-body">
-                                        <div class="card-icon" style="background:#7476EC">
-                                            <i class="fas fa-cube" style="color:#FFF;"></i>
-                                        </div>
-                                        <div class="text-wrapper">
-                                            <h4 class="card-title">
-                                                <font color="#000">Emprendimientos</font>
-                                            </h4>
-                                            <p>
-                                                <font color="#000">Da a conocer tu negocio a los demás
-                                                    residentes.</font>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end of row -->
-                    </div> <!-- end of container -->
-                </div> <!-- end of tab-pane -->
-                <!-- end of tab -->
-            </div> <!-- end of tab-content -->
-            <!-- end of tabs content -->
-
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div>
-<header id="Inicio" class="header"
-    style="background: url('assets/images-home/fondo-hueco.JPG');background-position-x:center;height:500px;background-repeat: no-repeat;">
-</header>
-<br>
-<br>
-
-<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab-1">
-    <div class="container">
-        <div class="row" style="place-content: center;">
-            <!-- Icon Cards Pane -->
-            <div class="col-lg-10">
-                <div class="card left-pane">
-                    <div class="card-body" style="background:#fff">
-                        <div class="text-wrapper">
-                            <h4 class="card-title">
-                                <font color="#000"><i class="fas fa-home" style="color:#7476ec;"></i> Urbanizaciones
-                                    Registradas</font>
-                            </h4>
-                            <p>
-                                <font color="#000">{{urbanizaciones}} Urbanizaciones</font>
-                            </p>
-                        </div>
-                        <HR style="color:#7476EC;border:solid">
-                        <div class="card-icon" style="background:#000">
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+          </div>
+          <!-- end of image-container -->
         </div>
+        <!-- end of col -->
+      </div>
+      <!-- end of row -->
     </div>
+    <!-- end of container -->
+  </div>
+  <!-- end of header-content -->
+</header>
+<!-- end of header -->
+ 
+<div id="Caracteristicas" class="tabs" style="background: rgb(255, 255, 255)">
+<br> <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <p style="text-align: center; font-size: 18px; line-height: 150%">
+          <font color="black"
+            >Practical es una plataforma residencial con seguridad encriptada,
+            creada para evolucionar el manejo y control de la seguridad en las
+            urbanizaciones. Contamos con una aplicación móvil desde donde sus
+            residentes podrán permitir o rechazar el ingreso de personas en
+            tiempo real a sus hogares, hacer consultas y pagos de alícuotas,
+            realizar compras y hasta vender productos y servicios desde la
+            comodidad de sus hogares.
+
+            <br /><br /><b>''Practical, tu hogar desde donde estés''</b>
+          </font>
+        </p>
+        <br />
+        <h2 style="text-shadow: 1px 1px #000">
+          <font color="#7476EC"
+            >Vivir en un conjunto residencial es mas que habitar un lugar.
+          </font>
+        </h2>
+        <br />
+
+        <br />
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
+    <div class="row">
+      <!-- Tabs Links -->
+      <!-- end of tabs links -->
+
+      <!-- Tabs Content-->
+      <div class="tab-content" id="lenoTabsContent">
+        <!-- Tab -->
+        <div
+          class="tab-pane fade show active"
+          id="tab-1"
+          role="tabpanel"
+          aria-labelledby="tab-1"
+        >
+          <div class="container">
+            <div class="row">
+              <!-- Icon Cards Pane -->
+              <div class="col-lg-4">
+                <div class="card left-pane">
+                  <div class="card-body">
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">Seguridad</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Tu seguridad es lo Primero. Accede a las cámaras de
+                          seguridad de tu hogar.</font
+                        >
+                      </p>
+                    </div>
+                    <div class="card-icon" style="background: #7476ec">
+                      <i class="far fa-compass" style="color: #fff"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="card left-pane">
+                  <div class="card-body">
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">Bitácora de Visitantes</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Sin tu autorización nadie puede pasar por la
+                          garita</font
+                        >
+                      </p>
+                    </div>
+                    <div class="card-icon" style="background: #7476ec">
+                      <i class="far fa-file-code" style="color: #fff"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="card left-pane">
+                  <div class="card-body">
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">Reservas</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Reserva de una manera fácil y rápida el área social
+                          de tu interés.</font
+                        >
+                      </p>
+                    </div>
+                    <div class="card-icon" style="background: #7476ec">
+                      <i class="far fa-gem" style="color: #fff"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- end of icon cards pane -->
+
+              <div
+                style="
+                  position: relative;
+                  padding-bottom: 56.25%; /* 16/9 ratio */
+                  padding-top: 30px; /* IE6 workaround*/
+                  height: 100%;
+                  width: 100%;
+                  overflow: hidden;
+                "
+              >
+                <iframe
+                  src="https://www.youtube.com/embed/lZR68LS__9A"
+                  frameborder="0"
+                  allowfullscreen="allowfullscreen"
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                  "
+                ></iframe>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+              <br />
+              <br />
+              <!-- end of image pane -->
+              <!-- Icon Cards -->
+              <div class="col-lg-4 col-12">
+                <div class="card right-pane">
+                  <div class="card-body">
+                    <div class="card-icon" style="background: #7476ec">
+                      <font color="#2f2c3d"
+                        ><i
+                          class="far fa-calendar-check"
+                          style="color: #fff"
+                        ></i
+                      ></font>
+                    </div>
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">Alícuotas</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Estarás siempre informado con el estado de tus
+                          alícuotas.</font
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-12">
+                <div class="card right-pane">
+                  <div class="card-body">
+                    <div class="card-icon" style="background: #7476ec">
+                      <i class="far fa-bookmark" style="color: #fff"></i>
+                    </div>
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">911</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Comunicación directa con números de emergencia.</font
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-12">
+                <div class="card right-pane">
+                  <div class="card-body">
+                    <div class="card-icon" style="background: #7476ec">
+                      <i class="fas fa-cube" style="color: #fff"></i>
+                    </div>
+                    <div class="text-wrapper">
+                      <h4 class="card-title">
+                        <font color="#000">Emprendimientos</font>
+                      </h4>
+                      <p>
+                        <font color="#000"
+                          >Da a conocer tu negocio a los demás residentes.</font
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of row -->
+          </div>
+          <!-- end of container -->
+        </div>
+        <!-- end of tab-pane -->
+        <!-- end of tab -->
+      </div>
+      <!-- end of tab-content -->
+      <!-- end of tabs content -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of container -->
 </div>
-<div class="slider-2" style="background-color:#FFF">
+<header
+  id="Inicio"
+  class="header"
+  style="
+    background: url('assets/images-home/fondo-hueco.JPG');
+    background-position-x: center;
+    height: 500px;
+    background-repeat: no-repeat;
+  "
+></header>
+<br />
+<br />
 
-    <div class="container">
+<div
+  class="tab-pane fade show active"
+  id="tab-1"
+  role="tabpanel"
+  aria-labelledby="tab-1"
+>
+  <div class="container">
+    <div class="row" style="place-content: center">
+      <!-- Icon Cards Pane -->
+      <div class="col-lg-10">
+        <div class="card left-pane">
+          <div class="card-body" style="background: #fff">
+            <div class="text-wrapper">
+              <h4 class="card-title">
+                <font color="#000"
+                  ><i class="fas fa-home" style="color: #7476ec"></i>
+                  Urbanizaciones Registradas</font
+                >
+              </h4>
+              <p>
+                <font color="#000">{{ urbanizaciones }} Urbanizaciones</font>
+              </p>
+            </div>
+            <HR style="color: #7476ec; border: solid" />
+            <div class="card-icon" style="background: #000"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slider-2" style="background-color: #fff">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 style="text-align: center">
+          <font color="#000"
+            >Descubre lo fácil que es tener el control de tu hogar.</font
+          >
+        </h2>
+        <br />
 
-        <div class="row">
+        <br />
+        <carousel
+          cellsToShow="4"
+          arrowsOutside="true"
+          class="esWeb"
+          height="600"
+        >
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="" />
+          </div>
 
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="" />
+          </div>
 
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="" />
+          </div>
 
-            <div class="col-lg-12">
-                <h2 style="text-align:center;">
-                    <font color="#000">Descubre lo fácil que es tener el control de tu hogar.</font>
-                </h2>
-                <br>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="" />
+          </div>
 
-                <br>
-                <carousel cellsToShow=5 arrowsOutside=true class="esWeb" height="500">
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="">
-
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="">
-                    </div>
+          <!-- 
                     <div class="carousel-cell">
 
                         <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="">
-                    </div>
-                </carousel>
-                <carousel class="esMovil" cellsToShow=1 height="500">
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="">
-
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="">
-                    </div>
-                </carousel>
-                <!-- end of slider-container -->
-                <!-- end of image slider -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of slider-2 -->
+                    </div> -->
+        </carousel>
+        <carousel class="esMovil" cellsToShow="1" height="500">
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo1.jpg" alt="" />
+          </div>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo2.jpg" alt="" />
+          </div>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo3.jpg" alt="" />
+          </div>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo4.jpg" alt="" />
+          </div>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/nuevo5.jpg" alt="" />
+          </div>
+        </carousel>
+        <!-- end of slider-container -->
+        <!-- end of image slider -->
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of container -->
+</div>
+<!-- end of slider-2 -->
 <!-- end of screenshots -->
 
-<header id="Inicio" class="header" style="background: #7476EC">
-    <!-- end of navigation  
+<header id="Inicio" class="header" style="background: #7476ec">
+  <!-- end of navigation  
 
     <div class="row">
         <div class="col-lg-6">
@@ -613,190 +733,284 @@
 
         </div>
     </div> <!-- end of col -->
-    <div class="col-lg-6">
+  <div class="col-lg-6"></div>
+  <!-- end of col -->
 
-    </div> <!-- end of col -->
+  <div class="container">
+    <div class="row" style="place-content: center">
+      <div
+        class="col-lg-4"
+        style="margin-top: 0px; max-width: 60%; max-height: 60%; flex: none"
+      >
+        <img class="img-fluid" src="assets/images-home/veamos.jpg" alt="" />
+      </div>
+      <!-- end of col -->
+      <div
+        class="col-lg-5"
+        style="padding-top: 0; margin-top: 0px; content: close-quote"
+      >
+        <div
+          class="text-container"
+          style="padding-top: 0; margin-top: 0px; content: close-quote"
+        >
+          <br />
+          <h2
+            align="center"
+            style="font-size: 36px; line-height: 100%; color: white"
+          >
+            Lleva el control de tu hogar a cualquier parte.
+          </h2>
+          <br />
+          <p class="p-large" align="center" style="font-size: 25px">
+            Estamos disponibles en todas las tiendas, realiza tu descarga e
+            invita a tu familia a descargarla para que podamos juntos vivir la
+            experiencia Practical.
+          </p>
 
+          <br />
 
-
-
-
-    <div class="container">
-
-        <div class="row" style="place-content:center;">
-
-            <div class="col-lg-4" style="margin-top:0px;max-width:60%;max-height:60%;flex:none;">
-
-                <img class="img-fluid" src="assets/images-home/veamos.jpg" alt="">
-
-
-            </div> <!-- end of col -->
-            <div class="col-lg-5" style="padding-top:0;margin-top:0px;content:close-quote">
-                <div class="text-container" style="padding-top:0;margin-top:0px;content:close-quote">
-                    <br>
-                    <h2 align="center" style="font-size:36px;line-height: 100%;color:white">Lleva el control de tu
-                        hogar a cualquier parte.</h2>
-                    <br>
-                    <p class="p-large" align="center" style="font-size:25px;">Estamos disponibles en todas las
-                        tiendas, realiza tu descarga e invita a tu familia a descargarla para que podamos juntos
-                        vivir la experiencia Practical.</p>
-
-                    <br>
-
-                    <p class="p-large" align="center" style="font-size:20px;"><b>Disponible en:</b></p>
-                    <div style="text-align:center;">
-                        <a target="_blank"
-                            href="https://play.google.com/store/apps/details?id=ec.practical.app&hl=es_EC&gl=US"><button
-                                type="submit" class="form-control-submit-button"
-                                style="margin-left:0px;width:140px;height:42px; background: url('assets/images-home/nuevo-boton-android.png');background-repeat: no-repeat;">
-                            </button> </a>
-                        <a target="_blank" href="https://apps.apple.com/ec/app/practical/id1594684085"><button
-                                type="submit" class="form-control-submit-button"
-                                style="margin-left:0px;width:140px;height:42px; background: url('assets/images-home/nuevo-boton-iphone.png');background-repeat: no-repeat;"></button></a>
-                        <a target="_blank"><button type="submit" class="form-control-submit-button"
-                                style="margin-left:0px;width:140px;height:42px; background: url('assets/images-home/huawei-blanco.jpg');background-repeat: no-repeat;"></button></a>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-
-                </div>
-
-            </div> <!-- end of col -->
-
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-
-</header> <!-- end of header -->
+          <p class="p-large" align="center" style="font-size: 20px">
+            <b>Disponible en:</b>
+          </p>
+          <div style="text-align: center">
+            <a
+              target="_blank"
+              href="https://play.google.com/store/apps/details?id=ec.practical.app&hl=es_EC&gl=US"
+              ><button
+                type="submit"
+                class="form-control-submit-button"
+                style="
+                  margin-left: 0px;
+                  width: 140px;
+                  height: 42px;
+                  background: url('assets/images-home/nuevo-boton-android.png');
+                  background-repeat: no-repeat;
+                "
+              ></button>
+            </a>
+            <a
+              target="_blank"
+              href="https://apps.apple.com/ec/app/practical/id1594684085"
+              ><button
+                type="submit"
+                class="form-control-submit-button"
+                style="
+                  margin-left: 0px;
+                  width: 140px;
+                  height: 42px;
+                  background: url('assets/images-home/nuevo-boton-iphone.png');
+                  background-repeat: no-repeat;
+                "
+              ></button
+            ></a>
+            <a target="_blank"
+              ><button
+                type="submit"
+                class="form-control-submit-button"
+                style="
+                  margin-left: 0px;
+                  width: 140px;
+                  height: 42px;
+                  background: url('assets/images-home/huawei-blanco.jpg');
+                  background-repeat: no-repeat;
+                "
+              ></button
+            ></a>
+          </div>
+          <br />
+          <br />
+          <br />
+        </div>
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of container -->
+</header>
+<!-- end of header -->
 <!-- end of header -->
 
 <!-- Screenshots -->
 
-<div class="slider-2" style="background-color:#fff">
+<div class="slider-2" style="background-color: #fff">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 style="text-align: center">
+          <font color="#000">Urbanizaciones:</font>
+        </h2>
+        <br />
 
-    <div class="container">
+        <br />
 
-        <div class="row">
-
-
-
-            <div class="col-lg-12">
-                <h2 style="text-align:center;">
-                    <font color="#000">Urbanizaciones:</font>
-                </h2>
-                <br>
-
-
-                <br>
-
-                <!-- Image Slider -->
-                <carousel>
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/cliente1.jpg">
-                    </div>
-                    <div class="carousel-cell">
-                        <img class="img-fluid" src="assets/images-home/cliente2.jpg" alt="">
-
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/cliente3.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/cliente4.jpg" alt="">
-                    </div>
-                    <div class="carousel-cell">
-
-                        <img class="img-fluid" src="assets/images-home/cliente10.png" alt="">
-                    </div>
-                </carousel>
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of slider-2 -->
+        <!-- Image Slider -->
+        <carousel>
+          <div class="carousel-cell">
+            <img class="img-fluid" src="assets/images-home/cliente1.jpg" />
+          </div>
+          <div class="carousel-cell">
+            <img
+              class="img-fluid"
+              src="assets/images-home/cliente2.jpg"
+              alt=""
+            />
+          </div>
+          <div class="carousel-cell">
+            <img
+              class="img-fluid"
+              src="assets/images-home/cliente3.jpg"
+              alt=""
+            />
+          </div>
+          <div class="carousel-cell">
+            <img
+              class="img-fluid"
+              src="assets/images-home/cliente4.jpg"
+              alt=""
+            />
+          </div>
+          <div class="carousel-cell">
+            <img
+              class="img-fluid"
+              src="assets/images-home/cliente10.png"
+              alt=""
+            />
+          </div>
+        </carousel>
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of container -->
+</div>
+<!-- end of slider-2 -->
 <!-- end of screenshots -->
-<div id="Contactenos" class="form" style="background-color:
-#4633af
-">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2>CONTÁCTENOS</h2>
-                <h4 style="font-size: 16px;">Estaremos encantados de poder atenderte!</h4>
-                <div class="row justify-content-center mr-lg-5">
-                    <div class="col-md-3 col-12  m-0 p-0">
-                        <i class="fas fa-map-marker-alt" style="color: #00c9db;"></i> <a style="color: white;">
-                            Samborondón</a>
-                    </div>
-                    <div class="col-md-2 col-12  m-0 p-0">
-                        <i class="fas fa-phone" style="color: #00c9db;"></i><a class="blue" href="#">
-                            (+593)999687766</a>
-                    </div>
-                    <div class="col-md-3 col-12   m-0 p-0">
-                        <i class="fas fa-envelope" style="color: #00c9db;"></i><a class="blue" href="#">
-                            info@practical.com.ec</a>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br> <!-- end of col -->
-        </div> <!-- end of row -->
+<div id="Contactenos" class="form" style="background-color: #4633af">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2>CONTÁCTENOS</h2>
+        <h4 style="font-size: 16px">
+          Estaremos encantados de poder atenderte!
+        </h4>
+        <div class="row justify-content-center mr-lg-5">
+          <div class="col-md-3 col-12 m-0 p-0">
+            <i class="fas fa-map-marker-alt" style="color: #00c9db"></i>
+            <a style="color: white"> Samborondón</a>
+          </div>
+          <div class="col-md-2 col-12 m-0 p-0">
+            <i class="fas fa-phone" style="color: #00c9db"></i
+            ><a class="blue" href="#"> (+593)999687766</a>
+          </div>
+          <div class="col-md-3 col-12 m-0 p-0">
+            <i class="fas fa-envelope" style="color: #00c9db"></i
+            ><a class="blue" href="#"> info@practical.com.ec</a>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
 
-        <div class="row mt-5">
-            <div class="col-lg-6 offset-lg-3">
+    <div class="row mt-5">
+      <div class="col-lg-6 offset-lg-3">
+        <!-- Contact Form -->
+        <form id="contactForm" data-toggle="validator" data-focus="false">
+          <div class="form-group">
+            <input
+              [(ngModel)]="nombre"
+              name="nombre"
+              type="text"
+              class="form-control-input"
+              id="cname"
+              required
+            />
+            <label class="label-control" for="cname">Ingresa tu nombre</label>
+            <div class="help-block with-errors"></div>
+          </div>
+          <div class="form-group">
+            <input
+              [(ngModel)]="correo"
+              name="correo"
+              type="email"
+              class="form-control-input"
+              id="cemail"
+              required
+            />
+            <label class="label-control" for="cemail">Ingresa tu correo</label>
+            <div class="help-block with-errors"></div>
+          </div>
+          <div class="form-group">
+            <textarea
+              [(ngModel)]="titulo"
+              name="titulo"
+              class="form-control-textarea"
+              id="cmessage"
+              required
+            ></textarea>
+            <label class="label-control" for="cmessage"
+              >Tu valioso Mensaje</label
+            >
+            <div class="help-block with-errors"></div>
+          </div>
 
-                <!-- Contact Form -->
-                <form id="contactForm" data-toggle="validator" data-focus="false">
-                    <div class="form-group">
-                        <input [(ngModel)]="nombre" name="nombre" type="text" class="form-control-input" id="cname"
-                            required>
-                        <label class="label-control" for="cname">Ingresa tu nombre</label>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <input [(ngModel)]="correo" name="correo" type="email" class="form-control-input" id="cemail"
-                            required>
-                        <label class="label-control" for="cemail">Ingresa tu correo</label>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <textarea [(ngModel)]="titulo" name="titulo" class="form-control-textarea" id="cmessage"
-                            required></textarea>
-                        <label class="label-control" for="cmessage">Tu valioso Mensaje</label>
-                        <div class="help-block with-errors"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="form-control-submit-button" (click)="gestionContact()"
-                            style="font-size:18px;">ENVIAR
-                            MENSAJE</button>
-                    </div>
-                    <div class="form-message">
-                        <div id="cmsgSubmit" class="h3 text-center hidden"></div>
-                    </div>
-                </form>
-                <!-- end of contact form -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of form -->
-<div (click)="scrollToTop(header)" class="scroll-to-top" *ngIf="pageYoffset > 0">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" fill="white" class="bi bi-chevron-up"
-        viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-            d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-    </svg>
+          <div class="form-group">
+            <button
+              type="submit"
+              class="form-control-submit-button"
+              (click)="gestionContact()"
+              style="font-size: 18px"
+            >
+              ENVIAR MENSAJE
+            </button>
+          </div>
+          <div class="form-message">
+            <div id="cmsgSubmit" class="h3 text-center hidden"></div>
+          </div>
+        </form>
+        <!-- end of contact form -->
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- end of row -->
+  </div>
+  <!-- end of container -->
+</div>
+<!-- end of form -->
+<div
+  (click)="scrollToTop(header)"
+  class="scroll-to-top"
+  *ngIf="pageYoffset > 0"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="20"
+    fill="white"
+    class="bi bi-chevron-up"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+    />
+  </svg>
 </div>
 <div class="copyright">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <p class="p-large">Todos los derechos reservados © 2021 - Practical. </p>
-            </div> <!-- end of col -->
-        </div> <!-- enf of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of copyright -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="p-large">Todos los derechos reservados © 2021 - Practical.</p>
+      </div>
+      <!-- end of col -->
+    </div>
+    <!-- enf of row -->
+  </div>
+  <!-- end of container -->
+</div>
+<!-- end of copyright -->
 <!-- end of copyright -->

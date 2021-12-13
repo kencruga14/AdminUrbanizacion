@@ -13,6 +13,9 @@ import { id } from "@swimlane/ngx-charts";
 })
 export class AreasocialComponent implements OnInit {
   areas: any;
+  fechaRecaudacion : any;
+  reservasRecaudaciones: any = [];
+  valorTotal: any = 0;
   idA:any;
   idTemporal:any;
   item : any = {}
@@ -200,6 +203,17 @@ export class AreasocialComponent implements OnInit {
     });
   }
 
+  getRecaudacionesAreaSocial(id:string , fecha:string) {
+    this.auth.getRecaudacionesAreaSocialxId(id,fecha).subscribe((resp: any) => {
+      this.reservasRecaudaciones = resp.reservaciones;
+      if(resp){
+        this.calcularRecaudaciiones();
+      }
+    });
+   
+
+  }
+
   getHorarios(id:string) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.horarios = resp.horarios;
@@ -285,6 +299,21 @@ export class AreasocialComponent implements OnInit {
   }
 
 
+  openRecaudaciones(content, item ) {
+    this.idTemporal= item.ID;
+    this.fechaRecaudacion=""
+    this.reservasRecaudaciones=[]
+    this.valorTotal=0
+    this.modalService.open(content, { size: "lg" });
+  }
+
+  calcularRecaudaciiones(){
+    this.valorTotal = 0;
+    this.reservasRecaudaciones.forEach((item) => {
+      this.valorTotal = this.valorTotal + parseFloat(item.valor_cancelado);
+    });
+  }
+
   openHorarios(content, item ) {
     this.getHorarios(item.ID)
     this.idTemporal=item.ID
@@ -292,7 +321,11 @@ export class AreasocialComponent implements OnInit {
     this.modalService.open(content, { size: "lg" });
   }
 
-
+  gestionRecaudaciones( fecha: string ){
+  
+    this.getRecaudacionesAreaSocial(this.idTemporal,fecha)
+   
+  }
 
 
 
@@ -351,5 +384,7 @@ export class AreasocialComponent implements OnInit {
       }
     });
   }
+
+
 
 }

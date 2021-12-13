@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   nombre: string;
   correo: string;
   descripcion: string;
+  banderaLogin: boolean = false;
+
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -94,13 +96,12 @@ export class LoginComponent implements OnInit {
       contrasena: this.contrasena,
     };
     JSON.stringify(body);
-    Swal.fire({
-      icon: "info",
-      allowOutsideClick: false,
-      text: "Espere por favor",
-    });
-    Swal.showLoading();
-
+    // Swal.fire({
+    //   icon: "info",
+    //   allowOutsideClick: false,
+    //   text: "Espere por favor",
+    // });
+    // Swal.showLoading();
     this.auth.login(body).subscribe(
       (resp) => {
         Swal.close();
@@ -108,13 +109,15 @@ export class LoginComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Error al autenticar",
-          text: err.error.message,
-        });
+        this.banderaLogin=true;
+        // Swal.fire({
+        //   icon: "error",
+        //   title: "Error al autenticar",
+        //   text: err.error.message,
+        // });
       }
     );
+    setTimeout(() => {this.banderaLogin=false;},3000)
   }
 
   capturarUsuario() {
