@@ -160,14 +160,16 @@
 
                     </div>
                     <div class="col-4">
-                        <input type="checkbox" id="cbox11" [(ngModel)]="permisos.seguridad" name="seguridad">
-                        <label for="cbox11">Seguridad</label>
-                        <input type="checkbox" id="cbox12" [(ngModel)]="permisos.buzon" name="buzon">
-                        <label for="cbox12">Buzón</label>
-                        <input type="checkbox" id="cbox13" name="camara" [(ngModel)]="permisos.camara"> <label
-                            for="cbox13">Cámaras</label>
-                        <input type="checkbox" id="cbox14" name="reserva" [(ngModel)]="permisos.reserva"> <label
-                            for="cbox14">Reserva</label>
+                        <input type="checkbox" id="cbox11" [(ngModel)]="permisos.galeria" name="galeria">
+                        <label for="cbox11">Galería</label>
+                        <input type="checkbox" id="cbox12" [(ngModel)]="permisos.seguridad" name="seguridad">
+                        <label for="cbox12">Seguridad</label>
+                        <input type="checkbox" id="cbox13" [(ngModel)]="permisos.buzon" name="buzon">
+                        <label for="cbox13">Buzón</label>
+                        <input type="checkbox" id="cbox14" name="camara" [(ngModel)]="permisos.camara"> <label
+                            for="cbox14">Cámaras</label>
+                        <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.reserva"> <label
+                            for="cbox15">Reserva</label>
                         <!-- <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.autorizado"> <label
                             for="cbox15">Autorizado</label> -->
 
@@ -213,7 +215,7 @@
                             <td *ngIf="infoPermisos.ingreso">Registro de Ingresos</td>
                         </tr>
                         <tr>
-                            <td *ngIf="infoPermisos.alicuotas">Alícuotas</td>
+                            <td *ngIf="infoPermisos.alicuota">Alícuotas</td>
                         </tr>
                         <tr>
                             <td *ngIf="infoPermisos.emprendimiento">Emprendimiento</td>
@@ -241,6 +243,9 @@
                         </tr>
                         <tr>
                             <td *ngIf="infoPermisos.buzon">Buzón</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.galeria">Galería</td>
                         </tr>
                     </tbody>
                     <tbody *ngIf="!infoPermisos">

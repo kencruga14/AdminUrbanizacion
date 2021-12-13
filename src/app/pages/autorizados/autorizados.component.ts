@@ -93,10 +93,7 @@ export class AutorizadosComponent implements OnInit {
     // this.modalService.open(content);
   }
   async gestionAutorizado() {
-
     this.autorizado.usuario = this.usuario
-
-
     let response;
     if (this.autorizado.edit) {
       delete this.permisos.id_admin_etapa
