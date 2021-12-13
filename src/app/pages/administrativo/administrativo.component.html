@@ -5,28 +5,31 @@
         <div _ngcontent-yej-c10 class="col-md-3 col-sm-12 col-xs-12"
             *ngFor="let mat of admins | filter:filterName; let i=index ">
             <div _ngcontent-mbv-c5 class="card w-75">
-                <div _ngcontent-mbv-c5 class="row">
-
-                </div>
-                <img style="height: 250px;" [src]="mat.imagen" class="" alt="Card image cap" height="104.69" (click)="openImage(mat)"
+                
+                <img  [src]="mat.imagen" class="" alt="Card image cap" height="230px" (click)="openImage(mat)"
                     data-toggle="modal" data-target=".bd-example-modal-lg">
                 <div _ngcontent-mbv-c5 class="row">
-
-                    <div class="col-md-8">
-                        <p class="card-text">{{mat.nombre}}</p>
+                    <div class="col-md-9">
+                        <p class="card-text" style="padding-left: 5px;">{{mat.nombre}}</p>
+                        <p class="card-text" style="padding-left: 15px;">{{mat.Cargo}}</p>
+                        <p class="card-text" style="padding-left: 15px;">{{mat.Cedula}}</p>
+                        <p class="card-text" style="padding-left: 15px;">{{mat.telefono}}</p>
+                        <p class="card-text" style="padding-left: 15px;">{{mat.Correo}}</p>
                     </div>
-                    <div class="col align-self-end" style="text-align:right;">
-                        <a data-toggle="tooltip" data-original-title="Editar" (click)="openAdmin(contentAdmin, mat)"><i
-                                class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                        <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i
-                                class="fa fa-trash text-danger m-r-10"></i> </a>
-                    </div>
+                        <div class="col" style="text-align:right; ">
+                            <a data-toggle="tooltip" data-original-title="Editar" (click)="openAdmin(contentAdmin, mat)"><i
+                                    class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                            <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i
+                                    class="fa fa-trash text-danger m-r-10"></i> </a>
+                        </div>
+                    
+                    
                 </div>
 
             </div>
         </div>
         <div _ngcontent-mbv-c5="" class="col-md-3 col-sm-12 col-xs-12">
-            <div _ngcontent-mbv-c5="" class="card w-75" style="height: 250px;">
+            <div _ngcontent-mbv-c5="" class="card w-75" style="height: 230px;">
                 <div _ngcontent-mbv-c5="" class="card-body text-center">
                     <div _ngcontent-mbv-c5="" class="row justify-content-center align-items-center"
                         style="height: 100px;">
@@ -60,7 +63,11 @@
 
                     <div class="form-group" *ngIf="imagenEdit">
                         <!-- editar imagen -->
-                        
+                        <div class="contenedor" >
+                            <div class="image-preview mb-2" *ngIf="imagenEdit">
+                                <img  class="img-fluid" [src]="imagenEdit" height="60%" width="100%" />
+                            </div>
+                        </div>
                         <label for="imagen">Imagen de Perfil</label>
                         <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                         <small id="passwordHelpBlock" class="form-text text-muted">
@@ -112,21 +119,4 @@
             </form>
         </ng-template>
     </div>
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" *ngIf="imagenPerfil">
-                    <h4 class="modal-title" id="modal-basic-title">
-                        {{imagenPerfil.nombre}}
-                    </h4>
-                </div>
-                
-                <div class="modal-body" *ngIf="imagenPerfil">
-                    <figure class="box">
-                        <img [src]="imagenPerfil.imagen" alt="image"/>
-                    </figure>
-                </div>
-            </div>
-        </div>
-    </div>
+    
