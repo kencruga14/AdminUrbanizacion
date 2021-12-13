@@ -25,11 +25,12 @@
                             <th>Año</th>
                             <th>Conductor</th>
                             <th>Cédula</th>
+                            <th>Pdf</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
-                        <tr *ngFor="let exp of expresos; let i=index ">
+                        <tr *ngFor="let exp of expresos | expreso:filterName ; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>
@@ -47,6 +48,12 @@
                             <td>{{exp.ano}}</td>
                             <td>{{exp.conductor}}</td>
                             <td>{{exp.cedula}}</td>
+                            <td>
+                                <figure>
+                                    <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
+                                        alt="image" />
+                                </figure>
+                            </td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openExpreso(contentExpreso, exp)"> <i
@@ -82,7 +89,7 @@
                     <div class="image-preview mb-3" *ngIf="imagenEdit">
                         <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
                     </div>
-                    <label for="imagen">Imagen del Expreso</label>
+                    <label for="imagen">Imagen del Conductor</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
@@ -128,8 +135,8 @@
                 </div>
                 <!--Campo Modelo-->
                 <div class="form-group">
-                    <input [value]="modelo" [(ngModel)]="modelo" name="modelo" class="form-control" type="text"
-                        required placeholder="Modelo">
+                    <input [value]="modelo" [(ngModel)]="modelo" name="modelo" class="form-control" type="text" required
+                        placeholder="Modelo">
                 </div>
                 <!--Campo Placa-->
                 <div class="form-group">
@@ -151,7 +158,17 @@
                     <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text" required
                         placeholder="Cédula">
                 </div>
+                <div class="form-group">
+                    <label for="imagen">Pdf</label><br>
+                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
+                    <!-- <small id="passwordHelpBlock" class="form-text text-muted">
+                    El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                    359 x 316.
+                </small> -->
+                </div>
             </div>
+            <!-- </div> -->
+
             <!--Footer del Modal Botón  Guardar/Editar-->
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">

@@ -23,3 +23,10 @@ td {
   height: 20.5px;
   border-radius: 100%;
 }
+
+.adjunto {
+  vertical-align: middle;
+  width: 20.5px;
+  height: 20.5px;
+  border-radius: 25%;
+}

@@ -64,7 +64,7 @@
             </div>
             <form (ngSubmit)="gestionContacto()" #form="ngForm">
                 <div class="modal-body">
-                    <!-- <div class="form-group" *ngIf="imagenEdit">
+                    <div class="form-group" *ngIf="imagenEdit">
                         <label for="imagen">Imagen del Área</label>
                         <div class="image-preview mb-2" *ngIf="imagenEdit">
                             <img [src]="imagenEdit" height="120px" width="100%" />
@@ -79,7 +79,7 @@
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.
                         </small>
-                    </div> -->
+                    </div>
 
                     <div class="form-group">
                         <label>Nombre</label>
@@ -91,11 +91,11 @@
                         <input name="horario" [(ngModel)]="horario" class="form-control" type="text" required
                             placeholder="Horario">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Correo</label>
                         <input name="correo" [(ngModel)]="correo" class="form-control" type="text" required
                             placeholder="Correo">
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label>Teléfono</label>
                         <input name="telefono" [(ngModel)]="telefono" class="form-control" type="text" required

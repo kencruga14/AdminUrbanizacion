@@ -9,48 +9,48 @@
                     [(ngModel)]="filterName">
             </div>
             <h6 class="card-subtitle"></h6>
-            <div class="table-responsive m-t-40">
-                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th>No</th>
-                            <th>Imagen</th>
-                            <th>Pregunta</th>
-                            <th>Fecha de creación</th>
-                            <th>Fecha de finalización</th>
-                            <th>Votos</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align: center;">
-                        <tr *ngFor="let ali of encuestas | filter:filterName; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
-                            <td>
-                                <figure>
-                                    <img class="avatar" [src]="ali.imagenes[0]" alt="image" data-holder-rendered="true"
-                                        (click)="openCarrusel(carrusel, ali)" data-toggle="modal"
-                                        data-target=".bd-example-modal-lg" />
-                                </figure>
-                            </td>
-                            <td>{{ali.pregunta}}</td>
-                            <td>{{ali.CreatedAt | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{ali.fecha_vencimiento | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{ali.total_votos}}</td>
-                            <td>
-                                <a data-toggle="tooltip" data-original-title="Resultados"
-                                    (click)="openResultado(resultado, ali)"> <i
-                                        class="fas fa-info-circle text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i
-                                        class="fa fa-trash text-danger m-r-10"></i> </a>
-                            </td>
-                        </tr>
-                        <tr *ngIf="(encuestas).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                    existen datos</label></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- <div class="table-responsive m-t-40"> -->
+            <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                <thead>
+                    <tr style="text-align: center;">
+                        <th class="w-5">No</th>
+                        <th class="w-5">Imagen</th>
+                        <th class="w-50">Pregunta</th>
+                        <th class="w-10">Creación</th>
+                        <th class="w-10">Finalización</th>
+                        <th class="w-15">Votos</th>
+                        <th class="w-5">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                    <tr *ngFor="let ali of encuestas | votacion:filterName; let i=index ">
+                        <th scope="row ">{{i+1}}</th>
+                        <td>
+                            <figure>
+                                <img class="avatar" [src]="ali.imagenes[0]" alt="image" data-holder-rendered="true"
+                                    (click)="openCarrusel(carrusel, ali)" data-toggle="modal"
+                                    data-target=".bd-example-modal-lg" />
+                            </figure>
+                        </td>
+                        <td style="width: 50px;">{{ali.pregunta}}</td>
+                        <td>{{ali.CreatedAt | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ali.fecha_vencimiento | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ali.total_votos}}</td>
+                        <td>
+                            <a data-toggle="tooltip" data-original-title="Resultados"
+                                (click)="openResultado(resultado, ali)"> <i
+                                    class="fas fa-info-circle text-inverse m-r-10"></i> </a>
+                            <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i
+                                    class="fa fa-trash text-danger m-r-10"></i> </a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="(encuestas).length === 0">
+                        <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                existen datos</label></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
         </div>
     </div>
     <ng-template #contentEncuesta let-modal>

@@ -120,10 +120,10 @@ export class ContactoComponent implements OnInit {
     let response: any;
     if (this.contact.edit) {
       const body = {
-        // imagen: this.imagenEdit,
+        imagen: this.imagenEdit,
         contacto: this.contacto,
         horario: this.horario,
-        correo: this.correo,
+        // correo: this.correo,
         telefono: this.telefono,
       };
       JSON.stringify(body);
@@ -134,7 +134,7 @@ export class ContactoComponent implements OnInit {
         imagen: this.imagen,
         contacto: this.contacto,
         horario: this.horario,
-        correo: this.correo,
+        // correo: this.correo,
         telefono: this.telefono,
       };
       JSON.stringify(body);

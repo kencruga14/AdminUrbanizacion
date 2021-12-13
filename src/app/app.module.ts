@@ -65,6 +65,10 @@ import { MenuModule } from "primeng/menu";
 import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
 import { ContextMenuModule } from "primeng/contextmenu";
 import { TabMenuModule } from "primeng/tabmenu";
+// import { MultiFilterPipe } from "./pipes/multifilter.pipe";
+
+import { FilterVotacionPipe } from "./pipes/filterVotacion.pipe";
+import { ExpresoPipe } from "./pipes/Expreso.pipe";
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarModule,
@@ -118,6 +122,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AreasocialComponent,
     FilterPipe,
     MultiFilterPipe,
+    FilterVotacionPipe,
+    ExpresoPipe,
     AdmingaritaComponent,
     ListabitacoraComponent,
     ExpresoescolarComponent,
