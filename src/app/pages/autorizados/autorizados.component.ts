@@ -98,6 +98,11 @@ export class AutorizadosComponent implements OnInit {
     if (this.autorizado.edit) {
       delete this.permisos.id_admin_etapa
       delete this.permisos.admin_etapa
+      delete this.permisos.CreatedAt
+      delete this.permisos.DeletedAt
+      delete this.permisos.ID
+      delete this.permisos.UpdatedAt
+
       if (!this.changeFoto) {
         delete this.autorizado.usuario.imagen
       }
