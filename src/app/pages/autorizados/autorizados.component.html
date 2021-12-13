@@ -89,7 +89,7 @@
                         <img class="img-fluid" [src]="usuario.imagen" height="500" width="100" />
                     </div>
                     <div class="image-preview mb-3" *ngIf="changeFoto">
-                        <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
+                        <img class="img-fluid avatar" [src]="imagenEdit" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
@@ -130,16 +130,16 @@
                 <div class="row">
                     <div class="col-4">
                         <input type="checkbox" id="cbox1" [(ngModel)]="permisos.casa" name="casa">
-                        <label for="cbox1">Casa</label>
+                        <label for="cbox1">Casas</label>
 
                         <input type="checkbox" id="cbox2" [(ngModel)]="permisos.ingreso" name="ingreso">
-                        <label for="cbox2">Ingresos</label>
+                        <label for="cbox2">Registro de Ingresos</label>
 
                         <input type="checkbox" id="cbox3" name="voto" [(ngModel)]="permisos.voto">
-                        <label for="cbox3">Votos</label>
+                        <label for="cbox3">Mi voto</label>
 
                         <input type="checkbox" id="cbox4" name="directiva" [(ngModel)]="permisos.directiva">
-                        <label for="cbox4">Directiva</label>
+                        <label for="cbox4">Directivas</label>
 
                         <input type="checkbox" id="cbox5" [(ngModel)]="permisos.expreso_escolar" name="expreso_escolar">
                         <label for="cbox5">Expreso Escolar</label>
@@ -147,15 +147,15 @@
                     </div>
                     <div class="col-4">
                         <input type="checkbox" id="cbox6" [(ngModel)]="permisos.usuario" name="usuario">
-                        <label for="cbox6">Usuario</label>
+                        <label for="cbox6">Usuarios</label>
                         <input type="checkbox" id="cbox7" [(ngModel)]="permisos.area_social" name="area_social">
                         <label for="cbox7">Area Social</label>
                         <input type="checkbox" id="cbox8" [(ngModel)]="permisos.alicuota" name="alicuota">
-                        <label for="cbox8">Alícouta</label>
+                        <label for="cbox8">Alícoutas</label>
                         <input type="checkbox" id="cbox9" name="horario" [(ngModel)]="permisos.horario">
-                        <label for="cbox9">Horario</label>
+                        <label for="cbox9">Horarios</label>
                         <input type="checkbox" id="cbox10" [(ngModel)]="permisos.emprendimiento" name="emprendimiento">
-                        <label for="cbox10">Emprendimiento</label>
+                        <label for="cbox10">Emprendimientos</label>
 
 
                     </div>
@@ -169,7 +169,7 @@
                         <input type="checkbox" id="cbox14" name="camara" [(ngModel)]="permisos.camara"> <label
                             for="cbox14">Cámaras</label>
                         <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.reserva"> <label
-                            for="cbox15">Reserva</label>
+                            for="cbox15">Reservaciones</label>
                         <!-- <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.autorizado"> <label
                             for="cbox15">Autorizado</label> -->
 

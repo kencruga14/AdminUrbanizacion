@@ -84,6 +84,8 @@ export class AuthService {
     localStorage.setItem("token", idToken.token);
     localStorage.setItem("info", JSON.stringify(idToken.usuario));
     localStorage.setItem("permisos", JSON.stringify(idToken.permisos));
+    localStorage.setItem("is_master", JSON.stringify(idToken.is_master));
+
     localStorage.setItem(
       "info_etapa",
       JSON.stringify(idToken.nombre_etapa, idToken.nombre_urbanizacion)
@@ -100,6 +102,7 @@ export class AuthService {
       this.userToken = localStorage.getItem("token");
       this.info = JSON.parse(localStorage.getItem("info"));
       this.permisos = JSON.parse(localStorage.getItem("permisos"))
+
       this.infoGuard = 1;
     } else {
       this.userToken = "";
