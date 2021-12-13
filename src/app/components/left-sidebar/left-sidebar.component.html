@@ -38,8 +38,6 @@
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-male"></i><span
                             class="hide-menu">Usuarios</span></a>
                 </li>
-                <!-- <li> <a class="waves-effect waves-dark" [routerLink]=""  aria-expanded="false"><i class="fas fa-user-friends"></i><span class="hide-menu">Residentes</span></a>
-                </li> -->
                 <li *ngIf="permisos.seguridad"> <a class="waves-effect waves-dark" [routerLink]="['admingarita']"
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-user-shield"></i><span
                             class="hide-menu">Seguridad</span></a>
@@ -93,9 +91,8 @@
                         routerLinkActive="active" aria-expanded="false"><i class="far fa-newspaper"></i><span
                             class="hide-menu">Buzón</span></a>
                 </li>
-                <li *ngIf="permisos.directiva"> <a class="waves-effect waves-dark" [routerLink]="['autorizados']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-lock"></i><span
-                            class="hide-menu">Autorizados</span></a>
+                <li> <a class="waves-effect waves-dark" [routerLink]="['autorizados']" routerLinkActive="active"
+                        aria-expanded="false"><i class="fas fa-lock"></i><span class="hide-menu">Autorizados</span></a>
                 </li>
 
             </ul>
