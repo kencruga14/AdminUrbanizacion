@@ -1091,6 +1091,21 @@ export class AuthService {
         })
       );
   }
+
+  getReservasAreaSocialxId(id:string) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+
   getBuzonRecibidos() {
 
     const headers = new HttpHeaders({
@@ -1818,4 +1833,85 @@ export class AuthService {
         );
     });
   }
+
+  // horarios
+
+
+
+  createHorario(data) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .post(`${environment.apiUrl}/admin-etapa/area-horarios`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+
+  editHorario(id: number, data: any) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .put(`${environment.apiUrl}/admin-etapa/area-horarios/${id}`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+
+  deleteHorario(id: number) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .delete(`${environment.apiUrl}/admin-etapa/area-horarios/${id}`, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+
+
 }
