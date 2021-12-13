@@ -150,21 +150,21 @@
                         <label for="cbox6">Usuario</label>
                         <input type="checkbox" id="cbox7" [(ngModel)]="permisos.area_social" name="area_social">
                         <label for="cbox7">Area Social</label>
-                        <input type="checkbox" id="cbox8" name="ingreso" [(ngModel)]="permisos.voto"> <label
-                            for="cbox8">Voto</label>
                         <input type="checkbox" id="cbox9" name="horario" [(ngModel)]="permisos.horario">
                         <label for="cbox9">Horario</label>
                         <input type="checkbox" id="cbox10" [(ngModel)]="permisos.emprendimiento" name="emprendimiento">
                         <label for="cbox10">Emprendimiento</label>
+                        <input type="checkbox" id="cbox10" [(ngModel)]="permisos.alicuota" name="alicuota">
+                        <label for="cbox10">Alícouta</label>
 
                     </div>
                     <div class="col-4">
                         <input type="checkbox" id="cbox11" [(ngModel)]="permisos.seguridad" name="seguridad">
                         <label for="cbox11">Seguridad</label>
                         <input type="checkbox" id="cbox12" [(ngModel)]="permisos.buzon" name="buzon">
-                        <label for="cbox12">Buzon</label>
+                        <label for="cbox12">Buzón</label>
                         <input type="checkbox" id="cbox13" name="camara" [(ngModel)]="permisos.camara"> <label
-                            for="cbox13">Camaras</label>
+                            for="cbox13">Cámaras</label>
                         <input type="checkbox" id="cbox14" name="reserva" [(ngModel)]="permisos.reserva"> <label
                             for="cbox14">Reserva</label>
 
@@ -183,34 +183,70 @@
     </ng-template>
 
     <ng-template #contentPermisos let-modal>
-        <div class="modal-header">Módulos permitidos</div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-3" style="text-align: center;">
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3" style="text-align: right;">
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3" style="text-align: right;">
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                    <span *ngIf="!infoPermisos.alicouta"> Alicouta</span>
-                </div>
-            </div>
+        <div class="modal-header">
+            <h4 class="modal-title encabezado" id="modal-basic-title">Módulos permitidos</h4>
+        </div>
 
+        <div class="modal-body">
+            <strong class="pregunta"></strong>
+            <div class="table-responsive">
+                <table id="myTable" class=" permisos table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>Módulos</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;" *ngIf="infoPermisos">
+                        <tr>
+                            <td *ngIf="infoPermisos.casa">Casas</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.usuario">Usuario</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.seguridad">Seguridad</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.ingreso">Registro de Ingresos</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.alicuotas">Alícuotas</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.emprendimiento">Emprendimiento</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.voto">Mi voto</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.area_social">Área Social</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.camara">Cámara</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.directiva">Directiva</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.horario">Horarios</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.reserva">Reservaciones</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.expreso_escolar">Expreso Escolar</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.buzon">Buzón</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!infoPermisos">
+                        <tr>
+                            <td>Permisos no asignados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </ng-template>
 

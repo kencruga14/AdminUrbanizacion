@@ -11,6 +11,7 @@ import * as moment from "moment";
   providedIn: "root",
 })
 export class AuthService {
+  permisos: any = {}
   loading = false;
   master: UsuarioModelo;
   private apikey = "";
@@ -25,6 +26,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("info");
+    localStorage.removeItem("permisos");
   }
 
   login(body) {
@@ -81,6 +83,7 @@ export class AuthService {
     this.infoGuard = 1;
     localStorage.setItem("token", idToken.token);
     localStorage.setItem("info", JSON.stringify(idToken.usuario));
+    localStorage.setItem("permisos", JSON.stringify(idToken.permisos));
     localStorage.setItem(
       "info_etapa",
       JSON.stringify(idToken.nombre_etapa, idToken.nombre_urbanizacion)
@@ -96,6 +99,7 @@ export class AuthService {
     if (localStorage.getItem("token")) {
       this.userToken = localStorage.getItem("token");
       this.info = JSON.parse(localStorage.getItem("info"));
+      this.permisos = JSON.parse(localStorage.getItem("permisos"))
       this.infoGuard = 1;
     } else {
       this.userToken = "";

@@ -31,8 +31,13 @@ export class AutorizadosComponent implements OnInit {
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
+    console.log("holi")
+    console.log(this.getAutorizados())
+    console.log("holi")
+
   }
   saveEditPicture(event: any) {
+
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -100,7 +105,9 @@ export class AutorizadosComponent implements OnInit {
     if (this.autorizado.edit) {
       delete this.permisos.id_admin_etapa
       delete this.permisos.admin_etapa
-
+      if (!this.changeFoto) {
+        delete this.autorizado.usuario.imagen
+      }
       this.autorizado.permisos = this.permisos
 
       response = await this.auth.editAutorizado(this.autorizado.ID, this.autorizado)
