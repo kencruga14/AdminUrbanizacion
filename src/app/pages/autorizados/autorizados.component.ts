@@ -21,6 +21,7 @@ export class AutorizadosComponent implements OnInit {
   imagenEdit = null;
   changeFoto = false;
   imagen = null;
+  infoPermisos: any = {}
 
   imagenPerfila: any;
 
@@ -32,6 +33,7 @@ export class AutorizadosComponent implements OnInit {
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
   }
   saveEditPicture(event: any) {
+
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -91,15 +93,19 @@ export class AutorizadosComponent implements OnInit {
     // this.modalService.open(content);
   }
   async gestionAutorizado() {
-
     this.autorizado.usuario = this.usuario
-
-
     let response;
     if (this.autorizado.edit) {
       delete this.permisos.id_admin_etapa
       delete this.permisos.admin_etapa
+      delete this.permisos.CreatedAt
+      delete this.permisos.DeletedAt
+      delete this.permisos.ID
+      delete this.permisos.UpdatedAt
 
+      if (!this.changeFoto) {
+        delete this.autorizado.usuario.imagen
+      }
       this.autorizado.permisos = this.permisos
 
       response = await this.auth.editAutorizado(this.autorizado.ID, this.autorizado)
@@ -141,6 +147,25 @@ export class AutorizadosComponent implements OnInit {
     if (response) {
       this.getAutorizados();
     }
+  }
+
+  mostrarPermisos(content, autorizado) {
+    delete autorizado.permisos.admin_etapa
+    delete autorizado.permisos.id_admin_etapa
+    delete autorizado.permisos.DeletedAt
+    delete autorizado.permisos.CreatedAt
+    delete autorizado.permisos.UpdatedAt
+    delete autorizado.permisos.ID
+
+
+
+    this.infoPermisos = autorizado.permisos
+
+    for (const property in this.infoPermisos) {
+      console.log(`${property}: ${this.infoPermisos[property]}`);
+    }
+    this.modalService.open(content);
+
   }
 
 }

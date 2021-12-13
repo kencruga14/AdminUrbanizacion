@@ -1,13 +1,20 @@
-<app-breadcrumb titulo="Casas" [menu]="eta"></app-breadcrumb>
+<app-breadcrumb titulo="Autorizados" [menu]="eta"></app-breadcrumb>
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Lista de Autorizados</h4>
-            <button class="btn btn-dark" (click)="openAutorizado(contentAutorizado)">Crear Autorizado</button>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
+            <div class="row">
+                <div class="col-3">
+                    <h4 class="card-title">Lista de Autorizados</h4>
+                    <button class="btn btn-dark" (click)="openAutorizado(contentAutorizado)">Crear Autorizado</button>
+                </div>
+                <div class="col-9" style="width: 100% !important ; ">
+                    <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                        <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                            [(ngModel)]="filterName">
+                    </div>
+                </div>
             </div>
+
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">
@@ -26,16 +33,16 @@
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
-                        <tr *ngFor="let autorizado of autorizados ; let i=index ">
+                        <tr
+                            *ngFor="let autorizado of autorizados  | multifilter:['usuario.nombres','usuario.apellido','cedula','usuario.correo']:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
                             <td>
                                 <figure>
-                                    <img class="avatar" style="height:30px !important" [src]="autorizado.usuario.imagen"
+                                    <img class="avatar" style="height:40px !important" [src]="autorizado.usuario.imagen"
                                         alt="image" data-holder-rendered="true" (click)="openImage(autorizado.usuario)"
                                         data-toggle="modal" data-target=".bd-example-modal-lg" />
                                 </figure>
                             </td>
-                            <td>{{autorizado.imagen}}</td>
                             <td>{{autorizado.usuario.nombres}}</td>
                             <td>{{autorizado.usuario.apellido}}</td>
                             <td>{{autorizado.cedula}}</td>
@@ -44,10 +51,13 @@
                             <td>{{autorizado.usuario.telefono}}</td>
                             <td>
                                 <a data-toggle="tooltip" data-original-title="Editar"
-                                    (click)="openAutorizado(contentAutorizado, autorizado)"> <i
-                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    (click)="openAutorizado(contentAutorizado, autorizado)">
+                                    <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(autorizado.ID)">
                                     <i class="fa fa-trash text-danger m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Info"
+                                    (click)="mostrarPermisos(contentPermisos,autorizado)">
+                                    <i class="fa fa-info-circle text-inverse m-r-10"></i> </a>
 
                             </td>
                         </tr>
@@ -73,7 +83,7 @@
             </button>
         </div>
         <form (ngSubmit)="gestionAutorizado()" #form="ngForm">
-            <div class="modal-body">
+            <div class="modal-body" style="height: 600px; overflow-y: scroll;">
                 <div class="form-group">
                     <div class="image-preview mb-3" *ngIf="!changeFoto && usuario.imagen">
                         <img class="img-fluid" [src]="usuario.imagen" height="500" width="100" />
@@ -114,46 +124,54 @@
                         placeholder="Teléfono">
                 </div>
                 <div class="row">
+                    <label style="padding-left: 17px; font-size: 18px; padding-bottom: 5px; font-weight: bold;">
+                        Permisos</label>
+                </div>
+                <div class="row">
                     <div class="col-4">
-                        <input type="checkbox" id="cbox1" [(ngModel)]="permisos.alicuota" name="alicuota">
-                        <label for="cbox1">Alicuota</label>
+                        <input type="checkbox" id="cbox1" [(ngModel)]="permisos.casa" name="casa">
+                        <label for="cbox1">Casa</label>
 
-                        <input type="checkbox" id="cbox2" [(ngModel)]="permisos.area_social" name="area_social">
-                        <label for="cbox2">Area Social</label>
+                        <input type="checkbox" id="cbox2" [(ngModel)]="permisos.ingreso" name="ingreso">
+                        <label for="cbox2">Ingresos</label>
 
-                        <input type="checkbox" id="cbox3" name="emprendimiento" [(ngModel)]="permisos.emprendimiento">
-                        <label for="cbox3">Emprendimiento</label>
+                        <input type="checkbox" id="cbox3" name="voto" [(ngModel)]="permisos.voto">
+                        <label for="cbox3">Votos</label>
 
-                        <input type="checkbox" id="cbox4" name="casa" [(ngModel)]="permisos.casa">
-                        <label for="cbox4">Casa</label>
+                        <input type="checkbox" id="cbox4" name="directiva" [(ngModel)]="permisos.directiva">
+                        <label for="cbox4">Directiva</label>
 
-                        <input type="checkbox" id="cbox5" [(ngModel)]="permisos.usuario" name="usuario">
-                        <label for="cbox5">Usuario</label>
+                        <input type="checkbox" id="cbox5" [(ngModel)]="permisos.expreso_escolar" name="expreso_escolar">
+                        <label for="cbox5">Expreso Escolar</label>
 
                     </div>
                     <div class="col-4">
-                        <input type="checkbox" id="cbox6" [(ngModel)]="permisos.seguridad" name="seguridad">
-                        <label for="cbox6">Seguridad</label>
-                        <input type="checkbox" id="cbox7" [(ngModel)]="permisos.ingreso" name="ingreso">
-                        <label for="cbox7">Ingreso</label>
-                        <input type="checkbox" id="cbox8" name="ingreso" [(ngModel)]="permisos.voto"> <label
-                            for="cbox8">Voto</label>
-                        <input type="checkbox" id="cbox9" name="directiva" [(ngModel)]="permisos.directiva">
-                        <label for="cbox9">Directiva</label>
-                        <input type="checkbox" id="cbox10" [(ngModel)]="permisos.camara" name="camara">
-                        <label for="cbox10">Camara</label>
+                        <input type="checkbox" id="cbox6" [(ngModel)]="permisos.usuario" name="usuario">
+                        <label for="cbox6">Usuario</label>
+                        <input type="checkbox" id="cbox7" [(ngModel)]="permisos.area_social" name="area_social">
+                        <label for="cbox7">Area Social</label>
+                        <input type="checkbox" id="cbox8" [(ngModel)]="permisos.alicuota" name="alicuota">
+                        <label for="cbox8">Alícouta</label>
+                        <input type="checkbox" id="cbox9" name="horario" [(ngModel)]="permisos.horario">
+                        <label for="cbox9">Horario</label>
+                        <input type="checkbox" id="cbox10" [(ngModel)]="permisos.emprendimiento" name="emprendimiento">
+                        <label for="cbox10">Emprendimiento</label>
+
 
                     </div>
                     <div class="col-4">
-                        <input type="checkbox" id="cbox11" [(ngModel)]="permisos.horario" name="horario">
-                        <label for="cbox11">Horario</label>
-                        <input type="checkbox" id="cbox12" [(ngModel)]="permisos.reserva" name="reserva">
-                        <label for="cbox12">Reserva</label>
-                        <input type="checkbox" id="cbox13" name="reserva" [(ngModel)]="permisos.expreso_escolar"> <label
-                            for="cbox13">Expreso
-                            Escolar</label>
-                        <input type="checkbox" id="cbox14" name="buzon" [(ngModel)]="permisos.buzon"> <label
-                            for="cbox14">Buzon</label>
+                        <input type="checkbox" id="cbox11" [(ngModel)]="permisos.galeria" name="galeria">
+                        <label for="cbox11">Galería</label>
+                        <input type="checkbox" id="cbox12" [(ngModel)]="permisos.seguridad" name="seguridad">
+                        <label for="cbox12">Seguridad</label>
+                        <input type="checkbox" id="cbox13" [(ngModel)]="permisos.buzon" name="buzon">
+                        <label for="cbox13">Buzón</label>
+                        <input type="checkbox" id="cbox14" name="camara" [(ngModel)]="permisos.camara"> <label
+                            for="cbox14">Cámaras</label>
+                        <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.reserva"> <label
+                            for="cbox15">Reserva</label>
+                        <!-- <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.autorizado"> <label
+                            for="cbox15">Autorizado</label> -->
 
                     </div>
                 </div>
@@ -168,6 +186,79 @@
             </div>
         </form>
     </ng-template>
+
+    <ng-template #contentPermisos let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title encabezado" id="modal-basic-title">Módulos permitidos</h4>
+        </div>
+
+        <div class="modal-body">
+            <strong class="pregunta"></strong>
+            <div class="table-responsive">
+                <table id="myTable" class=" permisos table color-bordered-table inverse-bordered-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th>Módulos</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;" *ngIf="infoPermisos">
+                        <tr>
+                            <td *ngIf="infoPermisos.casa">Casas</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.usuario">Usuario</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.seguridad">Seguridad</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.ingreso">Registro de Ingresos</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.alicuota">Alícuotas</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.emprendimiento">Emprendimiento</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.voto">Mi voto</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.area_social">Área Social</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.camara">Cámara</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.directiva">Directiva</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.horario">Horarios</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.reserva">Reservaciones</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.expreso_escolar">Expreso Escolar</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.buzon">Buzón</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="infoPermisos.galeria">Galería</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!infoPermisos">
+                        <tr>
+                            <td>Permisos no asignados</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+
+
 
 
 </div>
