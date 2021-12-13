@@ -3,36 +3,30 @@
 <div class="main-part" style="height: calc(100vh - 154px);">
     <div class="left-part bg-white fixed-left-part" [ngClass]="{'show-panel': showSidebar}">
         <div class="position-relative" style="height:100%;">
-            <div class="p-l-15 p-r-25 py-3 d-flex align-items-center mt-1 border-bottom">
-                <div>
-                </div>
-                <div class="text-dark m-b-0 m-l-15 font-18">
-                    Administración
+            <div
+                class="p-l-15 p-r-25 py-3 d-flex align-items-center mt-1 border-bottom text-center row justify-content-center">
 
-                </div>
-            </div>
-            <div class="p-3">
-                <button type="button" class="btn  btn-block" style="background-color:#7875ea ; color: white;"
-                    (click)='openModal(content)'> Nuevo
+                <button type="button" class="btn   ml-4 mr-4" style="background-color:#7875ea ; color: white;"
+                    (click)='openModal(content)'> Nuevo Mensaje
                 </button>
             </div>
+
             <ul class="mailbox list-style-none">
                 <li>
                     <div class="message-center" style="height: calc(100vh - 340px); ">
-                        <div class="p-3">
-                            <h6 class="font-weight-normal text-muted text-uppercase mb-0">Buzón</h6>
-                        </div>
+
                         <div *ngFor="let mail of mailboxes">
                             <a class="message-item border-0 d-flex align-items-center py-3"
+                                [ngStyle]="{'background-color':ms.type==mail.name? '#f2f4f8' : 'white' }"
                                 (click)='mailboxesChanged(mail.name)'>
                                 <span>
                                     <i [class]="mail.icon"></i>
                                 </span>
                                 <h5 class="ml-3 mb-0">{{mail.name}}</h5>
                                 <div class="ml-auto">
-                                    <span *ngIf='mail.name==="Bandeja"'
+                                    <span *ngIf='mail.name==="Recibidos" && ms.inboxCount>0'
                                         class="badge badge-pill font-medium px-3 d-flex align-items-center"
-                                        style="background-color:#7875ea ; color: white;">3</span>
+                                        style="background-color:#7875ea ; color: white;">{{ms.inboxCount}}</span>
 
 
                                 </div>
@@ -49,48 +43,59 @@
             <div class="row no-gutters" style=" overflow-y: hidden !important;">
                 <div class="col-lg-6 col-md-12 col-xl-4 border-right">
                     <div class="position-relative" style="height:100%;">
-                        <div class="d-flex align-items-center justify-content-between px-3 py-4 border-bottom">
-                            <div>
-                                <span class="font-16 font-medium">{{ms.topLable}}</span>
-                            </div>
-                            <div style="height: 60px;"></div>
-                            <!-- <div class="mail-pagination">
-                                <ngb-pagination [collectionSize]="ms.collectionSize" [(page)]="ms.page"
-                                    [pageSize]="ms.pageSize">
-                                </ngb-pagination>
-                            </div> -->
-                        </div>
 
-                        <div class="position-relative" style="height: calc(100vh - 258px); overflow-y: scroll;">
+
+                        <div class="position-relative" style="height: calc(100vh - 100px); overflow-y: scroll;">
                             <div *ngIf="!loading">
-                                <div *ngFor="let mail of ms.mailList| slice: (ms.page-1) * ms.pageSize : (ms.page-1) * ms.pageSize + ms.pageSize ; let i = index"
-                                    (click)="mailSelected(mail)">
+                                <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)">
                                     <div class="p-3 border-bottom">
-                                        <div class="d-flex align-items-start">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="d-flex align-items-start">
 
-                                            <div class="ml-3">
-                                                <div class="d-flex align-items-center">
-                                                    <h5 class="mb-0">{{mail.publicador.nombres}}</h5>
+                                                    <div class="ml-3">
+                                                        <div class="d-flex align-items-center" *ngIf="mail.is_admin">
+                                                            <h5 class="mb-0">De: Administración</h5>
+
+                                                        </div>
+                                                        <div class="d-flex align-items-center" *ngIf="!mail.is_admin">
+                                                            <h5 class="mb-0">{{mail.publicador.nombres}}</h5>
+
+                                                        </div>
+
+                                                        <p class="text-muted"> {{mail.titulo | slice:0:25}}.. </p>
+                                                    </div>
 
                                                 </div>
 
-                                                <p class="text-muted"> {{mail.titulo | slice:0:25}}.. </p>
+                                                <p class="mb-0">
+                                                    <span class="font-medium" *ngIf='!mail.leido'>
+                                                        {{mail.descripcion | slice:0:40}}.. </span>
+                                                    <span *ngIf='mail.leido'> {{mail.descripcion | slice:0:40}}..
+                                                    </span>
+                                                </p>
                                             </div>
-                                            <div class="ml-auto">
-                                                <div class="text-right">
-                                                    <span class="text-muted d-block">{{mail.CreatedAt.split('T')[0] |
-                                                        date:'dd-MMMM'}}</span>
+                                            <div class="col-2">
+                                                <div class="row justify-content-end align-items-end"
+                                                    style="height: 100%;">
+                                                    <button *ngIf='!mail.leido' class="btn btn-sm btn-dark mr-2 mb-4"
+                                                        style="cursor: none;">Nuevo</button>
+                                                    <div class="col-12">
+                                                        <div class="text-right">
+                                                            <span
+                                                                class="text-muted d-block">{{(mail.CreatedAt.split('T')[0]
+                                                                |
+                                                                date:'dd MMMM')| slice:0:6}}.</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+
 
                                             </div>
                                         </div>
-                                        <p class="mb-0">
-                                            <!-- <span class="font-medium" *ngIf='!mail.seen'>
-                                            {{mail.Message | slice:0:200}}.. </span>
-                                        <span *ngIf='mail.seen'> {{mail.descripcion | slice:0:200}}.. </span> -->
-                                            <span> {{mail.descripcion | slice:0:30}}.. </span>
 
-                                        </p>
+
                                     </div>
 
 
@@ -127,7 +132,7 @@
 
     <div class="modal-header " style="background-color:#7875ea ;">
 
-        <h4 class="modal-title text-white">Nuevo mensaje</h4>
+        <h4 class="modal-title text-white ">Nuevo mensaje</h4>
 
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true" class="text-white">&times;</span>
@@ -175,22 +180,23 @@
                         </select>
                     </div>
                 </div>
+
             </div>
             <div class="form-group">
                 <label for="subject">Asunto</label>
-                <input type="text" class="form-control" id="subject" name="subject" [(ngModel)]="correo.asunto">
+                <input type="text" class="form-control" id="subject" name="subject" [(ngModel)]="correo.titulo">
             </div>
 
             <div class="form-group">
                 <textarea class="form-control" rows="5" id="comment" placeholder="Ingrese texto aqui..."
-                    [(ngModel)]="correo.mensaje" name="mensaje"></textarea>
+                    [(ngModel)]="correo.descripcion" name="mensaje"></textarea>
             </div>
             <div style="height: 100px;">
                 <div class="row ">
 
                     <div class="col-md-2 text-center" *ngFor="let archivo of correo.adjuntos">
                         <img src="assets/images/clip.png" style="height: 50px;" alt=""> <br>
-                        <span style="font-size: 12px;"> {{archivo.nombre}} </span>
+                        <span style="font-size: 12px;"> {{archivo}} </span>
                     </div>
                 </div>
             </div>
@@ -201,15 +207,14 @@
                                 class="icon-link font-16"></i></a>
 
                     </div>
-                    <input style="display: none" name="archivos[]" type="file" accept="*/*" (change)="preview($event)"
-                        #fileInput>
+                    <input type="file" id="files" name="archivos" multiple style="display: none" accept="*/*"
+                        (change)="preview($event)" #fileInput>
 
                     <div>
-                        <button type="button" class="btn btn-danger ml-3"><i
+                        <button (click)="descartar()" type="button" class="btn btn-danger ml-3"><i
                                 class="fas fa-trash mr-1"></i>Descartar</button>
 
-                        <button type="button" class="btn btn-secondary ml-3"
-                            (click)="enviarCorreo(form)">Enviar</button>
+                        <button class="btn btn-secondary ml-3" (click)="enviarCorreo(form)">Enviar</button>
                     </div>
                 </div>
             </form>

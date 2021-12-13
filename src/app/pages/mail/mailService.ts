@@ -7,10 +7,10 @@ export class MailService {
 
 
     public getInbox() {
-        return mailboxList.filter(mail => mail.mailbox === 'Bandeja');
+        return mailboxList.filter(mail => mail.mailbox === 'Recibidos');
     }
     public getSent() {
-        return mailboxList.filter(mail => mail.mailbox === 'Sent');
+        return mailboxList.filter(mail => mail.mailbox === 'Enviados');
     }
     public getDraft() {
         return mailboxList.filter(mail => mail.mailbox === 'Draft');

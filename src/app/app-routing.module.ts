@@ -22,6 +22,9 @@ import { ReservacionesComponent } from "./pages/reservaciones/reservaciones.comp
 import { CamarasComponent } from "./pages/camaras/camaras.component";
 import { CambiarcontrasenaComponent } from "./pages/cambiarcontrasena/cambiarcontrasena.component";
 import { AutorizadosComponent } from "./pages/autorizados/autorizados.component";
+import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
+import { DetailComponent } from "./pages/mail/detail/detail.component";
+import { ComposeComponent } from "./pages/mail/compose/compose.component";
 
 
 const routes: Routes = [
@@ -105,6 +108,21 @@ const routes: Routes = [
         path: "autorizados",
         component: AutorizadosComponent,
         canActivate: [RolGuard],
+      },
+      {
+        path: 'mail/:type',
+        component: MailPanelComponent,
+        children: [
+
+          { path: ':id', component: DetailComponent },
+          { path: 'compose', component: ComposeComponent }
+        ],
+        data: {
+          title: '',
+          urls: [
+
+          ]
+        }
       },
       { path: "**", redirectTo: "casa" },
     ],
