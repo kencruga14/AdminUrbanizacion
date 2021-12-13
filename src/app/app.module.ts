@@ -65,7 +65,12 @@ import { MenuModule } from "primeng/menu";
 import { MegaMenuItem } from "primeng/api"; //required when using MegaMenu
 import { ContextMenuModule } from "primeng/contextmenu";
 import { TabMenuModule } from "primeng/tabmenu";
-import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarModule,
+  PERFECT_SCROLLBAR_CONFIG,
+} from "ngx-perfect-scrollbar";
+import { CalendarModule } from "primeng/calendar";
 
 import {
   NgbPaginationModule,
@@ -79,17 +84,17 @@ import { IconDefinition } from "@ant-design/icons-angular";
 import * as AllIcons from "@ant-design/icons-angular/icons";
 import { MultiFilterPipe } from "./pipes/multifilter.pipe";
 import { AutorizadosComponent } from "./pages/autorizados/autorizados.component";
-import { ComposeComponent } from './pages/mail/compose/compose.component';
-import { ListingComponent } from './pages/mail/listing/listing.component';
-import { DetailComponent } from './pages/mail/detail/detail.component';
-import { MailPanelComponent } from './pages/mail/mail-panel/mail-panel.component';
+import { ComposeComponent } from "./pages/mail/compose/compose.component";
+import { ListingComponent } from "./pages/mail/listing/listing.component";
+import { DetailComponent } from "./pages/mail/detail/detail.component";
+import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
 import { MailGlobalVariable, MailService } from "./pages/mail/mail.service";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
   wheelPropagation: true,
-  minScrollbarLength: 20
+  minScrollbarLength: 20,
 };
 @NgModule({
   declarations: [
@@ -124,7 +129,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ListingComponent,
     DetailComponent,
     MailPanelComponent,
-
   ],
   imports: [
     IvyCarouselModule,
@@ -146,6 +150,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxChartsModule,
     ColorPickerModule,
     AccordionModule,
+    CalendarModule,
     // MatSelectModule,
     // MatSliderModule,
     ListboxModule,
@@ -160,13 +165,17 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TabMenuModule,
     NgZorroAntdModule,
     NzButtonModule,
-    PerfectScrollbarModule
-
+    PerfectScrollbarModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: "es" }, MailService, MailGlobalVariable, {
-    provide: PERFECT_SCROLLBAR_CONFIG,
-    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }],
+  providers: [
+    { provide: LOCALE_ID, useValue: "es" },
+    MailService,
+    MailGlobalVariable,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
