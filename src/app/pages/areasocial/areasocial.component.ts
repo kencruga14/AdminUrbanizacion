@@ -170,30 +170,41 @@ export class AreasocialComponent implements OnInit {
     if (area) {
       // this.id_area = area.ID;
       this.id = area.ID;
-      this.nombre = area.nombre;
-      this.seleccionCosto=area.seleccionCosto
-      this.estado=area.estado
-      this.tiempo_reservacion_minutos= area.tiempo_reservacion_minutos;
-      this.precio = area.precio;
       this.imagenEdit = area.imagen;
+      this.nombre = area.nombre;
+      this.tipoAforo= area.tipoAforo;
+      this.numeroAforo = area.numeroAforo;
+      this.normas = area.normas;
+      this.tipoArea = area.tipoArea;
+      this.tiempo_reservacion_minutos= area.tiempo_reservacion_minutos;
+      this.seleccionCosto=area.seleccionCosto
+      this.precio = area.precio;
+      this.estado=area.estado
       if(area.precio>0){
         this.seleccionCosto="PAGADO"
       }else{
         this.seleccionCosto="GRATIS"
+      }
+      if(this.numeroAforo!==''){
+        this.tipoAforo="ILIMITADDO"
+      }else{
+        this.tipoAforo="LIMITADO"
       }
       this.area = area;
       this.area.edit = true;
     } else {
       this.imagen="";
       this.imagenPerfil=""
-      this.id_area = 0;
+      // this.id_area = 0;
       this.imagenEdit="";
       this.nombre = "";
-      this.precio = "";
-      this.seleccionCosto="";
-      this.tiempo_reservacion_minutos ="";
       this.tipoAforo ="";
+      this.numeroAforo ="";
+      this.normas="";
       this.tipoArea ="";
+      this.tiempo_reservacion_minutos ="";
+      this.seleccionCosto="";
+      this.precio = "";
       this.estado ="";
       this.area.edit=false
     }
@@ -249,22 +260,28 @@ export class AreasocialComponent implements OnInit {
     console.log(this.area)
     if (this.area.edit) {
       const body = {
+        imagen: this.imagen,
         nombre: this.nombre,
-        estado: this.estado,
-        seleccionCosto : this.seleccionCosto,
+        tipoAforo: this.tipoAforo,
+        aforo: this.numeroAforo,
+        normas: this.normas,
+        tipoArea: this.tipoArea,
         tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos),
+        seleccionCosto: this.seleccionCosto,
         precio: parseInt(this.precio),
-        // imagen: this.imagenEdit,
       };
       response = await this.auth.editAreaSocial(this.id, body);
     } else {
       const body = {
-        seleccionCosto: this.seleccionCosto,
-        estado: this.estado,
-        nombre: this.nombre,
-        precio: parseInt(this.precio),
         imagen: this.imagen,
-        tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos)
+        nombre: this.nombre,
+        tipoAforo: this.tipoAforo,
+        aforo: this.numeroAforo,
+        normas: this.normas,
+        tipoArea: this.tipoArea,
+        tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos),
+        seleccionCosto: this.seleccionCosto,
+        precio: parseInt(this.precio),
       };
       response = await this.auth.createAreaSocial(body);
     }
