@@ -1,55 +1,69 @@
 <app-breadcrumb titulo="Directiva" [menu]="eta"></app-breadcrumb>
 <div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div _ngcontent-yej-c10 class="row">
+                <div _ngcontent-yej-c10 class="col-md-3 col-sm-12 col-xs-12"
+                    *ngFor="let mat of admins | filter:filterName; let i=index ">
+                    <div _ngcontent-mbv-c5 class="card w-76">
 
-    <div _ngcontent-yej-c10 class="row">
-        <div _ngcontent-yej-c10 class="col-md-3 col-sm-12 col-xs-12"
-            *ngFor="let mat of admins | filter:filterName; let i=index ">
-            <div _ngcontent-mbv-c5 class="card w-75">
+                        <img style="height: 250px;" [src]="mat.imagen" class="" alt="Card image cap" height="104.69px">
+                        <div _ngcontent-mbv-c5 class="row">
+                            <div class="col-md-9">
+                                <p class="card-text" style="padding-left: 15px; padding-top: 10px;">{{mat.nombre |
+                                    titlecase}}</p>
+                                <!--<p class="card-text" style="padding-left: 15px;">{{mat.Cargo}}</p>
+                                <p class="card-text" style="padding-left: 15px;">{{mat.Cedula}}</p>
+                                <p class="card-text" style="padding-left: 15px;">{{mat.telefono}}</p>
+                                <p class="card-text" style="padding-left: 15px;">{{mat.Correo}}</p>-->
+                            </div>
+                            <div class="col align-self-end" style="text-align:right; ">
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openAdmin(contentAdmin, mat)"><i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a>
+                            </div>
 
-                <img [src]="mat.imagen" class="" alt="Card image cap" height="230px" (click)="openImage(mat)"
-                    data-toggle="modal" data-target=".bd-example-modal-lg">
-                <div _ngcontent-mbv-c5 class="row">
-                    <div class="col-md-9">
-                        <p class="card-text" style="padding-left: 5px;">{{mat.nombre}}</p>
-                        <p class="card-text" style="padding-left: 15px;">{{mat.Cargo}}</p>
-                        <p class="card-text" style="padding-left: 15px;">{{mat.Cedula}}</p>
-                        <p class="card-text" style="padding-left: 15px;">{{mat.telefono}}</p>
-                        <p class="card-text" style="padding-left: 15px;">{{mat.Correo}}</p>
+
+                        </div>
+                        <div class="col-md-12">
+                            <label style="font-size: 15px; margin-bottom: 0;">{{mat.cargo}}</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label style="font-size: 15px;margin-bottom: 0;">{{mat.cedula}}</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label style="font-size: 15px;margin-bottom: 0;">{{mat.telefono}}</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label style="font-size: 15px;margin-bottom: 0;">{{mat.correo}}</label>
+                        </div>
                     </div>
-                    <div class="col" style="text-align:right; ">
-                        <a data-toggle="tooltip" data-original-title="Editar" (click)="openAdmin(contentAdmin, mat)"><i
-                                class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                        <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(mat.ID)"><i
-                                class="fa fa-trash text-danger m-r-10"></i> </a>
-                    </div>
-
-
                 </div>
-
-            </div>
-        </div>
-        <div _ngcontent-mbv-c5="" class="col-md-3 col-sm-12 col-xs-12">
-            <div _ngcontent-mbv-c5="" class="card w-75" style="height: 230px;" (click)="openAdmin(contentAdmin)">
-                <div _ngcontent-mbv-c5="" class="card-body text-center">
-                    <div _ngcontent-mbv-c5="" class="row justify-content-center align-items-center"
-                        style="height: 100px;">
-                        <div _ngcontent-mbv-c5="" class="col-12 align-items-center">
-                            <br>
-                            <br>
-                            <br>
-                            <svg _ngcontent-mbv-c5="" class="bi bi-plus" fill="currentColor" height="66"
-                                style="font-weight: bolder; color: #7875ea; " viewBox="0 0 16 16" width="66"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path _ngcontent-mbv-c5=""
-                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
-                                </path>
-                            </svg>
+                <div _ngcontent-mbv-c5="" class="col-md-3 col-sm-12 col-xs-12">
+                    <div _ngcontent-mbv-c5="" class="card w-76" style="height: 250px;" (click)="openAdmin(contentAdmin)">
+                        <div _ngcontent-mbv-c5="" class="card-body text-center">
+                            <div _ngcontent-mbv-c5="" class="row justify-content-center align-items-center"
+                                style="height: 100px;">
+                                <div _ngcontent-mbv-c5="" class="col-12 align-items-center">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <svg _ngcontent-mbv-c5="" class="bi bi-plus" fill="currentColor" height="66"
+                                        style="font-weight: bolder; color: #7875ea; " viewBox="0 0 16 16" width="66"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path _ngcontent-mbv-c5=""
+                                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <ng-template #contentAdmin let-modal>
             <div class="modal-header">
                 <h4 *ngIf="!admin.edit" class="modal-title" id="modal-basic-title">Crear Directivo</h4>
@@ -60,7 +74,6 @@
             </div>
             <form (ngSubmit)="gestionAdmin()" #form="ngForm">
                 <div class="modal-body">
-
                     <div class="form-group" *ngIf="imagenEdit">
                         <!-- editar imagen -->
                         <div class="contenedor">
@@ -74,11 +87,21 @@
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.
                         </small>
+
+                        <!--<label for="imagen">Imagen del Área</label>
+                        <div class="image-preview mb-2" *ngIf="imagenEdit">
+                            <img [src]="imagenEdit" height="120px" width="100%" />
+                        </div>
+                        <input type="file" name="image" (change)="editImagen($event)" accept="image/*" />-->
                     </div>
 
                     <div class="form-group" *ngIf="!imagenEdit">
                         <!-- ImagenCrear -->
-
+                        <div class="contenedor">
+                            <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                                <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
+                            </div>
+                        </div>
                         <label for="imagen">Imagen de Perfil</label>
                         <input type="file" name="image" (change)="preview($event)" accept="image/*" />
                         <small id="passwordHelpBlock" class="form-text text-muted">
@@ -88,24 +111,28 @@
                     </div>
 
                     <div class="form-group">
-                        <input [value]="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" type="text"
-                            required placeholder="Nombre">
+                        <input name="nombre" [(ngModel)]="nombre" class="form-control" type="text" required
+                            placeholder="Nombre">
                     </div>
                     <div class="form-group">
                         <label>Cargo</label>
-                        <input name="Cargo" [(ngModel)]="Cargo" class="form-control">
+                        <input name="cargo" [(ngModel)]="cargo" class="form-control" type="text" required
+                            placeholder="Cargo">>
                     </div>
                     <div class="form-group">
                         <label>Cedula</label>
-                        <input name="Cedula" [(ngModel)]="Cedula" class="form-control">
+                        <input name="cedula" [(ngModel)]="cedula" class="form-control" type="text" required
+                            placeholder="Cedula">>
                     </div>
                     <div class="form-group">
                         <label>Teléfono</label>
-                        <input name="telefono" [(ngModel)]="telefono" class="form-control">
+                        <input name="telefono" [(ngModel)]="telefono" class="form-control" type="text" required
+                            placeholder="Teléfono">>
                     </div>
                     <div class="form-group">
                         <label>Correo</label>
-                        <input name="Correo" [(ngModel)]="Correo" class="form-control">
+                        <input name="correo" [(ngModel)]="correo" class="form-control" type="text" required
+                            placeholder="Correo">>
                     </div>
 
                 </div>

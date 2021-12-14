@@ -144,9 +144,9 @@ export class AdministrativoComponent implements OnInit {
       };
       console.log("body imagen: ", body);
 
-      // JSON.stringify(body.imagen);
+      JSON.stringify(body.imagen);
       console.log("body editar administrativo: ", body);
-      response = await this.auth.editAdministrativos(this.id, body);
+      response = await this.auth.editAdministrativos(this.id, this.admin);
     } else {
       const body = {
         nombre: this.nombre,
