@@ -26,15 +26,13 @@ masters: UsuarioModelo[] =[];
 
   logout() {
     Swal.fire({
-      title: "¿Seguro que desea cerrar sesion?",
-      icon: "question",
+      title: "¿Seguro que quiere salir ?",
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí",
       cancelButtonText: "Cancelar",
     }).then((result) => {
- 
       if (result.value) {
         // setTimeout(() => {this.auth.logout(),5000})
         this.auth.logout();

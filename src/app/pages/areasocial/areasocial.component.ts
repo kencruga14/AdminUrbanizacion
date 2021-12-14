@@ -171,6 +171,7 @@ export class AreasocialComponent implements OnInit {
       // this.id_area = area.ID;
       this.id = area.ID;
       this.imagenEdit = area.imagen;
+      this.imagen=area.imagen;
       this.nombre = area.nombre;
       this.tipoAforo= area.tipoAforo;
       this.numeroAforo = area.numeroAforo;
@@ -260,7 +261,7 @@ export class AreasocialComponent implements OnInit {
     console.log(this.area)
     if (this.area.edit) {
       const body = {
-        imagen: this.imagen,
+        // imagen: this.imagen,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
         aforo: this.numeroAforo,
@@ -344,12 +345,22 @@ export class AreasocialComponent implements OnInit {
 
 
   openRecaudaciones(content, item ) {
-    this.idTemporal= item.ID;
-    this.fechaRecaudacionInicio=""
-    this.fechaRecaudacionFin=""
-    this.reservasRecaudaciones=[]
-    this.valorTotal=0
-    this.modalService.open(content, { size: "lg" });
+    console.log(item)
+    if(item.precio==0){
+      Swal.fire({
+        title: "<h2>Esta area fue creada para que su ingreso sea gratuito. No genera recaudaciones</h2>",
+        confirmButtonColor: "#343A40",
+        confirmButtonText: "OK",
+      })
+    }else{
+      this.idTemporal= item.ID;
+      this.fechaRecaudacionInicio=""
+      this.fechaRecaudacionFin=""
+      this.reservasRecaudaciones=[]
+      this.valorTotal=0
+      this.modalService.open(content, { size: "lg" });
+    }
+   
   }
 
   calcularRecaudaciiones(){

@@ -296,7 +296,7 @@
 
     <ng-template #contentAreaInfo let-modal>
       <div class="modal-header">
-          <h4  class="modal-title" id="modal-basic-title"> Informacion Area Social : {{ informacionArea.nombre }} </h4>
+          <h4  class="modal-title" id="modal-basic-title">  {{ informacionArea.nombre }} </h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
           </button>
@@ -305,11 +305,17 @@
               <div class="card">
                   <div class="card-body">
                     <div class="row mt-0">
-                      <div class="col-6">
+                      <!-- <div class="col-6">
                         <h3> Estado: </h3>
                       </div>
                       <div class="col-6">
                         <h3> {{informacionArea.estado}} </h3>
+                      </div> -->
+                      <div class="col-6">
+                        <h3> TipoAforo: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> - </h3>
                       </div>
                       <div class="col-6">
                         <h3> Aforo: </h3>
@@ -318,19 +324,31 @@
                         <h3> {{informacionArea.aforo}} </h3>
                       </div>
                       <div class="col-6">
-                        <h3> Tipo: </h3>
+                        <h3> Normas: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.normas}} </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Tipo de Area: </h3>
                       </div>
                       <div *ngIf="informacionArea.precio>0" class="col-6">
-                        <h3> Pagado </h3>
+                        <h3> Con Reservacion </h3>
                       </div>
                       <div *ngIf="informacionArea.precio==0" class="col-6">
-                        <h3> Publica </h3>
+                        <h3> Abierta al publico </h3>
                       </div>
                       <div class="col-6">
                         <h3> Tiempo Reserva: </h3>
                       </div>
                       <div class="col-6">
                         <h3> {{informacionArea.tiempo_reservacion_minutos}} </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Costo: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.seleccionCosto}} </h3>
                       </div>
                       <div class="col-6">
                         <h3> Valor Reserva: </h3>
