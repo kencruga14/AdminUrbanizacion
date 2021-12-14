@@ -37,16 +37,18 @@ export class ResidenteComponent implements OnInit {
   imagenEdit = null;
   es: any;
   changeFoto = false;
-  is_principal: boolean;
+  is_principal: Boolean;
   eta = [];
-  autorizacion: boolean;
+  autorizacion: Boolean;
   manzana: any;
   id_villa: any;
   votacion: boolean;
+  fechaMaxima = new Date();
   autorizacionTemp: boolean;
   autorizacionFija: boolean;
   id_urbanizacion: any;
   filterName = "";
+  accion: Boolean;
   pdfEdit = null;
   villa: any;
   residente = {
@@ -58,13 +60,17 @@ export class ResidenteComponent implements OnInit {
     imagen: null,
     correo: "",
     telefono: "",
+    villa: "",
+    manzana: "",
+    pdf: "",
     usuario: "",
     cedula: "",
     fechanacimiento: "",
     contrasena: "",
     apellido: "",
-    is_principal: false,
-    autorizacion: false,
+    is_principal: "",
+    autorizacion: "",
+    accion: "",
   };
   acceso = {
     accesos: "",
@@ -157,6 +163,15 @@ export class ResidenteComponent implements OnInit {
     });
   }
 
+  getVillass(value) {
+    this.auth.getCasasByManzana(value).subscribe((resp: any) => {
+      console.log("getCasasByManzana: ", resp);
+      this.casasselector = resp;
+      this.accion = true;
+      console.log("accion: ", this.accion);
+    });
+  }
+
   openAcceso(content, acceso) {
     this.acceso.id_residente = acceso.id_etapa;
     this.modalService.open(content);
@@ -188,15 +203,6 @@ export class ResidenteComponent implements OnInit {
   }
 
   openResidente(content, residente = null) {
-    console.log("usuario seleccionado: ", residente);
-
-    console.log(
-      "tipo fecha: ",
-      typeof moment(residente.fecha_nacimiento).toDate()
-    );
-    let asd = new Date(residente.fecha_nacimiento);
-    console.log("tipo final: ", typeof(asd));
-
     if (residente) {
       this.id_residente = residente.ID;
       this.id = residente.ID;
@@ -228,10 +234,16 @@ export class ResidenteComponent implements OnInit {
       this.nombres = "";
       this.residente.edit = false;
       this.telefono = "";
+      this.is_principal = new Boolean();
+      this.autorizacion = new Boolean();
       this.imagen = null;
       this.fechanacimiento = "";
       this.usuario = "";
+      this.manzana = "";
+      this.villa = "";
+      this.pdf = "";
       this.id_casa = 0;
+      this.accion = false;
       // this.is_principal = false;
       this.apellido = "";
       this.imagen = this.imagen;
@@ -240,10 +252,11 @@ export class ResidenteComponent implements OnInit {
   }
 
   async gestionResidente() {
+    console.log("objeto villa: ", this.villa);
     let response: any;
     if (this.residente.edit) {
       const body = {
-        id_casa: this.id_casa,
+        id_casa: Number(this.villa),
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
@@ -262,7 +275,7 @@ export class ResidenteComponent implements OnInit {
       response = await this.auth.editResidente(this.id, body);
     } else {
       const body = {
-        id_casa: this.id_casa,
+        id_casa: this.villa,
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
@@ -297,6 +310,7 @@ export class ResidenteComponent implements OnInit {
     this.fechanacimiento = null;
     this.pdfEdit = null;
     this.pdf = null;
+    this.accion = false;
     this.getResidente();
   }
 

@@ -16,6 +16,7 @@ export class ExpresoescolarComponent implements OnInit {
   expresos: any;
   id_expreso: number;
   imagen = null;
+  pdf: any;
   razon_social: string;
   documento: string;
   correo: string;
@@ -85,7 +86,15 @@ export class ExpresoescolarComponent implements OnInit {
     this.imagenPerfil = admin;
     this.modalService.open(content);
   }
-
+  PDF(event: any) {
+    const fileData = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.pdf = reader.result;
+    };
+    console.log("pdf base: ", this.pdf);
+  }
   saveEditPicture(event: any) {
     // console.log("entró preview:");
     const fileData = event.target.files[0];
@@ -147,8 +156,8 @@ export class ExpresoescolarComponent implements OnInit {
     if (this.expreso.edit) {
       if (this.imagenEdit.includes("https")) {
         // console.log("incluye htpps");
-        this.imagenEdit = ""
-      } 
+        this.imagenEdit = "";
+      }
       const body = {
         conductor: this.conductor,
         razon_social: this.razon_social,

@@ -57,7 +57,7 @@
                             <td>
                                 <figure>
                                     <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
-                                        alt="image" (click)="openImage(contentImage, et)" />
+                                        alt="image" />
                                 </figure>
                             </td>
                             <td *ngIf="et.autorizacion == true">Si</td>
@@ -96,99 +96,164 @@
 
         <form (ngSubmit)="gestionResidente()" #form="ngForm">
             <div class="modal-body">
+                <div *ngIf="!residente.edit">
+                    <div class="form-group">
+                        <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
+                            required placeholder="Nombre">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="apellido" [(ngModel)]="apellido" name="apellido" class="form-control"
+                            type="text" required placeholder="Apellido">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text"
+                            required placeholder="Cédula">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
+                            required placeholder="Usuario">
+                    </div>
 
-                <!-- <div class="form-group">
-                    <label>Pdf</label>
-                    <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
-                        type="file" accept="application/pdf" required>
-                </div> -->
-                <div class="form-group">
-                    <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
-                        required placeholder="Nombre">
-                </div>
-                <div class="form-group">
-                    <input [value]="apellido" [(ngModel)]="apellido" name="apellido" class="form-control" type="text"
-                        required placeholder="Apellido">
-                </div>
-                <div class="form-group">
-                    <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text" required
-                        placeholder="Cédula">
-                </div>
-                <div class="form-group">
-                    <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
-                        required placeholder="Usuario">
-                </div>
-                <!-- <div *ngIf="!residente.edit" class="form-group">
-                <input [value]="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control" type="text" required placeholder="Contraseña">
-            </div> -->
-                <div class="form-group">
-                    <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required
-                        placeholder="Correo">
-                </div>
-                <div class="form-group">
-                    <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text"
-                        required placeholder="Celular">
-                </div>
-                <div class="form-group">
-                    <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" type="text"
-                        required placeholder="Convencional">
-                </div>
-                <div class="form-group">
-                    <!-- editar -->
-                    <label>Manzana</label>
-                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
-                        (change)="getVillas($event.target.value)">
-                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text"
+                            required placeholder="Correo">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text"
+                            required placeholder="Celular">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control"
+                            type="text" required placeholder="Convencional">
+                    </div>
 
-                <!-- <div class="form-group" *ngIf="!residente">
-                    crear
-                    <label>Manzana</label>
-                    {{manzana}}
-                    {{villa}}
-                    <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
-                        (change)="getVillas($event.target.value)">
-                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
-                    </select>
-                </div> -->
 
-                <div class="form-group" *ngIf="casasselector?.length > 0">
-                    <label>Villa</label>
-                    <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
-                        <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
-                    </select>
-                </div>
 
-                <div class="form-group" *ngIf="casasselector?.length  < 1">
-                    <label>Villa</label>
-                    <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
-                        <option>{{villa}}</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label>Votación</label>
-                    <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
-                        <option [ngValue]="true">Si</option>
-                        <option [ngValue]="false">No</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label>Manzana</label>
+                        <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
+                            (change)="getVillas($event.target.value)">
+                            <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label>Crear Autorizaciones</label>
-                    <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
-                        <option [ngValue]="true">Si</option>
-                        <option [ngValue]="false">No</option>
-                    </select>
+                    <div class="form-group">
+                        <!-- idcasa: {{villa}} -->
+                        <label>Villa</label>
+                        <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
+                            <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Votación</label>
+                        <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
+                            <option [ngValue]="true">Si</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Crear Autorizaciones</label>
+                        <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
+                            <option [ngValue]="true">Si</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <br>
+                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"  [maxDate]="fechaMaxima" [locale]="es"
+                            [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2021" 
+                            [ngModelOptions]="{standalone: true}"></p-calendar>
+                    </div>
+                    <div class="form-group">
+                        <label>Pdf</label>
+                        <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
+                            type="file" accept="application/pdf" required>
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Fecha de nacimiento</label>
-                    <br>
-                    <p-calendar [(ngModel)]="fechanacimiento" [showIcon]="true" [locale]="es" [monthNavigator]="true"
-                        [yearNavigator]="true" yearRange="1940:2021" [ngModelOptions]="{standalone: true}" ></p-calendar>
+
+
+
+                <div *ngIf="residente.edit===true">
+
+                    <div class="form-group">
+                        <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
+                            required placeholder="Nombre" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input [value]="apellido" [(ngModel)]="apellido" name="apellido" class="form-control"
+                            type="text" required placeholder="Apellido" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text"
+                            required placeholder="Cédula" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
+                            required placeholder="Usuario" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text"
+                            required placeholder="Correo">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text"
+                            required placeholder="Celular">
+                    </div>
+                    <div class="form-group">
+                        <input [value]="telefono" [(ngModel)]="telefono" name="telefono" class="form-control"
+                            type="text" required placeholder="Convencional">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Manzana</label>
+                        <input [value]=" manzana" [(ngModel)]="manzana" name="manzana" class="form-control" type="text"
+                            required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Villa</label>
+                        <input [value]=" villa" [(ngModel)]="villa" name="villa" class="form-control" type="text"
+                            required readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Votación</label>
+                        <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
+                            <option [ngValue]="true">Si</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Crear Autorizaciones</label>
+                        <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
+                            <option [ngValue]="true">Si</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <input [value]=" fechanacimiento" [ngModel]="fechanacimiento | date: 'dd-MM-yyyy'"
+                            name="fechanacimientos" class="form-control" type="text" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Pdf</label>
+                        <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" readonly>
+                    </div>
+
                 </div>
+
 
 
             </div>
