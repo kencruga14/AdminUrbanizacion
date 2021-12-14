@@ -65,6 +65,7 @@
             <form (ngSubmit)="gestionContacto()" #form="ngForm">
                 <div class="modal-body">
                     <div class="form-group" *ngIf="imagenEdit">
+                        
                         <label for="imagen">Imagen del Área</label>
                         <div class="image-preview mb-2" *ngIf="imagenEdit">
                             <img [src]="imagenEdit" height="120px" width="100%" />
@@ -73,8 +74,13 @@
                     </div>
 
                     <div class="form-group" *ngIf="!imagenEdit">
+                        <div class="contenedor">
+                            <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                                <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
+                            </div>
+                        </div>
                         <label for="imagen">Imagen del Área </label>
-                        <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                        <input type="file" name="image" (change)="preview($event)" accept="image/*" required>
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.
@@ -83,13 +89,11 @@
 
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input name="nombre" [(ngModel)]="contacto" class="form-control" type="text" required
-                            placeholder="Nombre">
+                        <input name="nombre" [(ngModel)]="contacto" class="form-control" type="text" required>
                     </div>
                     <div class="form-group">
                         <label>Horario</label>
-                        <input name="horario" [(ngModel)]="horario" class="form-control" type="text" required
-                            placeholder="Horario">
+                        <input name="horario" [(ngModel)]="horario" class="form-control" type="text" required>
                     </div>
                     <!-- <div class="form-group">
                         <label>Correo</label>
@@ -98,8 +102,7 @@
                     </div> -->
                     <div class="form-group">
                         <label>Teléfono</label>
-                        <input name="telefono" [(ngModel)]="telefono" class="form-control" type="text" required
-                            placeholder="Teléfono">
+                        <input name="telefono" [(ngModel)]="telefono" class="form-control" type="text" required>
                     </div>
 
                 </div>

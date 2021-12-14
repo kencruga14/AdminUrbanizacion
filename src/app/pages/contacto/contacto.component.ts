@@ -77,6 +77,7 @@ export class ContactoComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil=reader.result;
     };
     this.changeFoto = true;
   }
