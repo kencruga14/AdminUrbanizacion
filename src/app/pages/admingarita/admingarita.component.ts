@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 })
 export class AdmingaritaComponent implements OnInit {
   admins: UsuarioModelo[] = [];
+  pdf2 : any;
   id_admin: 0;
   nombres: "";
   telefono: "";
@@ -149,6 +150,7 @@ export class AdmingaritaComponent implements OnInit {
     } else {
       const body = {
         usuario: {
+          
           nombres: this.nombres,
           telefono: this.telefono,
           celular: this.celular,
@@ -156,6 +158,7 @@ export class AdmingaritaComponent implements OnInit {
           correo: this.correo,
           imagen: this.imagen,
           contrasena: this.contrasena,
+          pdf: this.pdf2
         },
       };
       JSON.stringify(body);
@@ -198,5 +201,9 @@ export class AdmingaritaComponent implements OnInit {
     if (response) {
       this.getAdmin();
     }
+  }
+
+  pdf(){
+    console.log("p")
   }
 }

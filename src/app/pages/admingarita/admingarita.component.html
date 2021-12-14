@@ -4,39 +4,63 @@
         <div class="card-body">
             <h4 class="card-title">Administradores Seguridad</h4>
             <button class="btn btn-dark" (click)="openAdmin(contentAdmin)">Crear Usuario</button>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+            <!-- <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+                <input style="margin-right: 4rem;" type="text" class="form-control" name="filterName" placeholder="Buscar..."
                     [(ngModel)]="filterName">
+            </div> -->
+            <div class="row">
+                <div class="col-4">
+
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3 ml-5">
+                    <input  type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                    [(ngModel)]="filterName">
+                </div>
+                <div class="col-4">
+                   
+                </div>
+                <div class="col-2">
+                    
+                </div>
             </div>
+
             <h6 class="card-subtitle"></h6>
-            <div class="table-responsive m-t-40">
-                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+            <!-- <div class="table table-responsive "> -->
+                <table style="width: 68.5%;" id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
-                        <tr style="text-align: left;">
-                            <th>No</th>
-                            <th>Imagen</th>
-                            <th>Nombres</th>
-                            <th>Usuario</th>
-                            <th>Celular</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                            <th>Acciones</th>
+                        <tr style="text-align: center;">
+                            <th  class="w-5" >No</th>
+                            <th class="w-5">Imagen</th>
+                            <th class="w-5">Nombres</th>
+                            <th class="w-5">Usuario</th>
+                            <th class="w-5">Celular</th>
+                            <th class="w-5">Teléfono</th>
+                            <th class="w-50">Correo</th>
+                            <th class="w-5">PDF</th>
+                            <th class="w-5">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: left;">
+                    <tbody style="text-align: center;">
                         <tr *ngFor="let c of admins | filter:filterName; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
+                            <td   >{{i+1}}</td>
                             <td>
                                 <figure>
-                                    <img class="avatar" [src]="c.usuario.imagen" data-holder-rendered="true"
+                                    <img width="50" height="50"  class="" style="border-radius: 60%;" [src]="c.usuario.imagen" data-holder-rendered="true"
                                         (click)="openImage(contentImage, c)">
                                 </figure>
                             </td>
                             <td>{{c.usuario.nombres}}</td>
-                            <td>{{c.usuario.usuario }}</td>
+                            <td >{{c.usuario.usuario }}</td>
                             <td>{{c.usuario.celular}}</td>
                             <td>{{c.usuario.telefono}}</td>
-                            <td>{{c.usuario.correo}}</td>
+                            <td style="width: 150px;">{{c.usuario.correo}}</td>
+                            <td>
+                                <figure>
+                                    <img width="20" height="20" class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
+                                        alt="image"  />
+                                </figure>
+                            </td>
                             <td>
                                 <!-- <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openAdmin(contentAdmin, c)"> <i
@@ -52,14 +76,14 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 
     <!--modal para crear y editar usuario-->
     <ng-template #contentAdmin let-modal>
         <div class="modal-header">
-            <h4 *ngIf="!adming.edit" class="modal-title" id="modal-basic-title">Crear Administrador</h4>
-            <h4 *ngIf="adming.edit" class="modal-title" id="modal-basic-title">Editar Administrador</h4>
+            <h4 *ngIf="!adming.edit" class="modal-title" id="modal-basic-title">Crear Usuario de Seguridad</h4>
+            <h4 *ngIf="adming.edit" class="modal-title" id="modal-basic-title">Editar Usuario de Seguridad </h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -90,10 +114,22 @@
                         359 x 316.
                     </small>
                 </div> -->
+                <div class="form-group" >
+                    <!-- ImagenCrear -->
+                    <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                        <img  required class="img-fluid" [src]="imagenPerfil" height="60%" width="100%"  />
+                    </div>
+                    <label for="imagen">Cargar Imagen de Perfil</label>
+                    <input required type="file" name="image" (change)="preview($event)" accept="image/*"  />
+                    <!-- <small id="passwordHelpBlock" class="form-text text-muted">
+                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                        359 x 316.
+                    </small> -->
+                </div>
 
                 <div class="form-group">
                     <input ngValue="Nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
-                        required placeholder="Nombres">
+                        required placeholder="Nombre y Apellidos">
                 </div>
                 <div class="form-group">
                     <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
@@ -111,6 +147,18 @@
                     <input ngValue="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required
                         placeholder="Correo">
                 </div>
+
+               
+
+              
+                <div class="form-group">
+                    <label for=""> Cargar Cedula-PDF </label> <br>
+                    <input required [(ngModel)]="pdf2" type="file" name="upload" accept="application/pdf,application/vnd.ms-excel" />
+                </div>
+
+            
+             
+
                 <!-- <div class="form-group">
                     <input ngValue="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control"
                         type="text" required placeholder="Contraseña">
