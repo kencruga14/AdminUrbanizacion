@@ -113,7 +113,8 @@ export class AdministrativoComponent implements OnInit {
       this.admin.edit = false;
       this.telefono = "";
       this.celular = "";
-      this.imagen = null;
+      this.imagen = "";
+      this.imagenEdit = "";
     }
     this.modalService.open(content);
   }
