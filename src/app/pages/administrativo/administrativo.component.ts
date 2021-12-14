@@ -14,7 +14,6 @@ export class AdministrativoComponent implements OnInit {
   id_adminis: 0;
   correo: "";
   nombre: "";
-  imagenPerfil = null;
   edit: false;
   cedula: "";
   celular: "";
@@ -23,6 +22,7 @@ export class AdministrativoComponent implements OnInit {
   id: 0;
   cargo: "";
   imagenPerfila: any;
+  imagenPerfil = null;
   imagenEdit = null;
   imagen = null;
   changeFoto = false;
@@ -78,14 +78,15 @@ export class AdministrativoComponent implements OnInit {
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
-    
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
-      this.imagenPerfil=reader.result;
+      this.imagenPerfil = reader.result;
     };
     this.changeFoto = true;
+    console.log("imagen de perfil: ", this.imagenPerfil);
+    console.log("imagen: ", this.imagen);
   }
 
   openAcceso(content, acceso) {
@@ -117,6 +118,8 @@ export class AdministrativoComponent implements OnInit {
       this.celular = "";
       this.imagen = "";
       this.imagenEdit = "";
+      this.imagenPerfil = "";
+      this.imagenPerfila = "";
     }
     this.modalService.open(content);
   }
@@ -138,17 +141,16 @@ export class AdministrativoComponent implements OnInit {
       const body = {
         nombre: this.nombre,
         correo: this.correo,
-        // telefono: this.telefono,
+        telefono: this.telefono,
         cedula: this.cedula,
         cargo: this.cargo,
         celular: this.celular,
         imagen: this.imagenEdit,
       };
-      console.log("body imagen: ", body);
-
-      JSON.stringify(body.imagen);
+      // console.log("body imagen: ", body);
+      JSON.stringify(body);
       console.log("body editar administrativo: ", body);
-      response = await this.auth.editAdministrativos(this.id, this.admin);
+      response = await this.auth.editAdministrativos(this.id, body);
     } else {
       const body = {
         nombre: this.nombre,
@@ -160,7 +162,7 @@ export class AdministrativoComponent implements OnInit {
         imagen: this.imagen,
       };
       JSON.stringify(body);
-      console.log("body crear administrativo: ", body);
+      // console.log("body crear administrativo: ", body);
       response = await this.auth.createAdministrativos(body);
     }
     if (response) {

@@ -15,7 +15,8 @@ export class EmprendimientoComponent implements OnInit {
   emprendimientoss: any;
   emprendimiento: any;
   categorias: any;
-  idCategoria: number;
+  idCategoria = "todas";
+  eggSize = "size";
   categoria: any;
   constructor(
     public auth: AuthService,
@@ -29,10 +30,15 @@ export class EmprendimientoComponent implements OnInit {
   }
 
   ObtenerEmprendimientos(categoria) {
-    this.auth.getEmprendimientos(categoria).subscribe((resp: any) => {
-      this.emprendimientos = resp["cercas"];
-      console.log("emprendimientos filtrados: ", this.emprendimientos);
-    });
+    // console.log("Categoria: ", categoria);
+    if (categoria === "todas") {
+      this.getEmprendimientos();
+    } else {
+      this.auth.getEmprendimientos(categoria).subscribe((resp: any) => {
+        this.emprendimientos = resp["cercas"];
+        console.log("emprendimientos filtrados: ", this.emprendimientos);
+      });
+    }
   }
 
   getEmprendimientos() {

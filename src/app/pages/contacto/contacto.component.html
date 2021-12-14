@@ -65,22 +65,29 @@
             <form (ngSubmit)="gestionContacto()" #form="ngForm">
                 <div class="modal-body">
                     <div class="form-group" *ngIf="imagenEdit">
-                        
-                        <label for="imagen">Imagen del Área</label>
-                        <div class="image-preview mb-2" *ngIf="imagenEdit">
-                            <img [src]="imagenEdit" height="120px" width="100%" />
+                        <!-- editar imagen -->
+                        <div class="contenedor">
+                            <div class="image-preview mb-2" *ngIf="imagenEdit">
+                                <img class="img-fluid" [src]="imagenEdit" height="100px" width="100px" />
+
+                            </div>
                         </div>
+
+                        <label for="imagen">Imagen de Perfil</label>
                         <input type="file" name="image" (change)="editImagen($event)" accept="image/*" />
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
+                            359 x 316.
+                        </small>
                     </div>
 
                     <div class="form-group" *ngIf="!imagenEdit">
-                        <div class="contenedor">
-                            <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                                <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
-                            </div>
+                        <!-- ImagenCrear -->
+                        <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                            <img class="img-fluid" [src]="imagenPerfil" height="100px" width="100px" />
                         </div>
-                        <label for="imagen">Imagen del Área </label>
-                        <input type="file" name="image" (change)="preview($event)" accept="image/*" required>
+                        <label for="imagen">Imagen de Perfil</label>
+                        <input type="file" name="image" (change)="preview($event)" accept="image/*" required />
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.

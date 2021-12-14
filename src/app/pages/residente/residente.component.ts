@@ -198,6 +198,7 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = true;
       this.telefono = residente.usuario.telefono;
       this.usuario = residente.usuario.usuario;
+      // this.fechanacimiento = residente.fecha_nacimiento
       this.imagen = null;
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
