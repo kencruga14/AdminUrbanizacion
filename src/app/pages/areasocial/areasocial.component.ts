@@ -13,7 +13,8 @@ import { id } from "@swimlane/ngx-charts";
 })
 export class AreasocialComponent implements OnInit {
   areas: any;
-  fechaRecaudacion : any;
+  fechaRecaudacionInicio : any;
+  fechaRecaudacionFin : any;
   reservasRecaudaciones: any = [];
   valorTotal: any = 0;
   idA:any;
@@ -23,6 +24,7 @@ export class AreasocialComponent implements OnInit {
   is_publica: any;
   estado:any;
   horarios: any;
+  informacionArea: any;
   id_area: 0;
   nombre: "";
   edit: false;
@@ -167,13 +169,11 @@ export class AreasocialComponent implements OnInit {
       this.tiempo_reservacion_minutos= area.tiempo_reservacion_minutos;
       this.precio = area.precio;
       this.imagenEdit = area.imagen;
-     
       if(area.precio>0){
         this.seleccionCosto="PAGADO"
       }else{
         this.seleccionCosto="GRATIS"
       }
-   
       this.area = area;
       this.area.edit = true;
     } else {
@@ -203,8 +203,18 @@ export class AreasocialComponent implements OnInit {
     });
   }
 
-  getRecaudacionesAreaSocial(id:string , fecha:string) {
-    this.auth.getRecaudacionesAreaSocialxId(id,fecha).subscribe((resp: any) => {
+  getInfoAreaSocial(id:string , content: any) {
+    this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
+      this.informacionArea = resp;
+      if(resp){
+        this.modalService.open(content, { size: "xl" });
+      }
+    });
+  
+  }
+
+  getRecaudacionesAreaSocial(id:string , fecha1:string , fecha2: string) {
+    this.auth.getRecaudacionesAreaSocialxId(id,fecha1,fecha2).subscribe((resp: any) => {
       this.reservasRecaudaciones = resp.reservaciones;
       if(resp){
         this.calcularRecaudaciiones();
@@ -299,9 +309,16 @@ export class AreasocialComponent implements OnInit {
   }
 
 
+  openInfo(content, item ) {
+    this.getInfoAreaSocial(item.ID, content)
+ 
+  }
+
+
   openRecaudaciones(content, item ) {
     this.idTemporal= item.ID;
-    this.fechaRecaudacion=""
+    this.fechaRecaudacionInicio=""
+    this.fechaRecaudacionFin=""
     this.reservasRecaudaciones=[]
     this.valorTotal=0
     this.modalService.open(content, { size: "lg" });
@@ -321,10 +338,12 @@ export class AreasocialComponent implements OnInit {
     this.modalService.open(content, { size: "lg" });
   }
 
-  gestionRecaudaciones( fecha: string ){
+ 
   
-    this.getRecaudacionesAreaSocial(this.idTemporal,fecha)
-   
+
+  
+  gestionRecaudaciones(fecha2: string ){
+   this.getRecaudacionesAreaSocial(this.idTemporal,this.fechaRecaudacionInicio,this.fechaRecaudacionFin)
   }
 
 

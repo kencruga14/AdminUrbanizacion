@@ -55,7 +55,7 @@
                 <!-- Profile -->
                 <!-- ============================================================== -->
                 <div *ngFor="let m of masters">
-                   <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 40%;" src="https://media.istockphoto.com/photos/portrait-of-young-man-against-white-background-picture-id916534092?k=20&m=916534092&s=612x612&w=0&h=w2xMYlOwxapYt_-q_Uk4yVmWiJfhIFhep3j1CNS689U=" alt="user">
+                   <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 40%;" [src]="m.imagen" alt="user">
                     <strong style="color: white;">{{m.nombres }} {{m.apellido+"  "}}</strong>
                     <a  href="" class="btn btn-secondary ml-3" (click)="logout()">Salir</a>
                     <!-- <i class="fa fa-sign-out" aria-hidden="true"></i> -->

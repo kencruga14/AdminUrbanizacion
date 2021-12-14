@@ -18,12 +18,12 @@
             </div>
             <img style="height: 150px;" [src]="mat.imagen" class="" alt="Card image cap"  height="104.69"(click)="openImage(mat)" data-toggle="modal" data-target=".bd-example-modal-lg">
             <div _ngcontent-mbv-c5 class="row">
-
                 <div class="col-md-8">
                     <p class="card-text">{{mat.nombre}}</p>
                 </div>
                 <div class="col align-self-end" style="text-align:right;">
-                  <a data-toggle="tooltip" data-original-title="Reservas" (click)="openRecaudaciones(contentAreaRecaudaciones, mat)"><i class="fa fa-usd text-inverse m-r-10"></i> </a>
+                  <a data-toggle="tooltip" data-original-title="Informacion" (click)="openInfo(contentAreaInfo, mat)"><i class="fa fa-info-circle text-inverse m-r-10"></i> </a>
+                  <a data-toggle="tooltip" data-original-title="Recaudaciones" (click)="openRecaudaciones(contentAreaRecaudaciones, mat)"><i class="fa fa-usd text-inverse m-r-10"></i> </a>
                  <a data-toggle="tooltip" data-original-title="Reservas" (click)="openReservas(contentAreaReservas, mat)"><i class="fa fa-list text-inverse m-r-10"></i> </a>
                  <a data-toggle="tooltip" data-original-title="Horarios" (click)="openHorarios(contentHorarios, mat)"><i class="fa fa-clock-o text-inverse m-r-10"></i> </a>
                 <a data-toggle="tooltip" data-original-title="Editar" (click)="openArea(contentArea, mat)"><i class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -221,7 +221,7 @@
                         </div>
                       </div>
                       <div class="table table-responsive">
-                        <table class="col-md-12">
+                        <table style="zoom: 0.82;" class="col-md-12">
                           <thead>
                             <!-- <th scope="col">#</th> -->
                             <th scope="col">Fecha</th>
@@ -229,7 +229,9 @@
                             <th scope="col">Hora  Fin</th>
                             <th style="padding-left: 20px;" scope="col">Tipo</th>
                             <th style="text-align:center" scope="col">Valor</th>
-                            <th [width]="80" scope="col">Residente</th>
+                            <th scope="col">Mz.</th>
+                            <th scope="col">Villa</th>
+                            <th [width]="80" scope="col">Reservado por</th>
                           </thead>
                           <tbody>
                             <tr *ngFor="let div of reservas; let i = index">
@@ -240,6 +242,8 @@
                               <td  *ngIf="div.valor_cancelado!=0"> PAGADO </td>
                               <td  *ngIf="div.valor_cancelado==0"> GRATIS </td>
                               <td style="padding-left: 25px;">{{ div.valor_cancelado }}</td>
+                              <td style="padding-left: 15px;" >{{ div.residente.casa.manzana}}</td>
+                              <td  style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
                               <td [width]="80" >{{ div.residente.usuario.nombres}}</td>
                             </tr>
                           </tbody>
@@ -258,6 +262,64 @@
             </div>
     </ng-template>
 
+    <ng-template #contentAreaInfo let-modal>
+      <div class="modal-header">
+          <h4  class="modal-title" id="modal-basic-title"> Informacion Area Social : {{ informacionArea.nombre }} </h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+          <div class="modal-body">
+              <div class="card">
+                  <div class="card-body">
+                    <div class="row mt-0">
+                      <div class="col-6">
+                        <h3> Estado: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.estado}} </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Aforo: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.aforo}} </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Tipo: </h3>
+                      </div>
+                      <div *ngIf="informacionArea.precio>0" class="col-6">
+                        <h3> Pagado </h3>
+                      </div>
+                      <div *ngIf="informacionArea.precio==0" class="col-6">
+                        <h3> Publica </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Tiempo Reserva: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.tiempo_reservacion_minutos}} </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> Valor Reserva: </h3>
+                      </div>
+                      <div class="col-6">
+                        <h3> {{informacionArea.precio}} </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+          </div>
+          <div class="modal-footer">
+              <!-- <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+                  <span *ngIf="!area.edit">Guardar</span>
+                  <span *ngIf="area.edit">Editar</span>
+              </button>
+              <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i> -->
+          </div>
+  </ng-template>
+
     <ng-template #contentAreaRecaudaciones let-modal>
       <div class="modal-header">
           <h4  class="modal-title" id="modal-basic-title"> REGISTRO DE RECAUDACIONES REALIZADAS </h4>
@@ -269,14 +331,28 @@
             
               <div class="card">
                   <div class="card-body">
-                    <div class="row mt-0 ml-2">
-                          <div class="input-group" style="width: 75% !important">
-                            <label for="" class="mt-2 mr-2"> Seleccione Fecha</label>
-                            <input type="date" class="form-control" [(ngModel)]="fechaRecaudacion" (input)="gestionRecaudaciones($event.target.value)"
-                              id="filterFechaBefore" />
+                    <div class="row mt-0 ">
+                      <div class="col-md-5 col-12"> 
+                        <div class="input-group" >
+                          <label for="" class="mt-2 mr-2"> Fecha Inicio </label>
+                          <input type="date" class="form-control" [(ngModel)]="fechaRecaudacionInicio" 
+                            id="filterFechaBefore" />
+                    </div>
+                      </div>
+                      <div class="col-md-5 col-12"> 
+                        <div class="input-group" >
+                          <label for="" class="mt-2 mr-2"> Fecha Fin </label>
+                          <input type="date" class="form-control" [(ngModel)]="fechaRecaudacionFin" 
+                            id="filterFechaBefore" />
+                    </div>
+                      </div>
+                      <div class="col-md-2 col-12">
+                        <button type="button" class="btn btn-info " (click)="gestionRecaudaciones($event.target.value)" >
+                          Buscar
+                        </button>
                       </div>
                     </div>
-                    <div class="table table-responsive">
+                    <div style="zoom: 0.82;" class="table table-responsive">
                       <table class="col-md-12">
                         <thead>
                           <!-- <th scope="col">#</th> -->
@@ -285,7 +361,9 @@
                           <th scope="col">Hora  Fin</th>
                           <th style="padding-left: 20px;" scope="col">Tipo</th>
                           <th style="text-align:center" scope="col">Valor</th>
-                          <th [width]="80" scope="col">Residente</th>
+                          <th scope="col">Mz.</th>
+                          <th scope="col">Villa</th>
+                          <th [width]="80" scope="col">Reservado por</th>
                         </thead>
                         <tbody>
                           <tr *ngFor="let div of reservasRecaudaciones; let i = index">
@@ -296,6 +374,8 @@
                             <td  *ngIf="div.valor_cancelado!=0"> PAGADO </td>
                             <td  *ngIf="div.valor_cancelado==0"> GRATIS </td>
                             <td style="padding-left: 25px;">{{ div.valor_cancelado }}</td>
+                            <td  style="padding-left: 15px;">{{ div.residente.casa.manzana}}</td>
+                            <td  style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
                             <td [width]="80" >{{ div.residente.usuario.nombres}}</td>
                           </tr>
                         </tbody>
@@ -338,18 +418,18 @@
                           <thead>
                             <th scope="col">#</th>
                             <th scope="col">Dia</th>
-                            <th scope="col">Hora Inicio</th>
-                            <th scope="col">Hora Fin</th>
-                            <th scope="col">Fecha Inicio</th>
-                            <th scope="col">Fecha Fin</th>
+                            <th scope="col">Hora Apertura</th>
+                            <th scope="col">Hora Cierre</th>
+                            <th style="padding-left: 25px;" scope="col">Desde</th>
+                            <th style="padding-left: 25px;" scope="col">Hasta</th>
                             <th scope="col">Opciones</th>
                           </thead>
                           <tbody>
                             <tr *ngFor="let div of horarios; let i = index">
                               <td>{{ i + 1 }}</td>
                               <td>{{ div.dia }}</td>
-                              <td>{{ div.hora_inicio.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
-                              <td>{{ div.hora_fin.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
+                              <td style="padding-left: 30px;">{{ div.hora_inicio.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
+                              <td style="padding-left: 30px;">{{ div.hora_fin.split(":")[0].padStart(2,"0") + ":" + div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
                               <td>{{ div.fecha_inicio.split("T")[0] }}</td>
                               <td>{{ div.fecha_fin.split("T")[0]}}</td>
                               <td>
@@ -462,29 +542,7 @@
     </ng-template>
 
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" *ngIf="imagenPerfil">
-                <h4 class="modal-title" id="modal-basic-title" >
-                    {{imagenPerfil.nombre}}
-                </h4>
-            </div>
 
-            <div class="modal-body" *ngIf="imagenPerfil">
-                <figure class="box">
-                    <img [src]="imagenPerfil.imagen" alt="image" />
-                  hora de apertura:{{imagenPerfil.hora_apertura}} -- hora de cierre: {{imagenPerfil.hora_cierre}}
-                  Precio: ${{imagenPerfil.precio}}
-
-                </figure>
-               
-            </div>
-            
-        </div>
-    </div>
-</div>
 
 
 <ng-template #modal let-modal>

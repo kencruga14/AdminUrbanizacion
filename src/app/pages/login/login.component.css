@@ -450,6 +450,11 @@ a.white {
 	margin-top: 0.375rem;
 }
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(255, 255, 255);
+  opacity: 1; /* Firefox */
+}
+
 .label-control {
 	position: absolute;
 	top: 0.87rem;

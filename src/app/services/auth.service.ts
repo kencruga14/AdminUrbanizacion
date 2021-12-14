@@ -1136,9 +1136,10 @@ export class AuthService {
   }
 
 
-  getRecaudacionesAreaSocialxId(id: string ,fecha:string) {
+  getRecaudacionesAreaSocialxId(id: string ,fecha1:string ,fecha2: string) {
     let params = new HttpParams();
-    params = params.append("fecha",fecha)
+    params = params.append("fecha_inicio",fecha1)
+    params = params.append("fecha_fin",fecha2)
     const headers = new HttpHeaders({
       token: this.userToken,
     });

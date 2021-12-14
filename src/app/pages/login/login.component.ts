@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
 
   async gestionContact() {
     let response: any;
-
     const body = {
       titulo: this.titulo,
       nombre: this.nombre,
@@ -60,6 +59,12 @@ export class LoginComponent implements OnInit {
     };
     JSON.stringify(body);
     response = await this.auth.createContact(body);
+    if(response){
+      this.nombre="";
+      this.titulo="";
+      this.descripcion="";
+      this.correo="";
+    }
   }
 
   getDataUrb() {
@@ -117,7 +122,7 @@ export class LoginComponent implements OnInit {
         // });
       }
     );
-    setTimeout(() => {this.banderaLogin=false;},3000)
+  
   }
 
   capturarUsuario() {
