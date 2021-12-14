@@ -12,9 +12,11 @@ import { id } from "@swimlane/ngx-charts";
   styleUrls: ["./areasocial.component.css"],
 })
 export class AreasocialComponent implements OnInit {
+  separatedArray = ['a','b'];
   areas: any;
-  numeroAforo: any;
+  aforo: any = 0;
   tipoAforo:any;
+  imagenAlt:any;
   tipoArea: any;
   banderaAforo: boolean = false;
   banderaReserva: boolean = false;
@@ -154,6 +156,21 @@ export class AreasocialComponent implements OnInit {
     };
     this.changeFoto = true;
   }
+
+  editImagen(event: any) {
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagenEdit = reader.result;
+    };
+    this.changeFoto = true;
+  }
+
   openImage(admin, area = null) {
     console.log("admin seleccionado: ", admin);
     this.imagenPerfil = admin;
@@ -170,37 +187,34 @@ export class AreasocialComponent implements OnInit {
     if (area) {
       // this.id_area = area.ID;
       this.id = area.ID;
-      this.imagenEdit = area.imagen;
-      this.imagen=area.imagen;
+      this.imagenEdit=area.imagen;
+      this.imagen = area.imagen;
       this.nombre = area.nombre;
       this.tipoAforo= area.tipoAforo;
-      this.numeroAforo = area.numeroAforo;
+      this.aforo = area.aforo;
       this.normas = area.normas;
       this.tipoArea = area.tipoArea;
       this.tiempo_reservacion_minutos= area.tiempo_reservacion_minutos;
+      if(this.tiempo_reservacion_minutos == 0){
+        this.tiempo_reservacion_minutos=""
+      }
       this.seleccionCosto=area.seleccionCosto
       this.precio = area.precio;
       this.estado=area.estado
-      if(area.precio>0){
-        this.seleccionCosto="PAGADO"
-      }else{
-        this.seleccionCosto="GRATIS"
-      }
-      if(this.numeroAforo!==''){
-        this.tipoAforo="ILIMITADDO"
-      }else{
-        this.tipoAforo="LIMITADO"
-      }
+      // if(area.precio>0){
+      //   this.seleccionCosto="PAGADO"
+      // }else{
+      //   this.seleccionCosto="GRATIS"
+      // }
       this.area = area;
       this.area.edit = true;
     } else {
       this.imagen="";
-      this.imagenPerfil=""
-      // this.id_area = 0;
       this.imagenEdit="";
+      this.imagenPerfil=""
       this.nombre = "";
       this.tipoAforo ="";
-      this.numeroAforo ="";
+      this.aforo ="";
       this.normas="";
       this.tipoArea ="";
       this.tiempo_reservacion_minutos ="";
@@ -229,12 +243,19 @@ export class AreasocialComponent implements OnInit {
   getInfoAreaSocial(id:string , content: any) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.informacionArea = resp;
+      this.separatedArray =[]
+      this.separatedArray = this.informacionArea.normas.split(',')
       if(resp){
         this.modalService.open(content, { size: "xl" });
       }
     });
   
+    
+  
   }
+
+
+
 
   getRecaudacionesAreaSocial(id:string , fecha1:string , fecha2: string) {
     this.auth.getRecaudacionesAreaSocialxId(id,fecha1,fecha2).subscribe((resp: any) => {
@@ -261,10 +282,10 @@ export class AreasocialComponent implements OnInit {
     console.log(this.area)
     if (this.area.edit) {
       const body = {
-        // imagen: this.imagen,
+        imagen: this.imagenEdit,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
-        aforo: this.numeroAforo,
+        aforo: parseInt(this.aforo),
         normas: this.normas,
         tipoArea: this.tipoArea,
         tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos),
@@ -277,7 +298,7 @@ export class AreasocialComponent implements OnInit {
         imagen: this.imagen,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
-        aforo: this.numeroAforo,
+        aforo:parseInt(this.aforo),
         normas: this.normas,
         tipoArea: this.tipoArea,
         tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos),
@@ -340,7 +361,7 @@ export class AreasocialComponent implements OnInit {
 
   openInfo(content, item ) {
     this.getInfoAreaSocial(item.ID, content)
- 
+    
   }
 
 
