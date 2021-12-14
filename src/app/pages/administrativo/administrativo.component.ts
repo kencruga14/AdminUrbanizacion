@@ -78,10 +78,12 @@ export class AdministrativoComponent implements OnInit {
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
+    
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil=reader.result;
     };
     this.changeFoto = true;
   }
