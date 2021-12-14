@@ -13,20 +13,18 @@
                     </select>
                 </div>
             </div>
-            <!-- <select [(ngModel)]="eggSize" name="eggSize">
-                <option value="size">Size</option>
-                <option value='S'>S</option>
-                <option value='M'>M</option>
-                <option value='L'>L</option>
-            </select> -->
+           
+
+         
+
             <label>Lista de Emprendimientos</label>
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngFor="let item of emprendimientos">
-                    <div class="card" style="width: 190px; height: 180px; margin-bottom: 0;">
+                    <div class="card" style="width: 100%; height: 180px; margin-bottom: 0;">
                         <!-- <figure class=""> -->
                         <img (click)="openEmprendimiento(contentEmprendimiento, item)" style=" height: 100%;
                             object-fit: cover;
-                            object-position: center center;" [src]="item.imagen" alt="Error Horarios" />
+                            object-position: center center;width: 100%;" [src]="item.imagen" alt="Error Horarios" />
                         <!-- </figure> -->
                     </div>
                     <p class="card-text centrartexto">{{item.titulo}}<br>
@@ -47,12 +45,21 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+           <!-- <figure>
+                <img class="avatar" [src]="ali.imagenes[0]" alt="image" data-holder-rendered="true"
+                    (click)="openCarrusel(carrusel, ali)" data-toggle="modal"
+                    data-target=".bd-example-modal-lg" />
+            </figure> -->
         <div class="modal-body">
             <figure style="width: 446px; height: 334.5px; margin-bottom: 0;">
-                <img [src]="emprendimiento.imagen" alt="image" style="height: 100%; width: 446px;
-                object-fit: cover;
-                object-position: center center;" />
+             
+                 <img class="avatar" [src]="emprendimiento.imagen" alt="image" data-holder-rendered="true"
+                 (click)="openCarrusel(carrusel,emprendimiento)" data-toggle="modal" style="height: 100%; width: 446px;"
+                 data-target=".bd-example-modal-lg" />
             </figure>
+
+           
+
             <label><strong>Descripción:</strong></label>
             <p>{{emprendimiento.descripcion}}</p>
             <div class="row">
@@ -73,7 +80,26 @@
         </div>
         <div class="modal-footer">
             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-            <button (click)="deleteEmprendimiento(emprendimiento.ID)" type="button"
+            <button (click)="deleteE(emprendimiento.ID)" type="button"
                 class="btn btn-danger">Eliminar</button>
         </div>
     </ng-template>
+
+    <ng-template #carrusel let-modal>
+        <p-carousel [value]="carrusels" [numVisible]="1" [responsiveOptions]="responsiveOptions">
+            <p-header>
+                <h2>Galeria de Emprendimiento</h2>
+            </p-header>
+            <ng-template let-car pTemplate="item">
+                <div class="car-details">
+                    <div class="p-grid p-nogutter">
+                        <div class="p-col-12">
+                            <figure class="box">
+                                <img width="100%" height="500" [src]="car" />
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+        <ng-template>
