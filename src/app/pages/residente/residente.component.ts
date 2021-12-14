@@ -188,15 +188,6 @@ export class ResidenteComponent implements OnInit {
   }
 
   openResidente(content, residente = null) {
-    console.log("usuario seleccionado: ", residente);
-
-    console.log(
-      "tipo fecha: ",
-      typeof moment(residente.fecha_nacimiento).toDate()
-    );
-    let asd = new Date(residente.fecha_nacimiento);
-    console.log("tipo final: ", typeof(asd));
-
     if (residente) {
       this.id_residente = residente.ID;
       this.id = residente.ID;
