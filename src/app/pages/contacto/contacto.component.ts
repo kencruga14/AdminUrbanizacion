@@ -77,6 +77,7 @@ export class ContactoComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil=reader.result;
     };
     this.changeFoto = true;
   }
@@ -108,10 +109,12 @@ export class ContactoComponent implements OnInit {
       this.imagenEdit = contact.imagen;
     } else {
       this.id_contacto = 0;
+      this.contacto = ""
       this.telefono = "";
       this.horario = "";
       this.contact.edit = false;
-      this.imagen = null;
+      this.imagen = "";
+      this.imagenEdit = "";
     }
     this.modalService.open(content);
   }

@@ -78,10 +78,12 @@ export class AdministrativoComponent implements OnInit {
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
+    
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil=reader.result;
     };
     this.changeFoto = true;
   }
@@ -113,7 +115,8 @@ export class AdministrativoComponent implements OnInit {
       this.admin.edit = false;
       this.telefono = "";
       this.celular = "";
-      this.imagen = null;
+      this.imagen = "";
+      this.imagenEdit = "";
     }
     this.modalService.open(content);
   }
@@ -143,9 +146,9 @@ export class AdministrativoComponent implements OnInit {
       };
       console.log("body imagen: ", body);
 
-      // JSON.stringify(body.imagen);
+      JSON.stringify(body.imagen);
       console.log("body editar administrativo: ", body);
-      response = await this.auth.editAdministrativos(this.id, body);
+      response = await this.auth.editAdministrativos(this.id, this.admin);
     } else {
       const body = {
         nombre: this.nombre,
