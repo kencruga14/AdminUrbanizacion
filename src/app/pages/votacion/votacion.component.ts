@@ -5,45 +5,87 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { DateButton } from "angular-bootstrap-datetimepicker";
+import * as moment from "moment";
+
+import { unitOfTime } from "moment";
 @Component({
   selector: "app-votacion",
   templateUrl: "./votacion.component.html",
   styleUrls: ["./votacion.component.css"],
-  styles: [`
-  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-details > .p-grid {
-      border: 1px solid #b3c2ca;
-      border-radius: 3px;
-      margin: 0.3em;
-      text-align: center;
-      padding: 2em 0 2.25em 0;
-  }
-  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data .car-title {
-      font-weight: 700;
-      font-size: 20px;
-      margin-top: 24px;
-  }
-  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data .car-subtitle {
-      margin: 0.25em 0 2em 0;
-  }
-  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data button {
-      margin-left: 0.5em;
-  }
-  .carousel-demo .ui-carousel .ui-carousel-content .ui-carousel-item .car-data button:first-child {
-      margin-left: 0;
-  }
-  .carousel-demo .ui-carousel.custom-carousel .ui-carousel-dot-icon {
-      width: 16px !important;
-      height: 16px !important;
-      border-radius: 50%;
-  }
-  .carousel-demo .ui-carousel.ui-carousel-horizontal .ui-carousel-content .ui-carousel-item.ui-carousel-item-start .car-details > .p-grid {
-      margin-left: 0.6em;
-  }
-  .carousel-demo .ui-carousel.ui-carousel-horizontal .ui-carousel-content .ui-carousel-item.ui-carousel-item-end .car-details > .p-grid {
-      margin-right: 0.6em;
-  }
-`],
-// encapsulation: ViewEncapsulation.None
+  styles: [
+    `
+      .carousel-demo
+        .ui-carousel
+        .ui-carousel-content
+        .ui-carousel-item
+        .car-details
+        > .p-grid {
+        border: 1px solid #b3c2ca;
+        border-radius: 3px;
+        margin: 0.3em;
+        text-align: center;
+        padding: 2em 0 2.25em 0;
+      }
+      .carousel-demo
+        .ui-carousel
+        .ui-carousel-content
+        .ui-carousel-item
+        .car-data
+        .car-title {
+        font-weight: 700;
+        font-size: 20px;
+        margin-top: 24px;
+      }
+      .carousel-demo
+        .ui-carousel
+        .ui-carousel-content
+        .ui-carousel-item
+        .car-data
+        .car-subtitle {
+        margin: 0.25em 0 2em 0;
+      }
+      .carousel-demo
+        .ui-carousel
+        .ui-carousel-content
+        .ui-carousel-item
+        .car-data
+        button {
+        margin-left: 0.5em;
+      }
+      .carousel-demo
+        .ui-carousel
+        .ui-carousel-content
+        .ui-carousel-item
+        .car-data
+        button:first-child {
+        margin-left: 0;
+      }
+      .carousel-demo .ui-carousel.custom-carousel .ui-carousel-dot-icon {
+        width: 16px !important;
+        height: 16px !important;
+        border-radius: 50%;
+      }
+      .carousel-demo
+        .ui-carousel.ui-carousel-horizontal
+        .ui-carousel-content
+        .ui-carousel-item.ui-carousel-item-start
+        .car-details
+        > .p-grid {
+        margin-left: 0.6em;
+      }
+      .carousel-demo
+        .ui-carousel.ui-carousel-horizontal
+        .ui-carousel-content
+        .ui-carousel-item.ui-carousel-item-end
+        .car-details
+        > .p-grid {
+        margin-right: 0.6em;
+      }
+    `,
+  ],
+  // encapsulation: ViewEncapsulation.None
 })
 export class VotacionComponent implements OnInit {
   casas: UsuarioModelo[] = [];
@@ -63,9 +105,13 @@ export class VotacionComponent implements OnInit {
   imagenPerfila: any;
   imagenEdit = null;
   imagen = null;
+  // startView= new Date();
+  startView: string = "day";
+  enteredDate: Date;
   imagenes: any[] = [];
   selectedFiles?: FileList;
   carrusels: any;
+  imagenPerfil = null;
   encuestaSeleccionada: any;
   filterName = "";
   encuesta = {
@@ -75,6 +121,9 @@ export class VotacionComponent implements OnInit {
     edit: false,
     opciones: [{ opcion: "" }],
     imagenes: [],
+    images: "",
+    imagen: "",
+    imagenPerfil: "",
   };
   acceso = {
     accesos: "",
@@ -131,7 +180,9 @@ export class VotacionComponent implements OnInit {
       this.encuesta.id_encuesta = 0;
       this.encuesta.pregunta = "";
       this.encuesta.fecha_vencimiento = "";
-      this.imagen = null;
+      this.imagen = "";
+      this.images = [];
+      this.imagenPerfil = "";
       this.encuesta.edit = false;
       this.encuesta.opciones = [{ opcion: "" }];
       //this.id_encuesta = encuesta.ID;
@@ -152,10 +203,10 @@ export class VotacionComponent implements OnInit {
 
   openResultado(content, encuesta) {
     let Id_Encuesta = encuesta.ID;
-    console.log("encuesta seleccionada: ", encuesta.ID);
+    // console.log("encuesta seleccionada: ", encuesta.ID);
     this.auth.getEncuestaById(Id_Encuesta).subscribe((resp: any) => {
       this.encuestaSeleccionada = resp;
-      console.log("encuesta seleccionada: ", this.encuestaSeleccionada);
+      // console.log("encuesta seleccionada: ", this.encuestaSeleccionada);
     });
     this.modalService.open(content);
   }
@@ -192,24 +243,18 @@ export class VotacionComponent implements OnInit {
   }
 
   preview(event: any) {
-    console.log("valor evento: ", event);
-    // let array = event.target.files.length;
-    for (let i = 0; i < event.target.files.length; i++) {
-      const fileData = event.target.files[i];
-      const mimeType = fileData[i].type;
-      // if (mimeType[i].match(/image\/*/) == null) {
-      //   return;
-      // }
-      const reader = new FileReader();
-      reader[i].readAsDataURL(fileData[i]);
-      reader.onload = (response) => {
-        this.imagenes.push(reader.result);
-        // this.imagen = ;
-        // this.imagenPerfila = reader.result;
-      };
+    const fileData = event.target.files[0];
+    const mimeType = fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
     }
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.imagen = reader.result;
+      this.imagenPerfil = reader.result;
+    };
     this.changeFoto = true;
-    console.log("Array de iamgenes: ", this.imagenes);
   }
 
   onFileChange(event: any) {
@@ -218,28 +263,12 @@ export class VotacionComponent implements OnInit {
       for (let i = 0; i < filesAmount; i++) {
         var reader = new FileReader();
         reader.onload = (event: any) => {
-          console.log("result: ", event.target.result);
           this.images.push(event.target.result);
         };
-
         reader.readAsDataURL(event.target.files[i]);
       }
     }
-    console.log("images: ", this.images);
   }
-
-  // onFileChange(e) {
-  //   if (e.target.files) {
-  //     var filesAmount = e.target.files.length;
-  //     for (let i = 0; i < filesAmount; i++) {
-  //       var reader = new FileReader();
-  //       reader.readAsDataURL(e.target.files[i]);
-  //       reader.onload = (events: any) => {
-  //         this.images.push(events.target.result);
-  //       };
-  //     }
-  //   }
-  // }
 
   anadirOpcion() {
     if (this.encuesta.opciones.length < 4) {
@@ -299,5 +328,17 @@ export class VotacionComponent implements OnInit {
     if (response) {
       this.getEncuesta();
     }
+  }
+
+  private startDatePickerFilter(
+    dateButton: DateButton,
+    viewName: string
+  ): boolean {
+    return (
+      dateButton.value >
+      moment()
+        .startOf(viewName as unitOfTime.StartOf)
+        .valueOf()
+    );
   }
 }

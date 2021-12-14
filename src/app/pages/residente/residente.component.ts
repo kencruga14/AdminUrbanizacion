@@ -60,6 +60,7 @@ export class ResidenteComponent implements OnInit {
     telefono: "",
     usuario: "",
     cedula: "",
+    fechanacimiento: "",
     contrasena: "",
     apellido: "",
     is_principal: false,
@@ -69,6 +70,7 @@ export class ResidenteComponent implements OnInit {
     accesos: "",
     id_residente: "",
   };
+  editing = false;
 
   menu = ["Residentes"];
   constructor(
@@ -187,6 +189,14 @@ export class ResidenteComponent implements OnInit {
 
   openResidente(content, residente = null) {
     console.log("usuario seleccionado: ", residente);
+
+    console.log(
+      "tipo fecha: ",
+      typeof moment(residente.fecha_nacimiento).toDate()
+    );
+    let asd = new Date(residente.fecha_nacimiento);
+    console.log("tipo final: ", typeof(asd));
+
     if (residente) {
       this.id_residente = residente.ID;
       this.id = residente.ID;
@@ -198,6 +208,7 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = true;
       this.telefono = residente.usuario.telefono;
       this.usuario = residente.usuario.usuario;
+      this.fechanacimiento = new Date(residente.fecha_nacimiento);
       this.imagen = null;
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
@@ -218,6 +229,7 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = false;
       this.telefono = "";
       this.imagen = null;
+      this.fechanacimiento = "";
       this.usuario = "";
       this.id_casa = 0;
       // this.is_principal = false;

@@ -30,10 +30,12 @@
                             <label style="font-size: 15px; margin-bottom: 0;">{{mat.cargo}}</label>
                         </div>
                         <div class="col-md-12">
-                            <label style="font-size: 15px;margin-bottom: 0;">{{mat.cedula}}</label>
+                            <label style="font-size: 15px;margin-bottom: 0;"><strong>Cédula:</strong>
+                                {{mat.cedula}}</label>
                         </div>
                         <div class="col-md-12">
-                            <label style="font-size: 15px;margin-bottom: 0;">{{mat.telefono}}</label>
+                            <label style="font-size: 15px;margin-bottom: 0;"><strong>Teléfono:</strong>
+                                {{mat.telefono}}</label>
                         </div>
                         <div class="col-md-12">
                             <label style="font-size: 15px;margin-bottom: 0;">{{mat.correo}}</label>
@@ -41,7 +43,8 @@
                     </div>
                 </div>
                 <div _ngcontent-mbv-c5="" class="col-md-3 col-sm-12 col-xs-12">
-                    <div _ngcontent-mbv-c5="" class="card w-76" style="height: 250px;" (click)="openAdmin(contentAdmin)">
+                    <div _ngcontent-mbv-c5="" class="card w-76" style="height: 395px;"
+                        (click)="openAdmin(contentAdmin)">
                         <div _ngcontent-mbv-c5="" class="card-body text-center">
                             <div _ngcontent-mbv-c5="" class="row justify-content-center align-items-center"
                                 style="height: 100px;">
@@ -49,8 +52,8 @@
                                     <br>
                                     <br>
                                     <br>
-                                    <svg _ngcontent-mbv-c5="" class="bi bi-plus" fill="currentColor" height="66"
-                                        style="font-weight: bolder; color: #7875ea; " viewBox="0 0 16 16" width="66"
+                                    <svg _ngcontent-mbv-c5="" class="bi bi-plus" fill="currentColor" height="150px"
+                                        style="font-weight: bolder; color: #7875ea; " viewBox="0 0 16 16" width="150px"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path _ngcontent-mbv-c5=""
                                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
@@ -77,7 +80,7 @@
                         <!-- editar imagen -->
                         <div class="contenedor">
                             <div class="image-preview mb-2" *ngIf="imagenEdit">
-                                <img class="img-fluid" [src]="imagenEdit" height="60%" width="100%" />
+                                <img class="img-fluid" [src]="imagenEdit" height="100px" width="100px" />
                             </div>
                         </div>
                         <label for="imagen">Imagen de Perfil</label>
@@ -86,23 +89,15 @@
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.
                         </small>
-
-                        <!--<label for="imagen">Imagen del Área</label>
-                        <div class="image-preview mb-2" *ngIf="imagenEdit">
-                            <img [src]="imagenEdit" height="120px" width="100%" />
-                        </div>
-                        <input type="file" name="image" (change)="editImagen($event)" accept="image/*" />-->
                     </div>
 
                     <div class="form-group" *ngIf="!imagenEdit">
                         <!-- ImagenCrear -->
-                        <div class="contenedor">
-                            <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                                <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
-                            </div>
+                        <div class="image-preview mb-3" *ngIf="imagenPerfil">
+                            <img class="img-fluid" [src]="imagenPerfil" height="100px" width="100px" />
                         </div>
                         <label for="imagen">Imagen de Perfil</label>
-                        <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                        <input type="file" name="image" (change)="preview($event)" accept="image/*" required />
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.
