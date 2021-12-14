@@ -101,7 +101,7 @@
     </span>
   </nav>
 
-  <span   *ngIf="banderaLogin" style="margin-left: 76.7%;color: red; margin-bottom: 3rem; padding-bottom: 1rem;" > Usuario y/o contrasena incorrecta </span>   
+
   <br>
   <div class="container mr-lg-0">
     <div class="row justify-content-end">
@@ -110,10 +110,20 @@
         style="background: transparent; align-items: center"
       >
         <ul  class="navbar-nav mt-1" style="background: none; align-items: end">
+          
           <div class="row">
-            <div class="col-lg-2">
-              <div class="text-wrapper" style="text-align: -webkit-center">
-                <input
+            <div class="col-3">
+
+            </div>
+            <div class="col-md-9 col-12 ">
+              <span   class="ml-2" *ngIf="banderaLogin" style="color: red" > Usuario y/o contrasena incorrecta </span>   
+              <span  style="visibility: hidden;" class="ml-2" *ngIf="!banderaLogin" > Usuario y/o contrasena incorrecta </span>
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-3"></div>
+                <div class="col-md-2 col-12">
+                  <input
                   [(ngModel)]="usuario"
                   name="usuario"
                   style="
@@ -122,8 +132,6 @@
                     border-radius: 15px;
                     color: black;
                     background: rgb(255, 255, 255, 0.4);
-                    padding-left: 20px;
-                    padding-bottom: 14px;
                   "
                   type="text"
                   class="form-control-input"
@@ -131,8 +139,103 @@
                   placeholder="Usuario"
                   required
                 />
+                 </div>
+                 <div class="col-md-2 col-12">
+                  <input
+                  [(ngModel)]="contrasena"
+                  name="contrasena"
+                  style="
+                    width: 130px;
+                    height: 40px;
+                    border-radius: 15px;
+                    padding-top: 15px;
+                    background: rgb(255, 255, 255, 0.4);
+                    color: black;
+                    line-height: 30px;
+              
+                  "
+                  type="password"
+                  class="form-control-input"
+                  id="password"
+                  placeholder="Contraseña"
+                  required
+                  (keydown.enter)="login()"
+                />
+                 </div>
+                 <div class="col-md-2 col-12">
+                   <div class="row">
+                     <div class="col-md-8 col-2">     <button
+                      (click)="login()"
+                      style="
+                        background-color: #00c9db;
+                        font-size: 14px;
+                        box-shadow: 1.5px 1.5px 0px #000;
+                        color: white;
+                      "
+                      type="submit"
+                      class="form-control"
+                    >
+                      IR
+                    </button> </div>
+                   </div>
+              
+                 </div>
               </div>
             </div>
+            <div class="col-md-12 col-2">
+              <div class="row">
+                <div class="col-3">
+
+                </div>
+                <div class="col-2">
+
+                </div>
+             
+                <div class="col-3">
+                  <a target="_blank">
+                    <font
+                      (click)="capturarUsuario()"
+                      color="#000;"
+                      style="font-size: 12px; color: black"
+                    >
+                      Cambiar Contraseña</font
+                    >
+                  </a>
+                </div>
+              </div>
+           
+        
+            </div>
+
+          </div>
+
+
+          <div class="row">
+        
+            <!-- <div class="col-lg-2">
+              <div class="text-wrapper" style="text-align: -webkit-center">
+               <div class="padre" style="position: relative;">
+                <input
+                [(ngModel)]="usuario"
+                name="usuario"
+                style="
+                  width: 130px;
+                  height: 40px;
+                  border-radius: 15px;
+                  color: black;
+                  background: rgb(255, 255, 255, 0.4);
+                  padding-left: 20px;
+                  padding-bottom: 14px;
+                "
+                type="text"
+                class="form-control-input"
+                id="user"
+                placeholder="Usuario"
+                required
+              />
+               </div>
+              </div>
+            </div> -->
             <div class="col-lg-1">
               <div
                 class="text-wrapper"
@@ -141,7 +244,7 @@
             </div>
             <div class="col-lg-4">
               <div class="text-wrapper" style="text-align: -webkit-center">
-                <input
+                <!-- <input
                   [(ngModel)]="contrasena"
                   name="contrasena"
                   style="
@@ -161,8 +264,8 @@
                   placeholder="Contraseña"
                   required
                   (keydown.enter)="login()"
-                />
-                <a target="_blank">
+                /> -->
+                <!-- <a target="_blank">
                   <font
                     (click)="capturarUsuario()"
                     color="#000;"
@@ -170,10 +273,10 @@
                   >
                     Cambiar Contraseña</font
                   >
-                </a>
+                </a> -->
               </div>
             </div>
-
+<!-- 
             <div class="col-lg-3">
               <div class="text-wrapper" style="text-align: -webkit-center">
                 <button
@@ -192,7 +295,7 @@
                   IR
                 </button>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-lg-2">
               <div class="text-wrapper" style="text-align: -webkit-center">

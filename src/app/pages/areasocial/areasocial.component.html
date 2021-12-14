@@ -133,12 +133,11 @@
               
                 <div class="form-group" *ngIf="!imagenEdit">
                     <!-- ImagenCrear -->
-                   
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                        <img class="img-fluid" [src]="imagenPerfil" height="500" width="100" />
+                        <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
-                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                    <input type="file" name="image" (change)="preview($event)" accept="image/*" required />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
@@ -149,49 +148,82 @@
               
                 <div class="form-group">
                     <input [value]="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" type="text" required
-                        placeholder="Nombre">
+                        placeholder="Nombre del Area ">
                 </div>
-
-
-                
-          
-              
-                <div class="form-group">
-                    <label>Tiempo de Reserva</label>
-
-                    <select name="tiempo_reservacion_minutos" [(ngModel)]="tiempo_reservacion_minutos"
-                        class="form-control custom-select">
-                        <option selected hidden value="">
-                            Seleccione tiempo
-                          </option>
-                        <option value="60">1 hora</option>
-                        <option value=120>2 horas</option>
-                        <option value=180>3 horas</option>
-                        <option value=240>4 horas</option>
-                        <option value=300>5 horas</option>
-                    </select>
-                </div>
-
-              
 
                 <div class="form-group">
-                    <label>Tipo:</label>
-                    <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
-                        <option selected hidden value="">
-                            Seleccione tipo
-                          </option>
-                        <option value="GRATIS">GRATIS</option>
-                        <option value="PAGADO">PAGADO</option>
-                    </select>
-                </div>
-
-           
+                  <label>Aforo</label>
+                  <select name="tiempo_reservacion_minutos" [(ngModel)]="tipoAforo"
+                      class="form-control custom-select">
+                      <option selected hidden value="">
+                          Seleccione Aforo
+                        </option>
+                      <option value="LIMITADO">  Limitado </option>
+                      <option value="ILIMITADO"> Ilimitado </option>
+                  </select>
+              </div>
                 
-                <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'  ">
-                    <label>Valor:</label>
-                    <input [value]="precio" [(ngModel)]="precio" name="precio" class="form-control" type="number"
-                        placeholder="">
-                </div>
+              <div class="form-group" *ngIf="tipoAforo ==='LIMITADO'  ">
+                <label>Numero Permitido:</label>
+                <input [value]="numeroAforo" [(ngModel)]="numeroAforo" name="precio" class="form-control" type="number"
+                    placeholder="">
+            </div>
+
+            
+             
+
+                <div class="form-group">
+                  <label>Normas</label>
+                  <textarea class="form-control" name="" id="" cols="30" rows="2"></textarea>
+                  </div>
+
+              
+
+                <div class="form-group">
+                  <label>Tipo de Area:</label>
+                  <select name="seleccionCosto" [(ngModel)]="tipoArea" class="form-control custom-select">
+                      <option selected hidden value="">
+                          Seleccione Area
+                        </option>
+                      <option value="PUBLICA">Publica</option>
+                      <option value="RESERVACIONES">Con Reservaciones</option>
+                  </select>
+              </div>
+
+              <div class="div" *ngIf="tipoArea ==='RESERVACIONES'  ">
+
+            
+              <div class="form-group">
+                <label>Tiempo de Reserva</label>
+                <select name="tiempo_reservacion_minutos" [(ngModel)]="tiempo_reservacion_minutos"
+                    class="form-control custom-select">
+                    <option selected hidden value="">
+                        Seleccione tiempo
+                      </option>
+                    <option value="60">1 hora</option>
+                    <option value=120>2 horas</option>
+                    <option value=180>3 horas</option>
+                    <option value=240>4 horas</option>
+                    <option value=300>5 horas</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label>Costo:</label>
+              <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
+                  <option selected hidden value="">
+                      Seleccione Costo
+                    </option>
+                  <option value="GRATIS">GRATIS</option>
+                  <option value="PAGADO">PAGADO</option>
+              </select>
+          </div>
+
+          <div class="form-group" *ngIf="seleccionCosto ==='PAGADO'  ">
+              <label>Valor:</label>
+              <input [value]="precio" [(ngModel)]="precio" name="precio" class="form-control" type="number"
+                  placeholder="">
+          </div>
+          </div>
             </div>
             <div class="modal-footer">
                 <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
@@ -231,7 +263,7 @@
                             <th style="text-align:center" scope="col">Valor</th>
                             <th scope="col">Mz.</th>
                             <th scope="col">Villa</th>
-                            <th [width]="80" scope="col">Reservado por</th>
+                            <th [width]="80" scope="col">Reservado por:</th>
                           </thead>
                           <tbody>
                             <tr *ngFor="let div of reservas; let i = index">
@@ -363,7 +395,7 @@
                           <th style="text-align:center" scope="col">Valor</th>
                           <th scope="col">Mz.</th>
                           <th scope="col">Villa</th>
-                          <th [width]="80" scope="col">Reservado por</th>
+                          <th [width]="80" scope="col">Reservado por:</th>
                         </thead>
                         <tbody>
                           <tr *ngFor="let div of reservasRecaudaciones; let i = index">

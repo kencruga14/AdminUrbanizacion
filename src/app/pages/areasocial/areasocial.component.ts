@@ -13,6 +13,12 @@ import { id } from "@swimlane/ngx-charts";
 })
 export class AreasocialComponent implements OnInit {
   areas: any;
+  numeroAforo: any;
+  tipoAforo:any;
+  tipoArea: any;
+  banderaAforo: boolean = false;
+  banderaReserva: boolean = false;
+  normas: any;
   fechaRecaudacionInicio : any;
   fechaRecaudacionFin : any;
   reservasRecaudaciones: any = [];
@@ -144,6 +150,7 @@ export class AreasocialComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil=reader.result;
     };
     this.changeFoto = true;
   }
@@ -177,12 +184,16 @@ export class AreasocialComponent implements OnInit {
       this.area = area;
       this.area.edit = true;
     } else {
+      this.imagen="";
+      this.imagenPerfil=""
       this.id_area = 0;
       this.imagenEdit="";
       this.nombre = "";
       this.precio = "";
       this.seleccionCosto="";
       this.tiempo_reservacion_minutos ="";
+      this.tipoAforo ="";
+      this.tipoArea ="";
       this.estado ="";
       this.area.edit=false
     }
