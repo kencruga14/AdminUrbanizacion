@@ -70,9 +70,8 @@
                         <img class="img-fluid" [src]="images[0]" height="100px" width="100px" />
                     </div>
                     <label for="imagen">Imagen de Encuesta</label>
-                    <input type="file" name="image" (change)="onFileChange($event)" accept="image/*" multiple
-                        required />
-                    <small id="passwordHelpBlock" class="form-text text-muted">
+                    <input type="file" name="imagen" (change)="onFileChange($event)" accept="image/*" multiple />
+                    <small id="imagen" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
                     </small>
@@ -125,8 +124,20 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button *ngIf="!auth.loading" [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
+            <!-- <div class="modal-footer" *ngIf="!form.valid"> -->
+            <div class="modal-footer" *ngIf="images?.length >0">
+                <!-- array: {{images.length}} -->
+                <!-- validacion correcta -->
+                <button type="submit" [disabled]="!form.valid" class="btn btn-outline-dark">
+                    <span *ngIf="!encuesta.edit">Guardar</span>
+                    <span *ngIf="encuesta.edit">Editar</span>
+                </button>
+                <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
+            </div>
+            <div class="modal-footer" *ngIf="images?.length <1">
+                <!-- array: {{images.length}} -->
+                <!-- validacion incorrecta -->
+                <button [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!encuesta.edit">Guardar</span>
                     <span *ngIf="encuesta.edit">Editar</span>
                 </button>

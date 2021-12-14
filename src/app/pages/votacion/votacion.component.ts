@@ -6,10 +6,10 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {DateButton} from 'angular-bootstrap-datetimepicker';
+import { DateButton } from "angular-bootstrap-datetimepicker";
 import * as moment from "moment";
 
-import {unitOfTime} from 'moment';
+import { unitOfTime } from "moment";
 @Component({
   selector: "app-votacion",
   templateUrl: "./votacion.component.html",
@@ -330,8 +330,15 @@ export class VotacionComponent implements OnInit {
     }
   }
 
-private startDatePickerFilter(dateButton: DateButton, viewName: string): boolean {
-   return dateButton.value >= moment().startOf(viewName as unitOfTime.StartOf).valueOf();
-}
-
+  private startDatePickerFilter(
+    dateButton: DateButton,
+    viewName: string
+  ): boolean {
+    return (
+      dateButton.value >
+      moment()
+        .startOf(viewName as unitOfTime.StartOf)
+        .valueOf()
+    );
+  }
 }
