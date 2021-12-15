@@ -31,15 +31,16 @@ export class ReservacionesComponent implements OnInit {
   });
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
-  filtroManzana: number;
+  filtroManzana: number = 0;
   saldototal: any;
-  filtroAutorizacion: number;
+  filtroAutorizacion: string = "";
   years = [];
   pipe: any;
   paramMz: number;
   paramVilla: number;
   paramEstado: string;
-  filtrovilla: string;
+  filtrovilla: number = 0;
+  filtroEstado: string = ""
   alicuotaM: alicuota[] = [];
   id_casa: number;
   id_manzana: number;
@@ -88,13 +89,13 @@ export class ReservacionesComponent implements OnInit {
     edit: false,
     id_alicuota: "",
   };
-  
+
   acceso = {
     accesos: "",
     id_alicuota: "",
   };
   // años = [];
-
+  autorizaciones = []
   meses = [
     { name: "Enero", id: 1 },
     { name: "Febrero", id: 2 },
@@ -130,6 +131,7 @@ export class ReservacionesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAutorizaciones()
     this.getCasa();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
@@ -230,11 +232,13 @@ export class ReservacionesComponent implements OnInit {
   trackByFn(index: any, item: any) {
     return index;
   }
-  getAutorizacion(value){
+  getAutorizacion(value) {
 
   }
 
   getVillas(value) {
+    this.filtrovilla = 0
+
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       // console.log("manzana seleccionada: ", value);
@@ -247,17 +251,14 @@ export class ReservacionesComponent implements OnInit {
       // alicuotas
       this.casasselector = resp;
     });
+    this.filtrovilla = 0
   }
 
   getEstado(value) {
     this.paramVilla = value;
     console.log("casa: ", value);
-    this.auth
-      .getAlicuotasByMzVil(this.paramMz, value)
-      .subscribe((resp: any) => {
-        this.alicuotas = resp;
-        console.log("alicuotas x villa: ", this.alicuotas);
-      });
+    this.getAutorizaciones(this.filtroAutorizacion, this.filtroEstado, this.filtrovilla)
+
   }
 
   getAlicuotaEstado(value) {
@@ -463,7 +464,7 @@ export class ReservacionesComponent implements OnInit {
     });
   }
 
-  getManzanas() {}
+  getManzanas() { }
   async gestionAlicuota() {
     let response: any;
     if (this.alicuota.edit) {
@@ -490,7 +491,13 @@ export class ReservacionesComponent implements OnInit {
       }
     });
   }
-
+  async getAutorizaciones(tipo = null, estado = null, id_casa = null) {
+    if (id_casa == 0) id_casa = null
+    const response = await this.auth.getAutorizaciones(tipo, estado, id_casa)
+    if (response[1]) {
+      this.autorizaciones = response[1]
+    }
+  }
   async deleteAlicuota(id: number) {
     const response = await this.auth.deleteAlicuota(id);
     if (response) {
@@ -526,12 +533,14 @@ export class ReservacionesComponent implements OnInit {
   }
 
   restablecerFiltroBusqueda() {
-    this.filtroAutorizacion = null;
-    this.filtrovilla = null;
-    this.filtroManzana = null;
+    this.filtroAutorizacion = "";
+    this.filtroEstado = "";
+    this.filtrovilla = 0;
+    this.filtroManzana = 0;
     this.paramEstado = null;
     this.paramMz = null;
     this.paramVilla = null;
+    this.getAutorizaciones(this.filtroAutorizacion, this.filtroEstado, this.filtrovilla)
   }
 
   UpdatePago() {
