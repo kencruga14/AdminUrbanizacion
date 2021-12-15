@@ -148,6 +148,8 @@ export class ExpresoescolarComponent implements OnInit {
       this.conductor = "";
       this.cedula = "";
       this.marca = "";
+      this.modelo = "";
+
     }
     this.modalService.open(content);
   }
@@ -188,7 +190,7 @@ export class ExpresoescolarComponent implements OnInit {
         ano: this.ano,
         placa: this.placa,
         marca: this.marca,
-        modelo: this.vehiculo,
+        modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
         pdf: this.pdf

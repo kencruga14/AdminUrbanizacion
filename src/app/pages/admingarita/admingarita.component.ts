@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 })
 export class AdmingaritaComponent implements OnInit {
   admins: UsuarioModelo[] = [];
-  pdf2 : any;
+  documento: any;
   id_admin: 0;
   nombres: "";
   telefono: "";
@@ -22,7 +22,6 @@ export class AdmingaritaComponent implements OnInit {
   imagen = null;
   imagenEdit = null;
   imagenPerfil = null;
-  ss;
   correo: "";
   edit: false;
   id: 0;
@@ -40,6 +39,7 @@ export class AdmingaritaComponent implements OnInit {
     contrasena: "",
     correo: "",
     edit: false,
+    documento: null
   };
   acceso = {
     accesos: "",
@@ -50,7 +50,7 @@ export class AdmingaritaComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAdmin();
@@ -144,13 +144,19 @@ export class AdmingaritaComponent implements OnInit {
           imagen: this.imagenEdit,
           contrasena: this.contrasena,
         },
+        documento: this.documento
+
       };
+      console.log("holi")
+
+      console.log("holi")
+
       JSON.stringify(body);
       response = await this.auth.editAdminGarita(this.id, body);
     } else {
       const body = {
         usuario: {
-          
+
           nombres: this.nombres,
           telefono: this.telefono,
           celular: this.celular,
@@ -158,8 +164,9 @@ export class AdmingaritaComponent implements OnInit {
           correo: this.correo,
           imagen: this.imagen,
           contrasena: this.contrasena,
-          pdf: this.pdf2
         },
+        documento: this.documento
+
       };
       JSON.stringify(body);
       response = await this.auth.createAdminGarita(body);
@@ -178,7 +185,7 @@ export class AdmingaritaComponent implements OnInit {
     this.getAdmin();
   }
 
-  
+
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
@@ -202,8 +209,17 @@ export class AdmingaritaComponent implements OnInit {
       this.getAdmin();
     }
   }
+  PDF(event: any) {
+    const fileData = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.documento = reader.result;
+    };
+    console.log("documento base: ", this.documento);
+  }
 
-  pdf(){
-    console.log("p")
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 }

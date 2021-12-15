@@ -49,7 +49,7 @@
                             <td>{{exp.conductor}}</td>
                             <td>{{exp.cedula}}</td>
                             <td>
-                                <a (click)="goToLink(exp.pdf)" href="javascript:void(0)">Descargar</a>
+                                <a *ngIf="exp.pdf" (click)="goToLink(exp.pdf)" href="javascript:void(0)">Descargar</a>
                                 <figure *ngIf="!exp.pdf">
                                     <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
                                         alt="image" />
