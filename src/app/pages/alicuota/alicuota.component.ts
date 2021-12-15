@@ -35,6 +35,7 @@ export class AlicuotaComponent implements OnInit {
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
   saldototal: any;
+  saldovencido: any;
   filtromanzana: number;
   years = [];
   pipe: any;
@@ -173,42 +174,46 @@ export class AlicuotaComponent implements OnInit {
     const extraordinaria = this.sortByMzVilla(
       _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
     );
-
-    const saldos = this.chainGroup(
+    const saldosPagado = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
       (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
       (ali) => {
-        ali[1] = _.sumBy(ali[1], "valor");
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "PAGADO" ? r.valor : 0));
+      }
+    );
+    const saldosVencido = this.chainGroup(
+      comunes,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
       }
     );
 
     const porFecha = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
-      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => _.maxBy(ali[1], "ID").ID,
       (ali) => {
         ali[1] = this.sortByMzVilla(ali[1]);
       }
     );
-    console.log(porFecha);
 
     // let asd= saldos;
     (this.fechaArray = _.assignIn(porFecha, {
       SALDO: saldo,
       EXTRAORDINARIA: extraordinaria,
     })),
-      saldos;
+      saldosPagado,
+      saldosVencido;
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
     this.extraordinariaAnterior = Object.entries(as).sort();
-    this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
-    this.existente.shift();
-    this.existente.shift();
-    console.log("fecha array: ", this.fechaArray);
-    this.saldototal = saldos;
-    console.log("saldos: ", this.saldototal);
+    this.existente = this.fechaArray; // console: ['0', '1', '2']  }
+    this.saldototal = saldosPagado;
+    this.saldovencido = saldosVencido;
   }
 
   addGroup() {
