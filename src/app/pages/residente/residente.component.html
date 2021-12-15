@@ -95,8 +95,8 @@
 
 
         <form (ngSubmit)="gestionResidente()" #form="ngForm">
-            <div class="modal-body">
-                <div *ngIf="!residente.edit">
+            <div class="modal-body" style="height: 600px; overflow-y: scroll;">
+                <div *ngIf=" !residente.edit">
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
                             required placeholder="Nombre">
@@ -127,9 +127,6 @@
                             type="text" required placeholder="Convencional">
                     </div>
 
-
-
-
                     <div class="form-group">
                         <label>Manzana</label>
                         <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
@@ -146,7 +143,6 @@
                         </select>
                     </div>
 
-
                     <div class="form-group">
                         <label>Votación</label>
                         <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
@@ -154,7 +150,6 @@
                             <option [ngValue]="false">No</option>
                         </select>
                     </div>
-
 
                     <div class="form-group">
                         <label>Crear Autorizaciones</label>
@@ -167,9 +162,9 @@
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
                         <br>
-                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"  [maxDate]="fechaMaxima" [locale]="es"
-                            [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2021" 
-                            [ngModelOptions]="{standalone: true}"></p-calendar>
+                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
+                            [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
+                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
                     </div>
                     <div class="form-group">
                         <label>Pdf</label>
@@ -179,10 +174,7 @@
 
                 </div>
 
-
-
-
-                <div *ngIf="residente.edit===true">
+                <div *ngIf="residente.edit">
 
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
@@ -249,12 +241,11 @@
                     </div>
                     <div class="form-group">
                         <label>Pdf</label>
-                        <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" readonly>
+                        <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
+                            type="file" accept="application/pdf" required>
                     </div>
 
                 </div>
-
-
 
             </div>
             <div class="modal-footer">
@@ -265,6 +256,7 @@
                 <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
             </div>
         </form>
+
     </ng-template>
 
     <ng-template #contentImage let-modal>
