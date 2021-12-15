@@ -19,7 +19,7 @@ export class ListingComponent implements OnInit {
   mailboxes: Category[] = mailbox;
   filters: Category[] = filter;
   labels: Category[] = label;
-  correo: any = { adjuntos: [] }
+  correo: any = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
   casas = []
   manzanaselector: [];
   casasselector: [];
@@ -31,7 +31,7 @@ export class ListingComponent implements OnInit {
   recibidos = []
   loading = false
   selectedFiles: FileList;
-
+  myFiles: string[] = [];
   constructor(public modal: NgbModal, public ms: MailGlobalVariable, public mailService: MailService, public router: Router, private auth: AuthService) {
     if (this.ms.type === null || this.ms.type === '' || this.ms.type === undefined) {
       this.router.navigate(['home/mail/inbox']);
@@ -118,11 +118,15 @@ export class ListingComponent implements OnInit {
   }
   add() {
 
-    // this.casas = [...this.casas, { id_casa: this.id_casa }]
-    // console.log(this.casas)
+    let destinatarios = [...this.correo.destinatarios];
+    destinatarios.push({ id_casa: 0, manzana: 0, casasselector: [] });
+    this.correo.destinatarios = destinatarios;
   }
   preview(event: any) {
     this.selectedFiles = event.target.files;
+    for (var i = 0; i < event.target.files.length; i++) {
+      this.myFiles.push(event.target.files[i]);
+    }
 
     for (let index = 0; index < this.selectedFiles.length; index++) {
       const element = this.selectedFiles[index];
@@ -144,17 +148,24 @@ export class ListingComponent implements OnInit {
     //   }
     // }
   }
-  async enviarCorreo(form) {
+  eliminarArchivo(index) {
+    let temp = [...this.myFiles];
+    temp.splice(index, 1);
+    this.myFiles = temp;
+    let temp2 = [...this.correo.adjuntos];
+    temp2.splice(index, 1);
+    this.correo.adjuntos = temp2
+  }
+  async enviarCorreo(form = null) {
+
     const formData: FormData = new FormData();
-    console.log(this.selectedFiles)
     if (this.selectedFiles) {
-      for (let index = 0; index < this.selectedFiles.length; index++) {
-        const element = this.selectedFiles[index];
-        formData.append('file', element);
+      for (let index = 0; index < this.myFiles.length; index++) {
+        const element = this.myFiles[index];
+        formData.append('archivos[]', element);
       }
     }
 
-    this.correo.destinatarios = [{ id_casa: this.id_casa }]
     if (this.correo.publico) {
       delete this.correo.destinatarios
     }
@@ -181,27 +192,25 @@ export class ListingComponent implements OnInit {
 
     this.id_casa = 0
     this.manzana = 0
-    this.correo = { adjuntos: [] }
+    this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
     this.mailboxesChanged("Recibidos")
     this.modal.dismissAll()
   }
   descartar() {
     this.id_casa = 0
     this.manzana = 0
-    this.correo = { adjuntos: [] }
+    this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
+    this.myFiles = []
   }
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
-      console.log("casas: ", resp);
       this.casas = resp;
       this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
-      console.log("Manzana selector: ", this.manzanaselector);
     });
   }
-  getVillas(value) {
+  getVillas(value, destinatario) {
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      console.log("getCasasByManzana: ", resp);
-      this.casasselector = resp;
+      destinatario.casasselector = resp;
       // this.c = _.uniqBy(resp, (obj) => obj.manzana);
       // console.log("Manzana selector: ", this.casasselector);
     });
@@ -220,7 +229,8 @@ export class ListingComponent implements OnInit {
     const response = await this.auth.getMensajePorId(mail.ID)
     if (response[0]) {
       this.ms.selectedMail.respuestas = response[1].mensajes
-      console.log(this.ms.selectedMail.respuestas)
+      this.ms.selectedMail.archivos = response[1].archivos
+      console.log(this.ms.selectedMail.archivos)
     } else {
       this.ms.selectedMail.respuestas = []
 

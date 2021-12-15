@@ -51,12 +51,13 @@ export class ExpresoescolarComponent implements OnInit {
     cedula: "",
     marca: "",
     edit: false,
+    pdf: null
   };
   constructor(
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getExpresos();
@@ -171,6 +172,7 @@ export class ExpresoescolarComponent implements OnInit {
         modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
+        pdf: this.pdf
       };
       JSON.stringify(body);
       console.log("cuerpo editar expreso: ", body);
@@ -189,6 +191,7 @@ export class ExpresoescolarComponent implements OnInit {
         modelo: this.vehiculo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
+        pdf: this.pdf
       };
       JSON.stringify(body);
       console.log("cuerpo crear expreso: ", body);
@@ -224,5 +227,8 @@ export class ExpresoescolarComponent implements OnInit {
     if (response) {
       this.getExpresos();
     }
+  }
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 }

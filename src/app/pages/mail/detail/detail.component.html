@@ -42,6 +42,15 @@
         <div class="mb-4">
             {{ms.selectedMail.descripcion}}
         </div>
+        <div class="row ">
+            <div class=" p-0 col-md-1 text-center" *ngFor="let archivo of ms.selectedMail.archivos; let i=index">
+                <a (click)="goToLink(archivo.url)">
+                    <img src="assets/images/clip.png" style="height: 20px; " alt="">
+                    <br>
+                    <span style="font-size: 12px;"> {{archivo.mime| slice:0:10}}...</span>
+                </a>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12 text-right">
                 <button *ngIf="!ms.selectedMail.is_admin" (click)="openModal(content,ms.selectedMail)" type="button"
@@ -96,6 +105,15 @@
                 </div>
                 <div class="mb-4">
                     {{mensaje.descripcion}}
+                </div>
+                <div class="row ">
+                    <div class=" p-0 col-md-1 text-center" *ngFor="let archivo of mensaje.archivos; let i=index">
+                        <a (click)="goToLink(archivo.url)">
+                            <img src="assets/images/clip.png" style="height: 20px; " alt="">
+                            <br>
+                            <span style="font-size: 12px;"> {{archivo.mime| slice:0:10}}...</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-right">
@@ -152,9 +170,15 @@
             <div style="height: 100px;">
                 <div class="row ">
 
-                    <div class="col-md-2 text-center" *ngFor="let archivo of mensaje.adjuntos">
-                        <img src="assets/images/clip.png" style="height: 50px;" alt=""> <br>
-                        <span style="font-size: 12px;"> {{archivo.nombre}} </span>
+                    <div class="col-md-2 text-center" *ngFor="let archivo of mensaje.adjuntos; let i=index">
+                        <img src="assets/images/clip.png" style="height: 50px; " alt="">
+                        <svg style="cursor: pointer !important;" (click)="eliminarArchivo(i)"
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#d60004"
+                            class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                        </svg> <br>
+                        <span style="font-size: 12px;"> {{archivo| slice:0:10}}...</span>
                     </div>
                 </div>
             </div>
@@ -162,7 +186,7 @@
                 <div class="d-flex align-items-center justify-content-between py-2 px-3 bg-light">
                     <div>
                         <a href="javascript:void(0)" (click)="fileInput.click()" class="link"><i
-                                class="icon-link font-16"></i></a>
+                                class="icon-link font-16"></i>Adjuntar archivos</a>
 
                     </div>
                     <input style="display: none" name="archivos[]" type="file" accept="*/*" (change)="preview($event)"

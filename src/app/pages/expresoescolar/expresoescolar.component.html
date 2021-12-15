@@ -49,7 +49,8 @@
                             <td>{{exp.conductor}}</td>
                             <td>{{exp.cedula}}</td>
                             <td>
-                                <figure>
+                                <a (click)="goToLink(exp.pdf)" href="javascript:void(0)">Descargar</a>
+                                <figure *ngIf="!exp.pdf">
                                     <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
                                         alt="image" />
                                 </figure>
@@ -82,7 +83,7 @@
             </button>
         </div>
         <form (ngSubmit)="gestionExpreso()" #form="ngForm">
-            <div class="modal-body">
+            <div class="modal-body" style="height: 600px; overflow-y: scroll;">
                 <!--Campo imagen-->
 
                 <div class="form-group" *ngIf="imagenEdit">
@@ -160,7 +161,7 @@
                 </div>
                 <div class="form-group">
                     <label>Pdf cédula</label>
-                    <input [value]="pdf" (change)="PDF($event)" name="pdf" class="form-control"
+                    <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
                         type="file" accept="application/pdf" required>
                 </div>
             </div>

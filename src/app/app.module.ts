@@ -93,6 +93,7 @@ import { ListingComponent } from "./pages/mail/listing/listing.component";
 import { DetailComponent } from "./pages/mail/detail/detail.component";
 import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
 import { MailGlobalVariable, MailService } from "./pages/mail/mail.service";
+import { InicioComponent } from './pages/inicio/inicio.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -135,6 +136,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ListingComponent,
     DetailComponent,
     MailPanelComponent,
+    InicioComponent,
   ],
   imports: [
     IvyCarouselModule,
