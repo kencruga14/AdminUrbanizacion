@@ -50,7 +50,7 @@ export class ResidenteComponent implements OnInit {
   filterName = "";
   accion: Boolean;
   pdfEdit = null;
-  villa: any;
+  villa: number = 0;
   residente = {
     id_casa: 0,
     celular: "",
@@ -240,7 +240,7 @@ export class ResidenteComponent implements OnInit {
       this.fechanacimiento = "";
       this.usuario = "";
       this.manzana = "";
-      this.villa = "";
+      this.villa = 0;
       this.documento = "";
       this.id_casa = 0;
       this.accion = false;
@@ -275,6 +275,7 @@ export class ResidenteComponent implements OnInit {
       };
       console.log("body editar residente: ", body);
       response = await this.auth.editResidente(this.id, body);
+      this.villa = 0
     } else {
       const body = {
         id_casa: this.villa,
@@ -297,6 +298,7 @@ export class ResidenteComponent implements OnInit {
       };
       console.log("body crear residente: ", body);
       response = await this.auth.createResidente(body);
+      this.villa = 0
     }
     if (response) {
       this.modalService.dismissAll();

@@ -14,7 +14,6 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
-                            <th>id</th>
 
                             <th>Imagen</th>
                             <th>Manzana</th>
@@ -37,7 +36,6 @@
                     <tbody style="text-align: center;">
                         <tr *ngFor="let et of residentes | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
-                            <td>{{et.ID}}</td>
 
                             <td>
                                 <figure>
@@ -61,7 +59,7 @@
                             <!-- <td>{{et.fecha_nacimiento}}</td> -->
                             <td>
                                 <a *ngIf="et.documento" (click)="goToLink(et.documento)"
-                                    href="javascript:void(0)">Descargar</a>
+                                    href="javascript:void(0)">Visualizar</a>
                                 <figure *ngIf="!et.documento">
                                     <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
                                         alt="image" />
@@ -144,6 +142,7 @@
                         <label>Villa</label>
                         <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
                             <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
+                            <option value="0" hidden></option>
                         </select>
                     </div>
 

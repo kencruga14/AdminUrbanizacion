@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
   styleUrls: ["./expresoescolar.component.css"],
 })
 export class ExpresoescolarComponent implements OnInit {
+  pdfNombre: string;
   edit: false;
   eta = [];
   expresos: any;
@@ -134,6 +135,9 @@ export class ExpresoescolarComponent implements OnInit {
       this.expreso.edit = true;
       this.marca = expreso.marca;
       this.modelo = expreso.modelo;
+      let splitUrl = expreso.pdf.split("/")
+      this.pdfNombre = splitUrl[5]
+
     } else {
       this.id_expreso = 0;
       this.imagen = null;
@@ -161,6 +165,7 @@ export class ExpresoescolarComponent implements OnInit {
         // console.log("incluye htpps");
         this.imagenEdit = "";
       }
+
       const body = {
         conductor: this.conductor,
         razon_social: this.razon_social,
@@ -243,4 +248,11 @@ export class ExpresoescolarComponent implements OnInit {
   goToLink(url: string) {
     window.open(url, "_blank");
   }
+
+  obtenerNombrePdf(url: string) {
+    let splitUrl = url.split("/")
+    this.pdfNombre = splitUrl[-1]
+    return this.pdfNombre
+  }
+
 }
