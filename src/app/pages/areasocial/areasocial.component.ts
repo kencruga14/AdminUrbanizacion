@@ -285,7 +285,7 @@ export class AreasocialComponent implements OnInit {
 
   async gestionArea() {
     let response: any;
-    console.log(this.area)
+
     if (this.area.edit) {
       const body = {
         imagen: this.imagenAlt,
@@ -311,7 +311,16 @@ export class AreasocialComponent implements OnInit {
         seleccionCosto: this.seleccionCosto,
         precio: parseInt(this.precio),
       };
-      response = await this.auth.createAreaSocial(body);
+      if(!body.imagen){
+        Swal.fire({
+          title: "Por favor ingrese una imagen",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createAreaSocial(body);
+      }
+    
     }
     if (response) {
       this.modalService.dismissAll();
