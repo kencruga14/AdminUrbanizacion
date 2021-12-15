@@ -34,13 +34,18 @@ export class AlicuotaComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
+  totalPE =0 ;
+  totalVE= 0 ;
   saldototal: any;
-<<<<<<< HEAD
+  saldoTotalVencido : any;
+  saldototalExtraordinario: any;
+  saldoTotalVencidoExtraordinario : any;
+  body2 :any;
   valorVencidas = 0;
   valorPagadas = 0 ;
-=======
-  saldovencido: any;
->>>>>>> 95c1e11e392bd044e1cbd470fd8b46a350aef7c8
+  valorTotal = 0;
+  bandera = false;
+  listaVencidas=[]
   filtromanzana: number;
   years = [];
   pipe: any;
@@ -53,7 +58,7 @@ export class AlicuotaComponent implements OnInit {
   id_manzana: number;
   submitted = false;
   manzanas: any;
-  fechaArray: [];
+  fechaArray: any = [];
   id_villa: number;
   casasselector: any;
   manzanaselector: any;
@@ -136,6 +141,8 @@ export class AlicuotaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.bandera=false;
+    this.valorTotal = 0;
     this.getCasa();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
@@ -173,12 +180,26 @@ export class AlicuotaComponent implements OnInit {
       .fromPairs()
       .value();
 
+
+
   clasificarAlicuotas(alicuotas) {
     const comunes = _.filter(alicuotas, { tipo: "COMUN" });
     const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
     const extraordinaria = this.sortByMzVilla(
       _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
     );
+
+    console.log("extraoridinarias:",extraordinaria)
+
+      this.totalPE=0;
+      this.totalVE=0;
+        extraordinaria.forEach((item) => {
+        if(item.estado=== 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
+        if(item.estado=== 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
+      });
+      console.log(this.totalPE)
+      console.log(this.totalVE)
+
     const saldosPagado = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
@@ -196,6 +217,22 @@ export class AlicuotaComponent implements OnInit {
       }
     );
 
+    // extraordinario
+    const saldosPagadoExtraordinario =_.sumBy(extraordinaria, (r) => (r.estado === "PAGADO" ? r.valor : 0));
+   
+
+
+    
+    const saldosVencidoExtraordinario = this.chainGroup(
+      extraordinaria,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
+      }
+    );
+
+
     const porFecha = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
@@ -211,14 +248,21 @@ export class AlicuotaComponent implements OnInit {
       EXTRAORDINARIA: extraordinaria,
     })),
       saldosPagado,
-      saldosVencido;
+      saldosVencido,
+      saldosPagadoExtraordinario,
+      saldosVencidoExtraordinario
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
+    console.log(this.fechaArray)
     this.extraordinariaAnterior = Object.entries(as).sort();
     this.existente = this.fechaArray; // console: ['0', '1', '2']  }
     this.saldototal = saldosPagado;
-    this.saldovencido = saldosVencido;
+    this.saldoTotalVencido = saldosVencido;
+    this.saldototalExtraordinario = saldosPagadoExtraordinario;
+    this.saldoTotalVencidoExtraordinario = saldosVencidoExtraordinario;
+    console.log("saldo total vencido",this.saldoTotalVencido )
+    console.log("saldo total vencido ex",this.saldoTotalVencidoExtraordinario )
   }
 
   addGroup() {
@@ -274,11 +318,40 @@ export class AlicuotaComponent implements OnInit {
       .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
       .subscribe((resp: any) => {
         this.alicuotas = resp;
+        this.listaVencidas =resp;
+        this.bandera=false
+        if(this.listaVencidas[0].estado === 'VENCIDO') this.bandera=true
+        this.calcularVencidos();  
+        this.pagarTodo();
         console.log("alicuotas x estado: ", this.alicuotas);
         console.log("alicuotas x estado: ", resp.length);
-        console.log("alicuotas x estado: ", resp.size());
       });
+    
+
+
   }
+
+
+  calcularVencidos(){
+    this.valorTotal = 0;
+    console.log("a recorrer: ", this.listaVencidas);
+    this.listaVencidas.forEach((item) => {
+      this.valorTotal = this.valorTotal + parseFloat(item.valor);
+    });
+
+  }
+
+  // calcularExtraordinaria(){
+  //   this.totalPE=0;
+  //   this.totalVE=0;
+  //   this.listaVencidas.forEach((item) => {
+  //     if(item.estado=== 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
+  //     if(item.estado=== 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
+  //   });
+
+  // }
+
+
 
   filtrarVilla(value) {
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
@@ -554,10 +627,29 @@ export class AlicuotaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.pagar();
+        this.bandera=false;
       } else {
       }
     });
   }
+
+  UpdatePagoTodo() {
+    Swal.fire({
+      title: "¿Está seguro de realizar esta acción?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#343A40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.value) {
+        this.pagarTodo();
+      } else {
+      }
+    });
+  }
+
 
   async pagar() {
     let id = this.id_alicuota;
@@ -578,6 +670,37 @@ export class AlicuotaComponent implements OnInit {
       this.filtroEstado = null;
     }
   }
+
+  async pagarTodo() {
+    let response: any;
+    const body = this.listaVencidas
+    let arregloAlicuotas = []
+    body.forEach((item) => {
+      console.log(item)
+      this.body2={...this.body2,id:item.ID,estado:item.estado}
+      arregloAlicuotas.push(this.body2)
+    });
+    console.log(arregloAlicuotas)
+    console.log("body usado " , body)
+    
+    // const body = {
+    //   estado: "PAGADO",
+    // };
+    // console.log("update body: ", body);
+    // response = await this.auth.editAlicuota(id, body);
+    // if (response) {
+    //   this.resetsForm();
+    //   this.removeGroup(this.nregistros);
+    //   // this.gestionAlicuota();
+    //   this.getCasa();
+    //   this.getAlicuota();
+    //   this.filtromanzana = null;
+    //   this.filtrovilla = null;
+    //   this.filtroEstado = null;
+    // }
+  }
+
+  
   resetReportes() {
     this.tipoReporte = null;
     this.modalService.dismissAll();
