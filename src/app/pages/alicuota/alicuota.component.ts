@@ -256,7 +256,9 @@ export class AlicuotaComponent implements OnInit {
     );
     console.log(this.fechaArray)
     this.extraordinariaAnterior = Object.entries(as).sort();
-    this.existente = this.fechaArray; // console: ['0', '1', '2']  }
+    this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
+    this.existente.shift();
+    this.existente.shift();
     this.saldototal = saldosPagado;
     this.saldoTotalVencido = saldosVencido;
     this.saldototalExtraordinario = saldosPagadoExtraordinario;
@@ -288,8 +290,8 @@ export class AlicuotaComponent implements OnInit {
   getVillas(value) {
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // console.log("manzana seleccionada: ", value);
-      // console.log("getCasasByManzana: ", resp);
+      console.log("manzana seleccionada: ", value);
+      console.log("getCasasByManzana: ", resp);
       this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
         this.alicuotas = resp;
         console.log("alicuotas x manzana: ", this.alicuotas);
@@ -488,7 +490,7 @@ export class AlicuotaComponent implements OnInit {
       this.casas = resp;
       this.manzanas = resp;
       this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
-      console.log("numeros de casas: ", this.casas.length);
+      console.log("manzanas selecor: ", this.manzanaselector);
     });
   }
 
@@ -517,7 +519,9 @@ export class AlicuotaComponent implements OnInit {
       this.id_alicuota = null;
       this.tipoalicuota = "";
     }
+    this.resetCampos();
     this.modalService.open(content);
+    
   }
 
   openModalAlicuota(content, alicuota = null) {
@@ -532,6 +536,7 @@ export class AlicuotaComponent implements OnInit {
       this.tipoalicuota = alicuota.estado;
     }
     this.modalService.open(content);
+
   }
 
   getAlicuota() {
@@ -602,6 +607,31 @@ export class AlicuotaComponent implements OnInit {
     this.pipe = null;
     this.casasselector = [];
   }
+
+  resetCampos(){
+    this.submitted = false;
+    this.alicuotaForm.reset();
+    this.id_manzana = null;
+    this.valor = null;
+    this.id_villa = null;
+    // this.manzanaselector = [];
+    this.modalService.dismissAll();
+    this.year_seleccionado = null;
+    this.mes_seleccionado = null;
+    this.seleccionRegistro = null;
+    // this.alicuotaM = [];
+    this.tipoalicuota = null;
+    this.id_casa = null;
+    this.id_manzana = null;
+    this.filtromanzana = null;
+    this.tipoAlicuotaComun = null;
+    this.tipoAlicuotaExtraordinaria = null;
+    this.tipoalicuota = null;
+    this.pipe = null;
+    // this.casasselector = [];
+  }
+
+
 
   restablecerFiltroBusqueda() {
     this.filtromanzana = null;

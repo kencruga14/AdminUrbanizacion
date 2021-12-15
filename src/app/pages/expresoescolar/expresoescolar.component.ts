@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 })
 export class ExpresoescolarComponent implements OnInit {
   edit: false;
+  pdfNombre : any;
   eta = [];
   expresos: any;
   id_expreso: number;

@@ -7,7 +7,7 @@
         class="btn btn-dark separador"
         (click)="openAlicuota(contentAlicuota)"
       >
-        Crear Alícuota
+        Crear Alícuota.
       </button>
       <!-- <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br> -->
       <button
@@ -69,8 +69,8 @@
 
           </div>
           
-          <div *ngIf="bandera" class="form-group col-sm-1 mt-3 mr-2 " >
-            <label class="transparente">dd.</label><br />
+          <div *ngIf="bandera" class="form-group col-sm-1 mt-5 mr-2 " >
+            
             <button
             (click)="UpdatePagoTodo()"
             type="button"
@@ -107,10 +107,9 @@
       <div *ngIf="!filtromanzana">
         <p-accordion *ngFor="let item of fechaArray | keyvalue; let i = index">
           <div *ngIf="item.value.length > 0">
-            <p-accordionTab>
+            <p-accordionTab >
               <p-header>
-                
-                
+               
                 <div *ngIf="item.key ==='EXTRAORDINARIA'" class="div">
                     <span  style="float: right; color: rgb(218, 28, 28);">
                         Vencido  {{ totalVE | currency }}
@@ -120,7 +119,7 @@
                         Pagado  {{ totalPE | currency }}
                       </span>
                   </div>
-              
+                 
                   <div *ngIf="item.key !=='EXTRAORDINARIA'" class="div">
                     <span  style="float: right; color: rgb(218, 28, 28);text-align: start;">
                         Vencido : {{ saldoTotalVencido[item.key] | currency }}
@@ -130,15 +129,11 @@
                         Pagado : {{ saldototal[item.key] | currency }}
                       </span>
                   </div>
-                  <span>{{ item.key }}</span>
-
-
-
-             
-
-
-
+                  <span > {{ item.key | titlecase}}
+                    
+                </span>
               </p-header>
+
               <table
                 id="myTable"
                 class="table color-bordered-table inverse-bordered-table"
@@ -372,7 +367,7 @@
               *ngIf="tipoAlicuotaExtraordinaria === 'ANTERIOR'"
             >
               <div class="form-group col-md-12">
-                <label>Seleccione mes existente: </label>
+                <label>Seleccione mes existente:</label>
                 <select
                   [(ngModel)]="pipe"
                   name="mes_seleccionado"
@@ -388,59 +383,69 @@
               </div>
 
               <!-- <option *ngFor="let m of existente" value="{{m[1][0].fecha_pago }}">{{{{m[1][0].fecha_pago }} | titlecase}}</option> -->
+              
+             
+               
+                <div class="form-group col-md-6"  *ngIf="pipe">
+                    <label>Manzana F</label>
+                    <select
+                      class="form-control custom-select"
+                      [(ngModel)]="id_manzana"
+                      (change)="getVillas($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let ur of manzanaselector"
+                        value="{{ ur.manzana }}"
+                      >
+                        {{ ur.manzana }}
+                      </option>
+                    </select>
+                  </div>
+    
+    
+                  <div class="form-group col-md-6"  *ngIf="pipe">
+                    <label>Villa</label>
+                    <select
+                      class="form-control custom-select"
+                      [(ngModel)]="id_casa"
+                      (ngModelChange)="getIdcasa($event)"
+                    >
+                      <option *ngFor="let ur of casasselector" value="{{ ur.ID }}">
+                        {{ ur.villa }}
+                      </option>
+                    </select>
+                  </div>
+    
+                  <div class="form-group col-md-6"  *ngIf="pipe">
+                    <label>Valor:</label>
+                    <input
+                      ngValue="valor"
+                      [(ngModel)]="valor"
+                      name="valor"
+                      class="form-control"
+                      type="number"
+                      required
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                  </div>
 
-              <div class="form-group col-md-6">
-                <label>Manzana</label>
-                <select
-                  class="form-control custom-select"
-                  [(ngModel)]="id_manzana"
-                  (change)="getVillas($event.target.value)"
-                >
-                  <option
-                    *ngFor="let ur of manzanaselector"
-                    value="{{ ur.manzana }}"
-                  >
-                    {{ ur.manzana }}
-                  </option>
-                </select>
-              </div>
+          
+            
+                  <div class="form-group col-md-12"  *ngIf="!pipe">
+                    <label class="transparente">sdas.</label><br />
+                    <button
+                      (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)"
+                      [disabled]="!alicuotaForm.valid"
+                      type="submit"
+                      class="btn btn-outline-dark"
+                      style="float: right"
+                    >
+                      <span>Guardar</span>
+                    </button>
+                  </div>
+    
 
-              <!-- <div class="form-group col-md-6">
-                                <label>Villa</label>
-                                <select class="form-control custom-select">
-                                    <option *ngFor="let ur of manzanaselector" value="{{ur.ID}}">
-                                        {{ur.villa}}
-                                    </option>
-                                </select>
-                            </div> -->
-
-              <div class="form-group col-md-6">
-                <label>Villa</label>
-                <select
-                  class="form-control custom-select"
-                  [(ngModel)]="id_casa"
-                  (ngModelChange)="getIdcasa($event)"
-                >
-                  <option *ngFor="let ur of casasselector" value="{{ ur.ID }}">
-                    {{ ur.villa }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="form-group col-md-6">
-                <label>Valor:</label>
-                <input
-                  ngValue="valor"
-                  [(ngModel)]="valor"
-                  name="valor"
-                  class="form-control"
-                  type="number"
-                  required
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6"  *ngIf="pipe">
                 <label class="transparente">sdas.</label><br />
                 <button
                   (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)"
@@ -452,6 +457,9 @@
                   <span>Guardar</span>
                 </button>
               </div>
+
+
+
             </div>
             <!-------Fin Extraordinaria Anterior-->
             <!-- </form> -->
@@ -593,7 +601,7 @@
             <!-----------------ALICUOTA ANTERIOR EXISTENTE--------------------------->
             <div class="form-row" *ngIf="tipoAlicuotaComun === 'EXISTENTE'">
               <div class="form-group col-md-12">
-                <label>Seleccione mes existente: </label>
+                <label>Seleccione mes existente: Final </label>
                 <select
                   name="mes_seleccionado"
                   [(ngModel)]="pipe"
@@ -610,8 +618,8 @@
                 </select>
               </div>
 
-              <div class="form-group col-md-6">
-                <label>Manzana</label>
+              <div class="form-group col-md-6" *ngIf="pipe">
+                <label>Manzana Final</label>
                 <select
                   class="form-control custom-select"
                   [(ngModel)]="id_manzana"
@@ -626,7 +634,7 @@
                 </select>
               </div>
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6" *ngIf="pipe">
                 <label>Villa</label>
                 <select
                   class="form-control custom-select"
@@ -639,7 +647,7 @@
                 </select>
               </div>
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6" *ngIf="pipe">
                 <label>Valor:</label>
                 <input
                   ngValue="valor"
@@ -651,7 +659,8 @@
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
-              <div class="form-group col-md-6">
+
+              <div class="form-group col-md-12" *ngIf="!pipe">
                 <br />
                 <button
                   (click)="anterior(tipoAlicuotaComun)"
@@ -663,6 +672,20 @@
                   <span>Guardar</span>
                 </button>
               </div>
+
+              <div class="form-group col-md-6" *ngIf="pipe">
+                <br />
+                <button
+                  (click)="anterior(tipoAlicuotaComun)"
+                  [disabled]="!alicuotaForm.valid"
+                  type="submit"
+                  class="btn btn-outline-dark"
+                  style="float: right"
+                >
+                  <span>Guardar</span>
+                </button>
+              </div>
+
             </div>
           </div>
           <!---------------------------------------FIN ALICUOTA ANTERIOR-->
