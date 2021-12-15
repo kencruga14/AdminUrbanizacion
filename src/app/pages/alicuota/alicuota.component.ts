@@ -322,7 +322,6 @@ export class AlicuotaComponent implements OnInit {
         this.bandera=false
         if(this.listaVencidas[0].estado === 'VENCIDO') this.bandera=true
         this.calcularVencidos();  
-        this.pagarTodo();
         console.log("alicuotas x estado: ", this.alicuotas);
         console.log("alicuotas x estado: ", resp.length);
       });
@@ -536,7 +535,7 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getAlicuota() {
-    console.log("get alicuota");
+
     this.auth.getAlicuota().subscribe((resp: any) => {
       this.alicuotas = resp;
       this.clasificarAlicuotas(resp);
@@ -547,10 +546,9 @@ export class AlicuotaComponent implements OnInit {
   async gestionAlicuota() {
     let response: any;
     if (this.alicuota.edit) {
-      console.log("entro editar");
+
     } else {
-      console.log("entro crear");
-      console.log("body crear alicuota: ", this.alicuotaM);
+
     }
   }
 
@@ -677,27 +675,21 @@ export class AlicuotaComponent implements OnInit {
     let arregloAlicuotas = []
     body.forEach((item) => {
       console.log(item)
-      this.body2={...this.body2,id:item.ID,estado:item.estado}
+      this.body2={...this.body2,id:item.ID,estado:"PAGADO"}
       arregloAlicuotas.push(this.body2)
     });
-    console.log(arregloAlicuotas)
-    console.log("body usado " , body)
-    
-    // const body = {
-    //   estado: "PAGADO",
-    // };
-    // console.log("update body: ", body);
-    // response = await this.auth.editAlicuota(id, body);
-    // if (response) {
-    //   this.resetsForm();
-    //   this.removeGroup(this.nregistros);
-    //   // this.gestionAlicuota();
-    //   this.getCasa();
-    //   this.getAlicuota();
-    //   this.filtromanzana = null;
-    //   this.filtrovilla = null;
-    //   this.filtroEstado = null;
-    // }
+    response = await this.auth.editTodasAlicuota(arregloAlicuotas);
+    if (response) {
+      this.resetsForm();
+      this.removeGroup(this.nregistros);
+      // this.gestionAlicuota();
+      this.getCasa();
+      this.getAlicuota();
+      this.filtromanzana = null;
+      this.filtrovilla = null;
+      this.filtroEstado = null;
+      this.bandera=false;
+    }
   }
 
   
