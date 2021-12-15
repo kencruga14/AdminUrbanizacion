@@ -105,14 +105,7 @@
         </div>
         <form (ngSubmit)="gestionArea()" #form="ngForm">
             <div class="modal-body">
-                <!-- <div class="form-group">
-                    <div class="image-preview mb-3" *ngIf="imagen">
-                        <img class="img-fluid" [src]="imagen" height="500" />
-                    </div>
-
-                    <input type="file" name="image" (change)="preview($event)" />
-                </div> -->
-
+           
 
                 <div class="form-group" *ngIf="imagenEdit">
                     <!-- editar imagen -->
@@ -122,7 +115,7 @@
                     </div>
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
-                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
+                    <input  type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
@@ -132,10 +125,10 @@
                 <div class="form-group" *ngIf="!imagenEdit">
                     <!-- ImagenCrear -->
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                        <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
+                        <img   class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
                     </div>
                     <label for="imagen">Imagen de Perfil</label>
-                    <input type="file" name="image" (change)="preview($event)" accept="image/*" required />
+                    <input  type="file" required  name="image" (change)="preview($event)" accept="image/*"  />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
@@ -151,7 +144,7 @@
 
                 <div class="form-group">
                   <label>Aforo</label>
-                  <select name="aforo" [(ngModel)]="tipoAforo"
+                  <select required name="aforo" [(ngModel)]="tipoAforo"
                       class="form-control custom-select">
                       <option selected hidden value="">
                           Seleccione Aforo
@@ -172,14 +165,14 @@
 
                 <div class="form-group">
                   <label>Normas (Ingrese las normas separadas por una coma "," )</label>
-                  <textarea [(ngModel)]="normas"  class="form-control" name="normas" id="" cols="30" rows="2"></textarea>
+                  <textarea  [(ngModel)]="normas"  class="form-control" name="normas" id="" cols="30" rows="2"></textarea>
                   </div>
 
               
 
                 <div class="form-group">
-                  <label>Tipo de Area:</label>
-                  <select name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
+                  <label> Modalidad de Area:</label>
+                  <select required name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
                       <option selected hidden value="">
                           Seleccione Area
                         </option>
@@ -206,10 +199,10 @@
                 </select>
             </div>
             <div class="form-group">
-              <label>Costo:</label>
+              <label> Uso :</label>
               <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
                   <option selected hidden value="">
-                      Seleccione Costo
+                      Seleccione Uso
                     </option>
                   <option value="GRATIS">GRATIS</option>
                   <option value="PAGADO">PAGADO</option>
@@ -324,7 +317,7 @@
                      
                      
                       <div class="col-6">
-                        <h3> Tipo de Area: </h3>
+                        <h3> Modalidad Area: </h3>
                       </div>
                       <div *ngIf="informacionArea.precio>0" class="col-6">
                         <h3> Con Reservacion </h3>
@@ -339,7 +332,7 @@
                         <h3> {{informacionArea.tiempo_reservacion_minutos}} minutos </h3>
                       </div>
                       <div class="col-6">
-                        <h3> Costo: </h3>
+                        <h3> Uso: </h3>
                       </div>
                       <div *ngIf="informacionArea.precio>0" class="col-6">
                         <h3> PAGADO </h3>

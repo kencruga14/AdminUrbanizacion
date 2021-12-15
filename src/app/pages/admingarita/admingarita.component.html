@@ -14,68 +14,71 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-3 ml-5">
-                    <input  type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
+                    <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                        [(ngModel)]="filterName">
                 </div>
                 <div class="col-4">
-                   
+
                 </div>
                 <div class="col-2">
-                    
+
                 </div>
             </div>
 
             <h6 class="card-subtitle"></h6>
             <!-- <div class="table table-responsive "> -->
-                <table style="width: 68.5%;" id="myTable" class="table color-bordered-table inverse-bordered-table">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th  class="w-5" >No</th>
-                            <th class="w-5">Imagen</th>
-                            <th class="w-5">Nombres</th>
-                            <th class="w-5">Usuario</th>
-                            <th class="w-5">Celular</th>
-                            <th class="w-5">Teléfono</th>
-                            <th class="w-50">Correo</th>
-                            <th class="w-5">PDF</th>
-                            <th class="w-5">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align: center;">
-                        <tr *ngFor="let c of admins | filter:filterName; let i=index ">
-                            <td   >{{i+1}}</td>
-                            <td>
-                                <figure>
-                                    <img width="50" height="50"  class="" style="border-radius: 60%;" [src]="c.usuario.imagen" data-holder-rendered="true"
-                                        (click)="openImage(contentImage, c)">
-                                </figure>
-                            </td>
-                            <td>{{c.usuario.nombres}}</td>
-                            <td >{{c.usuario.usuario }}</td>
-                            <td>{{c.usuario.celular}}</td>
-                            <td>{{c.usuario.telefono}}</td>
-                            <td style="width: 150px;">{{c.usuario.correo}}</td>
-                            <td>
-                                <figure>
-                                    <img width="20" height="20" class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
-                                        alt="image"  />
-                                </figure>
-                            </td>
-                            <td>
-                                <!-- <a data-toggle="tooltip" data-original-title="Editar"
+            <table style="width: 68.5%;" id="myTable" class="table color-bordered-table inverse-bordered-table">
+                <thead>
+                    <tr style="text-align: center;">
+                        <th class="w-5">No</th>
+                        <th class="w-5">Imagen</th>
+                        <th class="w-5">Nombres</th>
+                        <th class="w-5">Usuario</th>
+                        <th class="w-5">Celular</th>
+                        <th class="w-5">Teléfono</th>
+                        <th class="w-50">Correo</th>
+                        <th class="w-5">PDF</th>
+                        <th class="w-5">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                    <tr *ngFor="let c of admins | filter:filterName; let i=index ">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <figure>
+                                <img width="50" height="50" class="" style="border-radius: 60%;"
+                                    [src]="c.usuario.imagen" data-holder-rendered="true"
+                                    (click)="openImage(contentImage, c)">
+                            </figure>
+                        </td>
+                        <td>{{c.usuario.nombres}}</td>
+                        <td>{{c.usuario.usuario }}</td>
+                        <td>{{c.usuario.celular}}</td>
+                        <td>{{c.usuario.telefono}}</td>
+                        <td style="width: 150px;">{{c.usuario.correo}}</td>
+                        <td>
+                            <a *ngIf="c.documento" (click)="goToLink(c.documento)"
+                                href="javascript:void(0)">Visualizar</a>
+                            <figure *ngIf="!c.documento">
+                                <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
+                                    alt="image" />
+                            </figure>
+                        </td>
+                        <td>
+                            <!-- <a data-toggle="tooltip" data-original-title="Editar"
                                     (click)="openAdmin(contentAdmin, c)"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(c.ID)"> <i
-                                        class="fa fa-trash text-danger m-r-10"></i> </a>
-                            </td>
-                        </tr>
-                        <tr *ngIf="(admins).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                    existen datos</label></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(c.ID)"> <i
+                                    class="fa fa-trash text-danger m-r-10"></i> </a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="(admins).length === 0">
+                        <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                existen datos</label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <!-- </div> -->
     </div>
 
@@ -114,13 +117,13 @@
                         359 x 316.
                     </small>
                 </div> -->
-                <div class="form-group" >
+                <div class="form-group">
                     <!-- ImagenCrear -->
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                        <img  required class="img-fluid" [src]="imagenPerfil" height="60%" width="100%"  />
+                        <img required class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
                     </div>
                     <label for="imagen">Cargar Imagen de Perfil</label>
-                    <input required type="file" name="image" (change)="preview($event)" accept="image/*"  />
+                    <input required type="file" name="image" (change)="preview($event)" accept="image/*" />
                     <!-- <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
@@ -148,16 +151,21 @@
                         placeholder="Correo">
                 </div>
 
-               
 
-              
                 <div class="form-group">
-                    <label for=""> Cargar Cedula-PDF </label> <br>
-                    <input required [(ngModel)]="pdf2" type="file" name="upload" accept="application/pdf,application/vnd.ms-excel" />
+                    <label>Cargar Cédula-PDF </label>
+                    <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
+                        class="form-control" type="file" accept="application/pdf">
                 </div>
 
-            
-             
+                <!-- <div class="form-group">
+                    <label for=""> </label> <br>
+                    <input required [(ngModel)]="pdf2" type="file" name="upload"
+                        accept="application/pdf,application/vnd.ms-excel" />
+                </div> -->
+
+
+
 
                 <!-- <div class="form-group">
                     <input ngValue="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control"

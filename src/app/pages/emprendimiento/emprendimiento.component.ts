@@ -93,6 +93,7 @@ export class EmprendimientoComponent implements OnInit {
   idCategoria = "todas";
   eggSize = "size";
   categoria: any;
+  arregloDescripcion = [];
   constructor(
     public auth: AuthService,
     private router: Router,
@@ -148,7 +149,8 @@ export class EmprendimientoComponent implements OnInit {
   openEmprendimiento(content, emprendimiento) {
     this.emprendimiento = emprendimiento;
     this.carrusels= emprendimiento.imagenes;
-    console.log(this.carrusels);
+    this.arregloDescripcion =[]
+    this.arregloDescripcion = this.emprendimiento.descripcion.split('\n')
     this.modalService.open(content);
   }
 

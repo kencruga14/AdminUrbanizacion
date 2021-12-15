@@ -105,8 +105,16 @@ export class GaleriaComponent implements OnInit {
         titulo: this.titulo,
         imagen: this.imagen,
       };
-
-      response = await this.auth.createGaleria(body);
+      if(!body.imagen){
+        Swal.fire({
+          title: "Por favor ingrese una imagen",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createGaleria(body);
+      }
+   
     }
     if (response) {
       this.modalService.dismissAll();

@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
   styleUrls: ["./expresoescolar.component.css"],
 })
 export class ExpresoescolarComponent implements OnInit {
+  pdfNombre: string;
   edit: false;
   eta = [];
   expresos: any;
@@ -51,12 +52,13 @@ export class ExpresoescolarComponent implements OnInit {
     cedula: "",
     marca: "",
     edit: false,
+    pdf: null
   };
   constructor(
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getExpresos();
@@ -133,6 +135,9 @@ export class ExpresoescolarComponent implements OnInit {
       this.expreso.edit = true;
       this.marca = expreso.marca;
       this.modelo = expreso.modelo;
+      let splitUrl = expreso.pdf.split("/")
+      this.pdfNombre = splitUrl[5]
+
     } else {
       this.id_expreso = 0;
       this.imagen = null;
@@ -147,6 +152,8 @@ export class ExpresoescolarComponent implements OnInit {
       this.conductor = "";
       this.cedula = "";
       this.marca = "";
+      this.modelo = "";
+
     }
     this.modalService.open(content);
   }
@@ -158,6 +165,7 @@ export class ExpresoescolarComponent implements OnInit {
         // console.log("incluye htpps");
         this.imagenEdit = "";
       }
+
       const body = {
         conductor: this.conductor,
         razon_social: this.razon_social,
@@ -171,9 +179,11 @@ export class ExpresoescolarComponent implements OnInit {
         modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
+        pdf: this.pdf
       };
       JSON.stringify(body);
       console.log("cuerpo editar expreso: ", body);
+      
       response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
       const body = {
@@ -186,13 +196,23 @@ export class ExpresoescolarComponent implements OnInit {
         ano: this.ano,
         placa: this.placa,
         marca: this.marca,
-        modelo: this.vehiculo,
+        modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
+        pdf: this.pdf
       };
       JSON.stringify(body);
-      console.log("cuerpo crear expreso: ", body);
-      response = await this.auth.createExpreso(body);
+      
+      if((!body.imagen)  ){
+        Swal.fire({
+          title: "Por favor ingrese todos sus documentos",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createExpreso(body);
+      }
+     
     }
     if (response) {
       this.modalService.dismissAll();
@@ -225,4 +245,14 @@ export class ExpresoescolarComponent implements OnInit {
       this.getExpresos();
     }
   }
+  goToLink(url: string) {
+    window.open(url, "_blank");
+  }
+
+  obtenerNombrePdf(url: string) {
+    let splitUrl = url.split("/")
+    this.pdfNombre = splitUrl[-1]
+    return this.pdfNombre
+  }
+
 }

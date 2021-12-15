@@ -22,7 +22,7 @@ export class ResidenteComponent implements OnInit {
   casasselector: any;
   edit: false;
   telefono: "";
-  pdf: any;
+  documento: any;
   fechanacimiento: any;
   imagen = null;
   id: 0;
@@ -50,7 +50,7 @@ export class ResidenteComponent implements OnInit {
   filterName = "";
   accion: Boolean;
   pdfEdit = null;
-  villa: any;
+  villa: number = 0;
   residente = {
     id_casa: 0,
     celular: "",
@@ -62,7 +62,7 @@ export class ResidenteComponent implements OnInit {
     telefono: "",
     villa: "",
     manzana: "",
-    pdf: "",
+    documento: "",
     usuario: "",
     cedula: "",
     fechanacimiento: "",
@@ -182,9 +182,9 @@ export class ResidenteComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
-      this.pdf = reader.result;
+      this.documento = reader.result;
     };
-    console.log("pdf base: ", this.pdf);
+    console.log("pdf base: ", this.documento);
   }
 
   PDFEDIT(event: any) {
@@ -194,7 +194,7 @@ export class ResidenteComponent implements OnInit {
     reader.onload = (response) => {
       this.pdfEdit = reader.result;
     };
-    console.log("pdf base: ", this.pdf);
+    console.log("pdf base: ", this.documento);
   }
 
   openImage(content, admin) {
@@ -240,8 +240,8 @@ export class ResidenteComponent implements OnInit {
       this.fechanacimiento = "";
       this.usuario = "";
       this.manzana = "";
-      this.villa = "";
-      this.pdf = "";
+      this.villa = 0;
+      this.documento = "";
       this.id_casa = 0;
       this.accion = false;
       // this.is_principal = false;
@@ -268,11 +268,14 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          // pdf: this.pdf
           // documeto: this.pdfEdit,
         },
+        documento: this.documento
       };
       console.log("body editar residente: ", body);
       response = await this.auth.editResidente(this.id, body);
+      this.villa = 0
     } else {
       const body = {
         id_casa: this.villa,
@@ -287,11 +290,15 @@ export class ResidenteComponent implements OnInit {
           nombres: this.nombres,
           telefono: this.telefono,
           usuario: this.usuario,
+          // pdf: this.pdf
           // documento: this.pdf,
         },
+        documento: this.documento
+
       };
       console.log("body crear residente: ", body);
       response = await this.auth.createResidente(body);
+      this.villa = 0
     }
     if (response) {
       this.modalService.dismissAll();
@@ -301,7 +308,7 @@ export class ResidenteComponent implements OnInit {
       this.id_casa = null;
       this.fechanacimiento = null;
       this.pdfEdit = null;
-      this.pdf = null;
+      this.documento = null;
     }
     this.imagen = null;
     this.imagenPerfila = null;
@@ -309,7 +316,7 @@ export class ResidenteComponent implements OnInit {
     this.id_casa = null;
     this.fechanacimiento = null;
     this.pdfEdit = null;
-    this.pdf = null;
+    this.documento = null;
     this.accion = false;
     this.getResidente();
   }
@@ -336,5 +343,8 @@ export class ResidenteComponent implements OnInit {
     if (response) {
       this.getResidente();
     }
+  }
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 }

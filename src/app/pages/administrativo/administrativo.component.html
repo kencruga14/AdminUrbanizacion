@@ -97,7 +97,7 @@
                             <img class="img-fluid" [src]="imagenPerfil" height="100px" width="100px" />
                         </div>
                         <label for="imagen">Imagen de Perfil</label>
-                        <input type="file" name="image" (change)="preview($event)" accept="image/*" required />
+                        <input required type="file" name="image" (change)="preview($event)" accept="image/*" required />
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                             359 x 316.

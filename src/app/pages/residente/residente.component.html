@@ -14,6 +14,7 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
+
                             <th>Imagen</th>
                             <th>Manzana</th>
                             <th>Villa</th>
@@ -35,12 +36,14 @@
                     <tbody style="text-align: center;">
                         <tr *ngFor="let et of residentes | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
+
                             <td>
                                 <figure>
                                     <img class="avatar" [src]="et.usuario.imagen" data-holder-rendered="true"
                                         alt="image" (click)="openImage(contentImage, et)" />
                                 </figure>
                             </td>
+
                             <td>{{et.casa.manzana}}</td>
                             <td>{{et.casa.villa}}</td>
                             <td>{{et.usuario.nombres}}</td>
@@ -55,7 +58,9 @@
                             <td>{{et.fecha_nacimiento | date: 'dd-MM-yyyy'}}</td>
                             <!-- <td>{{et.fecha_nacimiento}}</td> -->
                             <td>
-                                <figure>
+                                <a *ngIf="et.documento" (click)="goToLink(et.documento)"
+                                    href="javascript:void(0)">Visualizar</a>
+                                <figure *ngIf="!et.documento">
                                     <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
                                         alt="image" />
                                 </figure>
@@ -67,9 +72,6 @@
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a> -->
-                                <a data-toggle="tooltip" data-original-title="Editar"
-                                    (click)="openResidente(contentResidente, et)"> <i
-                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
@@ -95,8 +97,8 @@
 
 
         <form (ngSubmit)="gestionResidente()" #form="ngForm">
-            <div class="modal-body">
-                <div *ngIf="!residente.edit">
+            <div class="modal-body" style="height: 600px; overflow-y: scroll;">
+                <div *ngIf=" !residente.edit">
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
                             required placeholder="Nombre">
@@ -127,9 +129,6 @@
                             type="text" required placeholder="Convencional">
                     </div>
 
-
-
-
                     <div class="form-group">
                         <label>Manzana</label>
                         <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
@@ -143,9 +142,9 @@
                         <label>Villa</label>
                         <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
                             <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
+                            <option value="0" hidden></option>
                         </select>
                     </div>
-
 
                     <div class="form-group">
                         <label>Votación</label>
@@ -154,7 +153,6 @@
                             <option [ngValue]="false">No</option>
                         </select>
                     </div>
-
 
                     <div class="form-group">
                         <label>Crear Autorizaciones</label>
@@ -167,22 +165,19 @@
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
                         <br>
-                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"  [maxDate]="fechaMaxima" [locale]="es"
-                            [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2021" 
-                            [ngModelOptions]="{standalone: true}"></p-calendar>
+                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
+                            [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
+                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
                     </div>
                     <div class="form-group">
                         <label>Pdf</label>
-                        <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
-                            type="file" accept="application/pdf" required>
+                        <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
+                            class="form-control" type="file" accept="application/pdf" required>
                     </div>
 
                 </div>
 
-
-
-
-                <div *ngIf="residente.edit===true">
+                <div *ngIf="residente.edit">
 
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
@@ -249,12 +244,11 @@
                     </div>
                     <div class="form-group">
                         <label>Pdf</label>
-                        <input [value]="pdf" [(ngModel)]="pdf" name="pdf" class="form-control" readonly>
+                        <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="pdf"
+                            class="form-control" type="file" accept="application/pdf" required>
                     </div>
 
                 </div>
-
-
 
             </div>
             <div class="modal-footer">
@@ -265,6 +259,7 @@
                 <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
             </div>
         </form>
+
     </ng-template>
 
     <ng-template #contentImage let-modal>
