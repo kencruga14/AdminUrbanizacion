@@ -145,6 +145,7 @@ export class AreasocialComponent implements OnInit {
   preview(event: any) {
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
+    console.log("entrando1")
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
@@ -153,11 +154,14 @@ export class AreasocialComponent implements OnInit {
     reader.onload = (response) => {
       this.imagen = reader.result;
       this.imagenPerfil=reader.result;
+     
     };
+    
     this.changeFoto = true;
   }
 
   editImagen(event: any) {
+    console.log("entrando2")
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -167,6 +171,8 @@ export class AreasocialComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
+    
+      // this.imagenAlt = reader.result;
     };
     this.changeFoto = true;
   }
@@ -282,7 +288,7 @@ export class AreasocialComponent implements OnInit {
     console.log(this.area)
     if (this.area.edit) {
       const body = {
-        imagen: this.imagenEdit,
+        imagen: this.imagenAlt,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
         aforo: parseInt(this.aforo),
@@ -338,7 +344,7 @@ export class AreasocialComponent implements OnInit {
   }
 
   saveEditPicture(event: any) {
-    // console.log("entró preview:");
+    console.log("entró preview:");
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -348,6 +354,7 @@ export class AreasocialComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
+      this.imagenAlt = reader.result;
     };
     this.changeFoto = true;
   }
@@ -394,7 +401,6 @@ export class AreasocialComponent implements OnInit {
   openHorarios(content, item ) {
     this.getHorarios(item.ID)
     this.idTemporal=item.ID
-    console.log(this.idTemporal)
     this.modalService.open(content, { size: "lg" });
   }
 
@@ -437,7 +443,7 @@ export class AreasocialComponent implements OnInit {
       this.item={...this.item,edit:true}
     }else{
       this.item={};
-      this.item={...this.item,id_area:1}
+      this.item={...this.item,id_area:this.idTemporal}
       this.item={...this.item,edit:false}
     
     }
