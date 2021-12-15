@@ -10,6 +10,7 @@
                     <label>Manzana</label>
                     <select name="manzana" [(ngModel)]="filtroManzana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
+                        <option value="0" hidden>Todas</option>
                         <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">{{ur.manzana}}</option>
                     </select>
                 </div>
@@ -18,25 +19,33 @@
                     <label>Villa</label>
                     <select name="villa" [(ngModel)]="filtrovilla" class="form-control custom-select"
                         (change)="getEstado($event.target.value)">
-                        <option *ngFor="let ur of casasselector" value="{{ur.villa }}">{{ur.villa}}</option>
+                        <option value="0" hidden></option>
+                        <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
                     </select>
                 </div>
                 <!-----filtro Autorizacion-->
-                <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla">
+                <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla!=0">
                     <label>Tipo de Autorización</label>
-                    <select name="autorizacion" [(ngModel)]="filtroAutorizacion" class="form-control custom-select"
-                        (change)="getVillas($event.target.value)">
-                        <option value="a">Todas</option>
-                        <option value="a">Temporales</option>
-                        <option value="a">Temporales Activas</option>
-                        <option value="a">Temporales Anuladas</option>
-                        <option value="a">Fijas</option>
-                        <option value="a"> Fijas Activas</option>
-                        <option value="a">Fijas Anuladas</option>
+                    <select (change)="getEstado($event.target.value)" name="autorizacion"
+                        [(ngModel)]="filtroAutorizacion" class="form-control custom-select">
+                        <option value="">Todas</option>
+                        <option value="TEMPORAL">Temporales</option>
+                        <option value="FIJA">Fijas</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla!=0">
+                    <label>Tipo de Estado</label>
+                    <select (change)="getEstado($event.target.value)" name="estado" [(ngModel)]="filtroEstado"
+                        class="form-control custom-select">
+                        <option value="">Todas</option>
+                        <option value="ACTIVA">Activa</option>
+                        <option value="ANULADA">Anulada</option>
+                        <option value="VALIDADA">Validada</option>
+                        <option value="PENDIENTE">Pendiente</option>
                     </select>
                 </div>
 
-                <div class="form-group col-sm-1 my-1" *ngIf="filtroAutorizacion">
+                <div class="form-group col-sm-1 my-1" *ngIf="filtroManzana!=0 && filtrovilla!=0">
                     <label class="transparente"></label><br>
                     <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success"
                         data-toggle="tooltip" data-placement="right" title="Restablecer filtro"><i
@@ -115,55 +124,52 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Autorización</th>
-                            <th>Usuario</th>
+
                             <th>Asunto</th>
-                            <th>Cédula</th>
                             <th>Teléfono</th>
+                            <th>Estado</th>
                             <th>Creada</th>
                             <th>Hora</th>
+
+
+                            <!-- <th>Hora</th>
                             <th>Anulada</th>
                             <th>Hora</th>
                             <th>Estado</th>
-                            <th>Creada por:</th>
+                            <th>Creada por:</th> -->
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
-                        <tr *ngIf="alicuotas === null">
+                        <tr *ngIf="autorizaciones.length<1">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
                         </tr>
-                        <tr *ngFor="let ali of casas | filter:filterName; let i=index ">
+                        <tr *ngFor="let au of autorizaciones | filter:filterName; let i=index ">
                             <th scope="row ">{{i+1}}</th>
-                            <td *ngIf="ali.tipo === 'COMUN'">{{ali.fecha_pago | date:'MMMM' | titlecase}}</td>
-                            <td *ngIf="ali.tipo !== 'COMUN'">{{ali.tipo}}</td>
-                            <td>{{ali.fecha_pago | date: 'yyyy' }}</td>
-                            <td>${{ali.valor}}</td>
-                            <td *ngIf="ali.estado === 'PAGADO'">
-                                <Div class="pagado">
-                                    <strong> {{ali.estado}}</strong>
-                                </Div>
-                            </td>
-                            <td>------</td>
-                            <td *ngIf="ali.estado === 'PENDIENTE'">
-                                <Div class="pendiente">
-                                    <strong> {{ali.estado}}</strong>
-                                </Div>
-                            </td>
-                            <td *ngIf="ali.estado === 'RECHAZADA'">
-                                <div class="vencido">
-                                    <strong> {{ali.estado}}</strong>
-                                </div>
-                            </td>
-                            <td *ngIf="ali.estado ==='PENDIENTE'">
-                                <button type="button" (click)="openModalAlicuota(openMAlicuota, ali)"
-                                    class="btn btn-success">Pagar</button>
-                                <!-- <a data-toggle="tooltip" data-original-title="Pagar"
-                                        (click)="openModalAlicuota(openMAlicuota, ali)"> <i
-                                            class="fas fa-money-bill-wave text-inverse m-r-10"></i> </a> -->
-                            </td>
+                            <td>{{au.casa.manzana}}</td>
+                            <td>{{au.casa.villa}}</td>
+                            <td>{{au.nombres}}</td>
+                            <td>{{au.apellidos}}</td>
+                            <td>{{au.tipo}}</td>
+
+                            <td>{{au.asunto}}</td>
+                            <td>{{au.telefono}}</td>
+                            <td>{{au.estado}}</td>
+                            <td>{{au.CreatedAt.split("T")[0]}}</td>
+                            <td>{{au.CreatedAt.split("T")[1].split(".")[0]}}</td>
+
+
+
+
+
+
+
+
                         </tr>
 
                     </tbody>
