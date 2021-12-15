@@ -25,6 +25,7 @@ import { AutorizadosComponent } from "./pages/autorizados/autorizados.component"
 import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
 import { DetailComponent } from "./pages/mail/detail/detail.component";
 import { ComposeComponent } from "./pages/mail/compose/compose.component";
+import { InicioComponent } from "./pages/inicio/inicio.component";
 
 
 const routes: Routes = [
@@ -36,6 +37,11 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: "inicio",
+        component: InicioComponent,
+        canActivate: [RolGuard],
+      },
       {
         path: "administrador",
         component: AdministradorComponent,
@@ -124,7 +130,7 @@ const routes: Routes = [
           ]
         }
       },
-      { path: "**", redirectTo: "casa" },
+      { path: "**", redirectTo: "inicio" },
     ],
   },
   { path: "**", redirectTo: "login" },
