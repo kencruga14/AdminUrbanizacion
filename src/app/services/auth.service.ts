@@ -695,7 +695,7 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .put(`${environment.apiUrl}/admin-etapa/alicuota/bulk`, data, {
+        .put(`${environment.apiUrl}/admin-etapa/alicuotas/bulk`, data, {
           headers,
         })
         .subscribe(

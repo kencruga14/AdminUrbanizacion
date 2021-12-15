@@ -109,7 +109,8 @@
           <div *ngIf="item.value.length > 0">
             <p-accordionTab>
               <p-header>
-
+                
+                
                 <div *ngIf="item.key ==='EXTRAORDINARIA'" class="div">
                     <span  style="float: right; color: rgb(218, 28, 28);">
                         Vencido  {{ totalVE | currency }}
@@ -129,11 +130,11 @@
                         Pagado : {{ saldototal[item.key] | currency }}
                       </span>
                   </div>
+                  <span>{{ item.key }}</span>
+
+
+
              
-
-
-
-                <span>{{ item.key | titlecase }}</span>
 
 
 
