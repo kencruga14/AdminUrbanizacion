@@ -35,6 +35,8 @@ export class AlicuotaComponent implements OnInit {
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
   saldototal: any;
+  valorVencidas = 0;
+  valorPagadas = 0 ;
   filtromanzana: number;
   years = [];
   pipe: any;
