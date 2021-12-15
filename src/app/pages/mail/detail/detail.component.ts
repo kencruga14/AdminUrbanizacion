@@ -13,6 +13,8 @@ export class DetailComponent implements OnInit {
   @ViewChild("utlimo", { static: false }) chat: ElementRef;
 
   mensaje: any = { adjuntos: [] }
+  selectedFiles: FileList;
+  myFiles: string[] = [];
   constructor(public ms: MailGlobalVariable,
     public mailService: MailService, public router: Router, public auth: AuthService,
     public modal: NgbModal) { }
@@ -20,42 +22,38 @@ export class DetailComponent implements OnInit {
   ngOnInit() {
 
   }
+
   global() {
     this.ms.inboxCount = this.mailService.getInbox().
       filter(inbox => inbox.mailbox === 'Recibidos' && inbox.seen === false).length;
 
   }
-
-  reply() {
-    this.ms.replyShow = true;
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 
-  sendButtonClick() {
-    this.ms.replyShow = false;
-  }
-
-  removeClass() {
-    this.ms.addClass = false;
-  }
   async enviarRespuesta(form) {
-    let archivos = this.mensaje.adjuntos
-
-    if (!this.mensaje.adjuntos) {
-      archivos = []
+    const formData: FormData = new FormData();
+    if (this.selectedFiles) {
+      for (let index = 0; index < this.myFiles.length; index++) {
+        const element = this.myFiles[index];
+        formData.append('archivos[]', element);
+      }
     }
+    let archivos = this.mensaje.adjuntos
+    console.log(archivos)
     delete this.mensaje.adjuntos
 
     const response = await this.auth.responderMensaje(this.mensaje.destinatario, this.mensaje)
     if (response[0]) {
-      if (archivos.length == 0 || archivos.length) {
+      if (archivos.length == 0) {
+
         this.auth.showAlert("Correo enviado", "success");
-        console.log
         const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
         this.ms.selectedMail.respuestas = response2[1].mensajes
       }
       if (archivos.length > 0) {
-
-        const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], form)
+        const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
         if (adjuntos) {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
@@ -64,16 +62,19 @@ export class DetailComponent implements OnInit {
           this.auth.showAlert("Error al enviar correo.", "error");
 
         }
-
       }
 
     }
-    this.mensaje = {}
+
+
+    this.mensaje = { adjuntos: [] }
+    this.myFiles = []
     this.modal.dismissAll()
 
   }
   descartar() {
-    this.mensaje = {}
+    this.mensaje = { adjuntos: [] }
+    this.myFiles = []
   }
   openModal(content: string, mensaje) {
     this.mensaje.destinatario = mensaje.ID
@@ -83,23 +84,37 @@ export class DetailComponent implements OnInit {
     this.modal.open(content, { size: 'lg' });
   }
   preview(event: any) {
-    if (this.mensaje.adjuntos.length > 10) {
-      return
+    this.selectedFiles = event.target.files;
+    for (var i = 0; i < event.target.files.length; i++) {
+      this.myFiles.push(event.target.files[i]);
     }
-    if (event.target.files && event.target.files[0]) {
-      let file = {
-        nombre: event.target.files[0].name,
-        archivo: null
-      }
 
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event) => {
-        file.archivo = event.target
-        // this.url = event.target.result; // called once readAsDataURL is completed
-        this.mensaje.adjuntos = [...this.mensaje.adjuntos, file];
-        console.log(this.mensaje.adjuntos)
-      }
+    for (let index = 0; index < this.selectedFiles.length; index++) {
+      const element = this.selectedFiles[index];
+      this.mensaje.adjuntos = [...this.mensaje.adjuntos, element.name];
     }
+
+    // if (event.target.files && event.target.files[0]) {
+    //   let file = {
+    //     nombre: event.target.files[0].name,
+    //     archivo: null
+    //   }
+
+    //   var reader = new FileReader();
+    //   reader.readAsDataURL(event.target.files[0]); // read file as data url
+    //   reader.onload = (event) => {
+    //     file.archivo = event.target
+    //     // this.url = event.target.result; // called once readAsDataURL is completed
+    //     this.correo.adjuntos = [...this.correo.adjuntos, file];
+    //   }
+    // }
+  }
+  eliminarArchivo(index) {
+    let temp = [...this.myFiles];
+    temp.splice(index, 1);
+    this.myFiles = temp;
+    let temp2 = [...this.mensaje.adjuntos];
+    temp2.splice(index, 1);
+    this.mensaje.adjuntos = temp2
   }
 }

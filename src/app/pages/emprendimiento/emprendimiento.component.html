@@ -27,9 +27,9 @@
                             object-position: center center;width: 100%;" [src]="item.imagen" alt="Error Horarios" />
                         <!-- </figure> -->
                     </div>
-                    <p class="card-text centrartexto">{{item.titulo}}<br>
+                    <p style="font-size: 11px;" class="card-text centrartexto">{{item.titulo}}<br>
                     </p>
-                    <p class="centrartexto separador"> {{item.CreatedAt | date:
+                    <p style="font-size: 11px;" class="centrartexto separador"> {{item.CreatedAt | date:
                         'dd-MM-yyyy'}}</p>
                 </div>
             </div>
@@ -61,13 +61,13 @@
            
 
             <label><strong>Descripción:</strong></label>
-            <p>{{emprendimiento.descripcion}}</p>
+            <p  *ngFor="let item of arregloDescripcion"> {{ item}}</p>
             <div class="row">
                 <div class="col-6">
                     <span class="badge badge-pill badge-info bad">Precio:$ {{emprendimiento.precio}}</span>
                 </div>
                 <div class="col-6">
-                    <span class="badge badge-pill badge-info bad">Teléfono: {{emprendimiento.telefono}}</span>
+                    <span class="badge badge-pill badge-info bad">Teléfono: {{emprendimiento.telefono_contacto}}</span>
                 </div>
                 <div class="col-6">
                     <span class="badge badge-pill badge-info bad">Usuario: {{emprendimiento.nombre_usuario}}</span>
