@@ -183,6 +183,7 @@ export class ExpresoescolarComponent implements OnInit {
       };
       JSON.stringify(body);
       console.log("cuerpo editar expreso: ", body);
+      
       response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
       const body = {
@@ -201,8 +202,17 @@ export class ExpresoescolarComponent implements OnInit {
         pdf: this.pdf
       };
       JSON.stringify(body);
-      console.log("cuerpo crear expreso: ", body);
-      response = await this.auth.createExpreso(body);
+      
+      if((!body.imagen)  ){
+        Swal.fire({
+          title: "Por favor ingrese todos sus documentos",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createExpreso(body);
+      }
+     
     }
     if (response) {
       this.modalService.dismissAll();

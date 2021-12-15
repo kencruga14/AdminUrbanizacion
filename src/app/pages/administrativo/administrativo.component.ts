@@ -163,7 +163,16 @@ export class AdministrativoComponent implements OnInit {
       };
       JSON.stringify(body);
       // console.log("body crear administrativo: ", body);
-      response = await this.auth.createAdministrativos(body);
+      if(!body.imagen){
+        Swal.fire({
+          title: "Por favor ingrese una imagen",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createAdministrativos(body);
+      }
+    
     }
     if (response) {
       this.modalService.dismissAll();

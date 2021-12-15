@@ -1136,15 +1136,15 @@ export class AuthService {
   }
 
 
-  getRecaudacionesAreaSocialxId(id: string ,fecha1:string ,fecha2: string) {
+  getRecaudacionesAreaSocialxId(id: string, fecha1: string, fecha2: string) {
     let params = new HttpParams();
-    params = params.append("fecha_inicio",fecha1)
-    params = params.append("fecha_fin",fecha2)
+    params = params.append("fecha_inicio", fecha1)
+    params = params.append("fecha_fin", fecha2)
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers , params})
+      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers, params })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -1181,6 +1181,32 @@ export class AuthService {
     return new Promise((resolve) => {
       this.http
         .get(`${environment.apiUrl}/admin-etapa/buzon/${id}`, { headers })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+          },
+          (error: any) => {
+            console.log(error);
+            if (!this.tokenIsValid(error.status)) {
+              // this.showAlert("Error al cargar miembros", "error");
+            }
+            resolve([false]);
+          }
+        );
+    });
+  }
+  getAutorizaciones(tipo, estado, id_casa) {
+    let params = new HttpParams();
+    if (tipo || tipo == "") params = params.append("tipo", tipo)
+    if (estado || estado == "") params = params.append("estado", estado)
+    if (id_casa) params = params.append("id_casa", id_casa)
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .get(`${environment.apiUrl}/admin-etapa/autorizacion`, { headers, params })
         .subscribe(
           (response: any) => {
             resolve([true, response.respuesta]);

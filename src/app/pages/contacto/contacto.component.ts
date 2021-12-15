@@ -143,8 +143,15 @@ export class ContactoComponent implements OnInit {
         telefono: this.telefono,
       };
       JSON.stringify(body);
-      console.log("cuerpo crear area: ", body);
-      response = await this.auth.createContacto(body);
+      if(!body.imagen){
+        Swal.fire({
+          title: "Por favor ingrese una imagen",
+          confirmButtonColor: "#343A40",
+          confirmButtonText: "OK",
+        })
+      }else{
+        response = await this.auth.createContact(body);
+      }
     }
     if (response) {
       this.modalService.dismissAll();

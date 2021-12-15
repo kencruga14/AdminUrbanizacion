@@ -151,7 +151,6 @@ export class EmprendimientoComponent implements OnInit {
     this.carrusels= emprendimiento.imagenes;
     this.arregloDescripcion =[]
     this.arregloDescripcion = this.emprendimiento.descripcion.split('\n')
-    console.log(this.arregloDescripcion)
     this.modalService.open(content);
   }
 

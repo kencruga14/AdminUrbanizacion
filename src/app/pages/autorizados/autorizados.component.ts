@@ -115,8 +115,8 @@ export class AutorizadosComponent implements OnInit {
     } else {
       delete this.permisos.id_admin_etapa
       delete this.permisos.admin_etapa
-
       this.autorizado.permisos = this.permisos
+      
       response = await this.auth.createAutorizado(this.autorizado)
       if (response) {
         this.getAutorizados();
