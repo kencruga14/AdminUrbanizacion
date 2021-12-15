@@ -119,10 +119,8 @@
                     <div class="contenedor" >
                         <div class="image-preview mb-2" *ngIf="imagenEdit">
                             <img  class="img-fluid" [src]="imagenEdit" height="60%" width="100%" />
-
                     </div>
                     </div>
-                   
                     <label for="imagen">Imagen de Perfil</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">

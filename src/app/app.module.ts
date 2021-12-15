@@ -174,6 +174,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgZorroAntdModule,
     NzButtonModule,
     PerfectScrollbarModule,
+     IvyCarouselModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "es" },
