@@ -256,7 +256,7 @@ export class ResidenteComponent implements OnInit {
     let response: any;
     if (this.residente.edit) {
       const body = {
-        id_casa: Number(this.villa),
+        id_casa: this.id_casa,
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
