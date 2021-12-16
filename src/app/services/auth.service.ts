@@ -1314,6 +1314,31 @@ export class AuthService {
         );
     });
   }
+  responderMensajeP(respID, id, data) {
+    data = { ...data, buzon_remitente_id: id.ID }
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .post(`${environment.apiUrl}/admin-etapa/buzon/${respID}/responder-privado`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+
   enviarMensajeAdjunto(id, data) {
     this.loading = true;
     const headers = new HttpHeaders({
@@ -1724,7 +1749,7 @@ export class AuthService {
   showAlert(
     message: string,
     tipo: any,
-    confirmBtnText: string = "Intentar nuevamente"
+    confirmBtnText: string = "Continuar"
   ) {
     Swal.fire({
       title: "",

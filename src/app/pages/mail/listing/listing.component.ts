@@ -32,6 +32,7 @@ export class ListingComponent implements OnInit {
   loading = false
   selectedFiles: FileList;
   myFiles: string[] = [];
+  loadingEnviar: boolean = false
   constructor(public modal: NgbModal, public ms: MailGlobalVariable, public mailService: MailService, public router: Router, private auth: AuthService) {
     if (this.ms.type === null || this.ms.type === '' || this.ms.type === undefined) {
       this.router.navigate(['home/mail/inbox']);
@@ -40,6 +41,7 @@ export class ListingComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.mailboxesChanged("Recibidos")
     this.ms.collectionSize = this.recibidos.length;
 
@@ -157,6 +159,7 @@ export class ListingComponent implements OnInit {
     this.correo.adjuntos = temp2
   }
   async enviarCorreo(form = null) {
+    this.loadingEnviar = true
 
     const formData: FormData = new FormData();
     if (this.selectedFiles) {
@@ -189,12 +192,15 @@ export class ListingComponent implements OnInit {
       }
 
     }
+    this.loadingEnviar = false
 
     this.id_casa = 0
     this.manzana = 0
-    this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
-    this.mailboxesChanged("Recibidos")
     this.modal.dismissAll()
+    this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
+    this.myFiles = []
+    this.selectedFiles = new FileList
+    this.mailboxesChanged("Recibidos")
   }
   descartar() {
     this.id_casa = 0
@@ -216,21 +222,22 @@ export class ListingComponent implements OnInit {
     });
   }
   async mailSelected(mail) {
-
-    this.ms.selectedMail = mail;
     if (!mail.leido) {
       this.ms.inboxCount--
     }
-    this.ms.selectedMail.seen = true;
     mail.leido = true
     mail.seen = true;
     this.ms.addClass = true;
     this.global();
     const response = await this.auth.getMensajePorId(mail.ID)
     if (response[0]) {
-      this.ms.selectedMail.respuestas = response[1].mensajes
-      this.ms.selectedMail.archivos = response[1].archivos
-      console.log(this.ms.selectedMail.archivos)
+      this.ms.selectedMail = response[1];
+      this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
+      this.ms.selectedMail.seen = true;
+      this.ms.selectedMail.destinatarios = mail.destinatarios;
+
+      this.ms.selectedMailId = mail.ID
+
     } else {
       this.ms.selectedMail.respuestas = []
 

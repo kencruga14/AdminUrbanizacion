@@ -21,21 +21,38 @@
             <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
             <div>
                 <div class="row">
-                    <div class="col-md-6 text-left" *ngIf="!ms.selectedMail.is_admin">
+                    <div class="  col-md-9 text-left" *ngIf="!ms.selectedMail.is_admin">
                         <h5 class="mb-0">{{ms.selectedMail.publicador.nombres}} {{ms.selectedMail.publicador.apellido}}
                         </h5>
+                        <p *ngIf="ms.selectedMail.casa" class="  mb-0 label label-success pt-1"
+                            style="font-size: 14px; background-color: #f1f9fc; color: #7875ea;">
+                            Mz {{ms.selectedMail.casa?.manzana}}
+                            Villa {{ms.selectedMail.casa?.villa}}</p>
                     </div>
-                    <div class="col-md-6 text-left" *ngIf="ms.selectedMail.is_admin">
-                        <h5 class="mb-0">De: Administración
-                        </h5>
+                    <div class="col-md-9" *ngIf="ms.selectedMail.is_admin">
+                        <div class=" align-items-center  text-left">
+                            <h5 class="mb-0 mr-1">Para:
+
+                                <span *ngIf="ms.selectedMail.publico" class="label label-light-info mr-2">
+                                    Todos
+                                </span>
+                                <span *ngFor="let destinatario of ms.selectedMail.destinatarios; let i =index">
+                                    <span class="label label-light-info mr-2 mb-2">
+                                        Mz {{destinatario.casa.manzana}} V{{destinatario.casa.villa}}
+                                    </span>
+
+                                </span>
+                            </h5>
+                        </div>
                     </div>
-                    <div class="col-md-6 text-right">
-                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'M-d-yyyy, h:mm a'}}</span>
+
+                    <div class="col-md-3 text-right">
+                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'d-M-yyyy, h:mm a'}}</span>
 
                     </div>
                 </div>
 
-                <span class="text-muted ml-1">{{ms.selectedMail.titulo}}</span>
+                <span class="text-muted ml-1 mt-2">{{ms.selectedMail.titulo}}</span>
             </div>
 
         </div>
@@ -53,8 +70,8 @@
         </div>
         <div class="row">
             <div class="col-12 text-right">
-                <button *ngIf="!ms.selectedMail.is_admin" (click)="openModal(content,ms.selectedMail)" type="button"
-                    class="btn btn-outline-info btn-sm">
+                <button *ngIf="!ms.selectedMail.is_admin" (click)="openModal(content,ms.selectedMail,true)"
+                    type="button" class="btn btn-outline-info btn-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
                         <path
@@ -69,7 +86,7 @@
 
     <div style="background-color: #f1f1f1; border-color: #f1f1f1; height: 20px;"></div>
     <div style="height: 500px; overflow-y:scroll; padding-left: 20px;">
-        <div *ngIf='ms.selectedMail.respuestas.length==0' class="h-100 d-none d-lg-block">
+        <div *ngIf='ms.selectedMail.mensajes.length==0' class="h-100 d-none d-lg-block">
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
                     <i class="far fa-envelope display-5"></i>
@@ -79,22 +96,29 @@
 
         </div>
 
-        <div *ngFor="let mensaje of ms.selectedMail.respuestas">
+        <div *ngFor="let mensaje of ms.selectedMail.mensajes">
             <div class="p-3">
                 <div class="mb-1 ">
                     <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
                     <div>
                         <div class="row">
-                            <div class="col-md-6 text-left" *ngIf="!mensaje.is_admin">
+                            <div class="  col-md-6 text-left" *ngIf="!mensaje.is_admin">
                                 <h5 class="mb-0">{{mensaje.publicador.nombres}} {{mensaje.publicador.apellido}}
+                                    <span *ngIf="!mensaje.leido" class="label label-themecolor mr-2"
+                                        style="cursor: none;font-size: 12px; background-color: #7875ea;">Nuevo</span>
                                 </h5>
+
+                                <p *ngIf="mensaje.casa" class=" mb-0 label label-success pt-1"
+                                    style="font-size: 14px; background-color: #f1f9fc; color: #7875ea;">
+                                    Mz {{mensaje.casa?.manzana}}
+                                    Villa {{mensaje.casa?.villa}}</p>
                             </div>
                             <div class="col-md-6 text-left" *ngIf="mensaje.is_admin">
                                 <h5 class="mb-0">De: Administración
                                 </h5>
                             </div>
                             <div class="col-md-6 text-right">
-                                <span class="text-muted">{{mensaje.CreatedAt| date:'M-d-yyyy, h:mm a'}}</span>
+                                <span class="text-muted">{{mensaje.CreatedAt| date:'d-M-yyyy, h:mm a'}}</span>
 
                             </div>
                         </div>
@@ -103,9 +127,13 @@
                     </div>
 
                 </div>
-                <div class="mb-4">
+                <div class="mb-4" *ngIf='mensaje.leido'>
                     {{mensaje.descripcion}}
                 </div>
+                <div class="mb-4" class="font-medium" *ngIf='!mensaje.leido'>
+                    {{mensaje.descripcion}}
+                </div>
+
                 <div class="row ">
                     <div class=" p-0 col-md-1 text-center" *ngFor="let archivo of mensaje.archivos; let i=index">
                         <a (click)="goToLink(archivo.url)">
@@ -117,7 +145,29 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-right">
-                        <button *ngIf="!mensaje.is_admin" (click)="openModal(content,mensaje)" type="button"
+                        <button
+                            *ngIf="!mensaje.is_admin  && (ms.selectedMail.destinatarios?.length>1 ||ms.selectedMail.publico ) "
+                            (click)="openModal(content,mensaje,false )" type="button"
+                            class="btn btn-outline-info btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                            </svg>Responder en privado
+                        </button>
+
+                        <button
+                            *ngIf="!mensaje.is_admin && (ms.selectedMail.destinatarios?.length>1 ||ms.selectedMail.publico )"
+                            (click)="openModal(content,ms.selectedMail,true)" type="button"
+                            class="btn btn-outline-info btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                            </svg>Responder a todos
+                        </button>
+                        <button *ngIf="!mensaje.is_admin  && (ms.selectedMail.destinatarios?.length==1) "
+                            (click)="openModal(content,ms.selectedMail,true)" type="button"
                             class="btn btn-outline-info btn-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
@@ -125,6 +175,15 @@
                                     d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
                             </svg>Responder
                         </button>
+
+                        <!-- <button *ngIf="!mensaje.is_admin" (click)="openModal(content,mensaje)" type="button"
+                            class="btn btn-outline-info btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+                            </svg>Responder
+                        </button> -->
                     </div>
 
                     <!-- <button (click)="preview()" type="button" class="btn btn-outline-info btn-sm">
@@ -160,7 +219,8 @@
 
             <div class="form-group">
                 <label for="subject">Asunto</label>
-                <input type="text" class="form-control" id="subject" name="subject" [(ngModel)]="mensaje.titulo">
+                <input type="text" class="form-control" id="subject" name="subject" [(ngModel)]="mensaje.titulo"
+                    disabled>
             </div>
 
             <div class="form-group">
@@ -196,7 +256,8 @@
                         <button (click)="descartar()" type="button" class="btn btn-danger ml-3"><i
                                 class="fas fa-trash mr-1"></i>Descartar</button>
 
-                        <button type="button" class="btn btn-secondary ml-3"
+                        <button [disabled]="!mensaje.descripcion" type="button" class="btn ml-3"
+                            style="background-color:#7875ea ; color: white;"
                             (click)="enviarRespuesta(form)">Enviar</button>
                     </div>
                 </div>

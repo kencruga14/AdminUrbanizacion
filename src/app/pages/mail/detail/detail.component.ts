@@ -15,6 +15,7 @@ export class DetailComponent implements OnInit {
   mensaje: any = { adjuntos: [] }
   selectedFiles: FileList;
   myFiles: string[] = [];
+  tipo: boolean;
   constructor(public ms: MailGlobalVariable,
     public mailService: MailService, public router: Router, public auth: AuthService,
     public modal: NgbModal) { }
@@ -43,40 +44,69 @@ export class DetailComponent implements OnInit {
     let archivos = this.mensaje.adjuntos
     console.log(archivos)
     delete this.mensaje.adjuntos
+    console.log(this.tipo)
+    if (this.tipo) {
+      this.mensaje.publico = this.ms.selectedMail.publico
+      this.mensaje.destinatarios = this.ms.selectedMail.destinatarios
+      const response = await this.auth.responderMensaje(this.ms.selectedMail.ID, this.mensaje)
+      if (response[0]) {
+        if (archivos.length == 0) {
 
-    const response = await this.auth.responderMensaje(this.mensaje.destinatario, this.mensaje)
-    if (response[0]) {
-      if (archivos.length == 0) {
-
-        this.auth.showAlert("Correo enviado", "success");
-        const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
-        this.ms.selectedMail.respuestas = response2[1].mensajes
-      }
-      if (archivos.length > 0) {
-        const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
-        if (adjuntos) {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
-          this.ms.selectedMail.respuestas = response2[1].mensajes
-        } else {
-          this.auth.showAlert("Error al enviar correo.", "error");
-
+          this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
         }
-      }
+        if (archivos.length > 0) {
+          const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
+          if (adjuntos) {
+            this.auth.showAlert("Correo enviado", "success");
+            const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
+            this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+          } else {
+            this.auth.showAlert("Error al enviar correo.", "error");
 
+          }
+        }
+
+      }
+    } else {
+      const response = await this.auth.responderMensajeP(this.mensaje.destinatario, this.ms.selectedMail, this.mensaje)
+      if (response[0]) {
+        if (archivos.length == 0) {
+
+          this.auth.showAlert("Correo enviado", "success");
+          const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
+          this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+        }
+        if (archivos.length > 0) {
+          const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
+          if (adjuntos) {
+            this.auth.showAlert("Correo enviado", "success");
+            const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
+            this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+          } else {
+            this.auth.showAlert("Error al enviar correo.", "error");
+
+          }
+        }
+
+      }
     }
 
 
+    this.modal.dismissAll()
     this.mensaje = { adjuntos: [] }
     this.myFiles = []
-    this.modal.dismissAll()
+    this.selectedFiles = new FileList
 
   }
   descartar() {
+    this.myFiles = []
     this.mensaje = { adjuntos: [] }
     this.myFiles = []
   }
-  openModal(content: string, mensaje) {
+  openModal(content: string, mensaje, tipo) {
+    this.tipo = tipo
     this.mensaje.destinatario = mensaje.ID
     this.mensaje.titulo = mensaje.titulo
     console.log(this.mensaje.adjuntos)

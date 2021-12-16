@@ -14,7 +14,7 @@ export class MailGlobalVariable {
     public mailList: any = [];
     public selectedMail: any;
     public selectedUser: User | null = null;
-
+    public selectedMailId: number = 0
     public users: User[] = [];
     public inboxList: Mailbox[] = [];
     public sentList: Mailbox[] = [];
