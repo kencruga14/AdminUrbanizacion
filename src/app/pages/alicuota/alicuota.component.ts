@@ -34,7 +34,18 @@ export class AlicuotaComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
+  totalPE =0 ;
+  totalVE= 0 ;
   saldototal: any;
+  saldoTotalVencido : any;
+  saldototalExtraordinario: any;
+  saldoTotalVencidoExtraordinario : any;
+  body2 :any;
+  valorVencidas = 0;
+  valorPagadas = 0 ;
+  valorTotal = 0;
+  bandera = false;
+  listaVencidas=[]
   filtromanzana: number;
   years = [];
   pipe: any;
@@ -47,7 +58,7 @@ export class AlicuotaComponent implements OnInit {
   id_manzana: number;
   submitted = false;
   manzanas: any;
-  fechaArray: [];
+  fechaArray: any = [];
   id_villa: number;
   casasselector: any;
   manzanaselector: any;
@@ -130,6 +141,8 @@ export class AlicuotaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.bandera=false;
+    this.valorTotal = 0;
     this.getCasa();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
@@ -167,6 +180,8 @@ export class AlicuotaComponent implements OnInit {
       .fromPairs()
       .value();
 
+
+
   clasificarAlicuotas(alicuotas) {
     const comunes = _.filter(alicuotas, { tipo: "COMUN" });
     const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
@@ -174,41 +189,82 @@ export class AlicuotaComponent implements OnInit {
       _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
     );
 
-    const saldos = this.chainGroup(
+    console.log("extraoridinarias:",extraordinaria)
+
+      this.totalPE=0;
+      this.totalVE=0;
+        extraordinaria.forEach((item) => {
+        if(item.estado=== 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
+        if(item.estado=== 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
+      });
+      console.log(this.totalPE)
+      console.log(this.totalVE)
+
+    const saldosPagado = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
       (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
       (ali) => {
-        ali[1] = _.sumBy(ali[1], "valor");
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "PAGADO" ? r.valor : 0));
       }
     );
+    const saldosVencido = this.chainGroup(
+      comunes,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
+      }
+    );
+
+    // extraordinario
+    const saldosPagadoExtraordinario =_.sumBy(extraordinaria, (r) => (r.estado === "PAGADO" ? r.valor : 0));
+   
+
+
+    
+    const saldosVencidoExtraordinario = this.chainGroup(
+      extraordinaria,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
+      }
+    );
+
 
     const porFecha = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
-      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => _.maxBy(ali[1], "ID").ID,
       (ali) => {
         ali[1] = this.sortByMzVilla(ali[1]);
       }
     );
-    console.log(porFecha);
 
     // let asd= saldos;
     (this.fechaArray = _.assignIn(porFecha, {
       SALDO: saldo,
       EXTRAORDINARIA: extraordinaria,
     })),
-      saldos;
+      saldosPagado,
+      saldosVencido,
+      saldosPagadoExtraordinario,
+      saldosVencidoExtraordinario
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
+    console.log(this.fechaArray)
     this.extraordinariaAnterior = Object.entries(as).sort();
     this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
     this.existente.shift();
     this.existente.shift();
-    console.log("fecha array: ", this.fechaArray);
-    this.saldototal = saldos;
-    console.log("saldos: ", this.saldototal);
+    this.saldototal = saldosPagado;
+    this.saldoTotalVencido = saldosVencido;
+    this.saldototalExtraordinario = saldosPagadoExtraordinario;
+    this.saldoTotalVencidoExtraordinario = saldosVencidoExtraordinario;
+    console.log("saldo total vencido",this.saldoTotalVencido )
+    console.log("saldo total vencido ex",this.saldoTotalVencidoExtraordinario )
   }
 
   addGroup() {
@@ -234,8 +290,8 @@ export class AlicuotaComponent implements OnInit {
   getVillas(value) {
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // console.log("manzana seleccionada: ", value);
-      // console.log("getCasasByManzana: ", resp);
+      console.log("manzana seleccionada: ", value);
+      console.log("getCasasByManzana: ", resp);
       this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
         this.alicuotas = resp;
         console.log("alicuotas x manzana: ", this.alicuotas);
@@ -264,11 +320,39 @@ export class AlicuotaComponent implements OnInit {
       .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
       .subscribe((resp: any) => {
         this.alicuotas = resp;
+        this.listaVencidas =resp;
+        this.bandera=false
+        if(this.listaVencidas[0].estado === 'VENCIDO') this.bandera=true
+        this.calcularVencidos();  
         console.log("alicuotas x estado: ", this.alicuotas);
         console.log("alicuotas x estado: ", resp.length);
-        console.log("alicuotas x estado: ", resp.size());
       });
+    
+
+
   }
+
+
+  calcularVencidos(){
+    this.valorTotal = 0;
+    console.log("a recorrer: ", this.listaVencidas);
+    this.listaVencidas.forEach((item) => {
+      this.valorTotal = this.valorTotal + parseFloat(item.valor);
+    });
+
+  }
+
+  // calcularExtraordinaria(){
+  //   this.totalPE=0;
+  //   this.totalVE=0;
+  //   this.listaVencidas.forEach((item) => {
+  //     if(item.estado=== 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
+  //     if(item.estado=== 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
+  //   });
+
+  // }
+
+
 
   filtrarVilla(value) {
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
@@ -406,7 +490,7 @@ export class AlicuotaComponent implements OnInit {
       this.casas = resp;
       this.manzanas = resp;
       this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
-      console.log("numeros de casas: ", this.casas.length);
+      console.log("manzanas selecor: ", this.manzanaselector);
     });
   }
 
@@ -435,7 +519,9 @@ export class AlicuotaComponent implements OnInit {
       this.id_alicuota = null;
       this.tipoalicuota = "";
     }
+    this.resetCampos();
     this.modalService.open(content);
+    
   }
 
   openModalAlicuota(content, alicuota = null) {
@@ -450,10 +536,11 @@ export class AlicuotaComponent implements OnInit {
       this.tipoalicuota = alicuota.estado;
     }
     this.modalService.open(content);
+
   }
 
   getAlicuota() {
-    console.log("get alicuota");
+
     this.auth.getAlicuota().subscribe((resp: any) => {
       this.alicuotas = resp;
       this.clasificarAlicuotas(resp);
@@ -464,10 +551,9 @@ export class AlicuotaComponent implements OnInit {
   async gestionAlicuota() {
     let response: any;
     if (this.alicuota.edit) {
-      console.log("entro editar");
+
     } else {
-      console.log("entro crear");
-      console.log("body crear alicuota: ", this.alicuotaM);
+
     }
   }
 
@@ -522,6 +608,31 @@ export class AlicuotaComponent implements OnInit {
     this.casasselector = [];
   }
 
+  resetCampos(){
+    this.submitted = false;
+    this.alicuotaForm.reset();
+    this.id_manzana = null;
+    this.valor = null;
+    this.id_villa = null;
+    // this.manzanaselector = [];
+    this.modalService.dismissAll();
+    this.year_seleccionado = null;
+    this.mes_seleccionado = null;
+    this.seleccionRegistro = null;
+    // this.alicuotaM = [];
+    this.tipoalicuota = null;
+    this.id_casa = null;
+    this.id_manzana = null;
+    this.filtromanzana = null;
+    this.tipoAlicuotaComun = null;
+    this.tipoAlicuotaExtraordinaria = null;
+    this.tipoalicuota = null;
+    this.pipe = null;
+    // this.casasselector = [];
+  }
+
+
+
   restablecerFiltroBusqueda() {
     this.filtromanzana = null;
     this.filtroEstado = null;
@@ -544,10 +655,29 @@ export class AlicuotaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.pagar();
+        this.bandera=false;
       } else {
       }
     });
   }
+
+  UpdatePagoTodo() {
+    Swal.fire({
+      title: "¿Está seguro de realizar esta acción?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#343A40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.value) {
+        this.pagarTodo();
+      } else {
+      }
+    });
+  }
+
 
   async pagar() {
     let id = this.id_alicuota;
@@ -568,6 +698,31 @@ export class AlicuotaComponent implements OnInit {
       this.filtroEstado = null;
     }
   }
+
+  async pagarTodo() {
+    let response: any;
+    const body = this.listaVencidas
+    let arregloAlicuotas = []
+    body.forEach((item) => {
+      console.log(item)
+      this.body2={...this.body2,id:item.ID,estado:"PAGADO"}
+      arregloAlicuotas.push(this.body2)
+    });
+    response = await this.auth.editTodasAlicuota(arregloAlicuotas);
+    if (response) {
+      this.resetsForm();
+      this.removeGroup(this.nregistros);
+      // this.gestionAlicuota();
+      this.getCasa();
+      this.getAlicuota();
+      this.filtromanzana = null;
+      this.filtrovilla = null;
+      this.filtroEstado = null;
+      this.bandera=false;
+    }
+  }
+
+  
   resetReportes() {
     this.tipoReporte = null;
     this.modalService.dismissAll();

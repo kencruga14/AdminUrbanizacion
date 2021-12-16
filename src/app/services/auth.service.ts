@@ -686,6 +686,33 @@ export class AuthService {
     });
   }
 
+
+  
+  editTodasAlicuota( data: any) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .put(`${environment.apiUrl}/admin-etapa/alicuotas/bulk`, data, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+
   deleteAlicuota(id: number) {
     this.loading = true;
     const headers = new HttpHeaders({
