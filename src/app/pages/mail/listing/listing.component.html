@@ -45,30 +45,51 @@
                     <div class="position-relative" style="height:100%;">
 
 
-                        <div class="position-relative" style="height: calc(100vh - 100px); overflow-y: scroll;">
+                        <div class="position-relative" style="height: calc(100vh - 150px); overflow-y: scroll;">
                             <div *ngIf="!loading">
-                                <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)">
+                                <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)"
+                                    [ngStyle]="{'background-color':ms.selectedMailId==mail.ID? '#f2f4f8' : 'white' }">
                                     <div class="p-3 border-bottom">
                                         <div class="row">
                                             <div class="col-10">
                                                 <div class="d-flex align-items-start">
 
-                                                    <div class="ml-3">
-                                                        <div class="d-flex align-items-center" *ngIf="mail.is_admin">
-                                                            <h5 class="mb-0">De: Administración</h5>
+                                                    <div class="ml-1">
+                                                        <div class=" d-flex align-items-center" *ngIf="mail.is_admin">
+                                                            <h5 class="mb-0 mr-1">Para:</h5>
+                                                            <span *ngIf="mail.publico"
+                                                                class="label label-light-info mr-2">
+                                                                Todos
+                                                            </span>
+                                                            <span
+                                                                *ngFor="let destinatario of mail.destinatarios; let i =index">
+                                                                <span *ngIf="i<3" class="label label-light-info mr-2">
+                                                                    Mz {{destinatario.casa.manzana}} V
+                                                                    {{destinatario.casa.villa}}
+                                                                </span>
 
+                                                            </span>
+                                                            <span *ngIf="mail.destinatarios.length>3">...</span>
                                                         </div>
                                                         <div class="d-flex align-items-center" *ngIf="!mail.is_admin">
-                                                            <h5 class="mb-0">{{mail.publicador.nombres}}</h5>
+                                                            <h5 class="mb-0"> Mz {{mail.casa?.manzana}}
+                                                                Villa {{mail.casa?.villa}} </h5>
 
                                                         </div>
 
-                                                        <p class="text-muted"> {{mail.titulo | slice:0:25}}.. </p>
+                                                        <p class="text-muted mt-2"> {{mail.publicador.nombres}}
+                                                            {{mail.publicador.apellido}} </p>
                                                     </div>
 
                                                 </div>
-
-                                                <p class="mb-0">
+                                                <!-- 
+                                                <p class="mb-0" style="margin-left: 16px;" *ngIf="mail.titulo!=''">
+                                                    <span class="font-medium" *ngIf='!mail.leido'>
+                                                        {{mail.titulo | slice:0:40}}.. </span>
+                                                    <span *ngIf='mail.leido'> {{mail.titulo | slice:0:40}}..
+                                                    </span>
+                                                </p> -->
+                                                <p class="mb-0" style="margin-left: 16px;">
                                                     <span class="font-medium" *ngIf='!mail.leido'>
                                                         {{mail.descripcion | slice:0:40}}.. </span>
                                                     <span *ngIf='mail.leido'> {{mail.descripcion | slice:0:40}}..
@@ -78,12 +99,12 @@
                                             <div class="col-2">
                                                 <div class="row justify-content-end align-items-end"
                                                     style="height: 100%;">
-                                                    <button *ngIf='!mail.leido' class="btn btn-sm btn-dark mr-2 mb-4"
-                                                        style="cursor: none;">Nuevo</button>
+                                                    <span *ngIf='!mail.leido' class="label label-themecolor mr-2 mb-5"
+                                                        style="cursor: none;font-size: 12px; background-color: #7875ea;">Nuevo</span>
                                                     <div class="col-12">
                                                         <div class="text-right">
                                                             <span
-                                                                class="text-muted d-block">{{(mail.CreatedAt.split('T')[0]
+                                                                class="text-muted d-block">{{(mail.ultimo_mensaje.CreatedAt.split('T')[0]
                                                                 |
                                                                 date:'dd MMMM')| slice:0:6}}.</span>
                                                         </div>
@@ -159,7 +180,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="!correo.publico">
+        <div *ngIf="!correo.publico" style="max-height: 270px; overflow-y: scroll;overflow-x: hidden !important;">
             <div class="row" *ngFor="let destinatario of correo.destinatarios">
                 <div class="col-md-3">
                     <div class="form-group">
@@ -237,11 +258,11 @@
                     <button (click)="descartar()" type="button" class="btn btn-danger ml-3"><i
                             class="fas fa-trash mr-1"></i>Descartar</button>
 
-                    <button *ngIf="correo.publico" [disabled]="!correo.titulo || !correo.descripcion "
+                    <button *ngIf="correo.publico" [disabled]="!correo.titulo || !correo.descripcion || loadingEnviar "
                         class="btn btn-secondary ml-3" style="background-color:#7875ea ; color: white;"
                         type="submit">Enviar</button>
                     <button *ngIf="!correo.publico"
-                        [disabled]="!correo.titulo || !correo.descripcion || correo.destinatarios[0]['id_casa']==0"
+                        [disabled]="!correo.titulo || !correo.descripcion || correo.destinatarios[0]['id_casa']==0 || loadingEnviar"
                         class="btn btn-secondary ml-3" style="background-color:#7875ea ; color: white;"
                         type="submit">Enviar</button>
                 </div>
