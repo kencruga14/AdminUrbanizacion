@@ -69,7 +69,7 @@ export class ListingComponent implements OnInit {
   mobileSidebar() {
     this.showSidebar = !this.showSidebar;
   }
-  openModal(content: string) {
+  openModal(content) {
     console.log(this.correo.adjuntos)
 
     this.modal.open(content, { size: 'lg' });

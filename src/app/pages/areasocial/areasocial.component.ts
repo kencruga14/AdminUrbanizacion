@@ -12,25 +12,25 @@ import { id } from "@swimlane/ngx-charts";
   styleUrls: ["./areasocial.component.css"],
 })
 export class AreasocialComponent implements OnInit {
-  separatedArray = ['a','b'];
+  separatedArray = ['a', 'b'];
   areas: any;
   aforo: any = 0;
-  tipoAforo:any;
-  imagenAlt:any;
+  tipoAforo: any;
+  imagenAlt: any;
   tipoArea: any;
   banderaAforo: boolean = false;
   banderaReserva: boolean = false;
   normas: any;
-  fechaRecaudacionInicio : any;
-  fechaRecaudacionFin : any;
+  fechaRecaudacionInicio: any;
+  fechaRecaudacionFin: any;
   reservasRecaudaciones: any = [];
   valorTotal: any = 0;
-  idA:any;
-  idTemporal:any;
-  item : any = {}
-  reservas : any;
+  idA: any;
+  idTemporal: any;
+  item: any = {}
+  reservas: any;
   is_publica: any;
-  estado:any;
+  estado: any;
   horarios: any;
   informacionArea: any;
   id_area: 0;
@@ -118,7 +118,7 @@ export class AreasocialComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAreaSocial();
@@ -153,10 +153,10 @@ export class AreasocialComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
-      this.imagenPerfil=reader.result;
-     
+      this.imagenPerfil = reader.result;
+
     };
-    
+
     this.changeFoto = true;
   }
 
@@ -171,7 +171,7 @@ export class AreasocialComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
-    
+
       // this.imagenAlt = reader.result;
     };
     this.changeFoto = true;
@@ -188,25 +188,25 @@ export class AreasocialComponent implements OnInit {
     // this.modalService.open(content);
   }
 
-  openArea(content, area ) {
- 
+  openArea(content, area = null) {
+
     if (area) {
       // this.id_area = area.ID;
       this.id = area.ID;
-      this.imagenEdit=area.imagen;
+      this.imagenEdit = area.imagen;
       this.imagen = area.imagen;
       this.nombre = area.nombre;
-      this.tipoAforo= area.tipoAforo;
+      this.tipoAforo = area.tipoAforo;
       this.aforo = area.aforo;
       this.normas = area.normas;
       this.tipoArea = area.tipoArea;
-      this.tiempo_reservacion_minutos= area.tiempo_reservacion_minutos;
-      if(this.tiempo_reservacion_minutos == 0){
-        this.tiempo_reservacion_minutos=""
+      this.tiempo_reservacion_minutos = area.tiempo_reservacion_minutos;
+      if (this.tiempo_reservacion_minutos == 0) {
+        this.tiempo_reservacion_minutos = ""
       }
-      this.seleccionCosto=area.seleccionCosto
+      this.seleccionCosto = area.seleccionCosto
       this.precio = area.precio;
-      this.estado=area.estado
+      this.estado = area.estado
       // if(area.precio>0){
       //   this.seleccionCosto="PAGADO"
       // }else{
@@ -215,19 +215,19 @@ export class AreasocialComponent implements OnInit {
       this.area = area;
       this.area.edit = true;
     } else {
-      this.imagen="";
-      this.imagenEdit="";
-      this.imagenPerfil=""
+      this.imagen = "";
+      this.imagenEdit = "";
+      this.imagenPerfil = ""
       this.nombre = "";
-      this.tipoAforo ="";
-      this.aforo ="";
-      this.normas="";
-      this.tipoArea ="";
-      this.tiempo_reservacion_minutos ="";
-      this.seleccionCosto="";
+      this.tipoAforo = "";
+      this.aforo = "";
+      this.normas = "";
+      this.tipoArea = "";
+      this.tiempo_reservacion_minutos = "";
+      this.seleccionCosto = "";
       this.precio = "";
-      this.estado ="";
-      this.area.edit=false
+      this.estado = "";
+      this.area.edit = false
     }
     this.modalService.open(content);
   }
@@ -236,45 +236,45 @@ export class AreasocialComponent implements OnInit {
     this.auth.getAreaSocial().subscribe((resp: any) => {
       this.areas = resp;
     });
-  
+
   }
 
 
-  getReservasAreaSocial(id:string) {
+  getReservasAreaSocial(id: string) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.reservas = resp.reservaciones;
     });
   }
 
-  getInfoAreaSocial(id:string , content: any) {
+  getInfoAreaSocial(id: string, content: any) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.informacionArea = resp;
-      this.separatedArray =[]
+      this.separatedArray = []
       this.separatedArray = this.informacionArea.normas.split(',')
-      if(resp){
+      if (resp) {
         this.modalService.open(content, { size: "xl" });
       }
     });
-  
-    
-  
+
+
+
   }
 
 
 
 
-  getRecaudacionesAreaSocial(id:string , fecha1:string , fecha2: string) {
-    this.auth.getRecaudacionesAreaSocialxId(id,fecha1,fecha2).subscribe((resp: any) => {
+  getRecaudacionesAreaSocial(id: string, fecha1: string, fecha2: string) {
+    this.auth.getRecaudacionesAreaSocialxId(id, fecha1, fecha2).subscribe((resp: any) => {
       this.reservasRecaudaciones = resp.reservaciones;
-      if(resp){
+      if (resp) {
         this.calcularRecaudaciiones();
       }
     });
-   
+
 
   }
 
-  getHorarios(id:string) {
+  getHorarios(id: string) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.horarios = resp.horarios;
       console.log(this.horarios)
@@ -304,23 +304,23 @@ export class AreasocialComponent implements OnInit {
         imagen: this.imagen,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
-        aforo:parseInt(this.aforo),
+        aforo: parseInt(this.aforo),
         normas: this.normas,
         tipoArea: this.tipoArea,
         tiempo_reservacion_minutos: parseInt(this.tiempo_reservacion_minutos),
         seleccionCosto: this.seleccionCosto,
         precio: parseInt(this.precio),
       };
-      if(!body.imagen){
+      if (!body.imagen) {
         Swal.fire({
           title: "Por favor ingrese una imagen",
           confirmButtonColor: "#343A40",
           confirmButtonText: "OK",
         })
-      }else{
+      } else {
         response = await this.auth.createAreaSocial(body);
       }
-    
+
     }
     if (response) {
       this.modalService.dismissAll();
@@ -369,56 +369,56 @@ export class AreasocialComponent implements OnInit {
   }
 
 
-  openReservas(content, item ) {
+  openReservas(content, item) {
     this.getReservasAreaSocial(item.ID)
     this.modalService.open(content, { size: "lg" });
   }
 
 
-  openInfo(content, item ) {
+  openInfo(content, item) {
     this.getInfoAreaSocial(item.ID, content)
-    
+
   }
 
 
-  openRecaudaciones(content, item ) {
+  openRecaudaciones(content, item) {
     console.log(item)
-    if(item.precio==0){
+    if (item.precio == 0) {
       Swal.fire({
         title: "<h2>Esta area fue creada para que su ingreso sea gratuito. No genera recaudaciones</h2>",
         confirmButtonColor: "#343A40",
         confirmButtonText: "OK",
       })
-    }else{
-      this.idTemporal= item.ID;
-      this.fechaRecaudacionInicio=""
-      this.fechaRecaudacionFin=""
-      this.reservasRecaudaciones=[]
-      this.valorTotal=0
+    } else {
+      this.idTemporal = item.ID;
+      this.fechaRecaudacionInicio = ""
+      this.fechaRecaudacionFin = ""
+      this.reservasRecaudaciones = []
+      this.valorTotal = 0
       this.modalService.open(content, { size: "lg" });
     }
-   
+
   }
 
-  calcularRecaudaciiones(){
+  calcularRecaudaciiones() {
     this.valorTotal = 0;
     this.reservasRecaudaciones.forEach((item) => {
       this.valorTotal = this.valorTotal + parseFloat(item.valor_cancelado);
     });
   }
 
-  openHorarios(content, item ) {
+  openHorarios(content, item) {
     this.getHorarios(item.ID)
-    this.idTemporal=item.ID
+    this.idTemporal = item.ID
     this.modalService.open(content, { size: "lg" });
   }
 
- 
-  
 
-  
-  gestionRecaudaciones(fecha2: string ){
-   this.getRecaudacionesAreaSocial(this.idTemporal,this.fechaRecaudacionInicio,this.fechaRecaudacionFin)
+
+
+
+  gestionRecaudaciones(fecha2: string) {
+    this.getRecaudacionesAreaSocial(this.idTemporal, this.fechaRecaudacionInicio, this.fechaRecaudacionFin)
   }
 
 
@@ -446,20 +446,20 @@ export class AreasocialComponent implements OnInit {
     }
   }
 
-  open(content, item ) {
+  open(content, item) {
     if (item) {
-      this.item=item;
-      this.item={...this.item,edit:true}
-    }else{
-      this.item={};
-      this.item={...this.item,id_area:this.idTemporal}
-      this.item={...this.item,edit:false}
-    
+      this.item = item;
+      this.item = { ...this.item, edit: true }
+    } else {
+      this.item = {};
+      this.item = { ...this.item, id_area: this.idTemporal }
+      this.item = { ...this.item, edit: false }
+
     }
     this.modalService.open(content, { size: "xl" });
   }
 
- async eliminarHorario(id: any) {
+  async eliminarHorario(id: any) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este item ?",
       text: "Esta acción no se puede revertir ",

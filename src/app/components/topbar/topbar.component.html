@@ -50,21 +50,22 @@
                 <!-- ============================================================== -->
                 <!-- Language -->
                 <!-- ============================================================== -->
-                
+
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
                 <div *ngFor="let m of masters">
-                   <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 60%;" [src]="m.imagen" alt="user">
-                    <strong style="color: white;">{{m.nombres }} {{m.apellido+"  "}}</strong>
+                    <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 60%;" [src]="m.imagen"
+                        alt="user">
+                    <strong style="color: white;">{{m.nombres }} {{m.apellido+" "}}</strong>
                     <!-- <a  href="" class="btn btn-secondary ml-3" (click)="openLogOut(contentLogOut)">Salir</a> -->
-                    <button  href="" class="btn btn-secondary ml-3" (click)="logout()" >Salir </button>
-                     
+                    <button href="" class="btn btn-secondary ml-3" (click)="logout()">Salir </button>
+
                     <!-- <i class="fa fa-sign-out" aria-hidden="true"></i> -->
-                 
+
                     <!-- <i  style="font-size: larger;" class="fa fa-sign-out" aria-hidden="true"></i> -->
                 </div>
-     
+
 
                 <!--<div class="dropdown-menu dropdown-menu-right scale-up">
                         <ul class="dropdown-user">
@@ -90,30 +91,30 @@
 
 <ng-template #contentLogOut let-modal>
     <div class="modal-header">
-        <h4  class="modal-title" id="modal-basic-title"> AVISO </h4>
+        <h4 class="modal-title" id="modal-basic-title"> AVISO </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-        <div class="modal-body"> 
-            <div class="card">
-                <div class="card-body">
-                  <div class="row mt-0">
+    <div class="modal-body">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mt-0">
                     <div class="col-6">
-                      <button type="button" class="btn btn-red btn-uppercase ml-1"  >
-                        Cerrar Sesion
-                      </button>
+                        <button type="button" class="btn btn-red btn-uppercase ml-1">
+                            Cerrar Sesion
+                        </button>
                     </div>
                     <div class="col-6">
-                      <button type="button" class="btn btn-info btn-uppercase ml-1" (click)="cancelar(modal, null)" >
-                        Cancelar
-                      </button>
+                        <button type="button" class="btn btn-info btn-uppercase ml-1" (click)="cancelar()">
+                            Cancelar
+                        </button>
                     </div>
-                  </div>
                 </div>
-              </div>
+            </div>
         </div>
-        <div class="modal-footer">
-            
-        </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
 </ng-template>
