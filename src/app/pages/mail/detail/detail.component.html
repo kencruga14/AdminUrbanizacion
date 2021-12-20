@@ -68,7 +68,7 @@
                 </a>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12 text-right">
                 <button *ngIf="!ms.selectedMail.is_admin" (click)="openModal(content,ms.selectedMail,true)"
                     type="button" class="btn btn-outline-info btn-sm">
@@ -81,11 +81,11 @@
             </div>
 
 
-        </div>
+        </div> -->
     </div>
 
-    <div style="background-color: #f1f1f1; border-color: #f1f1f1; height: 20px;"></div>
-    <div style="height: 500px; overflow-y:scroll; padding-left: 20px;">
+    <!-- <div style="background-color: #f1f1f1; border-color: #f1f1f1; height: 20px;"></div> -->
+    <!-- <div style="height: 500px; overflow-y:scroll; padding-left: 20px;">
         <div *ngIf='ms.selectedMail.mensajes.length==0' class="h-100 d-none d-lg-block">
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
@@ -99,7 +99,6 @@
         <div *ngFor="let mensaje of ms.selectedMail.mensajes">
             <div class="p-3">
                 <div class="mb-1 ">
-                    <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
                     <div>
                         <div class="row">
                             <div class="  col-md-6 text-left" *ngIf="!mensaje.is_admin">
@@ -176,29 +175,13 @@
                             </svg>Responder
                         </button>
 
-                        <!-- <button *ngIf="!mensaje.is_admin" (click)="openModal(content,mensaje)" type="button"
-                            class="btn btn-outline-info btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                style="margin-bottom: 4px;" class="bi bi-reply-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
-                            </svg>Responder
-                        </button> -->
                     </div>
-
-                    <!-- <button (click)="preview()" type="button" class="btn btn-outline-info btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-paperclip" viewBox="0 0 16 16">
-                            <path
-                                d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                        </svg>
-                    </button> -->
                 </div>
             </div>
             <hr>
 
         </div>
-    </div>
+    </div> -->
 </div>
 <ng-template #content let-modal>
 
