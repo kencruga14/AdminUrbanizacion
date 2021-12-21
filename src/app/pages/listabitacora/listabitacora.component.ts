@@ -64,6 +64,7 @@ export class ListabitacoraComponent implements OnInit {
     this.getBitacora();
     this.getCasa();
     this.buscadorVilla = ""
+    this.buscadorManazana = ""
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
@@ -90,7 +91,7 @@ export class ListabitacoraComponent implements OnInit {
       this.casasselector = resp;
       this.buscadorManazana = value;
       this.getvivistasfilter(value);
-      this.buscadorVilla = null;
+      this.buscadorVilla = "";
       this.buscadorFecha = null;
     });
   }

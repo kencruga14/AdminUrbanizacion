@@ -14,6 +14,7 @@
                     <label>Manzana</label>
                     <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
+                        <option selected hidden value=""> Seleccione una Manzana </option>
                         <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
@@ -28,12 +29,24 @@
                 </div>
 
                 <div class="form-group col-sm-2 my-1" *ngIf="buscadorVilla">
+                    <label> Tipo </label>
+                    <select required name="area" [(ngModel)]="filtroTipo" class="form-control custom-select">
+                        <option selected hidden value="">
+                            Seleccione Area
+                          </option>
+                         <option value="Todas">Todas</option>
+                        <option value="Ingreso"> Ingreso </option>
+                        <option value="Egreso"> Egreso </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-sm-2 my-1" *ngIf="filtroTipo">
                     <label>Fecha</label>
                     <input type="date" class="form-control" id="fecha" name="fecha" [ngModel]="buscadorFecha"
                         (change)="filterfecha($event.target.value)">
                 </div>
 
-                
+            
 
                 <div class="form-group col-sm-1 my-1">
                     <label class="transparente">dd.</label><br>

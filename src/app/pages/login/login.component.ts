@@ -50,30 +50,31 @@ export class LoginComponent implements OnInit {
   }
 
   async gestionContact() {
-    if(!this.nombre){
-      Swal.fire({
-        title: "Por favor llene todos los campos",
-        confirmButtonColor: "#343A40",
-        confirmButtonText: "OK",
-      })
-    }else{
-    let response: any;
-    const body = {
-      titulo: this.titulo,
-      nombre: this.nombre,
-      descripcion: this.descripcion,
-      correo: this.correo,
-    };
-    JSON.stringify(body);
-    response = await this.auth.createContact(body);
-    if(response){
-      this.nombre="";
-      this.titulo="";
-      this.descripcion="";
-      this.correo="";
-    }
+    if(this.nombre && this.correo && this.titulo){
+      let response: any;
+        const body = {
+          titulo: this.titulo,
+          nombre: this.nombre,
+          descripcion: this.descripcion,
+          correo: this.correo,
+        };
+        JSON.stringify(body);
+        response = await this.auth.createContact(body);
+        if(response){
+          this.nombre="";
+          this.titulo="";
+          this.descripcion="";
+          this.correo="";
+        }
+    } else{
+            Swal.fire({
+              title: "Por favor llene todos los campos",
+              confirmButtonColor: "#343A40",
+              confirmButtonText: "OK",
+            })
+    
   }
-  }
+}
 
   getDataUrb() {
     this.auth.getDataUrb().subscribe((resp: any) => {
