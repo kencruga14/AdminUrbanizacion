@@ -16,12 +16,13 @@ import * as moment from "moment";
 export class ListabitacoraComponent implements OnInit {
   bitacoras: UsuarioModelo[] = [];
   id_visita: 0;
+  filtroTipo: any;
   casas: any;
   casasselector: any;
   manzanaselector: any;
   cedula: "";
   imagenPerfil: any;
-  buscadorVilla = null;
+  buscadorVilla = "";
   buscadorManazana = null;
   id_manzana: 0;
   id_villa: 0;
@@ -62,6 +63,8 @@ export class ListabitacoraComponent implements OnInit {
   ngOnInit() {
     this.getBitacora();
     this.getCasa();
+    this.buscadorVilla = ""
+    this.buscadorManazana = ""
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
@@ -85,15 +88,10 @@ export class ListabitacoraComponent implements OnInit {
 
   getVillas(value) {
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // console.log("manzana seleccionada: ", value);
-      // console.log("getCasasByManzana: ", resp);
       this.casasselector = resp;
       this.buscadorManazana = value;
-      // this.buscadorManazana = null;
       this.getvivistasfilter(value);
-      // this.c = _.uniqBy(resp, (obj) => obj.manzana);
-      console.log("casas selector: ", this.casasselector);
-      this.buscadorVilla = null;
+      this.buscadorVilla = "";
       this.buscadorFecha = null;
     });
   }
@@ -124,6 +122,7 @@ export class ListabitacoraComponent implements OnInit {
   getFecha(value) {
     this.buscadorVilla = value;
     this.getvivistasfilterMzVilla(this.buscadorManazana, value);
+
     console.log("casa seleccionada: ", value);
   }
 

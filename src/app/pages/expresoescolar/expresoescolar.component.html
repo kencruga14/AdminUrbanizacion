@@ -31,7 +31,7 @@
                     </thead>
                     <tbody style="text-align: center;">
                         <tr *ngFor="let exp of expresos | expreso:filterName ; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
+                            <td>{{i+1}}</td>
                             <td>
                                 <figure>
                                     <img class="avatar" [src]="exp.imagen" alt="image" data-holder-rendered="true"

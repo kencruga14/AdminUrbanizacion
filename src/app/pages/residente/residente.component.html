@@ -35,7 +35,7 @@
                     </thead>
                     <tbody style="text-align: center;">
                         <tr *ngFor="let et of residentes | filter:filterName; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
+                            <td>{{i+1}}</td>
 
                             <td>
                                 <figure>
@@ -55,7 +55,9 @@
                             <td>{{et.usuario.telefono}}</td>
                             <td *ngIf="et.is_principal == true">Si</td>
                             <td *ngIf="et.is_principal == false">No</td>
-                            <td>{{et.fecha_nacimiento | date: 'dd-MM-yyyy'}}</td>
+                            <td *ngIf="et.fecha_nacimiento ==='Fecha inválida'">F inválida</td>
+                            <td *ngIf="et.fecha_nacimiento !=='Fecha inválida' ">{{et.fecha_nacimiento | date:
+                                'dd-MM-yyyy'}}</td>
                             <!-- <td>{{et.fecha_nacimiento}}</td> -->
                             <td>
                                 <a *ngIf="et.documento" (click)="goToLink(et.documento)"
@@ -72,6 +74,9 @@
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a> -->
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openResidente(contentResidente, et)"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                 <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(et.ID)"> <i
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
@@ -165,10 +170,11 @@
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
                         <br>
-                        <p-calendar [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
+                        <p-calendar  required [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
                             [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
                             yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
                     </div>
+
                     <div class="form-group">
                         <label>Pdf</label>
                         <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
@@ -237,11 +243,20 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Fecha de nacimiento</label>
                         <input [value]=" fechanacimiento" [ngModel]="fechanacimiento | date: 'dd-MM-yyyy'"
-                            name="fechanacimientos" class="form-control" type="text" readonly>
+                            name="fechanacimientos" class="form-control" type="text" readonly >
+                    </div> -->
+
+                    <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <br>
+                        <p-calendar   required [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
+                            [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
+                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}" aria-readonly=""></p-calendar>
                     </div>
+                    
                     <div class="form-group">
                         <label>Pdf</label>
                         <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="pdf"

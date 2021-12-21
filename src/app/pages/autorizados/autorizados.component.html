@@ -29,13 +29,12 @@
                             <th>Correo</th>
                             <th>Teléfono</th>
                             <th>Acciones</th>
-
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
                         <tr
                             *ngFor="let autorizado of autorizados  | multifilter:['usuario.nombres','usuario.apellido','cedula','usuario.correo']:filterName; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
+                            <td>{{i+1}}</td>
                             <td>
                                 <figure>
                                     <img class="avatar" style="height:40px !important" [src]="autorizado.usuario.imagen"

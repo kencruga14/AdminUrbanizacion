@@ -48,6 +48,7 @@
                         <div class="position-relative" style="height: calc(100vh - 150px); overflow-y: scroll;">
                             <div *ngIf="!loading">
                                 <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)"
+                                    style="cursor: pointer;"
                                     [ngStyle]="{'background-color':ms.selectedMailId==mail.ID? '#f2f4f8' : 'white' }">
                                     <div class="p-3 border-bottom">
                                         <div class="row">

@@ -1023,7 +1023,7 @@
     <div class="row mt-5">
       <div class="col-lg-6 offset-lg-3">
         <!-- Contact Form -->
-        <form id="contactForm" data-toggle="validator" data-focus="false">
+        <form id="contactForm" data-toggle="validator" data-netlify="true" data-focus="false">
           <div class="form-group">
             <input
               [(ngModel)]="nombre"
@@ -1032,9 +1032,9 @@
               class="form-control-input"
               id="cname"
               required
+              required="true"
               placeholder="Ingresa tu nombre"
             />
-            <!-- <label class="label-control" for="cname">Ingresa tu nombre</label> -->
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
@@ -1044,10 +1044,11 @@
               type="email"
               class="form-control-input"
               id="cemail"
-              required
               placeholder="Ingresa tu correo"
+              required
+              required="true"
             />
-            <!-- <label class="label-control" for="cemail">Ingresa tu correo</label> -->
+          
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
@@ -1057,11 +1058,9 @@
               class="form-control-textarea"
               id="cmessage"
               required
+              required="true"
               placeholder="Ingresa tu valioso mensaje"
             ></textarea>
-            <!-- <label class="label-control" for="cmessage"
-              >Tu valioso Mensaje</label
-            > -->
             <div class="help-block with-errors"></div>
           </div>
 

@@ -330,7 +330,7 @@ export class VotacionComponent implements OnInit {
     }
   }
 
-  private startDatePickerFilter(
+  public startDatePickerFilter(
     dateButton: DateButton,
     viewName: string
   ): boolean {

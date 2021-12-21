@@ -150,7 +150,7 @@
                                     existen datos</label></td>
                         </tr>
                         <tr *ngFor="let au of autorizaciones | filter:filterName; let i=index ">
-                            <th scope="row ">{{i+1}}</th>
+                            <td>{{i+1}}</td>
                             <td>{{au.casa.manzana}}</td>
                             <td>{{au.casa.villa}}</td>
                             <td>{{au.nombres}}</td>
