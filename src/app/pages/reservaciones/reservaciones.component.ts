@@ -1,408 +1,67 @@
 import { AuthService } from "src/app/services/auth.service";
-import { alicuota } from "../../models/alicuota";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { UsuarioModelo } from "src/app/models/usuario.model";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import Swal from "sweetalert2";
 import _ from "lodash";
-import {
-  FormControl,
-  FormGroup,
-  FormBuilder,
-  FormArray,
-  Validators,
-  FormGroupDirective,
-} from "@angular/forms";
-import { format } from "url";
-import * as moment from "moment";
-import { Console } from "console";
-import { ThrowStmt } from "@angular/compiler";
 @Component({
-  selector: 'app-reservaciones',
-  templateUrl: './reservaciones.component.html',
-  styleUrls: ['./reservaciones.component.css']
+  selector: "app-reservaciones",
+  templateUrl: "./reservaciones.component.html",
+  styleUrls: ["./reservaciones.component.css"],
 })
 export class ReservacionesComponent implements OnInit {
-  alicuotaForm: FormGroup;
-  value = this.fb.group({
-    valor: ["", Validators.required],
-    fecha_pago: ["", Validators.required],
-  });
   casas: UsuarioModelo[] = [];
-  alicuotas: UsuarioModelo[] = [];
   filtroManzana: number = 0;
-  saldototal: any;
   filtroAutorizacion: string = "";
-  years = [];
-  pipe: any;
   paramMz: number;
   paramVilla: number;
-  paramEstado: string;
   filtrovilla: number = 0;
-  filtroEstado: string = ""
-  alicuotaM: alicuota[] = [];
-  id_casa: number;
-  id_manzana: number;
-  submitted = false;
+  filtroEstado: string = "";
   manzanas: any;
-  fechaArray: [];
-  id_villa: number;
   casasselector: any;
-  autorizacionselector: any;
   manzanaselector: any;
-  valor: any;
-  nregistros: number;
-  seleccionRegistro: any;
-  fecha_pago: "";
-  id_estado: string;
-  edit: false;
-  filtro: any;
   id: 0;
-  year: number;
-  id_alicuota: number;
-  ID: Number;
-  changeFoto = false;
-  casasFiltro: any;
-  saldo: number;
   eta = [];
-  extraordinariaAnterior: any;
-  tipoalicuota: string;
-  tipoAlicuotaExtraordinaria: string;
-  tipoAlicuotaComun: string;
-  valorfirts: number;
-  tipoReporte: string;
-  year_seleccionado: any;
-  mes_seleccionado: any;
-  estado: string;
-  existente: any;
-  titulomes: string;
-  valores: any;
-  mes: any;
-  totalDia: any;
-  estadoalicuota: string;
+  tipoAutorizacionFija: string = "";
   filterName = "";
-  alicuota = {
-    id_casa: 0,
-    valor: "",
-    fecha_pago: "",
-    edit: false,
-    id_alicuota: "",
-  };
-
   acceso = {
     accesos: "",
     id_alicuota: "",
   };
   // años = [];
-  autorizaciones = []
-  meses = [
-    { name: "Enero", id: 1 },
-    { name: "Febrero", id: 2 },
-    { name: "Marzo", id: 3 },
-    { name: "Abril", id: 4 },
-    { name: "Mayo", id: 5 },
-    { name: "Junio", id: 6 },
-    { name: "Julio", id: 7 },
-    { name: "Agosto", id: 8 },
-    { name: "Septiembre", id: 9 },
-    { name: "Octubre", id: 10 },
-    { name: "Noviembre", id: 11 },
-    { name: "Diciembre", id: 12 },
-  ];
+  autorizaciones = [];
 
   constructor(
     public auth: AuthService,
     private router: Router,
-    private modalService: NgbModal,
-    private fb: FormBuilder
-  ) {
-    const YEARS = () => {
-      const dateStart = moment().subtract(1, "years");
-      const dateEnd = moment().add(10, "y");
-      while (dateEnd.diff(dateStart, "years") >= 0) {
-        this.years.push(dateStart.format("YYYY"));
-        dateStart.add(1, "year");
-      }
-    };
-    YEARS();
-    this.getAlicuota();
-    // console.log("otal dia: ", this.totalDia);
-  }
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
-    this.getAutorizaciones()
+    this.getAutorizaciones();
     this.getCasa();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
-    this.alicuotaForm = this.fb.group({
-      times: this.fb.array([]),
-    });
-    this.totalDia = moment(new Date()).format("DD-MM-YYYY");
-  }
-
-  sortByMzVilla = (ali) => {
-    let ints = [];
-    let strs = [];
-    _.forEach(ali, (r) => {
-      if (_.isNaN(parseInt(r.casa.manzana))) strs.push(r);
-      else ints.push(_.assign(r, { "casa.manzana": parseInt(r.casa.manzana) }));
-    });
-    ints.sort(
-      (a, b) => a.casa.manzana - b.casa.manzana || a.casa.villa - b.casa.villa
-    );
-    strs.sort(
-      (a, b) =>
-        a.casa.manzana.localeCompare(b.casa.manzana, "en", {
-          numeric: true,
-        }) || a.casa.villa.localeCompare(b.casa.villa, "en", { numeric: true })
-    );
-    return ints.concat(strs);
-  };
-
-  chainGroup = (arr, fn1, fn2, fn3) =>
-    _.chain(_.groupBy(arr, fn1))
-      .toPairs()
-      .sortBy(fn2)
-      .forEach(fn3)
-      .fromPairs()
-      .value();
-
-  clasificarAlicuotas(alicuotas) {
-    const comunes = _.filter(alicuotas, { tipo: "COMUN" });
-    const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
-    const extraordinaria = this.sortByMzVilla(
-      _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
-    );
-
-    const saldos = this.chainGroup(
-      comunes,
-      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
-      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
-      (ali) => {
-        ali[1] = _.sumBy(ali[1], "valor");
-      }
-    );
-
-    const porFecha = this.chainGroup(
-      comunes,
-      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
-      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
-      (ali) => {
-        ali[1] = this.sortByMzVilla(ali[1]);
-      }
-    );
-    console.log(porFecha);
-
-    // let asd= saldos;
-    (this.fechaArray = _.assignIn(porFecha, {
-      SALDO: saldo,
-      EXTRAORDINARIA: extraordinaria,
-    })),
-      saldos;
-    let as = _.groupBy(extraordinaria, (ali) =>
-      moment(ali.fecha_pago).format("MMMM YYYY")
-    );
-    this.extraordinariaAnterior = Object.entries(as).sort();
-    this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
-    this.existente.shift();
-    this.existente.shift();
-    console.log("fecha array: ", this.fechaArray);
-    this.saldototal = saldos;
-    console.log("saldos: ", this.saldototal);
-  }
-
-  addGroup() {
-    const val = this.fb.group({
-      valor: ["", Validators.required],
-      fecha_pago: ["", Validators.required],
-    });
-    const alicuotaForm = this.alicuotaForm.get("times") as FormArray;
-    alicuotaForm.push(val);
-    this.nregistros = alicuotaForm.length;
-  }
-
-  removeGroup(index) {
-    // console.log("ubicacion index borrar: ", index);
-    const alicuotaForm = this.alicuotaForm.get("times") as FormArray;
-    alicuotaForm.removeAt(index);
-  }
-
-  trackByFn(index: any, item: any) {
-    return index;
-  }
-  getAutorizacion(value) {
-
   }
 
   getVillas(value) {
-    this.filtrovilla = 0
-
+    this.filtrovilla = 0;
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // console.log("manzana seleccionada: ", value);
-      // console.log("getCasasByManzana: ", resp);
-      this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
-        this.alicuotas = resp;
-        console.log("alicuotas x manzana: ", this.alicuotas);
-      });
-
-      // alicuotas
+      // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
+      //   this.alicuotas = resp;
+      // });
       this.casasselector = resp;
+      console.log("casas x manzana: ", this.casasselector);
     });
-    this.filtrovilla = 0
-  }
-
-  getEstado(value) {
-    this.paramVilla = value;
-    console.log("casa: ", value);
-    this.getAutorizaciones(this.filtroAutorizacion, this.filtroEstado, this.filtrovilla)
-
-  }
-
-  getAlicuotaEstado(value) {
-    console.log("estado: ", value);
-    this.paramEstado = value;
-    this.auth
-      .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
-      .subscribe((resp: any) => {
-        this.alicuotas = resp;
-        console.log("alicuotas x estado: ", this.alicuotas);
-        console.log("alicuotas x estado: ", resp.length);
-        console.log("alicuotas x estado: ", resp.size());
-      });
+    this.filtrovilla = 0;
   }
 
   filtrarVilla(value) {
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       this.casas = resp;
     });
-  }
-  // NUEVA
-  async Nueva() {
-    let response: any;
-    let validacion: any;
-    let d = new Date();
-    d.getDate();
-
-    let as = this.year_seleccionado
-      .concat("/")
-      .concat(this.mes_seleccionado)
-      .concat("/")
-      .concat(d.getDate());
-    let fechavalidacion = moment(as).format();
-    validacion = this.alicuotas.filter(
-      (ali) => ali.fecha_pago === fechavalidacion
-    );
-    if (validacion.length === 0) {
-      for (let i = 0; i < this.casas.length; i++) {
-        this.alicuotaM.push({
-          valor: this.valor,
-          id_casa: this.casas[i].ID,
-          tipo: "COMUN",
-          fecha_pago: as,
-        });
-        this.alicuotaM[i].fecha_pago = moment(
-          this.alicuotaM[i].fecha_pago
-        ).format();
-      }
-      console.log("array comun nueva: ", this.alicuotaM);
-      response = await this.auth.createAlicuota(this.alicuotaM);
-    } else {
-      Swal.fire("Error!", "El mes ya se encuentra registrado", "error");
-      this.resetsForm();
-      this.removeGroup(this.nregistros);
-      this.getAlicuota();
-    }
-    if (response) {
-      this.resetsForm();
-      this.removeGroup(this.nregistros);
-      this.getAlicuota();
-    }
-  }
-
-  // ANTERIOR
-  async anterior(value) {
-    let response: any;
-    let d = new Date();
-    d.getDate();
-    if (value === "EXISTENTE") {
-      this.alicuotaM.push({
-        valor: this.valor,
-        id_casa: Number(this.id_casa),
-        tipo: "COMUN",
-        fecha_pago: this.pipe,
-      });
-      console.log("Arreglo sado: ", this.alicuotaM);
-      response = await this.auth.createAlicuota(this.alicuotaM);
-    } else if (value === "NUEVA") {
-      for (let i = 0; i < this.casas.length; i++) {
-        this.alicuotaM.push({
-          valor: this.valor,
-          id_casa: this.casas[i].ID,
-          tipo: "COMUN",
-          fecha_pago: this.year_seleccionado
-            .concat("/")
-            .concat(this.mes_seleccionado)
-            .concat("/")
-            .concat(d.getDate()),
-        });
-        this.alicuotaM[i].fecha_pago = moment(
-          this.alicuotaM[i].fecha_pago
-        ).format();
-      }
-      console.log("arreglo alicuota M: ", this.alicuotaM);
-      response = await this.auth.createAlicuota(this.alicuotaM);
-    }
-
-    if (response) {
-      this.resetsForm();
-      this.removeGroup(this.nregistros);
-      this.getCasa();
-      this.getAlicuota();
-    }
-  }
-
-  async crearExtraordinaria(value) {
-    let response: any;
-    let d = new Date();
-    d.getDate();
-    if (value === "NUEVA") {
-      console.log("entro Extraordinaria NUEVA");
-      for (let i = 0; i < this.casas.length; i++) {
-        this.alicuotaM.push({
-          valor: this.valor,
-          id_casa: this.casas[i].ID,
-          tipo: "EXTRAORDINARIA",
-          fecha_pago: this.year_seleccionado
-            .concat("/")
-            .concat(this.mes_seleccionado)
-            .concat("/")
-            .concat(d.getDate()),
-        });
-        this.alicuotaM[i].fecha_pago = moment(
-          this.alicuotaM[i].fecha_pago
-        ).format();
-      }
-      console.log("arreglo alicuota extraordinaria Nueva: ", this.alicuotaM);
-      response = await this.auth.createAlicuota(this.alicuotaM);
-    } else if (value === "ANTERIOR") {
-      this.alicuotaM.push({
-        valor: this.valor,
-        id_casa: Number(this.id_casa),
-        tipo: "EXTRAORDINARIA",
-        fecha_pago: this.pipe,
-      });
-      console.log("objeto crear Extraordinaria: ", this.alicuotaM);
-      response = await this.auth.createAlicuota(this.alicuotaM);
-    }
-    if (response) {
-      this.resetsForm();
-      this.removeGroup(this.nregistros);
-      this.getCasa();
-      this.getAlicuota();
-    }
   }
 
   getCasa() {
@@ -414,122 +73,39 @@ export class ReservacionesComponent implements OnInit {
     });
   }
 
-  openAcceso(content, acceso) {
-    this.acceso.id_alicuota = acceso.id_alicuota;
-    this.modalService.open(content);
-  }
-
-  openReporte(content) {
-    this.modalService.open(content);
-  }
-  openAlicuota(content, alicuota = null) {
-    if (alicuota) {
-      this.id_alicuota = alicuota.ID;
-      this.id = alicuota.ID;
-      this.valor = alicuota.valor;
-      this.fecha_pago = alicuota.fecha_pago;
-      this.alicuota.edit = true;
-      this.id_casa = alicuota.id_casa;
-      this.tipoalicuota = alicuota.estado;
-    } else {
-      this.id_casa = 0;
-      this.valor = "";
-      this.fecha_pago = "";
-      this.alicuota.edit = false;
-      this.id_alicuota = null;
-      this.tipoalicuota = "";
-    }
-    this.modalService.open(content);
-  }
-
-  openModalAlicuota(content, alicuota = null) {
-    console.log("alicuota seleccionada :", alicuota);
-    if (alicuota) {
-      this.id_alicuota = alicuota.ID;
-      this.id = alicuota.ID;
-      this.valor = alicuota.valor;
-      this.fecha_pago = alicuota.fecha_pago;
-      this.alicuota.edit = true;
-      this.id_casa = alicuota.id_casa;
-      this.tipoalicuota = alicuota.estado;
-    }
-    this.modalService.open(content);
-  }
-
-  getAlicuota() {
-    console.log("get alicuota");
-    this.auth.getAlicuota().subscribe((resp: any) => {
-      this.alicuotas = resp;
-      this.clasificarAlicuotas(resp);
+  getAutorizacions() {
+    this.auth.getAutorizacion().subscribe((resp: any) => {
+      this.autorizaciones = resp;
     });
   }
 
-  getManzanas() { }
-  async gestionAlicuota() {
-    let response: any;
-    if (this.alicuota.edit) {
-      console.log("entro editar");
-    } else {
-      console.log("entro crear");
-      console.log("body crear alicuota: ", this.alicuotaM);
-    }
+  getEstado(value) {
+    this.paramVilla = value;
+    console.log("casa: ", value);
+    this.getAutorizaciones(
+      this.tipoAutorizacionFija,
+      this.filtroAutorizacion,
+      this.filtroEstado,
+      this.filtrovilla
+    );
   }
 
-  delete(id: number) {
-    Swal.fire({
-      title: "¿Seguro que desea eliminar este registro?",
-      text: "Esta acción no se puede reversar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#343A40",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.value) {
-        this.deleteAlicuota(id);
-      }
-    });
-  }
-  async getAutorizaciones(tipo = null, estado = null, id_casa = null) {
-    if (id_casa == 0) id_casa = null
-    const response = await this.auth.getAutorizaciones(tipo, estado, id_casa)
+  async getAutorizaciones(
+    tipoFija = null,
+    tipo = null,
+    estado = null,
+    id_casa = null
+  ) {
+    if (id_casa == 0) id_casa = null;
+    const response = await this.auth.getAutorizaciones(
+      tipoFija,
+      tipo,
+      estado,
+      id_casa
+    );
     if (response[1]) {
-      this.autorizaciones = response[1]
+      this.autorizaciones = response[1];
     }
-  }
-  async deleteAlicuota(id: number) {
-    const response = await this.auth.deleteAlicuota(id);
-    if (response) {
-      this.getAlicuota();
-    }
-  }
-  getIdcasa(value) {
-    console.log("value: ", value);
-    this.id_casa = value;
-    console.log("id capturado: ", this.id_casa);
-  }
-  resetsForm() {
-    this.submitted = false;
-    this.alicuotaForm.reset();
-    this.id_manzana = null;
-    this.valor = null;
-    this.id_villa = null;
-    this.manzanaselector = [];
-    this.modalService.dismissAll();
-    this.year_seleccionado = null;
-    this.mes_seleccionado = null;
-    this.seleccionRegistro = null;
-    this.alicuotaM = [];
-    this.tipoalicuota = null;
-    this.id_casa = null;
-    this.id_manzana = null;
-    this.filtroAutorizacion = null;
-    this.tipoAlicuotaComun = null;
-    this.tipoAlicuotaExtraordinaria = null;
-    this.tipoalicuota = null;
-    this.pipe = null;
-    this.casasselector = [];
   }
 
   restablecerFiltroBusqueda() {
@@ -537,52 +113,9 @@ export class ReservacionesComponent implements OnInit {
     this.filtroEstado = "";
     this.filtrovilla = 0;
     this.filtroManzana = 0;
-    this.paramEstado = null;
     this.paramMz = null;
     this.paramVilla = null;
-    this.getAutorizaciones(this.filtroAutorizacion, this.filtroEstado, this.filtrovilla)
+    this.tipoAutorizacionFija = null;
+    this.getAutorizacions();
   }
-
-  UpdatePago() {
-    Swal.fire({
-      title: "¿Está seguro de realizar esta acción?",
-      // text: "Esta acción no se puede reversar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#343A40",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.value) {
-        this.pagar();
-      } else {
-      }
-    });
-  }
-
-  async pagar() {
-    let id = this.id_alicuota;
-    let response: any;
-    const body = {
-      estado: "PAGADO",
-    };
-    console.log("update body: ", body);
-    response = await this.auth.editAlicuota(id, body);
-    if (response) {
-      this.resetsForm();
-      this.removeGroup(this.nregistros);
-      // this.gestionAlicuota();
-      this.getCasa();
-      this.getAlicuota();
-      this.filtroAutorizacion = null;
-      this.filtroManzana = null;
-      this.filtrovilla = null;
-    }
-  }
-  resetReportes() {
-    this.tipoReporte = null;
-    this.modalService.dismissAll();
-  }
-
 }
