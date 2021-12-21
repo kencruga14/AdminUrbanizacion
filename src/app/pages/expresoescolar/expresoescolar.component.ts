@@ -67,6 +67,7 @@ export class ExpresoescolarComponent implements OnInit {
   }
 
   preview(event: any) {
+    console.log(this.imagenEdit)
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -80,27 +81,7 @@ export class ExpresoescolarComponent implements OnInit {
     this.changeFoto = true;
   }
 
-  getExpresos() {
-    this.auth.getExpresos().subscribe((resp: any) => {
-      console.log(resp);
-      this.expresos = resp;
-    });
-  }
-  openImage(content, admin) {
-    this.imagenPerfil = admin;
-    this.modalService.open(content);
-  }
-  PDF(event: any) {
-    const fileData = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(fileData);
-    reader.onload = (response) => {
-      this.pdf = reader.result;
-    };
-    console.log("pdf base: ", this.pdf);
-  }
   saveEditPicture(event: any) {
-    // console.log("entró preview:");
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -114,6 +95,34 @@ export class ExpresoescolarComponent implements OnInit {
     this.changeFoto = true;
   }
 
+  PDF(event: any) {
+    const fileData = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
+    reader.onload = (response) => {
+      this.pdf = reader.result;
+    };
+    console.log("pdf base: ", this.pdf);
+  }
+
+
+
+
+  getExpresos() {
+    this.auth.getExpresos().subscribe((resp: any) => {
+      console.log(resp);
+      this.expresos = resp;
+    });
+  }
+  openImage(content, admin) {
+    this.imagenPerfil = admin;
+    this.modalService.open(content);
+  }
+
+ 
+
+  
+
   openAcceso(content, acceso) {
     this.acceso.id_casa = acceso.id_casa;
     this.modalService.open(content);
@@ -121,12 +130,13 @@ export class ExpresoescolarComponent implements OnInit {
 
   openExpreso(content, expreso = null) {
     console.log("expreso seleccionado: ", expreso);
+
     if (expreso) {
       this.id_expreso = expreso.ID;
       // this.id = casa.ID;
       this.imagenEdit = expreso.imagen;
       (this.razon_social = expreso.razon_social),
-        (this.documento = expreso.ruc);
+      (this.documento = expreso.ruc);
       this.correo = expreso.correo;
       this.telefono = expreso.telefono;
       this.vehiculo = expreso.vehiculo;
@@ -140,6 +150,7 @@ export class ExpresoescolarComponent implements OnInit {
       this.apellidos = expreso.apellido;
     } else {
       this.id_expreso = 0;
+      this.imagenEdit=""
       this.imagen = null;
       this.razon_social = "";
       this.expreso.edit = false;

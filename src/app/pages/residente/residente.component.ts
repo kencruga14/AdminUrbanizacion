@@ -204,6 +204,7 @@ export class ResidenteComponent implements OnInit {
 
   openResidente(content, residente = null) {
     if (residente) {
+      console.log(residente.fecha_nacimiento.split("T")[0])
       this.id_residente = residente.ID;
       this.id = residente.ID;
       this.celular = residente.usuario.celular;
@@ -214,13 +215,11 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = true;
       this.telefono = residente.usuario.telefono;
       this.usuario = residente.usuario.usuario;
-      this.fechanacimiento = new Date(residente.fecha_nacimiento);
+      this.fechanacimiento = residente.fecha_nacimiento.split("T")[0];
       this.imagen = null;
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
       this.is_principal = residente.is_principal;
-      // this.pdf = residente.usuario.pdf
-      // this.id_casa = residente.id_casa;
       this.villa = residente.casa.villa;
       this.apellido = residente.usuario.apellido;
       this.imagenEdit = residente.usuario.imagen;
@@ -244,7 +243,6 @@ export class ResidenteComponent implements OnInit {
       this.documento = "";
       this.id_casa = 0;
       this.accion = false;
-      // this.is_principal = false;
       this.apellido = "";
       this.imagen = this.imagen;
     }
@@ -256,22 +254,22 @@ export class ResidenteComponent implements OnInit {
     let response: any;
     if (this.residente.edit) {
       const body = {
-        id_casa: this.id_casa,
+        // id_casa: Number(this.villa),
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
-        cedula: this.cedula,
+        // cedula: this.cedula,
         fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
-          apellido: this.apellido,
+          // apellido: this.apellido,
           celular: this.celular,
           correo: this.correo,
-          nombres: this.nombres,
+          // nombres: this.nombres,
           telefono: this.telefono,
-          usuario: this.usuario,
+          // usuario: this.usuario,
           // pdf: this.pdf
           // documeto: this.pdfEdit,
         },
-        documento: this.documento
+        // documento: this.documento
       };
       console.log("body editar residente: ", body);
       response = await this.auth.editResidente(this.id, body);

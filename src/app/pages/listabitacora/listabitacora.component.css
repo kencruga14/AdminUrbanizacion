@@ -3,6 +3,10 @@
   color: green;
 }
 
+.sinrespuesta {
+  color: rgb(185, 184, 88);
+}
+
 .rechazada {
   color: red;
 }
