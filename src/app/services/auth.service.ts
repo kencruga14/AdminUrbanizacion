@@ -686,9 +686,7 @@ export class AuthService {
     });
   }
 
-
-  
-  editTodasAlicuota( data: any) {
+  editTodasAlicuota(data: any) {
     this.loading = true;
     const headers = new HttpHeaders({
       token: this.userToken,
@@ -1162,23 +1160,24 @@ export class AuthService {
       );
   }
 
-
   getRecaudacionesAreaSocialxId(id: string, fecha1: string, fecha2: string) {
     let params = new HttpParams();
-    params = params.append("fecha_inicio", fecha1)
-    params = params.append("fecha_fin", fecha2)
+    params = params.append("fecha_inicio", fecha1);
+    params = params.append("fecha_fin", fecha2);
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, { headers, params })
+      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}`, {
+        headers,
+        params,
+      })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
         })
       );
   }
-
 
   getBuzonRecibidos() {
     const headers = new HttpHeaders({
@@ -1222,17 +1221,37 @@ export class AuthService {
         );
     });
   }
-  getAutorizaciones(tipo, estado, id_casa) {
+
+  getAutorizacion() {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/autorizacion`, { headers })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  getAutorizaciones(fijaTipo, tipo, estado, id_casa) {
     let params = new HttpParams();
-    if (tipo || tipo == "") params = params.append("tipo", tipo)
-    if (estado || estado == "") params = params.append("estado", estado)
-    if (id_casa) params = params.append("id_casa", id_casa)
+    if (fijaTipo || fijaTipo == "")
+      params = params.append("tipo_usuario", fijaTipo);
+    if (tipo || tipo == "") params = params.append("tipo", tipo);
+    if (estado || estado == "") params = params.append("estado", estado);
+    if (id_casa) params = params.append("id_casa", id_casa);
+
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return new Promise((resolve) => {
       this.http
-        .get(`${environment.apiUrl}/admin-etapa/autorizacion`, { headers, params })
+        .get(`${environment.apiUrl}/admin-etapa/autorizacion`, {
+          headers,
+          params,
+        })
         .subscribe(
           (response: any) => {
             resolve([true, response.respuesta]);
@@ -1341,16 +1360,20 @@ export class AuthService {
     });
   }
   responderMensajeP(respID, id, data) {
-    data = { ...data, buzon_remitente_id: id.ID }
+    data = { ...data, buzon_remitente_id: id.ID };
     this.loading = true;
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return new Promise((resolve) => {
       this.http
-        .post(`${environment.apiUrl}/admin-etapa/buzon/${respID}/responder-privado`, data, {
-          headers,
-        })
+        .post(
+          `${environment.apiUrl}/admin-etapa/buzon/${respID}/responder-privado`,
+          data,
+          {
+            headers,
+          }
+        )
         .subscribe(
           (response: any) => {
             resolve([true, response.respuesta]);
@@ -1772,11 +1795,7 @@ export class AuthService {
     });
   }
 
-  showAlert(
-    message: string,
-    tipo: any,
-    confirmBtnText: string = "Continuar"
-  ) {
+  showAlert(message: string, tipo: any, confirmBtnText: string = "Continuar") {
     Swal.fire({
       title: "",
       text: message,

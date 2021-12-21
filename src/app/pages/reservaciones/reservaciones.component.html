@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Lista de Autorizaciones Temporales y Fijas</h4>
+            <h4 class="card-title">Registro de Autorizaciones</h4>
 
             <div class="form-row align-items-center">
                 <!-----filtro manzana-->
@@ -24,7 +24,7 @@
                     </select>
                 </div>
                 <!-----filtro Autorizacion-->
-                <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla!=0">
+                <div class="form-group col-sm-2 my-1" *ngIf="filtrovilla!=0">
                     <label>Tipo de Autorización</label>
                     <select (change)="getEstado($event.target.value)" name="autorizacion"
                         [(ngModel)]="filtroAutorizacion" class="form-control custom-select">
@@ -33,18 +33,43 @@
                         <option value="FIJA">Fijas</option>
                     </select>
                 </div>
-                <div class="form-group col-sm-3 my-1" *ngIf="filtrovilla!=0">
-                    <label>Tipo de Estado</label>
+
+                <div class="form-group col-sm-2 my-1" *ngIf="filtroAutorizacion==='TEMPORAL'">
+                    <label>Estado</label>
                     <select (change)="getEstado($event.target.value)" name="estado" [(ngModel)]="filtroEstado"
                         class="form-control custom-select">
                         <option value="">Todas</option>
-                        <option value="ACTIVA">Activa</option>
-                        <option value="ANULADA">Anulada</option>
-                        <option value="VALIDADA">Validada</option>
-                        <option value="PENDIENTE">Pendiente</option>
+                        <!-- <option value="ACEPTADA">Aceptada</option> -->
+                        <option value="ANULADA">Anuladas</option>
+                        <option value="VALIDADA">Validadas</option>
+                        <option value="PENDIENTE">Pendientes</option>
                     </select>
                 </div>
 
+                <div class="form-group col-sm-2 my-1" *ngIf="filtrovilla!=0 && filtroAutorizacion==='FIJA'">
+                    <label>Tipo de Usuario</label>
+                    <select (change)=" getEstado($event.target.value)" name="autorizacion"
+                        [(ngModel)]="tipoAutorizacionFija" class="form-control custom-select">
+                        <option value="">Todas</option>
+                        <option value="Residente">Residente</option>
+                        <option value="Familiar">Familiar</option>
+                        <option value="Empleado">Empleado</option>
+                        <option value="Expreso">Expreso escolar</option>
+                    </select>
+                </div>
+
+                <!-- *ngIf="filtrovilla!=0 && filtroAutorizacion==='FIJA'" -->
+                <div class="form-group col-sm-2 my-1" *ngIf="filtroAutorizacion==='FIJA'">
+                    <label>Estado</label>
+                    <select (change)="getEstado($event.target.value)" name="estado" [(ngModel)]="filtroEstado"
+                        class="form-control custom-select">
+                        <option value="">Todas</option>
+                        <option value="ACEPTADA">Activa</option>
+                        <option value="ANULADA">Anulada</option>
+                        <!-- <option value="VALIDADA">Validada</option> -->
+                        <!-- <option value="PENDIENTE">Pendiente</option> -->
+                    </select>
+                </div>
                 <div class="form-group col-sm-1 my-1" *ngIf="filtroManzana!=0 && filtrovilla!=0">
                     <label class="transparente"></label><br>
                     <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success"
@@ -53,70 +78,6 @@
                 </div>
             </div>
             <br>
-            <!------------------------------------------------------Acordeon--------------------------------->
-            <!--<div *ngIf="!filtroAutorizacion">
-                <p-accordion *ngFor="let item of fechaArray | keyvalue; let i = index">
-                    <div *ngIf="item.value.length >0">-->
-
-            <!-- <p-accordionTab header="{{item.key | titlecase}} ${{saldototal[item.key]}}"> -->
-            <!--<p-accordionTab>
-                            <p-header>-->
-            <!-- <div class="same-line">
-                                                                    <div class="on-the-left">{{item.key | titlecase}}</div>
-                                                                    <div class="on-the-center">Pagadas ${{saldototal[item.key]}}</div>
-                                                                    <div class="on-the-right">Vencidas: ${{saldototal[item.key]}}</div>
-                                                                </div> -->
-
-            <!-- <span>{{item.key | titlecase}}</span>
-                                <span style="float:right; color:rgb(218, 28, 28) ">{{saldototal[item.key] |
-                                    currency}}</span>
-                            </p-header>
-                            <table id="myTable" class="table color-bordered-table">
-                                <thead>
-                                    <tr style="text-align: center;">
-                                        <th>No</th>
-                                        <th>Manzana</th>
-                                        <th>Villa</th>
-                                        <th>Valor</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center;">
-                                    <tr *ngFor="let a of item.value let i=index">
-                                        <th scope="row ">{{i+1}}</th>
-                                        <td>{{a.casa.manzana }}</td>
-                                        <td>{{a.casa.villa}}</td>
-                                        <td>${{a.valor}}</td>
-                                        <td *ngIf="a.estado === 'PAGADO'">
-                                            <div class="pagado">
-                                                <strong> {{a.estado}}</strong>
-                                            </div>
-                                        </td>
-                                        <td *ngIf="a.estado === 'PENDIENTE'">
-                                            <Div class="pendiente">
-                                                <strong> {{a.estado}}</strong>
-                                            </Div>
-                                        </td>
-                                        <td *ngIf="a.estado === 'RECHAZADA'">
-                                            <Div class="vencido">
-                                                <strong> {{a.estado}}</strong>
-                                            </Div>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="alicuotas === null">
-                                        <td style="text-align: center !important;" colspan="10"><label
-                                                class="text-primary">No
-                                                existen datos</label></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </p-accordionTab>
-                    </div>
-                </p-accordion>
-            </div>-->
-
-
-
             <!-----Tabla Principal-->
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
@@ -129,19 +90,13 @@
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Autorización</th>
-
+                            <th>Tipo de usuario</th>
                             <th>Asunto</th>
                             <th>Teléfono</th>
-                            <th>Estado</th>
                             <th>Creada</th>
                             <th>Hora</th>
-
-
-                            <!-- <th>Hora</th>
-                            <th>Anulada</th>
-                            <th>Hora</th>
                             <th>Estado</th>
-                            <th>Creada por:</th> -->
+                            <th>Creada por:</th>
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
@@ -156,409 +111,19 @@
                             <td>{{au.nombres}}</td>
                             <td>{{au.apellidos}}</td>
                             <td>{{au.tipo}}</td>
-
+                            <td *ngIf="au.tipo_usuario === 'Expreso'">Expreso escolar</td>
+                            <td *ngIf="au.tipo_usuario !== 'Expreso'">{{au.tipo_usuario}}</td>
+                            <!-- <td>{{au.tipo}}</td> -->
                             <td>{{au.asunto}}</td>
                             <td>{{au.telefono}}</td>
+                            <td>{{au.CreatedAt | date: 'dd-MM-yyyy'}} </td>
+                            <td>{{au.CreatedAt | date:'mediumTime'}}</td>
                             <td>{{au.estado}}</td>
-                            <td>{{au.CreatedAt.split("T")[0]}}</td>
-                            <td>{{au.CreatedAt.split("T")[1].split(".")[0]}}</td>
-
-
-
-
-
-
-
-
+                            <td>{{au.publicador.usuario}}</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
-
-
-            <!---------------Modal Crear-------------->
-            <ng-template #contentAlicuota let-modal>
-                <div class="modal-header" *ngIf="alicuotas.length > 0">
-                    <h4 *ngIf="!alicuota.edit" class="modal-title" id="modal-basic-title">Crear alícuota</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <!-- <form (ngSubmit)="onsubmit()"> -->
-
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label>Tipo de Alícuota:</label>
-                            <select name="villa" [(ngModel)]="tipoalicuota" class="form-control custom-select">
-                                <option value="NUEVA">Nueva</option>
-                                <option value="EXTRAORDINARIA">Extraordinaria</option>
-                                <option value="ANTERIOR">Anterior</option>
-
-                                <!-- <option value="SALDO">Saldo</option> -->
-                            </select>
-                        </div>
-                    </div>
-                    <!----------------------------------------ALICUOTA NUEVA---------------------->
-                    <div class="form-row" *ngIf="tipoalicuota ==='NUEVA'">
-                        <div class="form-group col-md-6">
-                            <label>Mes:</label>
-                            <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado" name="mes_seleccionado"
-                                class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Año:</label>
-                            <select name="year_seleccionado" [(ngModel)]="year_seleccionado" name="year_seleccionado"
-                                class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Valor</label>
-                            <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control" type="number"
-                                required [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div class="form-group col-md-6 ">
-                            <label class="transparente">sad</label><br>
-                            <button (click)="Nueva()" *ngIf="!auth.loading" [disabled]="!alicuotaForm.valid"
-                                type="submit" class="btn btn-outline-dark" style="float: right;">
-                                <span *ngIf="!alicuota.edit">Guardar</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!----------------------------------------FIN ALICUOTA NUEVA---------------------->
-
-
-                    <!-----------------------------------EXTRAORDINARIA--------------------------------------------------------------------->
-                    <div class="form-row" *ngIf="tipoalicuota ==='EXTRAORDINARIA'">
-                        <div class="form-group col-md-12">
-                            <label>Seleccione:</label>
-                            <select name="tipoExtraordinaria" [(ngModel)]="tipoAlicuotaExtraordinaria"
-                                class="form-control custom-select">
-                                <option value="NUEVA">Extraordinaria Nueva</option>
-                                <option value="ANTERIOR">Extraordinaria Anterior</option>
-                                <!-- <option value="SALDO">Saldo</option> -->
-                            </select>
-                        </div>
-                        <!------------------------------------Anterior------------------------------------------------------------------->
-                        <!-- <form [formGroup]="alicuotaForm"> -->
-                        <div class="form-row" *ngIf="tipoAlicuotaExtraordinaria === 'ANTERIOR'">
-
-                            <div class="form-group col-md-12">
-                                <label>Seleccione mes existente: </label>
-                                <select [(ngModel)]="pipe" name="mes_seleccionado" class="form-control custom-select">
-                                    <option *ngFor="let m of extraordinariaAnterior" value="{{m[1][0].fecha_pago}}">
-                                        {{m[0] | titlecase}}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- <option *ngFor="let m of existente" value="{{m[1][0].fecha_pago }}">{{{{m[1][0].fecha_pago }} | titlecase}}</option> -->
-
-                            <div class="form-group col-md-6">
-                                <label>Manzana</label>
-                                <select class="form-control custom-select" [(ngModel)]="id_manzana"
-                                    (change)="getVillas($event.target.value)">
-                                    <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
-                                        {{ur.manzana}}</option>
-                                </select>
-                            </div>
-
-                            <!-- <div class="form-group col-md-6">
-                                <label>Villa</label>
-                                <select class="form-control custom-select">
-                                    <option *ngFor="let ur of manzanaselector" value="{{ur.ID}}">
-                                        {{ur.villa}}
-                                    </option>
-                                </select>
-                            </div> -->
-
-                            <div class="form-group col-md-6">
-                                <label>Villa</label>
-                                <select class="form-control custom-select" [(ngModel)]="id_casa"
-                                    (ngModelChange)="getIdcasa($event)">
-                                    <option *ngFor="let ur of casasselector" value="{{ur.ID}}">
-                                        {{ur.villa}}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Valor:</label>
-                                <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                    type="number" required [ngModelOptions]="{standalone: true}">
-                            </div>
-
-                            <div class="form-group col-md-6 ">
-                                <label class="transparente">sdas.</label><br>
-                                <button (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)"
-                                    [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark"
-                                    style="float: right;">
-                                    <span>Guardar</span>
-                                </button>
-                            </div>
-                        </div>
-                        <!-------Fin Extraordinaria Anterior-->
-                        <!-- </form> -->
-
-                        <!------------------------------------------------Nueva Alicuota------------------------------------------------------------------------------------->
-                        <div class="form-row" *ngIf="tipoAlicuotaExtraordinaria === 'NUEVA'">
-                            <div class="form-group col-md-6">
-                                <label>Mes:</label>
-                                <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado" name="mes_seleccionado"
-                                    class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Año:</label>
-                                <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
-                                    name="year_seleccionado" class="form-control custom-select"
-                                    [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Valor</label>
-                                <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                    type="number" required [ngModelOptions]="{standalone: true}">
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <label class="transparente">sdas.</label><br>
-                                <button (click)="crearExtraordinaria(tipoAlicuotaExtraordinaria)" *ngIf="!auth.loading"
-                                    [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark"
-                                    style="float: right;">
-                                    <span *ngIf="!alicuota.edit">Guardar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!---------------------------------------ALICUOTA ANTERIOR------------------------------------------------------------------------>
-                    <div *ngIf="tipoalicuota ==='ANTERIOR'">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Seleccione:</label>
-                                <select name="tipoComun" [(ngModel)]="tipoAlicuotaComun"
-                                    class="form-control custom-select">
-                                    <option value="NUEVA">Nuevo</option>
-                                    <option value="EXISTENTE">Existente</option>
-                                    <!-- <option value="SALDO">Saldo</option> -->
-                                </select>
-                            </div>
-                        </div>
-                        <!------------------------ALICUOTA ANTERIOR NUEVA-->
-                        <div class="form-row" *ngIf="tipoAlicuotaComun==='NUEVA'">
-                            <div class="form-group col-md-6">
-                                <label>Mes: </label>
-                                <select name="mes_seleccionado" [(ngModel)]="mes_seleccionado" name="mes_seleccionado"
-                                    class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let m of meses" value="{{m.id }}">{{m.name}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Año:</label>
-                                <select name="year_seleccionado" [(ngModel)]="year_seleccionado"
-                                    name="year_seleccionado" class="form-control custom-select"
-                                    [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Valor:</label>
-                                <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                    type="number" required [ngModelOptions]="{standalone: true}">
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <br>
-                                <button (click)="anterior(tipoAlicuotaComun)" *ngIf="!auth.loading"
-                                    [disabled]="!alicuotaForm.valid" type="submit" class="btn btn-outline-dark"
-                                    style="float: right;">
-                                    <span *ngIf="!alicuota.edit">Guardar</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-----------------ALICUOTA ANTERIOR EXISTENTE--------------------------->
-                        <div class="form-row" *ngIf="tipoAlicuotaComun==='EXISTENTE'">
-                            <div class="form-group col-md-12">
-                                <label>Seleccione mes existente: </label>
-                                <select name="mes_seleccionado" [(ngModel)]="pipe" name="mes_seleccionado"
-                                    class="form-control custom-select" [ngModelOptions]="{standalone: true}">
-                                    <option *ngFor="let m of existente" value="{{m[1][0].fecha_pago }}">{{m[0] |
-                                        titlecase}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Manzana</label>
-                                <select class="form-control custom-select" [(ngModel)]="id_manzana"
-                                    (change)="getVillas($event.target.value)">
-                                    <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">
-                                        {{ur.manzana}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Villa</label>
-                                <select class="form-control custom-select" [(ngModel)]="id_casa"
-                                    (ngModelChange)="getIdcasa($event)">
-                                    <option *ngFor="let ur of casasselector" value="{{ur.ID}}">
-                                        {{ur.villa}}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Valor:</label>
-                                <input ngValue="valor" [(ngModel)]="valor" name="valor" class="form-control"
-                                    type="number" required [ngModelOptions]="{standalone: true}">
-                            </div>
-                            <div class="form-group col-md-6 ">
-                                <br>
-                                <button (click)="anterior(tipoAlicuotaComun)" [disabled]="!alicuotaForm.valid"
-                                    type="submit" class="btn btn-outline-dark" style="float: right;">
-                                    <span>Guardar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!---------------------------------------FIN ALICUOTA ANTERIOR-->
-
-                </div>
-                <!-- </div> -->
-            </ng-template>
-
-            <ng-template #openMAlicuota let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">Pagar alícuota</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form>
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label>Mes:</label>
-                                <input [ngModel]="fecha_pago | date: 'MMMM' | titlecase" name="mes" class="form-control"
-                                    type="text" readonly>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Año:</label>
-                                <input [ngModel]="fecha_pago | date: 'yyyy' | titlecase" name="ano" class="form-control"
-                                    type="text" readonly>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Valor:</label>
-                                <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number"
-                                    readonly>
-                            </div>
-                            <!-- <div class="form-group col-md-12">
-                                <label>Estado</label>
-                                <select name="etadoP" [(ngModel)]="estadoalicuota" class="form-control custom-select">
-                                    <option value="PAGADO">Pagada</option>
-                                </select>
-                            </div> -->
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button (click)="UpdatePago()" *ngIf="!auth.loading" [disabled]="!alicuotaForm.valid"
-                            type="submit" class="btn btn-success">
-                            <span>Pagar</span>
-                        </button>
-                        <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
-                    </div>
-                </form>
-            </ng-template>
-
-            <ng-template #openReportes let-modal>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">Reportes alícuotas</h4>
-                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form>
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Seleccione:</label>
-                                <select name="tipoComun" [(ngModel)]="tipoReporte" class="form-control custom-select">
-                                    <option value="DIA">Día</option>
-                                    <option value="MES">Mes</option>
-                                    <option value="AÑO">Año</option>
-                                    <option value="TOTAL">Total</option>
-                                </select>
-                            </div>
-                            <div *ngIf="tipoReporte ==='DIA'">
-                                <div class="form-group col-md-12">
-                                    <label>Día:</label>
-                                    <input ngValue="totalDia" [(ngModel)]="totalDia" name="totalDia"
-                                        class="form-control" type="text" readonly>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label>Pagadas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Pagadas">
-                                </div>
-                            </div>
-                            <div *ngIf="tipoReporte ==='MES'">
-                                <div class="form-group col-md-12">
-                                    <label>Vencidas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Fecha">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label>Pagadas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Pagadas">
-                                </div>
-                            </div>
-                            <div *ngIf="tipoReporte ==='AÑO'">
-                                <div class="form-group col-md-12">
-                                    <label>Vencidas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Fecha">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label>Pagadas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Pagadas">
-                                </div>
-                            </div>
-                            <div *ngIf="tipoReporte ==='TOTAL'">
-                                <div class="form-group col-md-12">
-                                    <label>Total Pagadas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Fecha">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label>Total Vencidas:</label>
-                                    <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control"
-                                        type="number" readonly placeholder="Pagadas">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button (click)="resetReportes()" type="submit" class="btn btn-info">
-                            <span>Cerrar</span>
-                        </button>
-                    </div>
-                </form>
-            </ng-template>
-
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 })
 export class ExpresoescolarComponent implements OnInit {
   edit: false;
-  pdfNombre : any;
+  pdfNombre: any;
   eta = [];
   expresos: any;
   id_expreso: number;
@@ -29,6 +29,7 @@ export class ExpresoescolarComponent implements OnInit {
   ano: string;
   conductor: string;
   modelo: string;
+  apellidos: string;
   imagenEdit = null;
   imagenPerfila = null;
   cedula: string;
@@ -51,14 +52,15 @@ export class ExpresoescolarComponent implements OnInit {
     conductor: "",
     cedula: "",
     marca: "",
+    apellidos: "",
     edit: false,
-    pdf: null
+    pdf: null,
   };
   constructor(
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getExpresos();
@@ -145,7 +147,7 @@ export class ExpresoescolarComponent implements OnInit {
       this.expreso.edit = true;
       this.marca = expreso.marca;
       this.modelo = expreso.modelo;
-      this.pdf = expreso.pdf
+      this.apellidos = expreso.apellido;
     } else {
       this.id_expreso = 0;
       this.imagenEdit=""
@@ -162,6 +164,7 @@ export class ExpresoescolarComponent implements OnInit {
       this.cedula = "";
       this.marca = "";
       this.modelo = "";
+      this.apellidos = "";
     }
     this.modalService.open(content);
   }
@@ -175,6 +178,7 @@ export class ExpresoescolarComponent implements OnInit {
       }
       const body = {
         conductor: this.conductor,
+        apellido: this.apellidos,
         razon_social: this.razon_social,
         cedula: this.cedula,
         imagen: this.imagenEdit,
@@ -186,15 +190,16 @@ export class ExpresoescolarComponent implements OnInit {
         modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
-        pdf: this.pdf
+        // pdf: this.pdf,
       };
       JSON.stringify(body);
       console.log("cuerpo editar expreso: ", body);
-      
+
       response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
       const body = {
         conductor: this.conductor,
+        apellido: this.apellidos,
         razon_social: this.razon_social,
         cedula: this.cedula,
         imagen: this.imagen,
@@ -206,20 +211,19 @@ export class ExpresoescolarComponent implements OnInit {
         modelo: this.modelo,
         ruc: this.documento,
         tipo_usuario: "EXPRESO",
-        pdf: this.pdf
+        pdf: this.pdf,
       };
       JSON.stringify(body);
-      
-      if((!body.imagen)  ){
+
+      if (!body.imagen) {
         Swal.fire({
           title: "Por favor ingrese su imagen ",
           confirmButtonColor: "#343A40",
           confirmButtonText: "OK",
-        })
-      }else{
+        });
+      } else {
         response = await this.auth.createExpreso(body);
       }
-     
     }
     if (response) {
       this.modalService.dismissAll();
