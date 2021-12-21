@@ -52,68 +52,96 @@
                                     [ngStyle]="{'background-color':ms.selectedMailId==mail.ID? '#f2f4f8' : 'white' }">
                                     <div class="p-3 border-bottom">
                                         <div class="row">
-                                            <div class="col-10">
-                                                <div class="d-flex align-items-start">
-
-                                                    <div class="ml-1">
-                                                        <div class=" d-flex align-items-center" *ngIf="mail.is_admin">
-                                                            <h5 class="mb-0 mr-1">Para:</h5>
+                                            <div class="col-12">
+                                                <div class="row" >
+                                                    <div class="col-9 text-left mb-2 mt-4">
+                                                        <div *ngIf="mail.is_admin">
+                                                            <span> Para : </span>
                                                             <span *ngIf="mail.publico"
                                                                 class="label label-light-info mr-2">
                                                                 Todos
                                                             </span>
                                                             <span
                                                                 *ngFor="let destinatario of mail.destinatarios; let i =index">
-                                                                <span *ngIf="i<3" class="label label-light-info mr-2">
-                                                                    Mz {{destinatario.casa.manzana}} V
+                                                                <span *ngIf="i<2" class="label label-light-info mr-1">
+                                                                    Mz {{destinatario.casa.manzana}} Villa
                                                                     {{destinatario.casa.villa}}
                                                                 </span>
-
                                                             </span>
-                                                            <span *ngIf="mail.destinatarios.length>3">...</span>
+                                                            <span *ngIf="mail.destinatarios.length>2">...</span>
                                                         </div>
-                                                        <div class="d-flex align-items-center" *ngIf="!mail.is_admin">
-                                                            <h5 class="mb-0"> Mz {{mail.casa?.manzana}}
-                                                                Villa {{mail.casa?.villa}} </h5>
-
-                                                        </div>
-
-                                                        <p class="text-muted mt-2"> {{mail.publicador.nombres}}
-                                                            {{mail.publicador.apellido}} </p>
                                                     </div>
 
-                                                </div>
-                                                <!-- 
-                                                <p class="mb-0" style="margin-left: 16px;" *ngIf="mail.titulo!=''">
+                                                    <div *ngIf="!mail.is_admin" class="col-3 text-right ">
+                                                        <div class="conf mt-1" *ngIf="mail.adjuntos">
+                                                            <img src="../../../../assets/images/clip.png" style="height: 20px; transform: translateY(1.9rem);" alt="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngIf="mail.is_admin" class="col-3 text-right mt-4">
+                                                        <div class="conf" *ngIf="mail.adjuntos">
+                                                            <img src="../../../../assets/images/clip.png" style="height: 20px;" alt="">
+                                                        </div>
+                                                    </div>
+
+                                                  
+
+                                                 </div>
+
+                                                    <div class="">
+
+                                                        <div class="d-flex align-items-center" *ngIf="!mail.is_admin">
+                                                           De :  <h5 style="background-color: #cfecfe; color: #1976d2;" class="mb-0 ml-1">  Mz {{mail.casa?.manzana}}
+                                                                Villa {{mail.casa?.villa}} </h5>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center" *ngIf="!mail.is_admin">
+                                                            Residente :    <p *ngIf="!mail.is_admin" class="text-muted mt-3 ml-1"> 
+                                                                {{ mail.publicador.nombres}} {{mail.publicador.apellido}}</p>
+ 
+                                                         </div>
+
+                                                     
+                                                         <div class="row" >
+                                                            <div class="col-9 text-left mb-2 ">
+                                                                <p  class="text-muted mt-2 mb-3"> Asunto : 
+                                                                    {{mail.titulo}} </p>
+                                                            </div>
+                                                            <div class="col-3 text-right mt-2">
+                                                                <span
+                                                                class="mt-3">{{(mail.CreatedAt.split('T')[0]
+                                                                |
+                                                                date:'dd MMMM')| slice:0:6}}.</span>
+                                                            </div>
+
+                                                         </div>
+                                                              
+        
+                                                    </div>
+
+                                                
+                                                
+                                                <p  class="mb-3  mt-1" *ngIf="mail.is_admin">
                                                     <span class="font-medium" *ngIf='!mail.leido'>
-                                                        {{mail.titulo | slice:0:40}}.. </span>
-                                                    <span *ngIf='mail.leido'> {{mail.titulo | slice:0:40}}..
-                                                    </span>
-                                                </p> -->
-                                                <p class="mb-0" style="margin-left: 16px;">
-                                                    <span class="font-medium" *ngIf='!mail.leido'>
-                                                        {{mail.descripcion | slice:0:40}}.. </span>
-                                                    <span *ngIf='mail.leido'> {{mail.descripcion | slice:0:40}}..
+                                                        {{mail.descripcion | slice:0:35}}.. </span>
+                                                    <span *ngIf='mail.leido'> {{mail.descripcion | slice:0:35}}..
                                                     </span>
                                                 </p>
+                                             
                                             </div>
-                                            <div class="col-2">
+
+                                            <div class="col-12 text-right">
                                                 <div class="row justify-content-end align-items-end"
                                                     style="height: 100%;">
                                                     <span *ngIf='!mail.leido' class="label label-themecolor mr-2 mb-5"
                                                         style="cursor: none;font-size: 12px; background-color: #7875ea;">Nuevo</span>
-                                                    <div class="col-12">
-                                                        <div class="text-right">
-                                                            <span
-                                                                class="text-muted d-block">{{(mail.ultimo_mensaje.CreatedAt.split('T')[0]
-                                                                |
-                                                                date:'dd MMMM')| slice:0:6}}.</span>
-                                                        </div>
+                                                    <div class="col-6">
+                                                        
+                                                           
+                                                           
+                                                        
                                                     </div>
                                                 </div>
-
-
-
                                             </div>
                                         </div>
 

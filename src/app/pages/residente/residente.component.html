@@ -10,7 +10,7 @@
             </div>
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
-                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                <table style="zoom: 0.96;" id="myTable" class="table color-bordered-table inverse-bordered-table">
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
@@ -175,7 +175,7 @@
                             yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
                     </div>
 
-                    <div class="form-group">
+                    <div  class="form-group">
                         <label>Pdf</label>
                         <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
                             class="form-control" type="file" accept="application/pdf" required>
@@ -201,6 +201,8 @@
                         <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
                             required placeholder="Usuario" readonly>
                     </div>
+
+                  
 
                     <div class="form-group">
                         <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text"
@@ -228,6 +230,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <input [value]="fechanacimiento" [(ngModel)]="fechanacimiento" name="otra" class="form-control" type="date"
+                        required  >
+                        <br>
+                    </div>
+
+                    <div class="form-group">
                         <label>Votación</label>
                         <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
                             <option [ngValue]="true">Si</option>
@@ -249,19 +258,13 @@
                             name="fechanacimientos" class="form-control" type="text" readonly >
                     </div> -->
 
-                    <div class="form-group">
-                        <label>Fecha de nacimiento</label>
-                        <br>
-                        <p-calendar   required [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
-                            [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
-                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}" aria-readonly=""></p-calendar>
-                    </div>
+                 
                     
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Pdf</label>
                         <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="pdf"
                             class="form-control" type="file" accept="application/pdf" required>
-                    </div>
+                    </div> -->
 
                 </div>
 

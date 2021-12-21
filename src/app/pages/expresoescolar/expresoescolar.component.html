@@ -91,7 +91,7 @@
                         <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen del Conductor</label>
-                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
+                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
@@ -103,12 +103,13 @@
                         <img class="img-fluid" [src]="imagen" height="500" width="100" />
                     </div>
                     <label for="imagen">Imagen de Expreso</label>
-                    <input type="file" name="image" (change)="preview($event)" accept="image/*" />
+                    <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen d-ebe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
                     </small>
                 </div>
+                
                 <!--Campo Razon social-->
                 <div class="form-group">
                     <input [value]="razon_social" [(ngModel)]="razon_social" name="razon_social" class="form-control"
@@ -165,13 +166,16 @@
                         type="file" accept="application/pdf" required>
                 </div>
 
-                <div class="form-group" *ngIf="expreso.edit">
-                    {{pdfNombre}}
-                    <label>Pdf cédula</label>
-                    <input id="pdfNombre" (change)="PDF($event)" [(ngModel)]="pdfNombre" name="pdfNombre"
-                        class="form-control" type="file" accept="application/pdf">
 
+                <div class="form-group" *ngIf="expreso.edit">
+                    <label>Pdf cédula .</label>
+                    <input style="margin-bottom: 5px;" id="pdfNombre" (change)="PDF($event)" [(ngModel)]="pdf" name="pdfNombre"
+                        class="form-control" type="file" accept="application/pdf">
+                        <span style="margin-top: 5px;"> PDF ACTUAL: {{this.pdf.split("pdf/")[1]}} </span>  
+                        <!-- <span style="margin-top: 5px;"> PDF ACTUAL: {{this.pdf.split("pdf/")[1]}} </span>                         -->
                 </div>
+               
+
 
             </div>
             <!-- </div> -->

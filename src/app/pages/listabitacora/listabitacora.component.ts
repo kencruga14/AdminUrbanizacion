@@ -16,13 +16,13 @@ import * as moment from "moment";
 export class ListabitacoraComponent implements OnInit {
   bitacoras: UsuarioModelo[] = [];
   id_visita: 0;
-  filtroTipo: any;
+  filtroTipo: any = "";
   casas: any;
   casasselector: any;
   manzanaselector: any;
   cedula: "";
   imagenPerfil: any;
-  buscadorVilla = "";
+  buscadorVilla = null;
   buscadorManazana = null;
   id_manzana: 0;
   id_villa: 0;
@@ -107,7 +107,6 @@ export class ListabitacoraComponent implements OnInit {
     this.auth.visitasByFilterMzVillas(manzana, villa).subscribe((resp: any) => {
       this.bitacoras = resp;
       this.fechasfilter = _.uniqBy(resp, (obj) => obj.dia_creacion);
-
       console.log("visitas por filtro villa: ", this.bitacoras);
     });
   }
@@ -122,7 +121,6 @@ export class ListabitacoraComponent implements OnInit {
   getFecha(value) {
     this.buscadorVilla = value;
     this.getvivistasfilterMzVilla(this.buscadorManazana, value);
-
     console.log("casa seleccionada: ", value);
   }
 
@@ -135,16 +133,28 @@ export class ListabitacoraComponent implements OnInit {
     );
   }
 
+  getvivistasfilterMzVillaEstado(manzana, villa) {
+    this.auth
+      .visitasByFilterMzVillasDate(this.buscadorManazana, this.buscadorVilla, this.fecha , this.filtroTipo)
+      .subscribe((resp: any) => {
+        this.bitacoras = resp;
+        console.log("visitas por filtro estado ", this.bitacoras);
+      });
+  }
+
   getvivistasfilterMzVillaDate(manzana, villa, fecha) {
     fecha = moment(fecha).format();
     console.log("fecha: format ", fecha);
     this.auth
-      .visitasByFilterMzVillasDate(manzana, villa, fecha)
+      .visitasByFilterMzVillasDate(manzana, villa, fecha, this.filtroTipo)
       .subscribe((resp: any) => {
         this.bitacoras = resp;
         console.log("visitas por filtro fecha: ", this.bitacoras);
       });
   }
+
+  
+
 
   buscadorfechaGlobal(value) {
     let fecha = moment(value).format();
@@ -158,6 +168,7 @@ export class ListabitacoraComponent implements OnInit {
     this.buscadorFecha = null;
     this.buscadorVilla = null;
     this.buscadorManazana = null;
+    this.filtroTipo= "";
     this.bitacoras = [];
     this.casasselector = [];
     this.buscadorFechaglobal = null;

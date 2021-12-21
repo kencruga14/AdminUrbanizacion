@@ -256,9 +256,7 @@ export class ReservacionesComponent implements OnInit {
 
   getEstado(value) {
     this.paramVilla = value;
-    console.log("casa: ", value);
     this.getAutorizaciones(this.filtroAutorizacion, this.filtroEstado, this.filtrovilla)
-
   }
 
   getAlicuotaEstado(value) {

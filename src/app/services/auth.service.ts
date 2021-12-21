@@ -1227,7 +1227,6 @@ export class AuthService {
     if (tipo || tipo == "") params = params.append("tipo", tipo)
     if (estado || estado == "") params = params.append("estado", estado)
     if (id_casa) params = params.append("id_casa", id_casa)
-
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1580,13 +1579,13 @@ export class AuthService {
       );
   }
 
-  visitasByFilterMzVillasDate(mz: number, villa: number, fecha) {
+  visitasByFilterMzVillasDate(mz: number, villa: number, fecha, estado:string) {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
       .get(
-        `${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}&fecha=${fecha}`,
+        `${environment.apiUrl}/admin-etapa/visita?mz=${mz}&villa=${villa}&estado=${estado}&fecha=${fecha}`,
         {
           headers,
         }
