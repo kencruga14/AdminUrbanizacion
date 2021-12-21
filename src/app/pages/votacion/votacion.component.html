@@ -50,21 +50,20 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- </div> -->
         </div>
     </div>
+
+    <!-----Formulario-------------->
     <ng-template #contentEncuesta let-modal>
         <div class="modal-header">
             <h4 *ngIf="!encuesta.edit" class="modal-title" id="modal-basic-title">Crear Encuesta</h4>
-            <!-- <h4 *ngIf="encuesta.edit" class="modal-title" id="modal-basic-title">Editar Encuesta</h4> -->
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-
-        <form (ngSubmit)="gestionEncuesta()" #form="ngForm">
+        <form #form="ngForm" [formGroup]="PreguntaForm">
+            <!-- (ngSubmit)="gestionEncuesta()" -->
             <div class="modal-body">
-
                 <div class="form-group">
                     <div class="image-preview mb-3" *ngIf="images?.length >0">
                         <img class="img-fluid" [src]="images[0]" height="100px" width="100px" />
@@ -104,33 +103,36 @@
                 </div> -->
 
                 <div class="form-group">
-                    <textarea class="form-control" [(ngModel)]="encuesta.pregunta" name="pregunta" class="form-control"
-                        type="text" required placeholder="Ingrese la pregunta" rows="3" required></textarea>
+                    <textarea class="form-control" formControlName="pregunta" name="pregunta" class="form-control"
+                        type="text" required placeholder="Ingrese la pregunta" rows="3"></textarea>
                 </div>
+
                 <div class="form-group">
                     <label>Fecha de Finalización</label>
-                    <dl-date-time-picker [(startView)]="startView" name="fecha_pago" startView="day" maxView="year"
-                        minView="day" [(ngModel)]="encuesta.fecha_vencimiento" required
+                    <dl-date-time-picker formControlName="fecha_vencimiento" [(startView)]="startView"
+                        name="fecha_vencimiento" startView="day" maxView="year" minView="day"
                         [selectFilter]="startDatePickerFilter"></dl-date-time-picker>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-8" *ngFor="let opcion of encuesta.opciones ; let i=index ">
-                        <label>Ingrese las opciones</label>
-                        <input [(ngModel)]="opcion.opcion" name="opciones" class="form-control" type="text" required>
+
+                <div class="form-row" formArrayName='opciones'>
+                    <div class="form-group col-md-10"
+                        *ngFor="let user of PreguntaForm.get('opciones')['controls']; let i = index">
+                        <label>Ingrese las Opciones</label>
+                        <input name="opciones" [formControlName]="i" class="form-control" type="text" required>
+                        <!-- <button (click)="removeUser(i)">Remove</button> -->
                     </div>
-                    <div class="form-group col-md-4">
-                        <label class="transparente">.....</label>
-                        <button class="btn btn-dark" type="button" (click)="anadirOpcion()">Añadir Opción</button>
+                    <div class="form-group col-md-1">
+                        <label class="transparente">.</label>
+                        <button (click)="addOpciones()" type="button" class="btn btn-success">+</button>
+                        <!-- <button (click)="addHorario()">Add</button> -->
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer" *ngIf="!form.valid"> -->
             <div class="modal-footer" *ngIf="images?.length >0">
                 <!-- array: {{images.length}} -->
                 <!-- validacion correcta -->
-                <button type="submit" [disabled]="!form.valid" class="btn btn-outline-dark">
+                <button (click)="gestionEncuesta()" type="submit" [disabled]="!form.valid" class="btn btn-outline-dark">
                     <span *ngIf="!encuesta.edit">Guardar</span>
-                    <span *ngIf="encuesta.edit">Editar</span>
                 </button>
                 <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
             </div>
@@ -139,13 +141,14 @@
                 <!-- validacion incorrecta -->
                 <button [disabled]="!form.valid" type="submit" class="btn btn-outline-dark">
                     <span *ngIf="!encuesta.edit">Guardar</span>
-                    <span *ngIf="encuesta.edit">Editar</span>
                 </button>
                 <i *ngIf="auth.loading" class="fa fa-spinner fa-spin fa-2x"></i>
             </div>
         </form>
     </ng-template>
 
+
+    <!-------------------------------------Modal resultado Votacion-->
     <ng-template #resultado let-modal>
         <div class="modal-header">
             <h4 class="modal-title encabezado" id="modal-basic-title">Resultado de la votación</h4>
@@ -163,22 +166,10 @@
                     </thead>
                     <tbody style="text-align: center;">
                         <tr *ngFor="let item of encuestaSeleccionada['opciones']">
-                            <!-- <th scope="row ">{{i+1}}</th> -->
                             <td>{{item.opcion}}</td>
                             <td>{{item.total}}</td>
                             <td>{{item.porcentaje * 100}}%</td>
-                            <!-- <td>
-                                <a data-toggle="tooltip" data-original-title="Resultados"
-                                    (click)="openResultado(resultado, ali)"> <i
-                                        class="fas fa-info-circle text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(ali.ID)"> <i
-                                        class="fa fa-trash text-danger m-r-10"></i> </a>
-                            </td> -->
                         </tr>
-                        <!-- <tr *ngIf="(encuestas).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
-                                    existen datos</label></td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>

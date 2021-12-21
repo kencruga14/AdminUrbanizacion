@@ -4,8 +4,8 @@ import { UsuarioModelo } from "src/app/models/usuario.model";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Swal from "sweetalert2";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
+import { FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormGroup, FormArray, FormControl } from "@angular/forms";
 import { DateButton } from "angular-bootstrap-datetimepicker";
 import * as moment from "moment";
 
@@ -88,6 +88,8 @@ import { unitOfTime } from "moment";
   // encapsulation: ViewEncapsulation.None
 })
 export class VotacionComponent implements OnInit {
+  PreguntaForm;
+  submitted = false;
   casas: UsuarioModelo[] = [];
   encuestas: UsuarioModelo[] = [];
   id_encuesta: 0;
@@ -98,7 +100,7 @@ export class VotacionComponent implements OnInit {
   id: 0;
   responsiveOptions;
   images = [];
-  opciones: any;
+  // opciones: any;
   changeFoto = false;
   previews: string[] = [];
   eta = [];
@@ -119,7 +121,7 @@ export class VotacionComponent implements OnInit {
     pregunta: "",
     fecha_vencimiento: "",
     edit: false,
-    opciones: [{ opcion: "" }],
+    // opciones: [{ opcion: "" }],
     imagenes: [],
     images: "",
     imagen: "",
@@ -153,9 +155,28 @@ export class VotacionComponent implements OnInit {
       },
     ];
   }
+  buildForm() {
+    this.PreguntaForm = new FormGroup({
+      pregunta: new FormControl("", Validators.required),
+      fecha_vencimiento: new FormControl("", Validators.required),
+      opciones: new FormArray([]),
+    });
+  }
+
+  addOpciones() {
+    const add = this.PreguntaForm.get("opciones") as FormArray;
+    add.push(new FormControl("", Validators.required));
+  }
+
+  removeOpciones(i) {
+    const remove = this.PreguntaForm.get("opciones") as FormArray;
+    remove.removeAt(i);
+  }
 
   ngOnInit() {
     this.getEncuesta();
+    this.buildForm();
+    this.addOpciones();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
@@ -166,16 +187,7 @@ export class VotacionComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  // anadirOpcion() {
-  //   if (this.encuesta.opciones.length < 4) {
-  //     let opciones = [...this.encuesta.opciones];
-  //     opciones.push({ opcion: "" });
-  //     this.encuesta.opciones = opciones;
-  //   }
-  // }
-
   openEncuesta(content, encuesta = null) {
-    console.log("pregunta: ", encuesta);
     if (!encuesta) {
       this.encuesta.id_encuesta = 0;
       this.encuesta.pregunta = "";
@@ -184,19 +196,13 @@ export class VotacionComponent implements OnInit {
       this.images = [];
       this.imagenPerfil = "";
       this.encuesta.edit = false;
-      this.encuesta.opciones = [{ opcion: "" }];
-      //this.id_encuesta = encuesta.ID;
-      //this.id = encuesta.ID;
-      //this.pregunta = encuesta.pregunta;
-      //this.fecha_vencimiento = encuesta.fecha_vencimiento;
-      //this.encuesta.edit = true;
-      //this.opciones = encuesta.opciones
+      this.PreguntaForm.reset();
+      // this.PreguntaForm.clear();
+      // this.encuesta.opciones = [{ opcion: "" }];
     } else {
       this.encuesta = encuesta;
       this.pregunta = encuesta.pregunta;
       this.encuesta.edit = true;
-      // this.imagenEdit = encuesta.imagen;
-      // this.fecha_vencimiento = encuesta.fecha_vencimiento;
     }
     this.modalService.open(content);
   }
@@ -270,31 +276,44 @@ export class VotacionComponent implements OnInit {
     }
   }
 
-  anadirOpcion() {
-    if (this.encuesta.opciones.length < 4) {
-      let opciones = [...this.encuesta.opciones];
-      opciones.push({ opcion: "" });
-      this.encuesta.opciones = opciones;
-    }
-  }
+  // anadirOpcion() {
+  //   if (this.encuesta.opciones.length < 4) {
+  //     let opciones = [...this.encuesta.opciones];
+  //     opciones.push({ opcion: "" });
+  //     this.encuesta.opciones = opciones;
+  //   }
+  // }
 
   async gestionEncuesta() {
     let response: any;
+    this.submitted = true;
+    if (this.PreguntaForm.invalid) {
+      alert("Error en validacion del formulario");
+    }
+
+    console.log("formulario: ", this.PreguntaForm.value);
     if (this.encuesta.edit) {
       const body = {
-        pregunta: this.encuesta.pregunta,
-        imagen: this.imagenEdit,
-        fecha_vencimiento: this.encuesta.fecha_vencimiento,
-        opciones: this.encuesta.opciones,
+        // pregunta: this.PreguntaForm.value.pregunta,
+        // imagen: this.imagenEdit,
+        // fecha_vencimiento: this.encuesta.fecha_vencimiento,
+        // opciones: this.encuesta.opciones,
       };
       JSON.stringify(body);
       // response = await this.auth.editEncuesta(this.id, body);
     } else {
+      // console.log("formulario: ", this.PreguntaForm.value.opciones[0]);
+      let arr = [];
+      for (var i = 0; i < this.PreguntaForm.value.opciones.length; i++) {
+        arr.push({
+          opcion: this.PreguntaForm.value.opciones[i],
+        });
+      }
       const body = {
         imagenes: this.images,
-        pregunta: this.encuesta.pregunta,
-        fecha_vencimiento: this.encuesta.fecha_vencimiento,
-        opciones: this.encuesta.opciones,
+        pregunta: this.PreguntaForm.value.pregunta,
+        fecha_vencimiento: this.PreguntaForm.value.fecha_vencimiento,
+        opciones: arr,
       };
       JSON.stringify(body);
       console.log("body crear pregunta: ", body);
@@ -303,6 +322,9 @@ export class VotacionComponent implements OnInit {
     if (response) {
       this.modalService.dismissAll();
       this.getEncuesta();
+      this.PreguntaForm.reset();
+      this.PreguntaForm.clear();
+      // this.PreguntaForm.removeAt();
       this.images = [];
     }
   }

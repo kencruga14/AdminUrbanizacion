@@ -385,7 +385,7 @@ export class AreasocialComponent implements OnInit {
     console.log(item)
     if (item.precio == 0) {
       Swal.fire({
-        title: "<h2>Esta area fue creada para que su ingreso sea gratuito. No genera recaudaciones</h2>",
+        title: "<h2>Esta área fue creada para que su ingreso sea gratuito. No genera recaudaciones</h2>",
         confirmButtonColor: "#343A40",
         confirmButtonText: "OK",
       })
