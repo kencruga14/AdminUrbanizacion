@@ -22,6 +22,7 @@
                     <label>Villa</label>
                     <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select"
                         (change)="getFecha($event.target.value)">
+                        <option selected hidden value=""> Seleccione una Villa </option>
                         <option *ngFor="let ur of casasselector" value="{{ur.villa}}">{{ur.villa}}</option>
                     </select>
                 </div>
@@ -31,6 +32,8 @@
                     <input type="date" class="form-control" id="fecha" name="fecha" [ngModel]="buscadorFecha"
                         (change)="filterfecha($event.target.value)">
                 </div>
+
+                
 
                 <div class="form-group col-sm-1 my-1">
                     <label class="transparente">dd.</label><br>
@@ -49,34 +52,33 @@
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Cédula</th>
+                            <th>Usuario</th>
                             <th>Asunto</th>
                             <th>Manzana</th>
                             <th>Villa</th>
-                            <th>Fecha Ingreso</th>
-                            <th>Hora Ingreso</th>
-                            <th>Medio de ingreso</th>
-                            <th>Placa Ingreso</th>
+                            <!-- <th>Tipo</th> -->
+                            <th>Fecha Ingreso </th>
+                            <th>Hora Ingreso </th>
+                    
+
                             <th>Fecha Salida</th>
                             <th>Hora Salida</th>
-                            <th>Medio de salida</th>
-                            <th>Placa Salida</th>
+                            <th>Medio Salida </th>
+
+                            <th>Placa </th>
                             <th>Guardia</th>
                             <th>Estado</th>
                             <th>Por:</th>
+                            <!-- <th>Fecha Salida</th>
+                            <th>Hora Salida</th>
+                            <th>Medio de salida</th>
+                            <th>Placa Salida</th> -->
+                          
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
                         <tr *ngFor="let visit of bitacoras | filter:filterName ; let i=index ">
-                            <!-- <th>Villa</th>
-                            <th>Fecha Ingreso</th>
-                            <th>Hora Ingreso</th>
-                            <th>Medio</th>
-                            <th>Placa</th>
-                            <th>Fecha Salida</th>
-                            <th>Hora Salida</th>
-                            <th>Medio</th>
-                            <th>Placa</th> -->
-                            <th scope="row ">{{i+1}}</th>
+                            <td>{{i+1}}</td>
                             <td>
                                 <figure>
                                     <img class="avatar" [src]="visit.imagen" alt="image" data-holder-rendered="true"
@@ -87,20 +89,23 @@
                             <td>{{visit.nombres}}</td>
                             <td>{{visit.apellidos}}</td>
                             <td>{{visit.cedula}}</td>
+                            <td>{{visit.tipo_usuario}}</td>
                             <td>{{visit.motivo}}</td>
                             <td>{{visit.casa.manzana}}</td>
                             <td>{{visit.casa.villa}}</td>
-                            <!-- <td>{{visit.entrada.hora_entrada | date: 'dd/MM/yyyy' }}</td>
-                                <td>{{visit.entrada.hora_entrada | date: 'h:mm a' }}</td>
-                                <td>{{visit.entrada.tipo_entrada}}</td>
-                                <td>{{visit.entrada.placa}}</td>
-                                <td *ngIf="visit.salida.hora_salida">{{visit.salida.hora_salida | date: 'dd/MM/yyyy'}}
-                                </td>
-                                <td *ngIf="!visit.salida.hora_salida">No hay registro</td>
-                                <td>{{visit.salida.hora_salida | date: 'h:mm a'}}</td>
-                                <td>{{visit.salida.tipo_salida}}</td>
-                                <td>{{visit.salida.placa}}</td> -->
+                            <!-- <td>{{visit.casa.villa}}</td> -->
+                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] }}</td>
+                            <td *ngIf="!visit.entrada"> - </td>
+                            <td *ngIf="visit.entrada">{{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +  visit.entrada.hora_entrada.split("T")[1].split(":")[1]}}</td>
+                            <td *ngIf="!visit.entrada"> - </td>
+                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] }}</td>
+                            <td *ngIf="!visit.entrada"> - </td>
+                            <td *ngIf="!visit.entradaa">{{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +  visit.entrada.hora_entrada.split("T")[1].split(":")[1]}}</td>
+                            <td *ngIf="!visit.entrada"> - </td>
+                            <td>{{visit.tipo_entrada}}</td>
+                            <td>{{visit.placa}}</td>
                             <td>{{visit.guardia.nombres}}</td>
+                          
                             <td *ngIf="visit.Estado === 'ACEPTADA'">
                                 <Div class="aceptada">
                                     <strong> {{visit.Estado}}</strong>

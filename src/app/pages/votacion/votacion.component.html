@@ -24,7 +24,7 @@
                 </thead>
                 <tbody style="text-align: center;">
                     <tr *ngFor="let ali of encuestas | votacion:filterName; let i=index ">
-                        <th scope="row ">{{i+1}}</th>
+                        <td>{{i+1}}</td>
                         <td>
                             <figure>
                                 <img class="avatar" [src]="ali.imagenes[0]" alt="image" data-holder-rendered="true"

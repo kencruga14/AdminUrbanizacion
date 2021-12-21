@@ -84,6 +84,7 @@ export class AutorizadosComponent implements OnInit {
     this.auth.getAutorizados().subscribe((resp: any) => {
       console.log(resp);
       this.autorizados = resp;
+      console.log('autorizados',this.autorizados)
     });
   }
   openImage(admin) {

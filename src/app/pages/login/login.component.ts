@@ -24,10 +24,10 @@ export class LoginComponent implements OnInit {
   usuario: string;
   contrasena: string;
   validacionUsuario: any;
-  titulo: string;
+  titulo: string= null;
   etapas: UsuarioModelo[] = [];
-  nombre: string;
-  correo: string;
+  nombre: string = null;
+  correo: string = null;
   descripcion: string;
   banderaLogin: boolean = false;
 
@@ -50,6 +50,13 @@ export class LoginComponent implements OnInit {
   }
 
   async gestionContact() {
+    if(!this.nombre){
+      Swal.fire({
+        title: "Por favor llene todos los campos",
+        confirmButtonColor: "#343A40",
+        confirmButtonText: "OK",
+      })
+    }else{
     let response: any;
     const body = {
       titulo: this.titulo,
@@ -65,6 +72,7 @@ export class LoginComponent implements OnInit {
       this.descripcion="";
       this.correo="";
     }
+  }
   }
 
   getDataUrb() {
