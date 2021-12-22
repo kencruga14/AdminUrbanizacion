@@ -9,7 +9,7 @@ export class MailGlobalVariable {
     public page = 1;
     public pageSize = 6;
     public collectionSize = 0;
-
+    public array : any;
     public topLable = '';
     public mailList: any = [];
     public selectedMail: any;
@@ -35,7 +35,8 @@ export class MailGlobalVariable {
 
 @Injectable()
 export class MailService {
-
+    public array : any;
+    
     public getInbox() {
         return mailboxList.filter(mail => mail.mailbox === 'Recibidos');
     }

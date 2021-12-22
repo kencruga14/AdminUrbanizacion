@@ -14,8 +14,10 @@ import _ from "lodash";
   styleUrls: ['./listing.component.scss']
 })
 export class ListingComponent implements OnInit {
+
   public showSidebar = false;
   public config: PerfectScrollbarConfigInterface = {};
+  separatedArray :any =[]
   mailboxes: Category[] = mailbox;
   filters: Category[] = filter;
   labels: Category[] = label;
@@ -232,12 +234,15 @@ export class ListingComponent implements OnInit {
     const response = await this.auth.getMensajePorId(mail.ID)
     if (response[0]) {
       this.ms.selectedMail = response[1];
+      this.separatedArray = []
+      this.mailService.array = []
+      this.separatedArray = this.ms.selectedMail.descripcion.split('\n')
+      this.mailService.array= this.separatedArray
+      console.log("otro:",this.mailService.array)
       this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
       this.ms.selectedMail.seen = true;
       this.ms.selectedMail.destinatarios = mail.destinatarios;
-
       this.ms.selectedMailId = mail.ID
-
     } else {
       this.ms.selectedMail.respuestas = []
 

@@ -11,7 +11,7 @@ import { MailGlobalVariable, MailService } from '../mail.service';
 })
 export class DetailComponent implements OnInit {
   @ViewChild("utlimo", { static: false }) chat: ElementRef;
-
+  separatedArrayDetails = [];
   mensaje: any = { adjuntos: [] }
   selectedFiles: FileList;
   myFiles: string[] = [];
@@ -21,7 +21,8 @@ export class DetailComponent implements OnInit {
     public modal: NgbModal) { }
 
   ngOnInit() {
-
+    this.separatedArrayDetails = this.mailService.array
+    console.log("detailes:", this.separatedArrayDetails)
   }
 
   global() {
@@ -51,10 +52,10 @@ export class DetailComponent implements OnInit {
       const response = await this.auth.responderMensaje(this.ms.selectedMail.ID, this.mensaje)
       if (response[0]) {
         if (archivos.length == 0) {
-
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+          console.log("1",this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -62,6 +63,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+            console.log("2",this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 
@@ -73,10 +75,10 @@ export class DetailComponent implements OnInit {
       const response = await this.auth.responderMensajeP(this.mensaje.destinatario, this.ms.selectedMail, this.mensaje)
       if (response[0]) {
         if (archivos.length == 0) {
-
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+          console.log("3",this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -84,6 +86,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
+            console.log("4",this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 

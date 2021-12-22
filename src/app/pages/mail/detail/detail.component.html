@@ -16,7 +16,7 @@
             </span>
         </h4>
     </div> -->
-    <div class="p-1">
+    <div class="p-3">
         <div class="mb-1 ">
             <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
             <div>
@@ -33,13 +33,13 @@
                     </div>
                     <div class="col-md-8" *ngIf="ms.selectedMail.is_admin">
                         <div class=" align-items-center  text-left">
-                            <h5 class="mb-0 mr-1 mt-3"> <b class="mt-1" style="font-size: 1.1rem;"  >Para:</b>
+                            <h5 class="mb-0 mr-2 mt-3 mb-3"> <b class="mt-1" style="font-size: 1rem;"  >Para:</b>
 
-                                <span *ngIf="ms.selectedMail.publico" class="label label-light-info mr-2">
+                                <span *ngIf="ms.selectedMail.publico" class="label label-light-info mr-2 ml-1">
                                     Todos
                                 </span>
                                 <span *ngFor="let destinatario of ms.selectedMail.destinatarios; let i =index">
-                                    <span class="label label-light-info mr-2 mb-2 ml-1">
+                                    <span class="label label-light-info mr-2 mb-1 ml-1">
                                         Mz {{destinatario.casa.manzana}} Villa {{destinatario.casa.villa}}
                                     </span>
 
@@ -54,14 +54,19 @@
                     </div>
                 </div>
 
-                <span style="font-weight: bold; font-size: 1.4rem; color: black;" class="text-muted  mt-3 mb-5">{{ms.selectedMail.titulo}}</span>
+                <span style="font-weight: bold; font-size: 1.22rem;  " class="mt-3 mb-5">{{ms.selectedMail.titulo}}</span>
                 <br>
             </div>
 
         </div>
+
         <div class="mt-3 mb-5">
-            {{ms.selectedMail.descripcion}}
+            <h5 *ngFor="let linea of this.mailService.array; let i=index">
+                {{linea}}
+            </h5>
+        
         </div>
+
         <div class="row ">
             <div class=" p-0 col-md-1 text-center" *ngFor="let archivo of ms.selectedMail.archivos; let i=index">
                 <a (click)="goToLink(archivo.url)">
