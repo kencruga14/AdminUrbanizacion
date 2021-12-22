@@ -478,8 +478,8 @@
             <div class="table table-responsive">
               <table class="col-md-12">
                 <thead>
-                  <th scope="col">#</th>
-                  <th scope="col">Dia</th>
+                  <th scope="col">No</th>
+                  <th scope="col">Día</th>
                   <th scope="col">Hora Apertura</th>
                   <th scope="col">Hora Cierre</th>
                   <th style="padding-left: 25px;" scope="col">Desde</th>
@@ -489,14 +489,23 @@
                 <tbody>
                   <tr *ngFor="let div of horarios; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ div.dia }}</td>
+                    <td *ngIf="div.dia ==='Monday'">Lunes</td>
+                    <td *ngIf="div.dia ==='Tuesday'">Martes</td>
+                    <td *ngIf="div.dia ==='Wednesday'">Miércoles</td>
+                    <td *ngIf="div.dia ==='Thursday'">Jueves</td>
+                    <td *ngIf="div.dia ==='Friday'">Viernes</td>
+                    <td *ngIf="div.dia ==='Saturday'">Sabado</td>
+                    <td *ngIf="div.dia ==='Sunday'">Domingo</td>
                     <td style="padding-left: 30px;">{{ div.hora_inicio.split(":")[0].padStart(2,"0") + ":" +
                       div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
                     <td style="padding-left: 30px;">{{ div.hora_fin.split(":")[0].padStart(2,"0") + ":" +
                       div.hora_inicio.split(":")[1].padEnd(2,"0")}}</td>
-                    <td>{{ div.fecha_inicio.split("T")[0] }}</td>
-                    <td>{{ div.fecha_fin.split("T")[0]}}</td>
+                    <td>{{ div.fecha_inicio | date: 'dd-MM-yyyy' }}</td>
+                    <td>{{ div.fecha_fin | date: 'dd-MM-yyyy'}}</td>
                     <td>
+                      <a data-toggle="tooltip" data-original-title="Informacion"
+                        (click)="openDiasInahibilatos(contentIna)"><i class="fa fa-info-circle text-inverse m-r-10"></i>
+                      </a>
                       <a data-toggle="tooltip" data-original-title="Editar" (click)="open(modal, div)"><i
                           class="fa fa-pencil text-inverse m-r-10"></i> </a>
                       <a data-toggle="tooltip" data-original-title="Eliminar" (click)="eliminarHorario(div.ID)"><i
@@ -539,22 +548,23 @@
             <div class="modal-body">
               <div class="row">
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label>Dia</label>
-                    <select name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select">
-                      <option value="Lunes"> Lunes</option>
-                      <option value="Martes">Martes</option>
-                      <option value="Miercoles">Miercoles</option>
-                      <option value="Jueves">Jueves</option>
-                      <option value="Viernes">Viernes</option>
-                      <option value="Sabado">Sabado</option>
-                      <option value="Domingo">Domingo</option>
+                    <select name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select"
+                      (change)="desahibilitardia($event.target.value)">
+                      <option value="Monday">Lunes</option>
+                      <option value="Tuesday">Martes</option>
+                      <option value="Wednesday">Miercoles</option>
+                      <option value="Thursday">Jueves</option>
+                      <option value="Friday">Viernes</option>
+                      <option value="Saturday">Sabado</option>
+                      <option value="Sunday">Domingo</option>
                     </select>
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label for="hora_inicio">Hora apertura</label>
                     <input id="hora_inicio" [value]="item.hora_inicio" [(ngModel)]="item.hora_inicio" name="hora_inicio"
@@ -562,7 +572,7 @@
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label for="hora_fin">Hora cierre</label>
                     <input id="hora_fin" [value]="item.hora_fin" [(ngModel)]="item.hora_fin" name="hora_fin"
@@ -570,26 +580,83 @@
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
-                    <label for="fecha_inicio">Fecha Inicio</label>
-                    <input id="fecha_inicio" [value]="item.fecha_inicio" [(ngModel)]="item.fecha_inicio"
-                      name="fecha_inicio" class="form-control" type="date" required />
+                    <div class="ui-g ui-fluid">
+                      <div class="ui-g-12 ui-md-12">
+                        <label for="fecha_inicio">Fecha Inicio</label><br>
+                        <p-calendar required [(ngModel)]="item.fecha_inicio" dateFormat="dd-mm-yy" [showIcon]="true"
+                          [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
+                          [ngModelOptions]="{standalone: true}"></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12" *ngIf="!item.edit">
+                  <div class="form-group">
+                    <div class="ui-g ui-fluid">
+                      <div class="ui-g-12 ui-md-12">
+                        <label for="fecha_fin">Fecha Fin</label><br>
+                        <p-calendar required [(ngModel)]="item.fecha_fin" dateFormat="dd-mm-yy" [showIcon]="true"
+                          [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
+                          [ngModelOptions]="{standalone: true}"></p-calendar>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="fecha_fin">Fecha Fin</label>
-                    <input id="fecha_fin" [value]="item.fecha_fin" [(ngModel)]="item.fecha_fin" name="fecha_fin"
-                      class="form-control" type="date" required />
+                    <label>Excluir días</label>
+                    <select name="tiempo_reservacion_minutos" [(ngModel)]="excluirdias"
+                      class="form-control custom-select">
+                      <option value="Si">Si</option>
+                      <option value="No">No</option>
+                    </select>
                   </div>
                 </div>
-                <div class="col-12">
+
+                <div class="col-12" *ngIf="excluirdias==='Si' && item.edit">
+                  <!-- modificar -->
                   <div class="form-group">
-                    <label for="excluir_dia">Excluir días</label>
-                    <input id="excluir_dia" [value]="item.excluir" [(ngModel)]="item.fecha_fin" name="excluir_dia"
-                      class="form-control" type="date" required />
+                    <div class="ui-g ui-fluid">
+                      <div class="ui-g-12 ui-md-12">
+                        <label for="excluir_dia">Seleccione días</label><br>
+                        <p-calendar name="excluir_dia" [(ngModel)]="item.excluirE" [minDate]="fechaA" [maxDate]="fechaB"
+                          [readonlyInput]="true" dateFormat="dd-mm-yy" [showIcon]="true" [locale]="es"
+                          [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
+                          [ngModelOptions]="{standalone: true}" [disabledDays]="diasDesabilitados"
+                          [readonlyInput]="true" selectionMode="multiple">
+                          <ng-template pTemplate="date" let-date>
+                            <span [ngStyle]="{backgroundColor: '#81C784'}" style="border-radius:50%">{{date.day}}</span>
+                          </ng-template>
+                        </p-calendar>
+                        <!-- fi: {{fechaA}}
+                        ff: {{fechaB}} -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12" *ngIf="excluirdias==='Si' && !item.edit">
+                  <div class="form-group">
+                    <div class="ui-g ui-fluid">
+                      <div class="ui-g-12 ui-md-12">
+                        <label for="excluir_dia">Seleccione días</label><br>
+                        <p-calendar name="excluir_dia" [(ngModel)]="item.excluirC" [minDate]="item.fecha_inicio"
+                          [maxDate]="item.fecha_fin" [readonlyInput]="true" dateFormat="dd-mm-yy" [showIcon]="true"
+                          [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
+                          [ngModelOptions]="{standalone: true}" [disabledDays]="diasDesabilitados"
+                          [readonlyInput]="true" selectionMode="multiple">
+                          <ng-template pTemplate="date" let-date>
+                            <span [ngStyle]="{backgroundColor: '#81C784'}" style="border-radius:50%">{{date.day}}</span>
+                          </ng-template>
+                        </p-calendar>
+                        <!-- fi: {{fechaA}}
+                        ff: {{fechaB}} -->
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -652,5 +719,39 @@
           </button>
         </div>
       </form>
+    </div>
+  </ng-template>
+
+  <ng-template #contentIna let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title"> titulo </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-body">
+          <div class="table table-responsive">
+            <table class="col-md-12">
+              <thead>
+                <th scope="col">Día</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Estado</th>
+              </thead>
+              <tbody>
+                <!-- <tr *ngFor="let div of horarios; let i = index"> -->
+                <tr>
+                  <td>______</td>
+                  <td>_______</td>
+                  <td>Inhabilitado</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
     </div>
   </ng-template>

@@ -2,9 +2,24 @@ th,
 td {
   /* padding: 10px;
   width: 50%; */
-  white-space:nowrap
+  white-space: nowrap;
 }
 .box img {
   width: 100%;
   height: auto;
 }
+
+.transparente {
+  color: white;
+}
+
+::ng-deep body .ui-datepicker table td > a.ui-state-active,
+body .ui-datepicker table td > span.ui-state-active {
+  color: #ffffff;
+  background-color: #f10a0a;
+}
+
+/* body .ui-datepicker table td > a.ui-state-active, body .ui-datepicker table td > span.ui-state-active {
+  color: #ffffff;
+  background-color: #007ad9;
+} */
