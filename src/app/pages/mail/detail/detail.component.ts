@@ -21,8 +21,7 @@ export class DetailComponent implements OnInit {
     public modal: NgbModal) { }
 
   ngOnInit() {
-    this.separatedArrayDetails = this.mailService.array
-    console.log("detailes:", this.separatedArrayDetails)
+
   }
 
   global() {

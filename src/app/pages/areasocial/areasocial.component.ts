@@ -172,7 +172,6 @@ export class AreasocialComponent implements OnInit {
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
 
-      // this.imagenAlt = reader.result;
     };
     this.changeFoto = true;
   }

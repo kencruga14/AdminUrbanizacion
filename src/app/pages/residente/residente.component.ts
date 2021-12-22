@@ -145,6 +145,8 @@ export class ResidenteComponent implements OnInit {
       console.log("residentes: ", this.residentes);
     });
   }
+
+  
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
       console.log("casas: ", resp);

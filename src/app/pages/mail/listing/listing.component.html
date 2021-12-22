@@ -108,7 +108,7 @@
                                                          <div class="row mt-2" *ngIf="!mail.is_admin">
                                                             <div class="col-9 text-left">
                                                                 <b style="color: black;"> Residente : </b>    <span *ngIf="!mail.is_admin" class="text-muted mt-3 ml-1"> 
-                                                                    {{ mail.publicador.nombres}} {{mail.publicador.apellido}}</span>
+                                                                    {{ mail.publicador.nombres.split(' ')[0]}} {{mail.publicador.apellido}}</span>
                                                             </div>
                                                             <div class="col-3 text-right">
                                                                 <div class=""

@@ -88,38 +88,8 @@ export class ListingComponent implements OnInit {
     this.ms.topLable = category;
   }
 
-  async mailboxesChanged(type: string) {
-    if (type === 'Recibidos') {
-      const response = await this.auth.getBuzonRecibidos()
-      if (response[0]) {
-        this.recibidos = response[1]
-        let cont = 0
-        this.recibidos.forEach(recibido => {
-          if (!recibido.leido) {
-            cont++
+ 
 
-          }
-        });
-        this.ms.inboxCount = cont
-      }
-      this.ms.mailList = this.recibidos;
-      this.ms.collectionSize = this.recibidos.length;
-      this.changeCaterories(type);
-      this.ms.type = 'Recibidos';
-      this.router.navigate(['home/mail/inbox']);
-    } else if (type === 'Enviado') {
-      const response = await this.auth.getBuzonEnviados()
-      if (response[0]) {
-        this.enviados = response[1]
-      }
-      this.ms.mailList = this.enviados;
-      this.ms.collectionSize = this.enviados.length;
-      this.changeCaterories(type);
-      this.ms.type = 'Enviado';
-      this.router.navigate(['home/mail/enviado']);
-    }
-
-  }
   add() {
 
     let destinatarios = [...this.correo.destinatarios];
@@ -179,9 +149,7 @@ export class ListingComponent implements OnInit {
     const response = await this.auth.enviarMensaje(this.correo)
     if (response[0]) {
       if (archivos.length == 0) {
-
         this.auth.showAlert("Correo enviado", "success");
-
       }
       if (archivos.length > 0) {
         const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -195,15 +163,16 @@ export class ListingComponent implements OnInit {
 
     }
     this.loadingEnviar = false
-
     this.id_casa = 0
     this.manzana = 0
     this.modal.dismissAll()
     this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
     this.myFiles = []
+    this.mailboxesChanged("Enviado")
     this.selectedFiles = new FileList
-    this.mailboxesChanged("Recibidos")
+   
   }
+
   descartar() {
     this.id_casa = 0
     this.manzana = 0
@@ -238,7 +207,7 @@ export class ListingComponent implements OnInit {
       this.mailService.array = []
       this.separatedArray = this.ms.selectedMail.descripcion.split('\n')
       this.mailService.array= this.separatedArray
-      console.log("otro:",this.mailService.array)
+      // console.log("otro:",this.mailService.array)
       this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
       this.ms.selectedMail.seen = true;
       this.ms.selectedMail.destinatarios = mail.destinatarios;
@@ -267,6 +236,42 @@ export class ListingComponent implements OnInit {
     this.loading = false;
 
     this.ms.mailList = this.recibidos;
+  }
+
+
+  async mailboxesChanged(type: string) {
+    console.log("entrando mailbox")
+    if (type === 'Recibidos') {
+      const response = await this.auth.getBuzonRecibidos()
+      if (response[0]) {
+        this.recibidos = response[1]
+        let cont = 0
+        this.recibidos.forEach(recibido => {
+          if (!recibido.leido) {
+            cont++
+
+          }
+        });
+        this.ms.inboxCount = cont
+      }
+      this.ms.mailList = this.recibidos;
+      this.ms.collectionSize = this.recibidos.length;
+      this.changeCaterories(type);
+      this.ms.type = 'Recibidos';
+      this.router.navigate(['home/mail/inbox']);
+    } else if (type === 'Enviado') {
+      console.log("entrando enviado")
+      const response = await this.auth.getBuzonEnviados()
+      if (response[0]) {
+        this.enviados = response[1]
+      }
+      this.ms.mailList = this.enviados;
+      this.ms.collectionSize = this.enviados.length;
+      this.changeCaterories(type);
+      this.ms.type = 'Enviado';
+      this.router.navigate(['home/mail/enviado']);
+    }
+
   }
 
 }

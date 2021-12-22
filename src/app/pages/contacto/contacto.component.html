@@ -64,15 +64,14 @@
             </div>
             <form (ngSubmit)="gestionContacto()" #form="ngForm">
                 <div class="modal-body">
+                    
                     <div class="form-group" *ngIf="imagenEdit">
                         <!-- editar imagen -->
                         <div class="contenedor">
                             <div class="image-preview mb-2" *ngIf="imagenEdit">
                                 <img class="img-fluid" [src]="imagenEdit" height="100px" width="100px" />
-
                             </div>
                         </div>
-
                         <label for="imagen">Imagen de Perfil</label>
                         <input type="file" name="image" (change)="editImagen($event)" accept="image/*" />
                         <small id="passwordHelpBlock" class="form-text text-muted">
