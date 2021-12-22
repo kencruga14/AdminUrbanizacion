@@ -28,6 +28,7 @@ export class AreasocialComponent implements OnInit {
   reservasRecaudaciones: any = [];
   valorTotal: any = 0;
   idA: any;
+  datesExclude: any;
   es: any;
   excluirdias: string = "";
   idTemporal: any;
@@ -35,6 +36,9 @@ export class AreasocialComponent implements OnInit {
   reservas: any;
   is_publica: any;
   estado: any;
+  invalidDates: Date[] = [];
+  // const result : string[] = [];
+  // dates: Date[];
   horarios: any;
   diasDesabilitados: any;
   informacionArea: any;
@@ -186,18 +190,8 @@ export class AreasocialComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  //anadirOpcion(){
-  // if(this.area.opciones.length < 4){
-  // let opciones= [...this.area.opciones]
-  //opciones.push({opcion: ''})
-  //this.area.opciones = opciones
-
-  // }
-
-  //}
-
   desahibilitardia(value) {
-    console.log("valor seleccionado: ", value);
+    // console.log("valor seleccionado: ", value);
     let a =
       value === "Sunday"
         ? 0
@@ -212,17 +206,16 @@ export class AreasocialComponent implements OnInit {
         : value === "Friday"
         ? 5
         : 6;
-    console.log("value: ", a);
+    // console.log("value: ", a);
     let f = [0, 1, 2, 3, 4, 5, 6, 7];
     this.diasDesabilitados = f.filter((d) => d !== a);
-    // let diadesa = this.removeItemFromArr(this.diasDesabilitados, a);
-    console.log("result: ", this.diasDesabilitados);
+    // console.log("result: ", this.diasDesabilitados);
   }
   // var newFoo = removeItemFromArr( foo, 'thumb-2' );
   preview(event: any) {
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
-    console.log("entrando1");
+    // console.log("entrando1");
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
@@ -237,7 +230,7 @@ export class AreasocialComponent implements OnInit {
   }
 
   editImagen(event: any) {
-    console.log("entrando2");
+    // console.log("entrando2");
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -254,19 +247,18 @@ export class AreasocialComponent implements OnInit {
   }
 
   openImage(admin, area = null) {
-    console.log("admin seleccionado: ", admin);
+    // console.log("admin seleccionado: ", admin);
     this.imagenPerfil = admin;
     this.nombre = area.nombre;
     this.hora_apertura = area.hora_apertura;
     this.hora_cierre = area.hora_cierre;
     this.precio = area.precio;
-    console.log("imagen perfil: ", this.imagenPerfil);
+    // console.log("imagen perfil: ", this.imagenPerfil);
     // this.modalService.open(content);
   }
 
   openArea(content, area = null) {
     if (area) {
-      // this.id_area = area.ID;
       this.id = area.ID;
       this.imagenEdit = area.imagen;
       this.imagen = area.imagen;
@@ -282,11 +274,6 @@ export class AreasocialComponent implements OnInit {
       this.seleccionCosto = area.seleccionCosto;
       this.precio = area.precio;
       this.estado = area.estado;
-      // if(area.precio>0){
-      //   this.seleccionCosto="PAGADO"
-      // }else{
-      //   this.seleccionCosto="GRATIS"
-      // }
       this.area = area;
       this.area.edit = true;
     } else {
@@ -305,8 +292,8 @@ export class AreasocialComponent implements OnInit {
       this.area.edit = false;
       this.excluirdias = "";
       this.diasDesabilitados = [];
-      // this.dates = []
-      // dates: Date[];
+      this.fechaA = null;
+      this.fechaB = null;
     }
     this.modalService.open(content);
   }
@@ -348,7 +335,7 @@ export class AreasocialComponent implements OnInit {
   getHorarios(id: string) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.horarios = resp.horarios;
-      console.log(this.horarios);
+      console.log("modal horario: ", this.horarios);
     });
   }
 
@@ -445,9 +432,12 @@ export class AreasocialComponent implements OnInit {
     this.getInfoAreaSocial(item.ID, content);
   }
 
-  openDiasInahibilatos(content) {
+  openDiasInahibilatos(content, div) {
     this.modalService.open(content, { size: "lg" });
+    this.datesExclude = div;
+    console.log("modal dias inahibilitados: ", div);
   }
+
   openRecaudaciones(content, item) {
     console.log(item);
     if (item.precio == 0) {
@@ -491,12 +481,16 @@ export class AreasocialComponent implements OnInit {
   async gestionHorarios() {
     let response: any;
     let diasExcluidos = [];
-    if (this.excluirdias === "Si")
-      for (let i = 0; i < this.item.excluirC.length; i++) {
-        diasExcluidos.push(moment(this.item.excluirC[i]).format());
+    if (this.item.dias_exclude.length > 0)
+      for (let i = 0; i < this.item.dias_exclude.length; i++) {
+        diasExcluidos.push(moment(this.item.dias_exclude[i]).format());
       }
     // console.log("diasExcluidos: ", diasExcluidos);
     if (this.item.edit) {
+      const body = {
+        dias_exclude: diasExcluidos,
+      };
+      // console.log("body editar: ", body);
       response = await this.auth.editHorario(this.item.ID, this.item);
       if (response[0]) {
         this.auth.showAlert(" Actualizado exitosamente ", "success");
@@ -508,32 +502,34 @@ export class AreasocialComponent implements OnInit {
         fecha_fin: moment(this.item.fecha_fin).format(),
         fecha_inicio: moment(this.item.fecha_inicio).format(),
         hora_fin: this.item.hora_fin,
-        fechas_exclude: diasExcluidos,
+        dias_exclude: diasExcluidos,
         hora_inicio: this.item.hora_inicio,
         id_area: this.item.id_area,
       };
-      console.log("body crear: ", body);
+      // console.log("body crear: ", body);
       response = await this.auth.createHorario(this.item);
       if (response[0]) {
         this.auth.showAlert("Creado exitosamente", "success");
       }
     }
     if (response) {
-      //this.modalService.dismissAll();
+      this.modalService.dismissAll();
       this.getHorarios(this.idTemporal);
     }
   }
 
   open(content, item) {
+    console.log("modal editar: ", item);
     if (item != null) {
       this.desahibilitardia(item.dia);
       this.fechaA = new Date(item.fecha_inicio);
       this.fechaB = new Date(item.fecha_fin);
+      for (let i = 0; i < item.fechas_exclude.length; i++) {
+        let as = new Date(item.fechas_exclude[i].fecha);
+        this.invalidDates.push(as);
+      }
+      // console.log("invalidDates: ", this.invalidDates);
     }
-    // console.log("item editar horario: ", item);
-
-    // console.log("fecha inicio: ", this.fechaA);
-    // console.log("fecha fin: ", this.fechaB);
 
     if (item) {
       this.item = item;
@@ -561,6 +557,32 @@ export class AreasocialComponent implements OnInit {
         const response = await this.auth.deleteHorario(id);
         if (response) {
           this.getHorarios(this.idTemporal);
+        }
+      }
+    });
+  }
+
+  async eliminarDiaExcluido(id: number) {
+    Swal.fire({
+      title: "¿Seguro que desea habilitar este día?",
+      text: "Esta acción no se puede revertir ",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#343a40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.value) {
+        const response = await this.auth.deleteDiaExcluido(id);
+        if (response) {
+          this.modalService.dismissAll();
+          this.getHorarios(this.idTemporal);
+          this.fechaB = null;
+          this.fechaA = null;
+          this.invalidDates = [];
+
+          // this.fehc
         }
       }
     });

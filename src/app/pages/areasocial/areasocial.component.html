@@ -123,7 +123,7 @@
             <!-- editar imagen -->
             <div class="contenedor">
               <div class="image-preview mb-2" *ngIf="imagenEdit">
-                <img class="img-fluid" [src]="imagenEdit" height="60%" width="100%" />
+                <img class="img-fluid" [src]="imagenEdit" height="50px" width="150px" />
               </div>
             </div>
             <label for="imagen">Imagen de Perfil</label>
@@ -137,7 +137,7 @@
           <div class="form-group" *ngIf="!imagenEdit">
             <!-- ImagenCrear -->
             <div class="image-preview mb-3" *ngIf="imagenPerfil">
-              <img class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
+              <img class="img-fluid" [src]="imagenPerfil" height="50px" width="150px" />
             </div>
             <label for="imagen">Imagen de Perfil</label>
             <input type="file" required name="image" (change)="preview($event)" accept="image/*" />
@@ -504,7 +504,8 @@
                     <td>{{ div.fecha_fin | date: 'dd-MM-yyyy'}}</td>
                     <td>
                       <a data-toggle="tooltip" data-original-title="Informacion"
-                        (click)="openDiasInahibilatos(contentIna)"><i class="fa fa-info-circle text-inverse m-r-10"></i>
+                        (click)="openDiasInahibilatos(contentIna,div)"><i
+                          class="fa fa-info-circle text-inverse m-r-10"></i>
                       </a>
                       <a data-toggle="tooltip" data-original-title="Editar" (click)="open(modal, div)"><i
                           class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -606,7 +607,7 @@
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label>Excluir días</label>
                     <select name="tiempo_reservacion_minutos" [(ngModel)]="excluirdias"
@@ -617,23 +618,26 @@
                   </div>
                 </div>
 
-                <div class="col-12" *ngIf="excluirdias==='Si' && item.edit">
+                <div class="col-12" *ngIf="item.edit">
                   <!-- modificar -->
                   <div class="form-group">
                     <div class="ui-g ui-fluid">
                       <div class="ui-g-12 ui-md-12">
-                        <label for="excluir_dia">Seleccione días</label><br>
-                        <p-calendar name="excluir_dia" [(ngModel)]="item.excluirE" [minDate]="fechaA" [maxDate]="fechaB"
-                          [readonlyInput]="true" dateFormat="dd-mm-yy" [showIcon]="true" [locale]="es"
-                          [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
+                        <label for="excluir_dia">Excluir día</label><br>
+                        <p-calendar name="excluir_dia" [(ngModel)]="item.dias_exclude" [minDate]="fechaA"
+                          [maxDate]="fechaB" [readonlyInput]="true" dateFormat="dd-mm-yy" [showIcon]="true"
+                          [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
                           [ngModelOptions]="{standalone: true}" [disabledDays]="diasDesabilitados"
-                          [readonlyInput]="true" selectionMode="multiple">
+                          [disabledDates]="invalidDates" [readonlyInput]="true" selectionMode="multiple">
                           <ng-template pTemplate="date" let-date>
                             <span [ngStyle]="{backgroundColor: '#81C784'}" style="border-radius:50%">{{date.day}}</span>
                           </ng-template>
                         </p-calendar>
-                        <!-- fi: {{fechaA}}
-                        ff: {{fechaB}} -->
+                        <!-- fA: {{fechaA}}<BR>
+                        fB: {{fechaB}}<BR>
+                        IN: {{invalidDates}}<BR>
+                        DD: {{diasDesabilitados}}<BR>
+                        IE: {{item.dias_exclude}}<BR> -->
                       </div>
                     </div>
                   </div>
@@ -644,7 +648,7 @@
                     <div class="ui-g ui-fluid">
                       <div class="ui-g-12 ui-md-12">
                         <label for="excluir_dia">Seleccione días</label><br>
-                        <p-calendar name="excluir_dia" [(ngModel)]="item.excluirC" [minDate]="item.fecha_inicio"
+                        <p-calendar name="excluir_dia" [(ngModel)]="item.dias_exclude" [minDate]="item.fecha_inicio"
                           [maxDate]="item.fecha_fin" [readonlyInput]="true" dateFormat="dd-mm-yy" [showIcon]="true"
                           [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
                           [ngModelOptions]="{standalone: true}" [disabledDays]="diasDesabilitados"
@@ -724,32 +728,37 @@
 
   <ng-template #contentIna let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title"> titulo </h4>
+      <h4 class="modal-title" id="modal-basic-title">Días Excluidos</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <div class="card">
-        <div class="card-body">
-          <div class="table table-responsive">
-            <table class="col-md-12">
-              <thead>
-                <th scope="col">Día</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Estado</th>
-              </thead>
-              <tbody>
-                <!-- <tr *ngFor="let div of horarios; let i = index"> -->
-                <tr>
-                  <td>______</td>
-                  <td>_______</td>
-                  <td>Inhabilitado</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="table table-responsive">
+        <table class="col-md-12">
+          <thead>
+            <th scope="col">Día</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Opción</th>
+          </thead>
+          <tbody>
+            <!-- <tr *ngFor="let div of horarios; let i = index"> -->
+            <tr *ngFor="let item of datesExclude.fechas_exclude">
+              <!-- <td>{{item.ID}}</td> -->
+              <td>{{item.fecha | date: 'EEEE' | titlecase}}</td>
+              <td>{{item.fecha | date: 'dd-MM-yyyy'}}</td>
+              <td>Inhabilitado</td>
+              <td>
+                <button (click)="eliminarDiaExcluido(item.ID)" type="button"
+                  class="btn btn-info btn-sm">Habilitar</button>
+
+                <!-- <a data-toggle="tooltip" data-original-title="Eliminar" (click)="eliminarDiaExcluido(item.ID)"><i
+                    class="fa fa-trash text-danger m-r-10"></i> </a> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="modal-footer">

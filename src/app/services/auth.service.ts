@@ -1602,7 +1602,12 @@ export class AuthService {
       );
   }
 
-  visitasByFilterMzVillasDate(mz: number, villa: number, fecha, estado:string) {
+  visitasByFilterMzVillasDate(
+    mz: number,
+    villa: number,
+    fecha,
+    estado: string
+  ) {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -1928,6 +1933,7 @@ export class AuthService {
         );
     });
   }
+
   createAutorizado(data) {
     console.log(data);
     const headers = new HttpHeaders({
@@ -1951,6 +1957,7 @@ export class AuthService {
         );
     });
   }
+
   deleteAutorizado(id: number) {
     const headers = new HttpHeaders({
       token: this.userToken,
@@ -2035,6 +2042,30 @@ export class AuthService {
     return new Promise((resolve) => {
       this.http
         .delete(`${environment.apiUrl}/admin-etapa/area-horarios/${id}`, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
+  deleteDiaExcluido(id: number) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .delete(`${environment.apiUrl}/admin-etapa/horarioExclude/${id}`, {
           headers,
         })
         .subscribe(
