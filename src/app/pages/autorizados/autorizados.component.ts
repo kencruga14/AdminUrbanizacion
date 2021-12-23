@@ -62,12 +62,10 @@ export class AutorizadosComponent implements OnInit {
   }
   openAutorizado(content, autorizado = null) {
     this.changeFoto = false;
-
     if (autorizado) {
       this.autorizado = autorizado
       this.usuario = autorizado.usuario
       this.permisos = autorizado.permisos
-
       console.log(this.usuario.usuario)
       this.autorizado.edit = true
 

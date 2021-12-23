@@ -104,7 +104,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-
     const body = {
       usuario: this.usuario,
       contrasena: this.contrasena,
@@ -124,11 +123,6 @@ export class LoginComponent implements OnInit {
       (err) => {
         console.log(err);
         this.banderaLogin=true;
-        // Swal.fire({
-        //   icon: "error",
-        //   title: "Error al autenticar",
-        //   text: err.error.message,
-        // });
       }
     );
   

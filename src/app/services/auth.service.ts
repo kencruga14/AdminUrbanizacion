@@ -24,9 +24,14 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem("info_etapa");
+    localStorage.removeItem("info_urb");
+    localStorage.removeItem("id_urbanizacion");
+    localStorage.removeItem("is_master");
     localStorage.removeItem("token");
     localStorage.removeItem("info");
     localStorage.removeItem("permisos");
+    localStorage.removeItem("modulos");
   }
 
   login(body) {
@@ -35,7 +40,7 @@ export class AuthService {
       .pipe(
         map((resp: any) => {
           this.guardarToken(resp.respuesta);
-          //  console.log(resp.respuesta.token);
+          console.log("login",resp)
           return resp;
         })
       );
@@ -84,6 +89,7 @@ export class AuthService {
     localStorage.setItem("token", idToken.token);
     localStorage.setItem("info", JSON.stringify(idToken.usuario));
     localStorage.setItem("permisos", JSON.stringify(idToken.permisos));
+    localStorage.setItem("modulos", JSON.stringify(idToken.modulos));
     localStorage.setItem("is_master", JSON.stringify(idToken.is_master));
 
     localStorage.setItem(

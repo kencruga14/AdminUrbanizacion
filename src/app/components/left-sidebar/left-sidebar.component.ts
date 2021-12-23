@@ -13,7 +13,9 @@ export class LeftSidebarComponent implements OnInit {
   masters: UsuarioModelo[] = [];
   tipo_usuario: '';
   permisos: any = {}
+  modulos: any = {}
   is_master
+
   constructor(public auth: AuthService,
     private router: Router,
     private modalService: NgbModal,) { }
@@ -21,6 +23,7 @@ export class LeftSidebarComponent implements OnInit {
   ngOnInit() {
     const infomaster = localStorage.getItem("info");
     this.permisos = JSON.parse(localStorage.getItem("permisos"))
+    this.modulos = JSON.parse(localStorage.getItem("modulos"))
     this.is_master = JSON.parse(localStorage.getItem("is_master"))
     this.masters = JSON.parse(infomaster);
     console.log("master", this.is_master)
