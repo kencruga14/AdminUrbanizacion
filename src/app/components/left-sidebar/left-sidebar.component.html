@@ -34,8 +34,9 @@
                         aria-expanded="false"><i class="fas fa-home"></i><span class="hide-menu">Inicio</span></a>
                 </li>
 
-                <li> <a class="waves-effect waves-dark" [routerLink]="['residente']" routerLinkActive="active"
-                        aria-expanded="false"><i class="fas fa-male"></i><span class="hide-menu">Usuarios</span></a>
+                <li *ngIf="permisos.casa"> <a class="waves-effect waves-dark" [routerLink]="['residente']"
+                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-male"></i><span
+                            class="hide-menu">Usuarios</span></a>
                 </li>
                 <li *ngIf="modulos.mi_registro && permisos.seguridad"> <a class="waves-effect waves-dark"
                         [routerLink]="['admingarita']" routerLinkActive="active" aria-expanded="false"><i
@@ -92,8 +93,9 @@
                             class="hide-menu">Expreso
                             Escolar</span></a>
                 </li>
-                <li> <a class="waves-effect waves-dark" [routerLink]="['mail','inbox']" routerLinkActive="active"
-                        aria-expanded="false"><i class="far fa-newspaper"></i><span class="hide-menu">Buzón</span></a>
+                <li *ngIf="permisos.buzon"> <a class="waves-effect waves-dark" [routerLink]="['mail','inbox']"
+                        routerLinkActive="active" aria-expanded="false"><i class="far fa-newspaper"></i><span
+                            class="hide-menu">Buzón</span></a>
                 </li>
                 <li *ngIf="is_master"> <a class="waves-effect waves-dark" [routerLink]="['autorizados']"
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-lock"></i><span
