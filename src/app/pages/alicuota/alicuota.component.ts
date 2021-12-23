@@ -32,12 +32,19 @@ export class AlicuotaComponent implements OnInit {
     fecha_pago: ["", Validators.required],
   });
   casas: UsuarioModelo[] = [];
-  alicuotas: UsuarioModelo[] = [];
+  alicuotas: any = [];
   filtrovilla: number;
   totalPE = 0;
   totalVE = 0;
+  totalPES = 0
+  totalVES = 0;
+
   saldototal: any;
   saldoTotalVencido: any;
+  saldototalE: any;
+  saldoTotalVencidoE: any;
+  saldototalS: any;
+  saldoTotalVencidoS: any;
   saldototalExtraordinario: any;
   saldoTotalVencidoExtraordinario: any;
   body2: any;
@@ -104,6 +111,7 @@ export class AlicuotaComponent implements OnInit {
     accesos: "",
     id_alicuota: "",
   };
+  alicuotasFinales2 = []
   // años = [];
 
   meses = [
@@ -185,6 +193,9 @@ export class AlicuotaComponent implements OnInit {
 
 
   clasificarAlicuotas(alicuotas) {
+    this.alicuotasFinales2 = []
+
+    let alicuotasBase = [...alicuotas]
     let comunes = _.filter(alicuotas, { tipo: "COMUN" });
     const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
     const extraordinaria = this.sortByMzVilla(
@@ -198,8 +209,12 @@ export class AlicuotaComponent implements OnInit {
       if (item.estado === 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
       if (item.estado === 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
     });
-    console.log(this.totalPE)
-    console.log(this.totalVE)
+    this.totalPES = 0;
+    this.totalVES = 0;
+    saldo.forEach((item) => {
+      if (item.estado === 'PAGADO') this.totalPES = this.totalPES + parseFloat(item.valor);
+      if (item.estado === 'VENCIDO') this.totalVES = this.totalVES + parseFloat(item.valor);
+    });
 
     const saldosPagado = this.chainGroup(
       comunes,
@@ -217,12 +232,41 @@ export class AlicuotaComponent implements OnInit {
         ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
       }
     );
+    const saldosPagadoE = this.chainGroup(
+      extraordinaria,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "PAGADO" ? r.valor : 0));
+      }
+    );
+    const saldosVencidoE = this.chainGroup(
+      extraordinaria,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
+      }
+    );
+    const saldosPagadoS = this.chainGroup(
+      saldo,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "PAGADO" ? r.valor : 0));
+      }
+    );
+    const saldosVencidoS = this.chainGroup(
+      saldo,
+      (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
+      (ali) => _.maxBy(ali[1], "CreatedAt").CreatedAt,
+      (ali) => {
+        ali[1] = _.sumBy(ali[1], (r) => (r.estado === "VENCIDO" ? r.valor : 0));
+      }
+    );
 
     // extraordinario
     const saldosPagadoExtraordinario = _.sumBy(extraordinaria, (r) => (r.estado === "PAGADO" ? r.valor : 0));
-
-
-
 
     const saldosVencidoExtraordinario = this.chainGroup(
       extraordinaria,
@@ -255,27 +299,79 @@ export class AlicuotaComponent implements OnInit {
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
-    console.log("hola")
-    console.log(porFecha)
-
-
-    // _.chain(this.fechaArray)
-    //   .toPairs()
-    //   .forEach((ali) => console.log( _.maxBy(ali[1], "ID").ID)
-    //   )
-    //   .fromPairs()
-    //   .value();
+    console.log(alicuotasBase)
+    let alicuotasFinales = {}
+    let cont = 0
+    alicuotasBase.forEach(ali => {
+      if (ali.tipo == "COMUN") {
+        const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+        if (alicuotasFinales[mes]) {
+          const index = this.alicuotasFinales2.findIndex(x => x.label === mes);
+          const temp = this.alicuotasFinales2[index].alicuotas
+          this.alicuotasFinales2[index]["alicuotas"] = [...temp, ali]
+        } else {
+          alicuotasFinales[mes] = {}
+          this.alicuotasFinales2 = [...this.alicuotasFinales2,
+          {
+            label: mes,
+            mes: mes,
+            tipo: ali.tipo,
+            alicuotas: [ali]
+          }]
+        }
+      }
+      if (ali.tipo == "EXTRAORDINARIA") {
+        const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+        if (alicuotasFinales[`EXTRAORDINARIA ${mes}`]) {
+          const index = this.alicuotasFinales2.findIndex(x => x.label === `EXTRAORDINARIA ${mes}`);
+          const temp = this.alicuotasFinales2[index].alicuotas
+          this.alicuotasFinales2[index]["alicuotas"] = [...temp, ali]
+        } else {
+          alicuotasFinales[`EXTRAORDINARIA ${mes}`] = {}
+          this.alicuotasFinales2 = [...this.alicuotasFinales2, {
+            label: `EXTRAORDINARIA ${mes}`, mes: mes,
+            tipo: ali.tipo, alicuotas: [ali]
+          }]
+        }
+      }
+      if (ali.tipo == "SALDO") {
+        const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+        if (alicuotasFinales[`SALDO ${mes}`]) {
+          const index = this.alicuotasFinales2.findIndex(x => x.label === `SALDO ${mes}`);
+          const temp = this.alicuotasFinales2[index].alicuotas
+          this.alicuotasFinales2[index]["alicuotas"] = [...temp, ali]
+        } else {
+          alicuotasFinales[`SALDO ${mes}`] = {}
+          this.alicuotasFinales2 = [...this.alicuotasFinales2, {
+            label: `SALDO ${mes}`, mes: mes,
+            tipo: ali.tipo, alicuotas: [ali]
+          }]
+        }
+      }
+    });
+    this.alicuotasFinales2.forEach(element => {
+      element.alicuotas = this.sortByMzVilla(element.alicuotas)
+    });
+    console.log(this.alicuotasFinales2)
     console.log(this.fechaArray)
+
+
+
     this.extraordinariaAnterior = Object.entries(as).sort();
     this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
     this.existente.shift();
     this.existente.shift();
     this.saldototal = saldosPagado;
     this.saldoTotalVencido = saldosVencido;
+    this.saldototalE = saldosPagadoE;
+    this.saldoTotalVencidoE = saldosVencidoE;
+    this.saldototalS = saldosPagadoS;
+    this.saldoTotalVencidoS = saldosVencidoS;
+    console.log(this.saldoTotalVencidoS)
     this.saldototalExtraordinario = saldosPagadoExtraordinario;
     this.saldoTotalVencidoExtraordinario = saldosVencidoExtraordinario;
-    console.log("saldo total vencido", this.saldoTotalVencido)
-    console.log("saldo total vencido ex", this.saldoTotalVencidoExtraordinario)
+    // console.log("saldo total vencido", this.saldoTotalVencido)
+    // console.log("saldo total vencido ex", this.saldoTotalVencidoExtraordinario)
   }
 
   addGroup() {
@@ -456,6 +552,7 @@ export class AlicuotaComponent implements OnInit {
   }
 
   async crearExtraordinaria(value) {
+
     let response: any;
     let d = new Date();
     d.getDate();
@@ -553,8 +650,11 @@ export class AlicuotaComponent implements OnInit {
   getAlicuota() {
 
     this.auth.getAlicuota().subscribe((resp: any) => {
-      this.alicuotas = resp;
-      this.clasificarAlicuotas(resp);
+      if (resp) {
+        this.alicuotas = resp;
+        this.clasificarAlicuotas(resp);
+
+      }
     });
   }
 
