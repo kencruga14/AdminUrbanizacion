@@ -148,6 +148,7 @@ export class ExpresoescolarComponent implements OnInit {
       this.marca = expreso.marca;
       this.modelo = expreso.modelo;
       this.apellidos = expreso.apellido;
+      this.imagen = expreso.imagen;
     } else {
       this.id_expreso = 0;
       this.imagenEdit=""
@@ -214,8 +215,7 @@ export class ExpresoescolarComponent implements OnInit {
         pdf: this.pdf,
       };
       JSON.stringify(body);
-
-      if (!body.imagen) {
+      if (this.imagen) {
         Swal.fire({
           title: "Por favor ingrese su imagen ",
           confirmButtonColor: "#343A40",

@@ -9,20 +9,20 @@
                     [(ngModel)]="filterName">
             </div> -->
             <div class="row">
+                <div class="col-3">
+
+                </div>
                 <div class="col-4">
 
                 </div>
-                <div class="col-1"></div>
-                <div class="col-3 ml-5">
+                <div class="col-3 ">
                     <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
                         [(ngModel)]="filterName">
-                </div>
-                <div class="col-4">
-
                 </div>
                 <div class="col-2">
 
                 </div>
+               
             </div>
 
             <h6 class="card-subtitle"></h6>
@@ -120,7 +120,7 @@
                 <div class="form-group">
                     <!-- ImagenCrear -->
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
-                        <img required class="img-fluid" [src]="imagenPerfil" height="60%" width="100%" />
+                        <img required class="avatar" [src]="imagenPerfil" height="60px" width="60px" />
                     </div>
                     <label for="imagen">Cargar Imagen de Perfil</label>
                     <input required type="file" name="image" (change)="preview($event)" accept="image/*" />

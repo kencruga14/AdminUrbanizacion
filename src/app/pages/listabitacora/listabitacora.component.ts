@@ -93,6 +93,7 @@ export class ListabitacoraComponent implements OnInit {
       this.getvivistasfilter(value);
       this.buscadorVilla = "";
       this.buscadorFecha = null;
+      this.filtroTipo= ""
     });
   }
 

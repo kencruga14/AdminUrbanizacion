@@ -46,7 +46,11 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getVillas(value) {
+    this.filtroAutorizacion=""
+    this.filtroEstado=""
+    this.tipoAutorizacionFija=""
     this.filtrovilla = 0;
+
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
@@ -80,6 +84,9 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getEstado(value) {
+    // this.filtroAutorizacion=""
+    // this.filtroEstado=""
+    // this.tipoAutorizacionFija=""
     this.paramVilla = value;
     console.log("casa: ", value);
     this.getAutorizaciones(
@@ -89,6 +96,10 @@ export class ReservacionesComponent implements OnInit {
       this.filtrovilla
     );
   }
+
+  
+
+
 
   async getAutorizaciones(
     tipoFija = null,
