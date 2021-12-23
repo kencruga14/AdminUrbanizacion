@@ -34,18 +34,18 @@ export class AlicuotaComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   alicuotas: UsuarioModelo[] = [];
   filtrovilla: number;
-  totalPE =0 ;
-  totalVE= 0 ;
+  totalPE = 0;
+  totalVE = 0;
   saldototal: any;
-  saldoTotalVencido : any;
+  saldoTotalVencido: any;
   saldototalExtraordinario: any;
-  saldoTotalVencidoExtraordinario : any;
-  body2 :any;
+  saldoTotalVencidoExtraordinario: any;
+  body2: any;
   valorVencidas = 0;
-  valorPagadas = 0 ;
+  valorPagadas = 0;
   valorTotal = 0;
   bandera = false;
-  listaVencidas=[]
+  listaVencidas = []
   filtromanzana: number;
   years = [];
   pipe: any;
@@ -141,7 +141,7 @@ export class AlicuotaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bandera=false;
+    this.bandera = false;
     this.valorTotal = 0;
     this.getCasa();
     const info_eta = localStorage.getItem("info_etapa");
@@ -182,23 +182,24 @@ export class AlicuotaComponent implements OnInit {
 
 
 
+
+
   clasificarAlicuotas(alicuotas) {
-    const comunes = _.filter(alicuotas, { tipo: "COMUN" });
+    let comunes = _.filter(alicuotas, { tipo: "COMUN" });
     const saldo = this.sortByMzVilla(_.filter(alicuotas, { tipo: "SALDO" }));
     const extraordinaria = this.sortByMzVilla(
       _.filter(alicuotas, { tipo: "EXTRAORDINARIA" })
     );
 
-    console.log("extraoridinarias:",extraordinaria)
 
-      this.totalPE=0;
-      this.totalVE=0;
-        extraordinaria.forEach((item) => {
-        if(item.estado=== 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
-        if(item.estado=== 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
-      });
-      console.log(this.totalPE)
-      console.log(this.totalVE)
+    this.totalPE = 0;
+    this.totalVE = 0;
+    extraordinaria.forEach((item) => {
+      if (item.estado === 'PAGADO') this.totalPE = this.totalPE + parseFloat(item.valor);
+      if (item.estado === 'VENCIDO') this.totalVE = this.totalVE + parseFloat(item.valor);
+    });
+    console.log(this.totalPE)
+    console.log(this.totalVE)
 
     const saldosPagado = this.chainGroup(
       comunes,
@@ -218,11 +219,11 @@ export class AlicuotaComponent implements OnInit {
     );
 
     // extraordinario
-    const saldosPagadoExtraordinario =_.sumBy(extraordinaria, (r) => (r.estado === "PAGADO" ? r.valor : 0));
-   
+    const saldosPagadoExtraordinario = _.sumBy(extraordinaria, (r) => (r.estado === "PAGADO" ? r.valor : 0));
 
 
-    
+
+
     const saldosVencidoExtraordinario = this.chainGroup(
       extraordinaria,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
@@ -233,17 +234,17 @@ export class AlicuotaComponent implements OnInit {
     );
 
 
-    const porFecha = this.chainGroup(
+    let porFecha = this.chainGroup(
       comunes,
       (ali) => moment(ali.fecha_pago).format("MMMM YYYY"),
       (ali) => _.maxBy(ali[1], "ID").ID,
       (ali) => {
         ali[1] = this.sortByMzVilla(ali[1]);
       }
-    );
 
+    );
     // let asd= saldos;
-    (this.fechaArray = _.assignIn(porFecha, {
+    (this.fechaArray = _.assign(porFecha, {
       SALDO: saldo,
       EXTRAORDINARIA: extraordinaria,
     })),
@@ -254,6 +255,16 @@ export class AlicuotaComponent implements OnInit {
     let as = _.groupBy(extraordinaria, (ali) =>
       moment(ali.fecha_pago).format("MMMM YYYY")
     );
+    console.log("hola")
+    console.log(porFecha)
+
+
+    // _.chain(this.fechaArray)
+    //   .toPairs()
+    //   .forEach((ali) => console.log( _.maxBy(ali[1], "ID").ID)
+    //   )
+    //   .fromPairs()
+    //   .value();
     console.log(this.fechaArray)
     this.extraordinariaAnterior = Object.entries(as).sort();
     this.existente = Object.entries(this.fechaArray).sort(); // console: ['0', '1', '2']  }
@@ -263,8 +274,8 @@ export class AlicuotaComponent implements OnInit {
     this.saldoTotalVencido = saldosVencido;
     this.saldototalExtraordinario = saldosPagadoExtraordinario;
     this.saldoTotalVencidoExtraordinario = saldosVencidoExtraordinario;
-    console.log("saldo total vencido",this.saldoTotalVencido )
-    console.log("saldo total vencido ex",this.saldoTotalVencidoExtraordinario )
+    console.log("saldo total vencido", this.saldoTotalVencido)
+    console.log("saldo total vencido ex", this.saldoTotalVencidoExtraordinario)
   }
 
   addGroup() {
@@ -320,20 +331,20 @@ export class AlicuotaComponent implements OnInit {
       .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
       .subscribe((resp: any) => {
         this.alicuotas = resp;
-        this.listaVencidas =resp;
-        this.bandera=false
-        if(this.listaVencidas[0].estado === 'VENCIDO') this.bandera=true
-        this.calcularVencidos();  
+        this.listaVencidas = resp;
+        this.bandera = false
+        if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true
+        this.calcularVencidos();
         console.log("alicuotas x estado: ", this.alicuotas);
         console.log("alicuotas x estado: ", resp.length);
       });
-    
+
 
 
   }
 
 
-  calcularVencidos(){
+  calcularVencidos() {
     this.valorTotal = 0;
     console.log("a recorrer: ", this.listaVencidas);
     this.listaVencidas.forEach((item) => {
@@ -521,7 +532,7 @@ export class AlicuotaComponent implements OnInit {
     }
     this.resetCampos();
     this.modalService.open(content);
-    
+
   }
 
   openModalAlicuota(content, alicuota = null) {
@@ -547,7 +558,7 @@ export class AlicuotaComponent implements OnInit {
     });
   }
 
-  getManzanas() {}
+  getManzanas() { }
   async gestionAlicuota() {
     let response: any;
     if (this.alicuota.edit) {
@@ -608,7 +619,7 @@ export class AlicuotaComponent implements OnInit {
     this.casasselector = [];
   }
 
-  resetCampos(){
+  resetCampos() {
     this.submitted = false;
     this.alicuotaForm.reset();
     this.id_manzana = null;
@@ -655,7 +666,7 @@ export class AlicuotaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.pagar();
-        this.bandera=false;
+        this.bandera = false;
       } else {
       }
     });
@@ -705,7 +716,7 @@ export class AlicuotaComponent implements OnInit {
     let arregloAlicuotas = []
     body.forEach((item) => {
       console.log(item)
-      this.body2={...this.body2,id:item.ID,estado:"PAGADO"}
+      this.body2 = { ...this.body2, id: item.ID, estado: "PAGADO" }
       arregloAlicuotas.push(this.body2)
     });
     response = await this.auth.editTodasAlicuota(arregloAlicuotas);
@@ -718,11 +729,11 @@ export class AlicuotaComponent implements OnInit {
       this.filtromanzana = null;
       this.filtrovilla = null;
       this.filtroEstado = null;
-      this.bandera=false;
+      this.bandera = false;
     }
   }
 
-  
+
   resetReportes() {
     this.tipoReporte = null;
     this.modalService.dismissAll();

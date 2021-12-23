@@ -1123,7 +1123,7 @@ export class AuthService {
     });
     return new Promise((resolve) => {
       this.http
-        .post(`${environment.apiUrl}/data/contacto`, data, { headers })
+        .post(`${environment.apiUrl}/admin-etapa/contactos`, data, { headers })
         .subscribe(
           (response: any) => {
             this.showAlert(response.message, "success", "Listo");
