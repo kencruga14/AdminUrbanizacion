@@ -31,7 +31,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: center; ">
                         <tr
                             *ngFor="let autorizado of autorizados  | multifilter:['usuario.nombres','usuario.apellido','cedula','usuario.correo']:filterName; let i=index ">
                             <td>{{i+1}}</td>
@@ -127,19 +127,22 @@
                         Permisos</label>
                 </div>
                 <div class="row">
-                    <div class="col-4">
-                        <input type="checkbox" id="cbox1" [(ngModel)]="permisos.casa" name="casa">
+                    <div class="col-4"><input type="checkbox" id="cbox1" [(ngModel)]="permisos.casa" name="casa">
                         <label class="permisos" for="cbox1">Casas</label>
-
+                    </div>
+                    <div *ngIf="modulos.mi_registro" class="col-4">
                         <input type="checkbox" id="cbox2" [(ngModel)]="permisos.ingreso" name="ingreso">
                         <label class="permisos" for="cbox2">Registro de Ingresos</label>
-
+                    </div>
+                    <div *ngIf="modulos.votacion" class="col-4">
                         <input type="checkbox" id="cbox3" name="voto" [(ngModel)]="permisos.voto">
                         <label class="permisos" for="cbox3">Mi voto</label>
-
+                    </div>
+                    <div *ngIf="modulos.directiva" class="col-4">
                         <input type="checkbox" id="cbox4" name="directiva" [(ngModel)]="permisos.directiva">
                         <label class="permisos" for="cbox4">Directivas</label>
-
+                    </div>
+                    <div *ngIf="modulos.mi_registro" class="col-4">
                         <input type="checkbox" id="cbox5" [(ngModel)]="permisos.expreso_escolar" name="expreso_escolar">
                         <label class="permisos" for="cbox5">Expreso Escolar</label>
 
@@ -147,30 +150,44 @@
                     <div class="col-4">
                         <input type="checkbox" id="cbox6" [(ngModel)]="permisos.usuario" name="usuario">
                         <label class="permisos" for="cbox6">Usuarios</label>
+                    </div>
+                    <div *ngIf="modulos.area_social" class="col-4">
                         <input type="checkbox" id="cbox7" [(ngModel)]="permisos.area_social" name="area_social">
                         <label class="permisos" for="cbox7">Area Social</label>
+                    </div>
+                    <div *ngIf="modulos.alicuota" class="col-4">
                         <input type="checkbox" id="cbox8" [(ngModel)]="permisos.alicuota" name="alicuota">
                         <label class="permisos" for="cbox8">Alícoutas</label>
+                    </div>
+                    <div *ngIf="modulos.horario" class="col-4">
                         <input type="checkbox" id="cbox9" name="horario" [(ngModel)]="permisos.horario">
                         <label class="permisos" for="cbox9">Horarios</label>
+                    </div>
+                    <div *ngIf="modulos.emprendimiento" class="col-4">
                         <input type="checkbox" id="cbox10" [(ngModel)]="permisos.emprendimiento" name="emprendimiento">
                         <label class="permisos" for="cbox10">Emprendimientos</label>
 
-
                     </div>
-                    <div class="col-4">
+                    <div *ngIf="modulos.galeria" class="col-4">
                         <input type="checkbox" id="cbox11" [(ngModel)]="permisos.galeria" name="galeria">
                         <label class="permisos" for="cbox11">Galería</label>
+                    </div>
+                    <div *ngIf="modulos.mi_registro" class="col-4">
                         <input type="checkbox" id="cbox12" [(ngModel)]="permisos.seguridad" name="seguridad">
                         <label class="permisos" for="cbox12">Seguridad</label>
+                    </div>
+                    <div class="col-4">
                         <input type="checkbox" id="cbox13" [(ngModel)]="permisos.buzon" name="buzon">
                         <label class="permisos" for="cbox13">Buzón</label>
+                    </div>
+                    <div *ngIf="modulos.camara" class="col-4">
                         <input type="checkbox" id="cbox14" name="camara" [(ngModel)]="permisos.camara">
                         <label class="permisos" for="cbox14">Cámaras</label>
+
+                    </div>
+                    <div *ngIf="modulos.mi_registro" class="col-4">
                         <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.reserva">
-                        <label class="permisos" for="cbox15">Reservaciones</label>
-                        <!-- <input type="checkbox" id="cbox15" name="reserva" [(ngModel)]="permisos.autorizado"> <label
-                            for="cbox15">Autorizado</label> -->
+                        <label class="permisos" for="cbox15">Temporales</label>
                     </div>
                 </div>
 
