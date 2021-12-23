@@ -216,7 +216,7 @@ export class ExpresoescolarComponent implements OnInit {
         pdf: this.pdf,
       };
       JSON.stringify(body);
-      if (this.imagen) {
+      if (!this.imagen) {
         Swal.fire({
           title: "Por favor ingrese su imagen ",
           confirmButtonColor: "#343A40",

@@ -34,7 +34,7 @@
                         aria-expanded="false"><i class="fas fa-home"></i><span class="hide-menu">Inicio</span></a>
                 </li>
 
-                <li *ngIf="permisos.casa"> <a class="waves-effect waves-dark" [routerLink]="['residente']"
+                <li > <a class="waves-effect waves-dark" [routerLink]="['residente']"
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-male"></i><span
                             class="hide-menu">Usuarios</span></a>
                 </li>
@@ -50,7 +50,7 @@
                             class="fas fa-clipboard-list"></i><span class="hide-menu">Registro de
                             Ingresos</span></a>
                 </li>
-                <li *ngIf="modulos.alicuota && permisos.alicutoa"> <a class="waves-effect waves-dark"
+                <li *ngIf="modulos.alicuota && permisos.alicuota"> <a class="waves-effect waves-dark"
                         [routerLink]="['alicuota']" routerLinkActive="active" aria-expanded="false"><i
                             class="fas fa-hand-holding-usd"></i><span class="hide-menu">Alícuotas</span></a>
                 </li>
