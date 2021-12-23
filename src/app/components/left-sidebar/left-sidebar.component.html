@@ -34,64 +34,66 @@
                         aria-expanded="false"><i class="fas fa-home"></i><span class="hide-menu">Inicio</span></a>
                 </li>
 
-                <li > <a class="waves-effect waves-dark" [routerLink]="['residente']"
+                <li *ngIf="permisos.casa"> <a class="waves-effect waves-dark" [routerLink]="['residente']"
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-male"></i><span
                             class="hide-menu">Usuarios</span></a>
                 </li>
-                <li *ngIf="modulos.mi_registro"> <a class="waves-effect waves-dark" [routerLink]="['admingarita']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-user-shield"></i><span
-                            class="hide-menu">Seguridad</span></a>
+                <li *ngIf="modulos.mi_registro && permisos.seguridad"> <a class="waves-effect waves-dark"
+                        [routerLink]="['admingarita']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-user-shield"></i><span class="hide-menu">Seguridad</span></a>
                 </li>
-                <li *ngIf=""> <a class="waves-effect waves-dark" [routerLink]="['casa']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fa fa-home"></i><span
-                            class="hide-menu">Casas</span></a>
+                <li> <a class="waves-effect waves-dark" [routerLink]="['casa']" routerLinkActive="active"
+                        aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Casas</span></a>
                 </li>
-                <li *ngIf="modulos.mi_registro"> <a class="waves-effect waves-dark" [routerLink]="['listabitacora']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-clipboard-list"></i><span
-                            class="hide-menu">Registro de
+                <li *ngIf="modulos.mi_registro && permisos.ingreso"> <a class="waves-effect waves-dark"
+                        [routerLink]="['listabitacora']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-clipboard-list"></i><span class="hide-menu">Registro de
                             Ingresos</span></a>
                 </li>
-                <li *ngIf="modulos.alicuota"> <a class="waves-effect waves-dark" [routerLink]="['alicuota']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-hand-holding-usd"></i><span
-                            class="hide-menu">Alícuotas</span></a>
+                <li *ngIf="modulos.alicuota && permisos.alicutoa"> <a class="waves-effect waves-dark"
+                        [routerLink]="['alicuota']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-hand-holding-usd"></i><span class="hide-menu">Alícuotas</span></a>
                 </li>
-                <li *ngIf="modulos.emprendimiento"> <a class="waves-effect waves-dark"
+                <li *ngIf="modulos.emprendimiento && permisos.emprendimiento"> <a class="waves-effect waves-dark"
                         [routerLink]="['emprendimiento']" aria-expanded="false"><i class="fas fa-store-alt"></i><span
                             class="hide-menu">Emprendimientos</span></a>
                 </li>
-                <li *ngIf="modulos.votacion"> <a class="waves-effect waves-dark" [routerLink]="['votacion']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-list-ul"></i><span
-                            class="hide-menu">Mi voto</span></a>
+                <li *ngIf="modulos.votacion && permisos.voto"> <a class="waves-effect waves-dark"
+                        [routerLink]="['votacion']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-list-ul"></i><span class="hide-menu">Mi voto</span></a>
                 </li>
-                <li *ngIf="modulos.area_social"> <a class="waves-effect waves-dark" [routerLink]="['areasocial']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-swimmer"></i><span
-                            class="hide-menu">Área
+                <li *ngIf="modulos.area_social && permisos.area_social"> <a class="waves-effect waves-dark"
+                        [routerLink]="['areasocial']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-swimmer"></i><span class="hide-menu">Área
                             Social</span></a>
                 </li>
-                <li *ngIf="modulos.camara"> <a class="waves-effect waves-dark" [routerLink]="['camaras']"
-                        aria-expanded="false"><i class="fas fa-video"></i><span class="hide-menu">Cámaras</span></a>
+                <li *ngIf="modulos.camara && permisos.camara"> <a class="waves-effect waves-dark"
+                        [routerLink]="['camaras']" aria-expanded="false"><i class="fas fa-video"></i><span
+                            class="hide-menu">Cámaras</span></a>
                 </li>
                 <li *ngIf="modulos.directiva"> <a class="waves-effect waves-dark" [routerLink]="['administrativo']"
                         routerLinkActive="active" aria-expanded="false"><i class="fas fa-users "></i><span
                             class="hide-menu">Directivos</span></a>
                 </li>
-                <li *ngIf="modulos.galeria"> <a class="waves-effect waves-dark" [routerLink]="['galeria']"
-                        routerLinkActive="active" aria-expanded="false"><i class="far fa-image"></i><span
-                            class="hide-menu">Galeria</span></a>
+                <li *ngIf="modulos.galeria && permisos.galeria"> <a class="waves-effect waves-dark"
+                        [routerLink]="['galeria']" routerLinkActive="active" aria-expanded="false"><i
+                            class="far fa-image"></i><span class="hide-menu">Galeria</span></a>
                 </li>
-                <li *ngIf="modulos.horario"> <a class="waves-effect waves-dark" [routerLink]="['contacto']"
-                        routerLinkActive="active" aria-expanded="false"><i class="fas fa-address-book"></i><span
-                            class="hide-menu">Horarios</span></a>
+                <li *ngIf="modulos.horario && permisos.directiva"> <a class="waves-effect waves-dark"
+                        [routerLink]="['contacto']" routerLinkActive="active" aria-expanded="false"><i
+                            class="fas fa-address-book"></i><span class="hide-menu">Horarios</span></a>
                 </li>
-                <li *ngIf="modulos.mi_registro"> <a class="waves-effect waves-dark" [routerLink]="['reservaciones']"
-                        aria-expanded="false"><i class="fas fa-book"></i><span class="hide-menu">Temporales y
+                <li *ngIf="modulos.mi_registro && permisos.reserva"> <a class="waves-effect waves-dark"
+                        [routerLink]="['reservaciones']" aria-expanded="false"><i class="fas fa-book"></i><span
+                            class="hide-menu">Temporales y
                             Fijas</span></a>
                 </li>
-                <li *ngIf="modulos.mi_registro"> <a class="waves-effect waves-dark"
+                <li *ngIf="modulos.mi_registro && permisos.expreso_escolar"> <a class="waves-effect waves-dark"
                         [routerLink]="['expresoescolar']" aria-expanded="false"><i class="fas fa-bus"></i><span
-                            class="hide-menu">Expreso Escolar</span></a>
+                            class="hide-menu">Expreso
+                            Escolar</span></a>
                 </li>
-                <li > <a class="waves-effect waves-dark" [routerLink]="['mail','inbox']"
+                <li *ngIf="permisos.buzon"> <a class="waves-effect waves-dark" [routerLink]="['mail','inbox']"
                         routerLinkActive="active" aria-expanded="false"><i class="far fa-newspaper"></i><span
                             class="hide-menu">Buzón</span></a>
                 </li>

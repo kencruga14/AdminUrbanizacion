@@ -18,6 +18,8 @@ export class AuthService {
   userToken: string;
   info: any;
   infoGuard: any;
+  modulos: any;
+
   constructor(private http: HttpClient) {
     this.leerToken();
     moment.locale("es");
@@ -40,7 +42,7 @@ export class AuthService {
       .pipe(
         map((resp: any) => {
           this.guardarToken(resp.respuesta);
-          console.log("login",resp)
+          console.log("login", resp)
           return resp;
         })
       );
@@ -108,6 +110,7 @@ export class AuthService {
       this.userToken = localStorage.getItem("token");
       this.info = JSON.parse(localStorage.getItem("info"));
       this.permisos = JSON.parse(localStorage.getItem("permisos"));
+      this.modulos = JSON.parse(localStorage.getItem("modulos"));
 
       this.infoGuard = 1;
     } else {
