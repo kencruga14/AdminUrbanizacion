@@ -480,11 +480,13 @@ export class AreasocialComponent implements OnInit {
   async gestionHorarios() {
     let response: any;
     let diasExcluidos = [];
-    if (this.item.dias_exclude.length > 0)
+    if(this.item.dias_exclude){
+      if (this.item.dias_exclude.length > 0)
       for (let i = 0; i < this.item.dias_exclude.length; i++) {
         diasExcluidos.push(moment(this.item.dias_exclude[i]).format());
       }
-    // console.log("diasExcluidos: ", diasExcluidos);
+    }
+    console.log("llegue abajo")
     if (this.item.edit) {
       const body = {
         dias_exclude: diasExcluidos,
@@ -512,7 +514,8 @@ export class AreasocialComponent implements OnInit {
       }
     }
     if (response) {
-      this.modalService.dismissAll();
+     
+     
       this.getHorarios(this.idTemporal);
     }
   }
@@ -529,12 +532,12 @@ export class AreasocialComponent implements OnInit {
       }
       // console.log("invalidDates: ", this.invalidDates);
     }
-
     if (item) {
       this.item = item;
       this.item = { ...this.item, edit: true };
     } else {
       this.item = {};
+      this.excluirdias =""
       this.item = { ...this.item, id_area: this.idTemporal };
       this.item = { ...this.item, edit: false };
     }

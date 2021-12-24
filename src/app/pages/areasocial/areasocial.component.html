@@ -259,8 +259,8 @@
                 <thead>
                   <!-- <th scope="col">#</th> -->
                   <th scope="col">Fecha</th>
-                  <th scope="col">Hora Inicio</th>
-                  <th scope="col">Hora Fin</th>
+                  <th scope="col">Desde</th>
+                  <th scope="col">Hasta</th>
                   <th style="padding-left: 20px;" scope="col">Tipo</th>
                   <th style="text-align:center" scope="col">Valor</th>
                   <th scope="col">Mz.</th>
@@ -418,8 +418,8 @@
                 <thead>
                   <!-- <th scope="col">#</th> -->
                   <th scope="col">Fecha</th>
-                  <th scope="col">Hora Inicio</th>
-                  <th scope="col">Hora Fin</th>
+                  <th scope="col">Desde</th>
+                  <th scope="col">Hasta</th>
                   <th style="padding-left: 20px;" scope="col">Tipo</th>
                   <th style="text-align:center" scope="col">Valor</th>
                   <th scope="col">Mz.</th>
@@ -467,6 +467,7 @@
       <div class="modal-body">
 
         <div class="card">
+
           <div class="card-body">
             <div class="row mt-0">
               <div class="col-md-4 mb-2 ml-2">
@@ -545,14 +546,14 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form (ngSubmit)="gestionHorarios()" #form="ngForm">
+          <form (ngSubmit)="gestionHorarios();modal.dismiss()" #form="ngForm">
             <div class="modal-body">
               <div class="row">
 
                 <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label>Dia</label>
-                    <select name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select"
+                    <select  name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select"
                       (change)="desahibilitardia($event.target.value)">
                       <option value="Monday">Lunes</option>
                       <option value="Tuesday">Martes</option>
@@ -586,7 +587,7 @@
                     <div class="ui-g ui-fluid">
                       <div class="ui-g-12 ui-md-12">
                         <label for="fecha_inicio">Fecha Inicio</label><br>
-                        <p-calendar required [(ngModel)]="item.fecha_inicio" dateFormat="dd-mm-yy" [showIcon]="true"
+                        <p-calendar  [(ngModel)]="item.fecha_inicio" dateFormat="dd-mm-yy" [showIcon]="true"
                           [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
                       </div>
@@ -668,7 +669,7 @@
             </div>
 
             <div class="modal-footer">
-              <button class="btn btn-red" type="submit" [disabled]="!form.valid">
+              <button class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin || !excluirdias">
                 <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
                     aria-hidden="true"></span>
                   Loading...
@@ -688,7 +689,7 @@
 
 
 
-  <ng-template #modal let-modal>
+  <ng-template #modal2 let-modal>
     <div class="animate__animated animate__fadeIn">
       <div class="modal-header">
         <h4 *ngIf="!item.edit" class="modal-title" id="modal-basic-title">
@@ -701,7 +702,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form (ngSubmit)="gestionHorarios()" #form="ngForm">
+      <form (ngSubmit)="modal.dismiss()" #form="ngForm">
         <div class="modal-body">
           <div class="row">
             <div class="form-group">
@@ -752,7 +753,6 @@
               <td>
                 <button (click)="eliminarDiaExcluido(item.ID)" type="button"
                   class="btn btn-info btn-sm">Habilitar</button>
-
                 <!-- <a data-toggle="tooltip" data-original-title="Eliminar" (click)="eliminarDiaExcluido(item.ID)"><i
                     class="fa fa-trash text-danger m-r-10"></i> </a> -->
               </td>
