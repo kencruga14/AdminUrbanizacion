@@ -515,7 +515,7 @@ export class AreasocialComponent implements OnInit {
     }
     if (response) {
      
-     
+    
       this.getHorarios(this.idTemporal);
     }
   }
