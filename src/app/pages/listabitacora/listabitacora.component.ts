@@ -58,7 +58,7 @@ export class ListabitacoraComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getBitacora();
@@ -93,7 +93,7 @@ export class ListabitacoraComponent implements OnInit {
       this.getvivistasfilter(value);
       this.buscadorVilla = "";
       this.buscadorFecha = null;
-      this.filtroTipo= ""
+      this.filtroTipo = ""
     });
   }
 
@@ -136,7 +136,7 @@ export class ListabitacoraComponent implements OnInit {
 
   getvivistasfilterMzVillaEstado(manzana, villa) {
     this.auth
-      .visitasByFilterMzVillasDate(this.buscadorManazana, this.buscadorVilla, this.fecha , this.filtroTipo)
+      .visitasByFilterMzVillasDate(this.buscadorManazana, this.buscadorVilla, this.fecha, this.filtroTipo)
       .subscribe((resp: any) => {
         this.bitacoras = resp;
         console.log("visitas por filtro estado ", this.bitacoras);
@@ -154,7 +154,7 @@ export class ListabitacoraComponent implements OnInit {
       });
   }
 
-  
+
 
 
   buscadorfechaGlobal(value) {
@@ -167,9 +167,9 @@ export class ListabitacoraComponent implements OnInit {
   }
   restablecerFiltroBusqueda() {
     this.buscadorFecha = null;
-    this.buscadorVilla = null;
-    this.buscadorManazana = null;
-    this.filtroTipo= "";
+    this.buscadorVilla = "";
+    this.buscadorManazana = "";
+    this.filtroTipo = "";
     this.bitacoras = [];
     this.casasselector = [];
     this.buscadorFechaglobal = null;

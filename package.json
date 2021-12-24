@@ -39,7 +39,7 @@
     "ng2-select2": "^1.0.0-beta.16",
     "ngx-color-picker": "^9.0.0",
     "ngx-moment": "^3.5.0",
-    "ngx-perfect-scrollbar": "9.0.0",
+    "ngx-perfect-scrollbar": "^9.0.0",
     "open-iconic": "^1.1.1",
     "primeicons": "^1.0.0",
     "primeng-lts": "^8.2.9",
