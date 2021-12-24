@@ -34,6 +34,7 @@ export class AlicuotaComponent implements OnInit {
   casas: UsuarioModelo[] = [];
   alicuotas: any = [];
   filtrovilla: number = 0;
+  contadorVencidas = 0
   totalPE = 0;
   totalVE = 0;
   totalPES = 0
@@ -477,21 +478,28 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getEstado(value) {
+    this.alicuotas = []
     this.paramVilla = value;
-    console.log("casa: ", value);
     this.existeVencido = false;
 
     this.auth
       .getAlicuotasByMzVil(this.paramMz, value)
       .subscribe((resp: any) => {
-        this.alicuotas = resp;
-        this.alicuotas.forEach(alicuota => {
+        this.contadorVencidas = 0
+        resp.sort(function compare(a, b) {
+          var dateA = new Date(a.mes_pago).getTime();
+          var dateB = new Date(b.mes_pago).getTime();
+          return dateB - dateA;
+        });
+        resp.forEach(alicuota => {
           if (alicuota.estado == "VENCIDO") {
             this.existeVencido = true;
+            this.contadorVencidas++
+            alicuota.contadorVencidas = this.contadorVencidas
             console.log("vencido " + this.existeVencido)
           }
         });
-        console.log("alicuotas x villa: ", this.alicuotas);
+        this.alicuotas = resp
       });
   }
 
@@ -869,6 +877,7 @@ export class AlicuotaComponent implements OnInit {
 
 
   async pagar() {
+
     let id = this.id_alicuota;
     let response: any;
     const body = {
@@ -880,10 +889,27 @@ export class AlicuotaComponent implements OnInit {
       // this.removeGroup(this.nregistros);
       // this.gestionAlicuota();
       // this.getCasa();
+      this.existeVencido = false;
+
       this.auth
         .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, this.filtroEstado)
         .subscribe((resp: any) => {
           this.alicuotas = resp;
+          this.contadorVencidas = 0
+          resp.sort(function compare(a, b) {
+            var dateA = new Date(a.mes_pago).getTime();
+            var dateB = new Date(b.mes_pago).getTime();
+            return dateB - dateA;
+          });
+          resp.forEach(alicuota => {
+            if (alicuota.estado == "VENCIDO") {
+              this.existeVencido = true;
+              this.contadorVencidas++
+              alicuota.contadorVencidas = this.contadorVencidas
+              console.log("vencido " + this.existeVencido)
+            }
+          });
+          this.alicuotas = resp
           this.listaVencidas = resp;
           this.bandera = false
           if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true

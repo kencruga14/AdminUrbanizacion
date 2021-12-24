@@ -201,9 +201,10 @@
                   </div>
                 </td>
                 <td *ngIf="ali.estado === 'PENDIENTE' || ali.estado === 'VENCIDO'">
-                  <button [disabled]="existeVencido && ali.estado!='VENCIDO' "
-                    [ngClass]="{'btn-vencido': existeVencido && ali.estado!='VENCIDO'}" type="button"
-                    (click)="openModalAlicuota(openMAlicuota, ali)" class="btn btn-success">
+                  <button
+                    [disabled]="existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas)"
+                    [ngClass]="{'btn-vencido': existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas)}"
+                    type="button" (click)="openModalAlicuota(openMAlicuota, ali)" class="btn btn-success">
                     Pagar
                   </button>
 
