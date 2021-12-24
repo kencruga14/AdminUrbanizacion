@@ -8,7 +8,10 @@ td {
 .transparente {
   color: white;
 }
-
+.btn-vencido{
+  background-color: #c2c3c4;
+  border-color: #c2c3c4;
+}
 .separador {
   margin-left: 5px;
   padding-left: 5px;

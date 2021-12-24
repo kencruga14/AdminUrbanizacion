@@ -17,7 +17,7 @@ export class ListingComponent implements OnInit {
 
   public showSidebar = false;
   public config: PerfectScrollbarConfigInterface = {};
-  separatedArray :any =[]
+  separatedArray: any = []
   mailboxes: Category[] = mailbox;
   filters: Category[] = filter;
   labels: Category[] = label;
@@ -88,7 +88,7 @@ export class ListingComponent implements OnInit {
     this.ms.topLable = category;
   }
 
- 
+
 
   add() {
 
@@ -165,12 +165,11 @@ export class ListingComponent implements OnInit {
     this.loadingEnviar = false
     this.id_casa = 0
     this.manzana = 0
-    this.modal.dismissAll()
     this.correo = { adjuntos: [], destinatarios: [{ id_casa: 0, manzana: 0, casasselector: [] }] }
     this.myFiles = []
     this.mailboxesChanged("Enviado")
     this.selectedFiles = new FileList
-   
+
   }
 
   descartar() {
@@ -206,7 +205,7 @@ export class ListingComponent implements OnInit {
       this.separatedArray = []
       this.mailService.array = []
       this.separatedArray = this.ms.selectedMail.descripcion.split('\n')
-      this.mailService.array= this.separatedArray
+      this.mailService.array = this.separatedArray
       // console.log("otro:",this.mailService.array)
       this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
       this.ms.selectedMail.seen = true;
