@@ -95,6 +95,7 @@ export class AdmingaritaComponent implements OnInit {
       this.contrasena = "";
       this.adming.edit = false;
       this.imagen = this.imagen;
+      this.imagenPerfil=""
     }
     this.modalService.open(content);
   }
@@ -108,6 +109,7 @@ export class AdmingaritaComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagen = reader.result;
+      this.imagenPerfil = reader.result;
     };
     this.changeFoto = true;
   }

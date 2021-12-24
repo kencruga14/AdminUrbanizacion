@@ -60,14 +60,13 @@ export class ExpresoescolarComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getExpresos();
   }
 
   preview(event: any) {
-    console.log(this.imagenEdit)
     const fileData = event.target.files[0];
     const mimeType = fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -76,7 +75,7 @@ export class ExpresoescolarComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
-      this.imagen = reader.result;
+      this.imagenEdit = reader.result;
     };
     this.changeFoto = true;
   }
@@ -91,6 +90,8 @@ export class ExpresoescolarComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
+      this.imagen = this.imagenEdit
+
     };
     this.changeFoto = true;
   }
@@ -119,9 +120,9 @@ export class ExpresoescolarComponent implements OnInit {
     this.modalService.open(content);
   }
 
- 
 
-  
+
+
 
   openAcceso(content, acceso) {
     this.acceso.id_casa = acceso.id_casa;
@@ -135,8 +136,8 @@ export class ExpresoescolarComponent implements OnInit {
       this.id_expreso = expreso.ID;
       // this.id = casa.ID;
       this.imagenEdit = expreso.imagen;
-      (this.razon_social = expreso.razon_social),
-      (this.documento = expreso.ruc);
+      this.razon_social = expreso.razon_social;
+      this.documento = expreso.ruc;
       this.correo = expreso.correo;
       this.telefono = expreso.telefono;
       this.vehiculo = expreso.vehiculo;
@@ -148,9 +149,10 @@ export class ExpresoescolarComponent implements OnInit {
       this.marca = expreso.marca;
       this.modelo = expreso.modelo;
       this.apellidos = expreso.apellido;
+      this.imagen = expreso.imagen;
     } else {
       this.id_expreso = 0;
-      this.imagenEdit=""
+      this.imagenEdit = ""
       this.imagen = null;
       this.razon_social = "";
       this.expreso.edit = false;
@@ -172,10 +174,12 @@ export class ExpresoescolarComponent implements OnInit {
   async gestionExpreso() {
     let response: any;
     if (this.expreso.edit) {
-      if (this.imagenEdit.includes("https")) {
-        // console.log("incluye htpps");
-        this.imagenEdit = "";
+      if (!this.changeFoto) {
+        delete this.imagen
       }
+      // if (this.imagenEdit.includes("https")) {
+      //   this.imagenEdit = "";
+      // }
       const body = {
         conductor: this.conductor,
         apellido: this.apellidos,
@@ -192,8 +196,6 @@ export class ExpresoescolarComponent implements OnInit {
         tipo_usuario: "EXPRESO",
         // pdf: this.pdf,
       };
-      JSON.stringify(body);
-      console.log("cuerpo editar expreso: ", body);
 
       response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
@@ -214,8 +216,7 @@ export class ExpresoescolarComponent implements OnInit {
         pdf: this.pdf,
       };
       JSON.stringify(body);
-
-      if (!body.imagen) {
+      if (!this.imagen) {
         Swal.fire({
           title: "Por favor ingrese su imagen ",
           confirmButtonColor: "#343A40",

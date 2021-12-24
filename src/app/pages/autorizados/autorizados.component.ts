@@ -22,15 +22,16 @@ export class AutorizadosComponent implements OnInit {
   changeFoto = false;
   imagen = null;
   infoPermisos: any = {}
-
   imagenPerfila: any;
-
+  modulos: any = {}
 
   ngOnInit(): void {
     this.getAutorizados();
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
+    this.modulos = JSON.parse(localStorage.getItem("modulos"))
+
   }
   saveEditPicture(event: any) {
 
@@ -82,7 +83,7 @@ export class AutorizadosComponent implements OnInit {
     this.auth.getAutorizados().subscribe((resp: any) => {
       console.log(resp);
       this.autorizados = resp;
-      console.log('autorizados',this.autorizados)
+      console.log('autorizados', this.autorizados)
     });
   }
   openImage(admin) {
@@ -115,7 +116,7 @@ export class AutorizadosComponent implements OnInit {
       delete this.permisos.id_admin_etapa
       delete this.permisos.admin_etapa
       this.autorizado.permisos = this.permisos
-      
+
       response = await this.auth.createAutorizado(this.autorizado)
       if (response) {
         this.getAutorizados();
