@@ -94,6 +94,7 @@ import { DetailComponent } from "./pages/mail/detail/detail.component";
 import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component";
 import { MailGlobalVariable, MailService } from "./pages/mail/mail.service";
 import { InicioComponent } from './pages/inicio/inicio.component';
+import { NgxPrintModule } from "ngx-print";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -141,6 +142,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     IvyCarouselModule,
     BrowserAnimationsModule,
+    NgxPrintModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
@@ -174,7 +176,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgZorroAntdModule,
     NzButtonModule,
     PerfectScrollbarModule,
-     IvyCarouselModule,
+    IvyCarouselModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "es" },
@@ -187,4 +189,4 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

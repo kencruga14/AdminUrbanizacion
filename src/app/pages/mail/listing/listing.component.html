@@ -1,12 +1,13 @@
 <a class="btn btn-success show-left-part d-block d-md-none ti-close" href="javascript:void(0)"
     (click)="mobileSidebar()"></a>
 <div class="main-part" style="height: calc(100vh - 154px);">
-    <div class="left-part bg-white fixed-left-part" [ngClass]="{'show-panel': showSidebar}">
+    <div class="left-part bg-white fixed-left-part" [ngClass]="{'show-panel': showSidebar}"
+        style="width: 200px !important;">
         <div class="position-relative" style="height:100%;">
             <div
                 class="p-l-15 p-r-25 py-3 d-flex align-items-center mt-1 border-bottom text-center row justify-content-center">
 
-                <button type="button" class="btn   ml-4 mr-4" style="background-color:#7875ea ; color: white;"
+                <button type="button" class="btn   ml-4 mr-4" style="background-color:#7875ea ; color: white; "
                     (click)='openModal(content)'> Nuevo Mensaje
                 </button>
             </div>
@@ -41,7 +42,7 @@
     <div class="right-part" style=" overflow-y: hidden !important;">
         <div class="card mb-0" style=" overflow-y: hidden !important;">
             <div class="row no-gutters" style=" overflow-y: hidden !important;">
-                <div class="col-lg-6 col-md-12 col-xl-4 border-right">
+                <div class="col-md-5  border-right">
                     <div class="position-relative" style="height:100%;">
 
 
@@ -173,7 +174,7 @@
 
 
                 </div>
-                <div class="col-lg-6 col-md-12 col-xl-8 detail-part" [class.movetodetail]='ms.addClass'>
+                <div class="col-md-7  detail-part" [class.movetodetail]='ms.addClass'>
                     <div *ngIf='ms.selectedMail ===null' class="h-100 d-none d-lg-block">
                         <div class="d-flex align-items-center justify-content-center h-100">
                             <div class="text-center">

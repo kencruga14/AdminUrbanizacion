@@ -27,6 +27,8 @@ import { ThrowStmt } from "@angular/compiler";
 export class AlicuotaComponent implements OnInit {
   // @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   alicuotaForm: FormGroup;
+  totales: any = { total_pagado: 0, total_vencido: 0 }
+  reporte: any = {}
   value = this.fb.group({
     valor: ["", Validators.required],
     fecha_pago: ["", Validators.required],
@@ -110,6 +112,7 @@ export class AlicuotaComponent implements OnInit {
     edit: false,
     id_alicuota: "",
   };
+  reportes: any = { total_pagado: 0, total_vencido: 0 }
   acceso = {
     accesos: "",
     id_alicuota: "",
@@ -504,25 +507,66 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getAlicuotaEstado(value) {
-    console.log("estado: ", value);
     this.paramEstado = value;
     this.auth
       .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
       .subscribe((resp: any) => {
-        this.alicuotas = resp;
-        this.listaVencidas = resp;
-        this.bandera = false
-        if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true
-        this.calcularVencidos();
-        console.log("alicuotas x estado: ", this.alicuotas);
-        console.log("alicuotas x estado: ", resp.length);
+        this.contadorVencidas = 0
+        if (resp) {
+          resp.sort(function compare(a, b) {
+            var dateA = new Date(a.mes_pago).getTime();
+            var dateB = new Date(b.mes_pago).getTime();
+            return dateB - dateA;
+          });
+          resp.forEach(alicuota => {
+            if (alicuota.estado == "VENCIDO") {
+              this.existeVencido = true;
+              this.contadorVencidas++
+              alicuota.contadorVencidas = this.contadorVencidas
+              console.log("vencido " + this.existeVencido)
+            }
+          });
+        } else {
+          resp = []
+        }
+        this.alicuotas = resp
+
+        if (resp.length > 0) {
+          this.listaVencidas = resp;
+          this.bandera = false
+
+          if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true
+          this.calcularVencidos();
+          console.log("alicuotas x estado: ", this.alicuotas);
+          console.log("alicuotas x estado: ", resp.length);
+        }
+
       });
 
 
 
   }
+  onPrint() {
+    window.print();
+  }
+  getTotales() {
+    this.getReporte()
+  }
+  verReporte(contentVerReporte, tipo) {
+    this.getReporte(tipo)
+    this.modalService.open(contentVerReporte, { size: "lg" })
+  }
 
+  async getReporte(tipo = null) {
+    this.auth.getReporteAlicuotas(moment(this.reporte.desde).format("YYYY-MM-DDTHH:mm:ss[Z]"), moment(this.reporte.hasta).format("YYYY-MM-DDTHH:mm:ss[Z]"), tipo).subscribe((resp: any) => {
+      if (!tipo) {
+        this.totales = resp
+      } else {
+        this.reportes = resp;
 
+      }
+    });
+  }
   calcularVencidos() {
     this.valorTotal = 0;
     console.log("a recorrer: ", this.listaVencidas);
@@ -718,6 +762,14 @@ export class AlicuotaComponent implements OnInit {
   }
 
   openModalAlicuota(content, alicuota = null) {
+    if (this.existeVencido && (alicuota.estado != 'VENCIDO' || alicuota.contadorVencidas != this.contadorVencidas)) {
+      Swal.fire({
+        title: "",
+        text: "Para realizar el paga de esta alícuota debes primero pagar las anteriores. ",
+        confirmButtonText: "Ok",
+      });
+      return
+    }
     console.log("alicuota seleccionada :", alicuota);
     if (alicuota) {
       this.id_alicuota = alicuota.ID;
@@ -933,15 +985,19 @@ export class AlicuotaComponent implements OnInit {
     });
     response = await this.auth.editTodasAlicuota(arregloAlicuotas);
     if (response) {
-      this.resetsForm();
+      // this.resetsForm();
       this.removeGroup(this.nregistros);
       // this.gestionAlicuota();
+      this.filtromanzana = 0;
+      this.filtroEstado = "";
+      this.filtrovilla = 0;
+      this.paramEstado = null;
+      this.paramMz = null;
+      this.paramVilla = null;
+      this.bandera = false;
       this.getCasa();
       this.getAlicuota();
-      this.filtromanzana = null;
-      this.filtrovilla = null;
-      this.filtroEstado = null;
-      this.bandera = false;
+
     }
   }
 

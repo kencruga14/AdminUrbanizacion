@@ -4,68 +4,88 @@
     <div class="card-body">
       <h4 class="card-title">Lista de Alícuotas</h4>
       <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">
-        Crear Alícuota.
+        Crear Alícuota
       </button>
       <!-- <button class="btn btn-dark separador" (click)="openAlicuota(contentAlicuota)">Crear Alicuota</button> <br> -->
       <button style="float: right" class="btn btn-warning separador" (click)="openReporte(openReportes)">
         Reportes
       </button>
       <br />
-      <div class="form-row align-items-center">
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group ">
+            <label>Manzana</label>
+            <select name="manzana" [(ngModel)]="filtromanzana" class="form-control custom-select"
+              (change)="getVillas($event.target.value)">
+              <option value=0 hidden>Seleccione</option>
+              <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">
+                {{ ur.manzana }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group ">
+            <label>Villa</label>
+            <select [disabled]="!filtromanzana" name="villa" [(ngModel)]="filtrovilla"
+              class="form-control custom-select" (change)="getEstado($event.target.value)">
+              <option value=0 hidden>Seleccione</option>
+
+              <option *ngFor="let ur of casasselector" value="{{ ur.villa }}">
+                {{ ur.villa }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group ">
+            <label>Estado</label>
+            <select [disabled]="!filtrovilla" name="estado" [(ngModel)]="filtroEstado"
+              class="form-control custom-select" (change)="getAlicuotaEstado($event.target.value)">
+              <option value="">Todas</option>
+              <option value="PAGADO">Pagadas</option>
+              <option value="VENCIDO">Vencidas</option>
+              <option value="PENDIENTE">Pendientes</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3" *ngIf="bandera">
+          <div class="form-group">
+            <label>Total Vencido</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" [(ngModel)]="valorTotal">
+
+              </div>
+              <div class="col-md-6">
+                <button (click)="UpdatePagoTodo()" type="button" class="btn btn-success btn-small" data-toggle="tooltip"
+                  data-placement="right" title="Restablecer filtro">
+                  PAGAR TODO
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group ">
+            <label class="transparente">dd.</label><br />
+            <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success" data-toggle="tooltip"
+              data-placement="right" title="Restablecer filtro">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+        </div>
+
         <!-----filtro manzana-->
-        <div class="form-group col-sm-1 my-1">
-          <label>Manzana</label>
-          <select name="manzana" [(ngModel)]="filtromanzana" class="form-control custom-select"
-            (change)="getVillas($event.target.value)">
-            <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">
-              {{ ur.manzana }}
-            </option>
-          </select>
-        </div>
+
         <!-----filtro villa-->
-        <div class="form-group col-sm-1 my-1" *ngIf="filtromanzana">
-          <label>Villa</label>
-          <select name="villa" [(ngModel)]="filtrovilla" class="form-control custom-select"
-            (change)="getEstado($event.target.value)">
-            <option *ngFor="let ur of casasselector" value="{{ ur.villa }}">
-              {{ ur.villa }}
-            </option>
-          </select>
-        </div>
+
         <!-----filtro estado-->
-        <div class="form-group col-sm-1 my-1" *ngIf="filtrovilla">
-          <label>Estado</label>
-          <select name="estado" [(ngModel)]="filtroEstado" class="form-control custom-select"
-            (change)="getAlicuotaEstado($event.target.value)">
-            <option value="">Todas</option>
-            <option value="PAGADO">Pagadas</option>
-            <option value="VENCIDO">Vencidas</option>
-            <option value="PENDIENTE">Pendientes</option>
-          </select>
-        </div>
-        <div *ngIf="bandera" class="form-group col-sm-1 my-1">
-          <label>Total Vencido</label>
 
-          <input type="text" class="form-control" [(ngModel)]="valorTotal">
-
-
-        </div>
-
-        <div *ngIf="bandera" class="form-group col-sm-1 mt-5 mr-2 ">
-
-          <button (click)="UpdatePagoTodo()" type="button" class="btn btn-success btn-small mt-2" data-toggle="tooltip"
-            data-placement="right" title="Restablecer filtro">
-            PAGAR TODO
-          </button>
-        </div>
-
-        <div class="form-group col-sm-1 my-1">
-          <label class="transparente">dd.</label><br />
-          <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success" data-toggle="tooltip"
-            data-placement="right" title="Restablecer filtro">
-            <i class="fas fa-sync-alt"></i>
-          </button>
-        </div>
         <!-- <div *ngIf="bandera" class="form-group col-sm-2 my-1 mt-4">
             <b  style="font-weight: bold;font-size: 15px;">Valor Vencido:  </b>  <span style="font-size: 15px;" class="label label-red">{{valorTotal|currency:'USD':'symbol':'1.2'}}</span>
 
@@ -202,7 +222,6 @@
                 </td>
                 <td *ngIf="ali.estado === 'PENDIENTE' || ali.estado === 'VENCIDO'">
                   <button
-                    [disabled]="existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas)"
                     [ngClass]="{'btn-vencido': existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas)}"
                     type="button" (click)="openModalAlicuota(openMAlicuota, ali)" class="btn btn-success">
                     Pagar
@@ -429,65 +448,50 @@
         </div>
         <form>
           <div class="modal-body">
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label>Seleccione:</label>
-                <select name="tipoComun" [(ngModel)]="tipoReporte" class="form-control custom-select">
-                  <option value="DIA">Día</option>
-                  <option value="MES">Mes</option>
-                  <option value="AÑO">Año</option>
-                  <option value="TOTAL">Total</option>
-                </select>
-              </div>
-              <div *ngIf="tipoReporte === 'DIA'">
-                <div class="form-group col-md-12">
-                  <label>Día:</label>
-                  <input ngValue="totalDia" [(ngModel)]="totalDia" name="totalDia" class="form-control" type="text"
-                    readonly />
-                </div>
-                <div class="form-group col-md-12">
-                  <label>Pagadas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Pagadas" />
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="desde">Desde:</label>
+                  <input type="date" class="form-control" [(ngModel)]="reporte.desde" name="desde">
                 </div>
               </div>
-              <div *ngIf="tipoReporte === 'MES'">
-                <div class="form-group col-md-12">
-                  <label>Vencidas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Fecha" />
-                </div>
-                <div class="form-group col-md-12">
-                  <label>Pagadas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Pagadas" />
-                </div>
-              </div>
-              <div *ngIf="tipoReporte === 'AÑO'">
-                <div class="form-group col-md-12">
-                  <label>Vencidas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Fecha" />
-                </div>
-                <div class="form-group col-md-12">
-                  <label>Pagadas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Pagadas" />
-                </div>
-              </div>
-              <div *ngIf="tipoReporte === 'TOTAL'">
-                <div class="form-group col-md-12">
-                  <label>Total Pagadas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Fecha" />
-                </div>
-                <div class="form-group col-md-12">
-                  <label>Total Vencidas:</label>
-                  <input ngValue="mes" [(ngModel)]="valor" name="valor" class="form-control" type="number" readonly
-                    placeholder="Pagadas" />
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="desde">Hasta:</label>
+                  <input [disabled]="!reporte.desde" (change)="getTotales()" type="date" class="form-control"
+                    [(ngModel)]="reporte.hasta" name="hasta">
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <label for="desde">Total Pagado:</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" [(ngModel)]="totales.total_pagado" name="totalP" readonly>
+                </div>
+                <div class="col-md-6">
+                  <button [ngClass]="{'btn-vencido': !reporte.hasta}" [disabled]="!reporte.hasta || !reporte.desde"
+                    (click)="verReporte(contentVerReporte,'PAGADO')" class="btn btn-warning ">Ver Reporte</button>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="desde">Total Vencido:</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" readonly [(ngModel)]="totales.total_vencido" name="totalV">
+                </div>
+                <div class="col-md-6">
+                  <button [ngClass]="{'btn-vencido': !reporte.hasta}" [disabled]=" !reporte.hasta || !reporte.desde"
+                    (click)="verReporte(contentVerReporte,'VENCIDO')" class="btn btn-warning ">Ver
+                    Reporte</button>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div class="modal-footer">
             <button (click)="resetReportes()" type="submit" class="btn btn-info">
@@ -499,3 +503,132 @@
     </div>
   </div>
 </div>
+
+<ng-template #contentVerReporte let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Alícuotas</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <span>Desde : {{reporte.desde}}</span>
+      </div>
+      <div class="col-md-6 text-right">
+        <span>Hasta : {{reporte.hasta}}</span>
+      </div>
+    </div>
+    <div>
+      <div class="table-responsive mt-3">
+        <table id="myTable" class=" table color-bordered-table inverse-bordered-table">
+          <thead>
+            <tr style="text-align: center;">
+              <th>No</th>
+              <th>Manzana</th>
+              <th>Villa</th>
+              <th>Mes</th>
+              <th>Año</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr style="text-align: center;" *ngFor="let ali of reportes.alicuotas; let i = index">
+              <td>
+                {{i+1}}
+              </td>
+              <td>
+                {{ali.casa.manzana}}
+              </td>
+              <td>
+                {{ali.casa.villa}}
+              </td>
+              <td>
+                {{ ali.fecha_pago | date: "MMMM" | titlecase }}
+              </td>
+              <td>
+                {{ ali.fecha_pago | date: "yyyy" | titlecase }}
+
+              </td>
+              <td>
+                {{ali.valor | currency:'USD':'symbol':'1.2':'en-US' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-end">
+        <div class="col-md-2">
+          Total {{reportes.total | currency:'USD':'symbol':'1.2':'en-US' }}
+
+        </div>
+      </div>
+    </div>
+    <div style="display: none;">
+      <div id="print-section">
+        <h2 class="text-center">Reporte de Alícuotas</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Desde : {{reporte.desde}}</span>
+          </div>
+          <div class="col-md-6 text-right">
+            <span>Hasta : {{reporte.hasta}}</span>
+          </div>
+        </div>
+        <div class="table-responsive mt-3">
+          <table id="myTable" class=" table color-bordered-table inverse-bordered-table">
+            <thead>
+              <tr style="text-align: center;">
+                <th>No</th>
+                <th>Manzana</th>
+                <th>Villa</th>
+                <th>Mes</th>
+                <th>Año</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr style="text-align: center;" *ngFor="let ali of reportes.alicuotas; let i = index">
+                <td>
+                  {{i+1}}
+                </td>
+                <td>
+                  {{ali.casa.manzana}}
+                </td>
+                <td>
+                  {{ali.casa.villa}}
+                </td>
+                <td>
+                  {{ ali.fecha_pago | date: "MMMM" | titlecase }}
+                </td>
+                <td>
+                  {{ ali.fecha_pago | date: "yyyy" | titlecase }}
+
+                </td>
+                <td>
+                  {{ali.valor | currency:'USD':'symbol':'1.2':'en-US' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-md-2">
+            Total {{reportes.total | currency:'USD':'symbol':'1.2':'en-US' }}
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success mr-auto" printSectionId="print-section" [useExistingCss]="true"
+      ngxPrint>Imprimir</button>
+
+  </div>
+</ng-template>

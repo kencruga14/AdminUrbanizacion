@@ -845,6 +845,24 @@ export class AuthService {
         })
       );
   }
+  getReporteAlicuotas(desde, hasta, tipo = null) {
+    let params = new HttpParams();
+    params = params.append("fecha_inicio", desde);
+    params = params.append("fecha_fin", hasta);
+    if (tipo) params = params.append("estado", tipo);
+
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/alicuotas/reporte`, { headers, params })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
 
   createContacto(data) {
     this.loading = true;
