@@ -15,6 +15,7 @@ import * as moment from "moment";
 })
 export class AreasocialComponent implements OnInit {
   separatedArray = ["a", "b"];
+  fechaHorario : any = "";
   areas: any;
   aforo: any = 0;
   tipoAforo: any;
@@ -33,7 +34,7 @@ export class AreasocialComponent implements OnInit {
   excluirdias: string = "";
   idTemporal: any;
   item: any = {};
-  reservas: any;
+  reservas: any = [];
   is_publica: any;
   estado: any;
   invalidDates: Date[] = [];
@@ -331,6 +332,19 @@ export class AreasocialComponent implements OnInit {
       });
   }
 
+
+  getReservacionesHorarios(id: string, fecha1: string) {
+    this.auth
+      .getReservacionesAreaSocialxId(id, fecha1)
+      .subscribe((resp: any) => {
+        if (resp) {
+          this.reservas = resp.horarios_disponibles;
+          console.log("hor", this.reservas)
+        }
+      });
+  }
+
+
   getHorarios(id: string) {
     this.auth.getReservasAreaSocialxId(id).subscribe((resp: any) => {
       this.horarios = resp.horarios;
@@ -423,7 +437,10 @@ export class AreasocialComponent implements OnInit {
   }
 
   openReservas(content, item) {
-    this.getReservasAreaSocial(item.ID);
+    // this.getReservasAreaSocial(item.ID);
+    this.reservas=[]
+    this.fechaHorario = "";
+    this.idTemporal = item.ID;
     this.modalService.open(content, { size: "lg" });
   }
 
@@ -466,6 +483,7 @@ export class AreasocialComponent implements OnInit {
   openHorarios(content, item) {
     this.getHorarios(item.ID);
     this.idTemporal = item.ID;
+   
     this.modalService.open(content, { size: "lg" });
   }
 
@@ -475,6 +493,11 @@ export class AreasocialComponent implements OnInit {
       this.fechaRecaudacionInicio,
       this.fechaRecaudacionFin
     );
+  }
+
+
+  gestionReservaHorarios(fecha2: string) {
+    this.getReservacionesHorarios(this.idTemporal,this.fechaHorario)
   }
 
   async gestionHorarios() {

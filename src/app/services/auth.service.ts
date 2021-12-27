@@ -1224,6 +1224,26 @@ export class AuthService {
       );
   }
 
+
+  
+  getReservacionesAreaSocialxId(id: string, fecha1: string) {
+    let params = new HttpParams();
+    params = params.append("fecha", fecha1);
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/area-social/${id}/horarios/disponibles`, {
+        headers,
+        params,
+      })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
   getBuzonRecibidos() {
     const headers = new HttpHeaders({
       token: this.userToken,

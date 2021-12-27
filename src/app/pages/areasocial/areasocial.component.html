@@ -246,11 +246,21 @@
         </button>
       </div>
       <div class="modal-body">
-
         <div class="card">
           <div class="card-body">
-            <div class="row mt-0">
-              <div class="col-md-4 mb-2 ml-2">
+            <div class="row mt-0 mb-2 ">
+              <div class="col-md-7 col-12">
+                <div class="input-group">
+                  <label for="" class="mt-2 mr-2"> Seleccione una Fecha  </label>
+                  <input type="date" class="form-control" [(ngModel)]="fechaHorario" id="filterFechaBefore" />
+                </div>
+              </div>
+              <div class="col-md-2 col-12">
+                <button [disabled]="!fechaHorario" type="button" class="btn btn-info " (click)="gestionReservaHorarios($event.target.value)">
+                  Buscar
+                </button>
+              </div>
+              <div class="col-md-3">
 
               </div>
             </div>
@@ -263,6 +273,8 @@
                   <th scope="col">Hasta</th>
                   <th style="padding-left: 20px;" scope="col">Tipo</th>
                   <th style="text-align:center" scope="col">Valor</th>
+              
+                  <th scope="col">Estado</th>
                   <th scope="col">Mz.</th>
                   <th scope="col">Villa</th>
                   <th [width]="80" scope="col">Reservado por:</th>
@@ -276,12 +288,19 @@
                     <td style="padding-left: 25px;">{{ div.hora_inicio.split("T")[1].split("-")[0]|slice:0:5 }} </td>
                     <td style="padding-left: 25px;">{{ div.hora_fin.split("T")[1].split("-")[0]|slice:0:5 }}</td>
                     <td *ngIf="div.valor_cancelado!=0"> PAGADO </td>
-                    <td *ngIf="div.valor_cancelado==0"> GRATIS </td>
-                    <td style="padding-left: 25px;">{{ div.valor_cancelado }}</td>
-                    <td style="padding-left: 15px;">{{ div.residente.casa.manzana}}</td>
-                    <td style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
-                    <td [width]="80">{{ div.residente.usuario.nombres}}</td>
+                    <td *ngIf="div.valor_cancelado==0">  </td>
+                    <td style="padding-left: 25px;" *ngIf="div.valor_cancelado!=0"> {{div.valor_cancelado}}  </td>
+                    <td *ngIf="div.valor_cancelado==0">  </td>
+                    <td *ngIf="div.reservado" class="label label-danger" > Reservado </td>
+                    <td *ngIf="!div.reservado" style="background: rgb(29, 185, 29);" class="label" > Disponible </td>
+                    <td style="padding-left: 15px;">{{ div.casa.manzana}}</td>
+                    <td style="padding-left: 25px;">{{ div.casa.villa}}</td>
+                    <td [width]="80">{{ div.usuario.nombres}}</td>
                   </tr>
+                  <tr style="text-align: center !important;" *ngIf="reservas.length<1">
+                    <td  colspan="90"><label class="text-primary">No hay horarios disponibles por mostrar</label></td>
+                 </tr>
+             
                 </tbody>
               </table>
             </div>
@@ -440,6 +459,9 @@
                     <td style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
                     <td [width]="80">{{ div.residente.usuario.nombres}}</td>
                   </tr>
+                  <tr style="text-align: center !important;" *ngIf="!fechaRecaudacionFin">
+                    <td  colspan="90"><label class="text-primary">Seleccione fechas a consultar</label></td>
+                 </tr>
                 </tbody>
               </table>
             </div>
@@ -670,7 +692,14 @@
             </div>
 
             <div class="modal-footer">
-              <button class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin ">
+              <button *ngIf="!item.edit" class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin || !excluirdias ">
+                <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
+                    aria-hidden="true"></span>
+                  Loading...
+                </span>
+                <span *ngIf="!auth.loading">Guardar</span>
+              </button>
+              <button *ngIf="item.edit" class="btn btn-red" type="submit" [disabled]="!item.dias_exclude">
                 <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
                     aria-hidden="true"></span>
                   Loading...

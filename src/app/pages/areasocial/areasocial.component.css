@@ -23,3 +23,14 @@ body .ui-datepicker table td > span.ui-state-active {
   color: #ffffff;
   background-color: #007ad9;
 } */
+.aceptada {
+  color: green;
+}
+
+.sinrespuesta {
+  color: rgb(185, 184, 88);
+}
+
+.rechazada {
+  color: red;
+}
