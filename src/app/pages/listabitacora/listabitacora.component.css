@@ -60,3 +60,15 @@
 .derecha {
   float: right;
 }
+
+
+.fila{
+  width:  200px !important;
+}
+
+th,
+td {
+  padding: 10px;
+  width: 50%;
+  white-space: nowrap;
+}
