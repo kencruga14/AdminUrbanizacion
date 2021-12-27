@@ -15,18 +15,18 @@
                     </select>
                 </div>
                 <!-----filtro villa-->
-                <div class="form-group col-1 my-1" *ngIf="filtroManzana">
+                <div class="form-group col-1 my-1">
                     <label>Villa</label>
-                    <select name="villa" [(ngModel)]="filtrovilla" class="form-control custom-select"
-                        (change)="getEstado($event.target.value)">
-                        <option value="0" hidden></option>
+                    <select [disabled]="!filtroManzana" name="villa" [(ngModel)]="filtrovilla"
+                        class="form-control custom-select" (change)="getEstado($event.target.value)">
+                        <option value="0" hidden>Todas</option>
                         <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
                     </select>
                 </div>
                 <!-----filtro Autorizacion-->
-                <div class="form-group col-sm-2 my-1" *ngIf="filtrovilla!=0">
+                <div class="form-group col-sm-2 my-1">
                     <label>Tipo de Autorización</label>
-                    <select (change)="getEstado($event.target.value)" name="autorizacion"
+                    <select [disabled]="!filtrovilla" (change)="getEstado($event.target.value)" name="autorizacion"
                         [(ngModel)]="filtroAutorizacion" class="form-control custom-select">
                         <option value="">Todas</option>
                         <option value="TEMPORAL">Temporales</option>
@@ -34,40 +34,25 @@
                     </select>
                 </div>
 
-                <div class="form-group col-sm-2 my-1" *ngIf="filtroAutorizacion==='TEMPORAL'">
+                <div class="form-group col-sm-2 my-1">
                     <label>Estado</label>
-                    <select (change)="getEstado($event.target.value)" name="estado" [(ngModel)]="filtroEstado"
-                        class="form-control custom-select">
+                    <select [disabled]="filtroAutorizacion==''" (change)="getEstado($event.target.value)" name="estado"
+                        [(ngModel)]="filtroEstado" class="form-control custom-select">
                         <option value="">Todas</option>
-                        <!-- <option value="ACEPTADA">Aceptada</option> -->
-                        <option value="ANULADA">Anuladas</option>
-                        <option value="VALIDADA">Validadas</option>
-                        <option value="PENDIENTE">Pendientes</option>
+                        <option [value]="estado.value" *ngFor="let estado of estados">{{estado.texto}}</option>
                     </select>
                 </div>
 
                 <div class="form-group col-sm-2 my-1" *ngIf="filtrovilla!=0 && filtroAutorizacion==='FIJA'">
                     <label>Tipo de Usuario</label>
-                    <select (change)=" getEstado($event.target.value)" name="autorizacion"
+                    <select [disabled]="!(filtrovilla!=0 && filtroAutorizacion==='FIJA')"
+                        (change)=" getEstado($event.target.value)" name="autorizacion"
                         [(ngModel)]="tipoAutorizacionFija" class="form-control custom-select">
                         <option value="">Todas</option>
                         <option value="Residente">Residente</option>
                         <option value="Familiar">Familiar</option>
                         <option value="Empleado">Empleado</option>
                         <option value="Expreso">Expreso escolar</option>
-                    </select>
-                </div>
-
-                <!-- *ngIf="filtrovilla!=0 && filtroAutorizacion==='FIJA'" -->
-                <div class="form-group col-sm-2 my-1" *ngIf="filtroAutorizacion==='FIJA'">
-                    <label>Estado</label>
-                    <select (change)="getEstado($event.target.value)" name="estado" [(ngModel)]="filtroEstado"
-                        class="form-control custom-select">
-                        <option value="">Todas</option>
-                        <option value="ACTIVA">Activa</option>
-                        <option value="ANULADA">Anulada</option>
-                        <!-- <option value="VALIDADA">Validada</option> -->
-                        <!-- <option value="PENDIENTE">Pendiente</option> -->
                     </select>
                 </div>
                 <div class="form-group col-sm-1 my-1" *ngIf="filtroManzana!=0 && filtrovilla!=0">

@@ -14,24 +14,25 @@
                     <label>Manzana</label>
                     <select name="manzana" [(ngModel)]="buscadorManazana" class="form-control custom-select"
                         (change)="getVillas($event.target.value)">
-                        <option selected hidden value=""> Seleccione una Manzana </option>
+                        <option selected hidden value=""> Todas </option>
                         <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                     </select>
                 </div>
 
-                <div class="form-group col-sm-2 my-1" *ngIf="buscadorManazana">
+                <div class="form-group col-sm-2 my-1">
                     <label>Villa</label>
-                    <select name="villa" [(ngModel)]="buscadorVilla" class="form-control custom-select"
-                        (change)="getFecha($event.target.value)">
-                        <option selected hidden value=""> Seleccione una Villa </option>
+                    <select [disabled]="!buscadorManazana" name="villa" [(ngModel)]="buscadorVilla"
+                        class="form-control custom-select" (change)="getFecha($event.target.value)">
+                        <option selected hidden value=""> Todas </option>
                         <option *ngFor="let ur of casasselector" value="{{ur.villa}}">{{ur.villa}}</option>
                     </select>
                 </div>
 
-                <div class="form-group col-sm-2 my-1" *ngIf="buscadorVilla">
+                <div class="form-group col-sm-2 my-1">
                     <label> Estado </label>
-                    <select  (change)="getvivistasfilterMzVillaEstado()" required name="area" [(ngModel)]="filtroTipo" class="form-control custom-select">
-                         <option  selected value="">Todas</option>
+                    <select [disabled]="!buscadorVilla" (change)="getvivistasfilterMzVillaEstado()" required name="area"
+                        [(ngModel)]="filtroTipo" class="form-control custom-select">
+                        <option selected value="">Todos</option>
                         <option value="ACEPTADA"> Aceptada </option>
                         <option value="RECHAZADA"> Rechazada </option>
                         <option value="SIN_RESPUESTA"> Sin Respuesta </option>
@@ -46,7 +47,7 @@
                         (change)="filterfecha($event.target.value)">
                 </div>
 
-            
+
 
                 <div class="form-group col-sm-1 my-1">
                     <label class="transparente">dd.</label><br>
@@ -87,7 +88,7 @@
                             <th>Hora Salida</th>
                             <th>Medio de salida</th>
                             <th>Placa Salida</th> -->
-                          
+
                         </tr>
                     </thead>
                     <tbody style="text-align: center;">
@@ -109,19 +110,21 @@
                             <td>{{visit.casa.villa}}</td>
                             <!-- <td>{{visit.casa.villa}}</td> -->
                             <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] }}</td>
-                            <td *ngIf="!visit.entrada">  </td>
-                            <td *ngIf="visit.entrada">{{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +  visit.entrada.hora_entrada.split("T")[1].split(":")[1]}}</td>
-                            <td *ngIf="!visit.entrada">  </td>
+                            <td *ngIf="!visit.entrada"> </td>
+                            <td *ngIf="visit.entrada">{{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +
+                                visit.entrada.hora_entrada.split("T")[1].split(":")[1]}}</td>
+                            <td *ngIf="!visit.entrada"> </td>
                             <td *ngIf="visit.entrada">{{visit.entrada.tipo_entrada}}</td>
                             <td *ngIf="!visit.entrada"></td>
                             <td *ngIf="visit.entrada">{{visit.entrada.placa}}</td>
                             <td *ngIf="!visit.entrada"></td>
 
-                            
+
                             <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] }}</td>
-                            <td *ngIf="!visit.salida">  </td>
-                            <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0] + ':' +  visit.salida.hora_salida.split("T")[1].split(":")[1]}}</td>
-                            <td *ngIf="!visit.salida">  </td>
+                            <td *ngIf="!visit.salida"> </td>
+                            <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0] + ':' +
+                                visit.salida.hora_salida.split("T")[1].split(":")[1]}}</td>
+                            <td *ngIf="!visit.salida"> </td>
                             <td *ngIf="visit.salida">{{visit.salida.tipo_entrada}}</td>
                             <td *ngIf="!visit.salida"></td>
                             <td *ngIf="visit.salida">{{visit.salida.placa}}</td>
