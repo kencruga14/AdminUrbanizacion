@@ -11,6 +11,11 @@ import _ from "lodash";
   styleUrls: ["./casa.component.css"],
 })
 export class CasaComponent implements OnInit {
+  filtroManzana:any;
+  filtrovilla:any;
+  manzanas :any;
+  manzanaselector : any = []
+  casasselector : any = []
   casas: UsuarioModelo[] = [];
   etapas: UsuarioModelo[] = [];
   id_casa: 0;
@@ -54,6 +59,8 @@ export class CasaComponent implements OnInit {
 
   ngOnInit() {
     this.getCasa();
+    this.filtroManzana=""
+    this.filtrovilla=""
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
@@ -105,10 +112,19 @@ export class CasaComponent implements OnInit {
     return ints.concat(strs);
   };
 
+  // getCasa() {
+  //   this.auth.getCasa().subscribe((resp: any) => {
+  //     console.log(resp);
+  //     this.casas = this.sortByMzVilla(resp);
+  //   });
+  // }
+
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
-      console.log(resp);
-      this.casas = this.sortByMzVilla(resp);
+      this.casas = resp;
+      this.manzanas = resp;
+      this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
+      console.log("numeros de casas: ", this.casas.length);
     });
   }
 
@@ -178,4 +194,25 @@ export class CasaComponent implements OnInit {
       this.getCasa();
     }
   }
+
+  getFiltroCasa(){
+    this.filtrovilla =""
+    this.auth.getCasasByManzana(this.filtroManzana).subscribe((resp: any) => {
+      this.casasselector = resp;
+      console.log("casas x manzana: ", this.casasselector);
+    });
+    this.auth.getCasaFiltros(this.filtroManzana,this.filtrovilla).subscribe((resp: any) => {
+      this.casas = resp;
+      console.log("casas x manzana: ", this.casasselector);
+    });
+  }
+
+
+  getFiltroVilla(){
+    this.auth.getCasaFiltros(this.filtroManzana,this.filtrovilla).subscribe((resp: any) => {
+      this.casas = resp;
+    });
+  }
+
+
 }

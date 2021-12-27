@@ -51,12 +51,8 @@ export class ReservacionesComponent implements OnInit {
     this.filtroEstado = ""
     this.tipoAutorizacionFija = ""
     this.filtrovilla = 0;
-
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
-      //   this.alicuotas = resp;
-      // });
       this.casasselector = resp;
       console.log("casas x manzana: ", this.casasselector);
     });
