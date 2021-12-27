@@ -1,6 +1,6 @@
 <a class="btn btn-success show-left-part d-block d-md-none ti-close" href="javascript:void(0)"
     (click)="mobileSidebar()"></a>
-<div class="main-part" style="height: calc(100vh - 154px);">
+<div  class="main-part" style="height: calc(100vh - 154px);">
     <div class="left-part bg-white fixed-left-part" [ngClass]="{'show-panel': showSidebar}"
         style="width: 200px !important;">
         <div class="position-relative" style="height:100%;">
@@ -51,7 +51,7 @@
                                 <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)"
                                     style="cursor: pointer;"
                                     [ngStyle]="{'background-color':ms.selectedMailId==mail.ID? '#f2f4f8' : 'white' }">
-                                    <div class="pl-2 pr-2 pt-3 pb-1 border-bottom">
+                                    <div  style="zoom: 0.90;" class="pl-2 pr-2 pt-3 pb-1 border-bottom">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="row t " *ngIf="mail.is_admin">
@@ -133,7 +133,7 @@
                                                     <div class="col-9 text-left">
                                                         <p style="margin-bottom: 8px;" class="text-muted mt-2 "> <b
                                                                 style="color: black;"> Asunto : </b>
-                                                            {{mail.titulo}} </p>
+                                                            {{mail.titulo | slice:0:26}}... </p>
                                                     </div>
                                                     <div class="col-3 text-right mt-2">
                                                         <span class="mt-3">{{(mail.CreatedAt.split('T')[0]

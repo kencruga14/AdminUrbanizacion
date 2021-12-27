@@ -31,6 +31,7 @@
     "angular-responsive-carousel": "^2.1.2",
     "angular2-material-datepicker": "^0.5.0",
     "bootstrap": "^4.4.1",
+    "currency-formatter": "^1.5.9",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "ng-pipes": "^0.1.5",

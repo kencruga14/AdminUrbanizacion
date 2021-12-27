@@ -104,14 +104,14 @@
                     <div class="image-preview mb-3" *ngIf="imagen">
                         <img class="img-fluid" [src]="imagen" height="500" width="100" />
                     </div>
-                    <label for="imagen">Imagen de Expreso</label>
+                    <label for="imagen">Imagen del Conductor</label>
                     <input type="file" name="image" (change)="saveEditPicture($event)" accept="image/*" />
                     <small id="passwordHelpBlock" class="form-text text-muted">
                         El peso de la imagen d-ebe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
                     </small>
                 </div>
-                
+
                 <!--Campo Razon social-->
                 <div class="form-group">
                     <input [value]="razon_social" [(ngModel)]="razon_social" name="razon_social" class="form-control"

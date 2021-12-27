@@ -155,7 +155,7 @@
           </div>
 
           <div class="form-group">
-            <label>Tipo de aforo</label>
+            <label>Aforo</label>
             <select required name="aforo" [(ngModel)]="tipoAforo" class="form-control custom-select">
               <option selected hidden value="">
                 Seleccione Aforo
@@ -311,21 +311,22 @@
             <div class="row mt-0">
 
               <div class="col-6">
-                <h3> Tipo de Aforo: </h3>
+                <h3> Aforo: </h3>
               </div>
               <div *ngIf="informacionArea.aforo==0" class="col-6">
                 <h3> Ilimitado</h3>
               </div>
               <div *ngIf="informacionArea.aforo!=0" class="col-6">
-                <h3> Limitado </h3>
+                <h3> {{informacionArea.aforo}} personas </h3>
+              </div>
+
+              <!-- <div *ngIf="informacionArea.aforo!=0" class="col-6">
+                <h3> Aforo: </h3>
               </div>
 
               <div *ngIf="informacionArea.aforo!=0" class="col-6">
-                <h3> Aforo: </h3>
-              </div>
-              <div *ngIf="informacionArea.aforo!=0" class="col-6">
                 <h3> {{informacionArea.aforo}} personas</h3>
-              </div>
+              </div> -->
 
 
 
@@ -333,7 +334,7 @@
                 <h3> Modalidad: </h3>
               </div>
               <div *ngIf="informacionArea.precio>0" class="col-6">
-                <h3> Con Reservacion </h3>
+                <h3> Con Reservación </h3>
               </div>
               <div *ngIf="informacionArea.precio==0" class="col-6">
                 <h3> Abierta al publico </h3>
@@ -669,7 +670,7 @@
             </div>
 
             <div class="modal-footer">
-              <button class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin || !excluirdias">
+              <button class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin ">
                 <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
                     aria-hidden="true"></span>
                   Loading...

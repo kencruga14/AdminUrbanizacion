@@ -11,6 +11,7 @@ import _ from "lodash";
 })
 export class ReservacionesComponent implements OnInit {
   casas: UsuarioModelo[] = [];
+  estados: any = {}
   filtroManzana: number = 0;
   filtroAutorizacion: string = "";
   paramMz: number;
@@ -35,7 +36,7 @@ export class ReservacionesComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAutorizaciones();
@@ -46,16 +47,12 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getVillas(value) {
-    this.filtroAutorizacion=""
-    this.filtroEstado=""
-    this.tipoAutorizacionFija=""
+    this.filtroAutorizacion = ""
+    this.filtroEstado = ""
+    this.tipoAutorizacionFija = ""
     this.filtrovilla = 0;
-
     this.paramMz = value;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
-      // this.auth.getAlicuotasByMz(value).subscribe((resp: any) => {
-      //   this.alicuotas = resp;
-      // });
       this.casasselector = resp;
       console.log("casas x manzana: ", this.casasselector);
     });
@@ -84,9 +81,37 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getEstado(value) {
-    // this.filtroAutorizacion=""
-    // this.filtroEstado=""
+    // this.filtroAutorizacion = ""
+    // this.filtroEstado = ""
     // this.tipoAutorizacionFija=""
+    if (this.filtroAutorizacion == "TEMPORAL") {
+
+      this.estados = [
+        {
+          texto: "Anulada",
+          value: "ANULADA"
+        },
+        {
+          texto: "Validada",
+          value: "VALIDADA"
+        },
+        {
+          texto: "Pendiente",
+          value: "PENDIENTE"
+        }
+      ]
+    } else {
+      this.estados = [
+        {
+          texto: "Activa",
+          value: "ACTIVA"
+        },
+        {
+          texto: "Anulada",
+          value: "ANULADA"
+        }
+      ]
+    }
     this.paramVilla = value;
     console.log("casa: ", value);
     this.getAutorizaciones(
@@ -97,9 +122,19 @@ export class ReservacionesComponent implements OnInit {
     );
   }
 
-  
-
-
+  filtrarAutorizacion(value) {
+    this.filtroAutorizacion = ""
+    this.filtroEstado = ""
+    this.tipoAutorizacionFija = ""
+    this.paramVilla = value;
+    console.log("casa: ", value);
+    this.getAutorizaciones(
+      this.tipoAutorizacionFija,
+      this.filtroAutorizacion,
+      this.filtroEstado,
+      this.filtrovilla
+    );
+  }
 
   async getAutorizaciones(
     tipoFija = null,

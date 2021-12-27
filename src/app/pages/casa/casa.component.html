@@ -4,10 +4,41 @@
         <div class="card-body">
             <h4 class="card-title">Lista de Casas</h4>
             <button class="btn btn-dark" (click)="openCasa(contentCasa)">Crear Casa</button>
-            <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
+            <!-- <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
                 <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
                  [(ngModel)]="filterName">
-            </div>
+            </div> -->
+
+                     <!-----filtro manzana-->
+                     <div class="row mt-4">
+                         <div class="col-3">
+                            <div class="form-group">
+                                <label>Seleccione Manzana</label>
+                                <select name="manzana" [(ngModel)]="filtroManzana" class="form-control custom-select"
+                                    (change)="getFiltroCasa($event.target.value)">
+                                    <option value="" >Todas</option>
+                                    <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">{{ur.manzana}}</option>
+                                </select>
+                            </div>
+                         </div>
+                         <!-- <div class="col-3">
+                            <div class="form-group">
+                                <label>Seleccione Villa</label>
+                                <select [disabled]="!filtroManzana" name="villa" [(ngModel)]="filtrovilla"
+                                    class="form-control custom-select" (change)="getFiltroVilla($event.target.value)">
+                                    <option value="" hidden>Todas</option>
+                                    <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
+                                </select>
+                            </div>
+                         </div> -->
+                         <div class="col-6">
+
+                         </div>
+                     </div>
+                  
+                    <!-----filtro villa-->
+                  
+
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
                 <table id="myTable" class="table color-bordered-table inverse-bordered-table">

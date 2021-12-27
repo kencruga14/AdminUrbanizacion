@@ -207,7 +207,7 @@ export class ListingComponent implements OnInit {
       this.separatedArray = this.ms.selectedMail.descripcion.split('\n')
       this.mailService.array = this.separatedArray
       // console.log("otro:",this.mailService.array)
-      this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
+      // this.ms.selectedMail.mensajes = this.ms.selectedMail.mensajes.reverse()
       this.ms.selectedMail.seen = true;
       this.ms.selectedMail.destinatarios = mail.destinatarios;
       this.ms.selectedMailId = mail.ID

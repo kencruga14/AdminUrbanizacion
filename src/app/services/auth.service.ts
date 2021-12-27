@@ -302,6 +302,24 @@ export class AuthService {
       );
   }
 
+
+  getCasaFiltros( casa: string, villa :string) {
+    let params = new HttpParams();
+    params = params.append("mz", casa);
+    params = params.append("villa", villa);
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/casa`, { headers ,params })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+
   getCasaByUrbanizacion(id) {
     const headers = new HttpHeaders({
       token: this.userToken,
