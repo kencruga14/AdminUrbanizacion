@@ -27,16 +27,20 @@ import { ThrowStmt } from "@angular/compiler";
 export class AlicuotaComponent implements OnInit {
   // @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   alicuotaForm: FormGroup;
-  totales: any = { total_pagado: 0, total_vencido: 0 }
+  valorTotalFormat: string;
+  alicuotasLoading: boolean = false
+  totales: any = { total_pagado: 0, total_vencido: 0, total_pendiente: 0 }
   reporte: any = {}
   value = this.fb.group({
     valor: ["", Validators.required],
     fecha_pago: ["", Validators.required],
   });
+  alicuotasPago = []
   casas: UsuarioModelo[] = [];
   alicuotas: any = [];
   filtrovilla: number = 0;
   contadorVencidas = 0
+  contadorPendientes = 0
   totalPE = 0;
   totalVE = 0;
   totalPES = 0
@@ -465,6 +469,9 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getVillas(value) {
+    this.bandera = false
+
+    this.filtroEstado = ""
     this.paramMz = value;
     this.casasselector = []
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
@@ -481,6 +488,8 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getEstado(value) {
+    this.filtroEstado = ""
+    this.bandera = false
     this.alicuotas = []
     this.paramVilla = value;
     this.existeVencido = false;
@@ -489,29 +498,7 @@ export class AlicuotaComponent implements OnInit {
       .getAlicuotasByMzVil(this.paramMz, value)
       .subscribe((resp: any) => {
         this.contadorVencidas = 0
-        resp.sort(function compare(a, b) {
-          var dateA = new Date(a.mes_pago).getTime();
-          var dateB = new Date(b.mes_pago).getTime();
-          return dateB - dateA;
-        });
-        resp.forEach(alicuota => {
-          if (alicuota.estado == "VENCIDO") {
-            this.existeVencido = true;
-            this.contadorVencidas++
-            alicuota.contadorVencidas = this.contadorVencidas
-            console.log("vencido " + this.existeVencido)
-          }
-        });
-        this.alicuotas = resp
-      });
-  }
-
-  getAlicuotaEstado(value) {
-    this.paramEstado = value;
-    this.auth
-      .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
-      .subscribe((resp: any) => {
-        this.contadorVencidas = 0
+        this.contadorPendientes = 0
         if (resp) {
           resp.sort(function compare(a, b) {
             var dateA = new Date(a.mes_pago).getTime();
@@ -525,17 +512,63 @@ export class AlicuotaComponent implements OnInit {
               alicuota.contadorVencidas = this.contadorVencidas
               console.log("vencido " + this.existeVencido)
             }
+            if (alicuota.estado == "PENDIENTE") {
+              this.contadorPendientes++
+              alicuota.contadorPendientes = this.contadorPendientes
+              console.log("pendiente " + this.contadorPendientes)
+
+            }
           });
         } else {
           resp = []
         }
         this.alicuotas = resp
+        if (resp.length > 0) {
+          this.listaVencidas = resp;
+          if (this.filtroEstado === 'VENCIDO' || this.filtroEstado === 'PENDIENTE' || this.listaVencidas[0].estado != "PAGADO") this.bandera = true
+          this.calcularVencidos();
+        }
+      });
+  }
 
+  getAlicuotaEstado(value) {
+    if (this.filtroEstado == "PAGADO") {
+      this.bandera = false
+    }
+    this.paramEstado = value;
+    this.auth
+      .getAlicuotasByMzVilEstado(this.paramMz, this.paramVilla, value)
+      .subscribe((resp: any) => {
+        this.contadorVencidas = 0
+        this.contadorPendientes = 0
+        if (resp) {
+          resp.sort(function compare(a, b) {
+            var dateA = new Date(a.mes_pago).getTime();
+            var dateB = new Date(b.mes_pago).getTime();
+            return dateB - dateA;
+          });
+          resp.forEach(alicuota => {
+            if (alicuota.estado == "VENCIDO") {
+              this.existeVencido = true;
+              this.contadorVencidas++
+              alicuota.contadorVencidas = this.contadorVencidas
+              console.log("vencido " + this.existeVencido)
+            }
+            if (alicuota.estado == "PENDIENTE") {
+              this.contadorPendientes++
+              alicuota.contadorPendientes = this.contadorPendientes
+              console.log("pendiente " + this.contadorPendientes)
+
+            }
+          });
+        } else {
+          resp = []
+        }
+        this.alicuotas = resp
         if (resp.length > 0) {
           this.listaVencidas = resp;
           this.bandera = false
-
-          if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true
+          if (this.filtroEstado === 'VENCIDO' || this.filtroEstado === 'PENDIENTE' || this.listaVencidas[0].estado != "PAGADO") this.bandera = true
           this.calcularVencidos();
           console.log("alicuotas x estado: ", this.alicuotas);
           console.log("alicuotas x estado: ", resp.length);
@@ -550,7 +583,9 @@ export class AlicuotaComponent implements OnInit {
     window.print();
   }
   getTotales() {
-    this.getReporte()
+    if (this.reporte.hasta) {
+      this.getReporte()
+    }
   }
   verReporte(contentVerReporte, tipo) {
     this.getReporte(tipo)
@@ -561,17 +596,33 @@ export class AlicuotaComponent implements OnInit {
     this.auth.getReporteAlicuotas(moment(this.reporte.desde).format("YYYY-MM-DDTHH:mm:ss[Z]"), moment(this.reporte.hasta).format("YYYY-MM-DDTHH:mm:ss[Z]"), tipo).subscribe((resp: any) => {
       if (!tipo) {
         this.totales = resp
+        let uy = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.totales.total_pagado);
+        this.totales.total_pagado = uy;
+        uy = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.totales.total_vencido);
+        this.totales.total_vencido = uy;
+        uy = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.totales.total_pendiente);
+        this.totales.total_pendiente = uy;
       } else {
         this.reportes = resp;
 
       }
     });
   }
+  formatCurrency_TaxableValue() {
+    var uy = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.valorTotal);
+    this.valorTotalFormat = uy;
+  }
   calcularVencidos() {
     this.valorTotal = 0;
-    console.log("a recorrer: ", this.listaVencidas);
     this.listaVencidas.forEach((item) => {
-      this.valorTotal = this.valorTotal + parseFloat(item.valor);
+      if (item.estado == "PENDIENTE" || item.estado == "VENCIDO") {
+        this.valorTotal = this.valorTotal + parseFloat(item.valor);
+
+      }
+      if (this.valorTotal == 0) {
+        this.bandera = false
+      }
+      this.formatCurrency_TaxableValue()
     });
 
   }
@@ -762,15 +813,27 @@ export class AlicuotaComponent implements OnInit {
   }
 
   openModalAlicuota(content, alicuota = null) {
-    if (this.existeVencido && (alicuota.estado != 'VENCIDO' || alicuota.contadorVencidas != this.contadorVencidas)) {
-      Swal.fire({
-        title: "",
-        text: "Para realizar el paga de esta alícuota debes primero pagar las anteriores. ",
-        confirmButtonText: "Ok",
-      });
-      return
+    if (this.existeVencido) {
+      if (this.existeVencido && (alicuota.estado != 'VENCIDO' || alicuota.contadorVencidas != this.contadorVencidas)) {
+        Swal.fire({
+          title: "",
+          text: "Para realizar el paga de esta alícuota debes primero pagar las anteriores. ",
+          confirmButtonText: "Ok",
+        });
+        return
+      }
+    } else {
+
+      if (alicuota.contadorPendientes != this.contadorPendientes) {
+        Swal.fire({
+          title: "",
+          text: "Para realizar el paga de esta alícuota debes primero pagar las anteriores. ",
+          confirmButtonText: "Ok",
+        });
+        return
+      }
     }
-    console.log("alicuota seleccionada :", alicuota);
+
     if (alicuota) {
       this.id_alicuota = alicuota.ID;
       this.id = alicuota.ID;
@@ -785,11 +848,15 @@ export class AlicuotaComponent implements OnInit {
   }
 
   getAlicuota() {
-
+    this.alicuotasLoading = true;
     this.auth.getAlicuota().subscribe((resp: any) => {
       if (resp) {
         this.alicuotas = resp;
         this.clasificarAlicuotas(resp);
+        this.alicuotasLoading = false;
+
+      } else {
+        this.alicuotasLoading = false;
 
       }
     });
@@ -882,6 +949,7 @@ export class AlicuotaComponent implements OnInit {
 
 
   restablecerFiltroBusqueda() {
+    this.bandera = false
     this.filtromanzana = 0;
     this.filtroEstado = "";
     this.filtrovilla = 0;
@@ -895,7 +963,6 @@ export class AlicuotaComponent implements OnInit {
     Swal.fire({
       title: "¿Está seguro de realizar esta acción?",
       // text: "Esta acción no se puede reversar",
-      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -910,10 +977,26 @@ export class AlicuotaComponent implements OnInit {
     });
   }
 
-  UpdatePagoTodo() {
+  UpdatePagoTodo(content) {
+    this.alicuotasPago = []
+    this.alicuotas.forEach(alicuota => {
+      if (alicuota.estado == "PENDIENTE" || alicuota.estado == "VENCIDO") {
+        this.alicuotasPago = [...this.alicuotasPago, alicuota]
+      }
+    });
+    if (this.existeVencido && this.filtroEstado == "PENDIENTE") {
+      Swal.fire({
+        title: "",
+        text: "Para realizar el paga de esta alícuota debes primero pagar las anteriores. ",
+        confirmButtonText: "Ok",
+      });
+      return
+    }
+    this.modalService.open(content, { size: "lg" })
+  }
+  pagarTodoFinal() {
     Swal.fire({
       title: "¿Está seguro de realizar esta acción?",
-      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -937,6 +1020,7 @@ export class AlicuotaComponent implements OnInit {
     };
     response = await this.auth.editAlicuota(id, body);
     if (response) {
+
       // this.resetsForm();
       // this.removeGroup(this.nregistros);
       // this.gestionAlicuota();
@@ -948,6 +1032,8 @@ export class AlicuotaComponent implements OnInit {
         .subscribe((resp: any) => {
           this.alicuotas = resp;
           this.contadorVencidas = 0
+          this.contadorPendientes = 0
+
           resp.sort(function compare(a, b) {
             var dateA = new Date(a.mes_pago).getTime();
             var dateB = new Date(b.mes_pago).getTime();
@@ -960,11 +1046,17 @@ export class AlicuotaComponent implements OnInit {
               alicuota.contadorVencidas = this.contadorVencidas
               console.log("vencido " + this.existeVencido)
             }
+            if (alicuota.estado == "PENDIENTE") {
+              this.contadorPendientes++
+              alicuota.contadorPendientes = this.contadorPendientes
+              console.log("pendiente " + this.contadorPendientes)
+
+            }
           });
           this.alicuotas = resp
           this.listaVencidas = resp;
           this.bandera = false
-          if (this.listaVencidas[0].estado === 'VENCIDO') this.bandera = true
+          if (this.filtroEstado === 'VENCIDO' || this.filtroEstado === 'PENDIENTE' || this.filtroEstado === '') this.bandera = true
           this.calcularVencidos();
         });
       this.modalService.dismissAll()
@@ -975,6 +1067,8 @@ export class AlicuotaComponent implements OnInit {
   }
 
   async pagarTodo() {
+    this.modalService.dismissAll()
+
     let response: any;
     const body = this.listaVencidas
     let arregloAlicuotas = []
