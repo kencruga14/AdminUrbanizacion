@@ -52,21 +52,23 @@
         </div>
         <div class="col-md-3" *ngIf="bandera">
           <div class="form-group">
-            <label>Total Vencido</label>
+            <label *ngIf="filtroEstado === 'VENCIDO'">Total Vencido</label>
+            <label *ngIf="filtroEstado === 'PENDIENTE'">Total Pendiente</label>
+            <label *ngIf="filtroEstado === ''">Total</label>
+
             <div class="row">
               <div class="col-md-6">
-                <input type="text" class="form-control" [(ngModel)]="valorTotal">
+                <input type="text" class="form-control" [(ngModel)]="valorTotalFormat" readonly>
 
               </div>
               <div class="col-md-6">
-                <button (click)="UpdatePagoTodo()" type="button" class="btn btn-success btn-small" data-toggle="tooltip"
-                  data-placement="right" title="Restablecer filtro">
+                <button [ngClass]="{'btn-vencido': existeVencido && filtroEstado == 'PENDIENTE'}"
+                  (click)="UpdatePagoTodo(pagarTodo)" type="button" class="btn btn-success btn-small"
+                  data-toggle="tooltip" data-placement="right" title="Restablecer filtro">
                   PAGAR TODO
                 </button>
               </div>
             </div>
-
-
           </div>
         </div>
 
@@ -95,82 +97,89 @@
       <br />
       <!------------------------------------------------------Acordeon--------------------------------->
       <div *ngIf="filtrovilla==0">
-        <p-accordion *ngFor="let item of alicuotasFinales2 ; let i = index">
-          <div *ngIf="item.alicuotas.length > 0">
-            <p-accordionTab>
-              <p-header>
-                <div style="display: inline-block;">
-                  <div class="row justify-content-end" style="width: 74vw;">
-                    <div class="col-md-4">
-                      {{ item.label | titlecase}}
-                    </div>
-
-                    <div class="col-md-8 text-right">
-                      <div *ngIf="item.estado ==='VENCIDO'">
-                        <div class="row justify-content-end " style=" color: rgb(218, 28, 28);">
-                          Vencido : {{ item.sumVencido | currency:'USD':'symbol':'1.2':'en-US' }}
-
-                        </div>
-                      </div>
-                      <div *ngIf="item.estado ==='PAGADO'">
-                        <div class="row justify-content-end " style=" color: rgb(82, 218, 28);">
-                          Pagado : {{ item.sumPagado | currency:'USD':'symbol':'1.2':'en-US' }}
-                        </div>
-
-                      </div>
-                      <div *ngIf="item.estado ==='PENDIENTE' ">
-                        <div class="row justify-content-end" style=" color: rgb(87, 87, 87);">
-                          Pendiente : {{ item.sumPendiente | currency:'USD':'symbol':'1.2':'en-US' }}
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </p-header>
-
-              <table id="myTable" class="table color-bordered-table inverse-bordered-table">
-                <thead>
-                  <tr style="text-align: center">
-                    <th>No</th>
-                    <th>Manzana</th>
-                    <th>Villa</th>
-                    <th>Valor</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody style="text-align: center">
-                  <tr *ngFor="let a of item.alicuotas; let i = index">
-                    <th scope="row ">{{ i + 1 }}</th>
-                    <td>{{ a.casa.manzana }}</td>
-                    <td>{{ a.casa.villa }}</td>
-                    <td>${{ a.valor }}</td>
-                    <td *ngIf="a.estado === 'PAGADO'">
-                      <div class="pagado">
-                        <strong> {{ a.estado }}</strong>
-                      </div>
-                    </td>
-                    <td *ngIf="a.estado === 'PENDIENTE'">
-                      <Div class="pendiente">
-                        <strong> {{ a.estado }}</strong>
-                      </Div>
-                    </td>
-                    <td *ngIf="a.estado === 'VENCIDO'">
-                      <Div class="vencido">
-                        <strong> {{ a.estado }}</strong>
-                      </Div>
-                    </td>
-                  </tr>
-                  <tr *ngIf="alicuotas === null">
-                    <td style="text-align: center !important" colspan="10">
-                      <label class="text-primary">No existen datos</label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </p-accordionTab>
+        <div *ngIf="alicuotasLoading" class="row justify-content-center">
+          <div class="col-md-12 text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
-        </p-accordion>
+        </div>
+
+        <div *ngIf="!alicuotasLoading">
+
+          <p-accordion *ngFor="let item of alicuotasFinales2 ; let i = index">
+            <div *ngIf="item.alicuotas.length > 0">
+              <p-accordionTab>
+                <p-header>
+                  <div style="display: inline-block;">
+                    <div class="row justify-content-end" style="width: 74vw;">
+                      <div class="col-md-4">
+                        {{ item.label | titlecase}}
+                      </div>
+
+                      <div class="col-md-8 text-right">
+                        <div *ngIf="item.estado ==='VENCIDO'">
+                          <div class="row justify-content-end " style=" color: rgb(218, 28, 28);">
+                            Vencido : {{ item.sumVencido | currency:'USD':'symbol':'1.2':'en-US' }}
+
+                          </div>
+                        </div>
+
+                        <div *ngIf="item.estado ==='PENDIENTE' ">
+                          <div class="row justify-content-end" style=" color: rgb(87, 87, 87);">
+                            Pendiente : {{ item.sumPendiente | currency:'USD':'symbol':'1.2':'en-US' }}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </p-header>
+
+                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                  <thead>
+                    <tr style="text-align: center">
+                      <th>No</th>
+                      <th>Manzana</th>
+                      <th>Villa</th>
+                      <th>Valor</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody style="text-align: center">
+                    <tr *ngFor="let a of item.alicuotas; let i = index">
+                      <th scope="row ">{{ i + 1 }}</th>
+                      <td>{{ a.casa.manzana }}</td>
+                      <td>{{ a.casa.villa }}</td>
+                      <td>${{ a.valor }}</td>
+                      <td *ngIf="a.estado === 'PAGADO'">
+                        <div class="pagado">
+                          <strong> {{ a.estado }}</strong>
+                        </div>
+                      </td>
+                      <td *ngIf="a.estado === 'PENDIENTE'">
+                        <Div class="pendiente">
+                          <strong> {{ a.estado }}</strong>
+                        </Div>
+                      </td>
+                      <td *ngIf="a.estado === 'VENCIDO'">
+                        <Div class="vencido">
+                          <strong> {{ a.estado }}</strong>
+                        </Div>
+                      </td>
+                    </tr>
+                    <tr *ngIf="alicuotas === null">
+                      <td style="text-align: center !important" colspan="10">
+                        <label class="text-primary">No existen datos</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </p-accordionTab>
+            </div>
+          </p-accordion>
+        </div>
+
       </div>
 
       <div *ngIf="filtrovilla!=0">
@@ -221,9 +230,14 @@
                   </div>
                 </td>
                 <td *ngIf="ali.estado === 'PENDIENTE' || ali.estado === 'VENCIDO'">
-                  <button
-                    [ngClass]="{'btn-vencido': existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas)}"
+                  <button *ngIf="existeVencido"
+                    [ngClass]="{'btn-vencido': existeVencido && (ali.estado!='VENCIDO' || ali.contadorVencidas!= contadorVencidas )}"
                     type="button" (click)="openModalAlicuota(openMAlicuota, ali)" class="btn btn-success">
+                    Pagar
+                  </button>
+                  <button *ngIf="!existeVencido"
+                    [ngClass]="{'btn-vencido':  ( ali.contadorPendientes!= contadorPendientes )}" type="button"
+                    (click)="openModalAlicuota(openMAlicuota, ali)" class="btn btn-success">
                     Pagar
                   </button>
 
@@ -452,7 +466,8 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="desde">Desde:</label>
-                  <input type="date" class="form-control" [(ngModel)]="reporte.desde" name="desde">
+                  <input type="date" class="form-control" (change)="getTotales()" [(ngModel)]="reporte.desde"
+                    name="desde">
                 </div>
               </div>
               <div class="col-md-6">
@@ -475,9 +490,6 @@
                 </div>
               </div>
             </div>
-
-
-
             <div class="form-group">
               <label for="desde">Total Vencido:</label>
               <div class="row">
@@ -491,7 +503,19 @@
                 </div>
               </div>
             </div>
-
+            <div class="form-group">
+              <label for="desde">Total Pendiente:</label>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" readonly [(ngModel)]="totales.total_pendiente" name="totalPe">
+                </div>
+                <div class="col-md-6">
+                  <button [ngClass]="{'btn-vencido': !reporte.hasta}" [disabled]=" !reporte.hasta || !reporte.desde"
+                    (click)="verReporte(contentVerReporte,'PENDIENTE')" class="btn btn-warning ">Ver
+                    Reporte</button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button (click)="resetReportes()" type="submit" class="btn btn-info">
@@ -514,10 +538,10 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-md-6">
-        <span>Desde : {{reporte.desde}}</span>
+        <span>Desde : {{reporte.desde | date: 'dd-MM-yyyy'}}</span>
       </div>
       <div class="col-md-6 text-right">
-        <span>Hasta : {{reporte.hasta}}</span>
+        <span>Hasta : {{reporte.hasta | date: 'dd-MM-yyyy'}}</span>
       </div>
     </div>
     <div>
@@ -630,5 +654,67 @@
     <button type="button" class="btn btn-success mr-auto" printSectionId="print-section" [useExistingCss]="true"
       ngxPrint>Imprimir</button>
 
+  </div>
+</ng-template>
+<ng-template #pagarTodo let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Pagar Todo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center table-responsive">
+        <table class="table  table-striped table-bordered">
+          <thead>
+            <tr style="text-align: center">
+              <th>No</th>
+              <th>Mes</th>
+              <th>Año</th>
+              <th>Valor</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center">
+            <tr *ngIf="alicuotas === null">
+              <td style="text-align: center !important" colspan="10">
+                <label class="text-primary">No existen datos</label>
+              </td>
+            </tr>
+            <tr *ngFor="
+                  let ali of alicuotasPago ;let i = index">
+              <th scope="row ">{{ i + 1 }}</th>
+              <td *ngIf="ali.tipo === 'COMUN'">
+                {{ ali.fecha_pago | date: "MMMM" | titlecase }}
+              </td>
+              <td *ngIf="ali.tipo !== 'COMUN'">{{ ali.tipo }}</td>
+              <td>{{ ali.fecha_pago | date: "yyyy" }}</td>
+              <td>${{ ali.valor }}</td>
+              <td *ngIf="ali.estado === 'PAGADO'">
+                <Div class="pagado">
+                  <strong> {{ ali.estado }}</strong>
+                </Div>
+              </td>
+              <td *ngIf="ali.estado === 'PENDIENTE'">
+                <Div class="pendiente">
+                  <strong> {{ ali.estado }}</strong>
+                </Div>
+              </td>
+              <td *ngIf="ali.estado === 'VENCIDO'">
+                <div class="vencido">
+                  <strong> {{ ali.estado }}</strong>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" (click)="pagarTodoFinal()">Pagar {{valorTotal | currency:'USD':'symbol':'1.2':'en-US'
+      }}</button>
   </div>
 </ng-template>

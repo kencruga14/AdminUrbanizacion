@@ -11,7 +11,7 @@ import { MomentModule } from "ngx-moment";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { ColorPickerModule } from "ngx-color-picker";
 import localeEs from "@angular/common/locales/es";
-import { registerLocaleData } from "@angular/common";
+import { CurrencyPipe, registerLocaleData } from "@angular/common";
 registerLocaleData(localeEs, "es");
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -179,6 +179,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     IvyCarouselModule,
   ],
   providers: [
+    CurrencyPipe,
     { provide: LOCALE_ID, useValue: "es" },
     MailService,
     MailGlobalVariable,
