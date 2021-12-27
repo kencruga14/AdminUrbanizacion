@@ -9,15 +9,15 @@
                     [(ngModel)]="filterName">
             </div> -->
             <div class="row">
-                <div class="col-3">
-
+                <div class="col-3 mt-5">
+                    <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                    [(ngModel)]="filterName">
                 </div>
                 <div class="col-4">
 
                 </div>
                 <div class="col-3 ">
-                    <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                        [(ngModel)]="filterName">
+                   
                 </div>
                 <div class="col-2">
 
@@ -60,8 +60,8 @@
                             <a *ngIf="c.documento" (click)="goToLink(c.documento)"
                                 href="javascript:void(0)">Visualizar</a>
                             <figure *ngIf="!c.documento">
-                                <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
-                                    alt="image" />
+                                <!-- <img class="adjunto" src="../assets/images/adjunto.png" data-holder-rendered="true"
+                                    alt="image" /> -->
                             </figure>
                         </td>
                         <td>
