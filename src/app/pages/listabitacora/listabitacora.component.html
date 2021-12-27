@@ -58,7 +58,8 @@
             </div>
 
             <div class="table-responsive m-t-40">
-                <table id="myTable" class="table color-bordered-table inverse-bordered-table">
+                <table id="myTable" style="width: 100%" class="table color-bordered-table inverse-bordered-table">
+
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
@@ -70,24 +71,17 @@
                             <th>Asunto</th>
                             <th>Manzana</th>
                             <th>Villa</th>
-                            <!-- <th>Tipo</th> -->
                             <th>Fecha Ingreso </th>
                             <th>Hora Ingreso </th>
-                            <th>Medio Entrada </th>
-                            <th>Placa Entradaa</th>
-
+                            <th>Medio Ingreso </th>
+                            <th>Placa Ingreso</th>
                             <th>Fecha Salida</th>
                             <th>Hora Salida</th>
                             <th>Medio Salida </th>
                             <th>Placa Salida</th>
-
                             <th>Guardia</th>
                             <th>Estado</th>
                             <th>Por:</th>
-                            <!-- <th>Fecha Salida</th>
-                            <th>Hora Salida</th>
-                            <th>Medio de salida</th>
-                            <th>Placa Salida</th> -->
 
                         </tr>
                     </thead>
@@ -111,7 +105,8 @@
                             <!-- <td>{{visit.casa.villa}}</td> -->
                             <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] }}</td>
                             <td *ngIf="!visit.entrada"> </td>
-                            <td *ngIf="visit.entrada">{{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +
+                            <td *ngIf="visit.entrada">
+                                {{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +
                                 visit.entrada.hora_entrada.split("T")[1].split(":")[1]}}</td>
                             <td *ngIf="!visit.entrada"> </td>
                             <td *ngIf="visit.entrada">{{visit.entrada.tipo_entrada}}</td>
@@ -122,7 +117,8 @@
 
                             <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] }}</td>
                             <td *ngIf="!visit.salida"> </td>
-                            <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0] + ':' +
+                            <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0]
+                                + ':' +
                                 visit.salida.hora_salida.split("T")[1].split(":")[1]}}</td>
                             <td *ngIf="!visit.salida"> </td>
                             <td *ngIf="visit.salida">{{visit.salida.tipo_entrada}}</td>
@@ -130,7 +126,7 @@
                             <td *ngIf="visit.salida">{{visit.salida.placa}}</td>
                             <td *ngIf="!visit.salida"></td>
 
-                            <td>{{visit.guardia.nombres}}</td>
+                            <td>{{visit.guardia.usuario}}</td>
 
                             <td *ngIf="visit.Estado === 'ACEPTADA'">
                                 <Div class="aceptada">
@@ -154,10 +150,21 @@
                             </td>
                             <td *ngIf="visit.Estado === 'SIN_RESPUESTA'">
                                 <Div class="sinrespuesta">
-                                    <strong> {{visit.Estado}}</strong>
+                                    <strong>SIN RESPUESTA</strong>
                                 </Div>
                             </td>
-                            <td *ngIf="visit.contestador">{{visit.contestador.nombres}}</td>
+                            <td *ngIf="visit.Estado === 'ACEPTADA POR LLAMADA'">
+                                <Div class="aceptada">
+                                    <strong>{{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.Estado === 'RECHAZADA POR LLAMADA'">
+                                <Div class="rechazada">
+                                    <strong>{{visit.Estado}}</strong>
+                                </Div>
+                            </td>
+                            <td *ngIf="visit.contestador && visit.Estado!='SIN_RESPUESTA'">{{visit.contestador.usuario}}
+                            </td>
                         </tr>
                         <tr *ngIf="(bitacoras).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No

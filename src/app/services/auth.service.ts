@@ -42,7 +42,7 @@ export class AuthService {
       .pipe(
         map((resp: any) => {
           this.guardarToken(resp.respuesta);
-          console.log("login", resp)
+          console.log("login", resp);
           return resp;
         })
       );
@@ -869,12 +869,14 @@ export class AuthService {
     params = params.append("fecha_fin", hasta);
     if (tipo) params = params.append("estado", tipo);
 
-
     const headers = new HttpHeaders({
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/alicuotas/reporte`, { headers, params })
+      .get(`${environment.apiUrl}/admin-etapa/alicuotas/reporte`, {
+        headers,
+        params,
+      })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -1298,6 +1300,36 @@ export class AuthService {
           return resp.respuesta;
         })
       );
+  }
+
+  getUsuarios(mz, villa, tipo) {
+    let params = new HttpParams();
+    if (mz || mz == "") params = params.append("mz", mz);
+    if (villa || villa == "") params = params.append("villa", villa);
+    if (tipo || tipo == "") params = params.append("tipo_usuario", tipo);
+
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .get(`${environment.apiUrl}/admin-etapa/residentes`, {
+          headers,
+          params,
+        })
+        .subscribe(
+          (response: any) => {
+            resolve([true, response.respuesta]);
+          },
+          (error: any) => {
+            console.log(error);
+            if (!this.tokenIsValid(error.status)) {
+              // this.showAlert("Error al cargar miembros", "error");
+            }
+            resolve([false]);
+          }
+        );
+    });
   }
 
   getAutorizaciones(fijaTipo, tipo, estado, id_casa) {
@@ -2097,6 +2129,89 @@ export class AuthService {
           }
         );
     });
+  }
+
+  filtroResidenteMz(mz, villa, tipo) {
+    console.log("tipo:", tipo)
+    if (villa === "todas" || villa === null) {
+      villa = "";
+      tipo = ""
+    } 
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/residentes?mz=${mz}&villa=${villa}&tipo_usuario=${tipo}`,
+        {
+          headers,
+        }
+      )
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  filtroResidenteMzVilla(mz, villa) {
+    if(mz==='todas'){
+      mz=""
+    }
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/residentes?mz=${mz}&villa=${villa}`,
+        {
+          headers,
+        }
+      )
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  valiacionipoUsuario(id) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return this.http
+      .get(`${environment.apiUrl}/admin-etapa/residentes/principal/${id}`, {
+        headers,
+      })
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
+  }
+
+  filtroResidenteMzVillaTipo(mz, villa, tipo) {
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    if(villa==='todas'){
+      villa=""
+    }
+    if(mz==='todas'){
+      mz=""
+    }
+    return this.http
+      .get(
+        `${environment.apiUrl}/admin-etapa/residentes?mz=${mz}&villa=${villa}&tipo_usuario=${tipo}`,
+        {
+          headers,
+        }
+      )
+      .pipe(
+        map((resp: any) => {
+          return resp.respuesta;
+        })
+      );
   }
 
   deleteHorario(id: number) {

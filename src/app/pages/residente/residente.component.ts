@@ -13,12 +13,20 @@ import * as moment from "moment";
   styleUrls: ["./residente.component.css"],
 })
 export class ResidenteComponent implements OnInit {
-  residentes: any;
+  residentes: any[] = [];
+  arrayvalidacion: any[] = [];
   casas: UsuarioModelo[] = [];
   id_residente: 0;
   id_casa: 0;
+  filtromanzana: number = 0;
+
+  // filtroMz: number = 0;
+  filtroMz = "todas";
+  fitroVilla = "todas";
+  filtroTipo = "todas";
   nombres: "";
   manzanaselector: [];
+  manzanafilter: [];
   casasselector: any;
   edit: false;
   telefono: "";
@@ -41,7 +49,8 @@ export class ResidenteComponent implements OnInit {
   eta = [];
   autorizacion: Boolean;
   manzana: any;
-  id_villa: any;
+  id_villa: number = 0;
+  validacion: false;
   votacion: boolean;
   fechaMaxima = new Date();
   autorizacionTemp: boolean;
@@ -50,7 +59,8 @@ export class ResidenteComponent implements OnInit {
   filterName = "";
   accion: Boolean;
   pdfEdit = null;
-  villa: number = 0;
+  tipoUsuario: any;
+  villa: any;
   residente = {
     id_casa: 0,
     celular: "",
@@ -137,6 +147,7 @@ export class ResidenteComponent implements OnInit {
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
+    console.log("Validacion: ", this.validacion);
   }
 
   getResidente() {
@@ -146,10 +157,9 @@ export class ResidenteComponent implements OnInit {
     });
   }
 
-  
   getCasa() {
     this.auth.getCasa().subscribe((resp: any) => {
-      console.log("casas: ", resp);
+      // console.log("casas: ", resp);
       this.casas = resp;
       this.manzanaselector = _.uniqBy(resp, (obj) => obj.manzana);
       console.log("Manzana selector: ", this.manzanaselector);
@@ -157,11 +167,21 @@ export class ResidenteComponent implements OnInit {
   }
 
   getVillas(value) {
+    this.validacion = null;
+    this.casasselector = [];
+    this.villa = null;
     this.auth.getCasasByManzana(value).subscribe((resp: any) => {
       console.log("getCasasByManzana: ", resp);
       this.casasselector = resp;
-      // this.c = _.uniqBy(resp, (obj) => obj.manzana);
-      // console.log("Manzana selector: ", this.casasselector);
+    });
+  }
+
+  filtroTipoUsuario(value) {
+    console.log("valor id casa: ", value);
+
+    this.auth.valiacionipoUsuario(value).subscribe((resp: any) => {
+      this.validacion = resp.existe_principal;
+      console.log("validacion es: ", this.validacion);
     });
   }
 
@@ -206,7 +226,7 @@ export class ResidenteComponent implements OnInit {
 
   openResidente(content, residente = null) {
     if (residente) {
-      console.log(residente.fecha_nacimiento.split("T")[0])
+      // console.log(residente.fecha_nacimiento.split("T")[0]);
       this.id_residente = residente.ID;
       this.id = residente.ID;
       this.celular = residente.usuario.celular;
@@ -217,7 +237,7 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = true;
       this.telefono = residente.usuario.telefono;
       this.usuario = residente.usuario.usuario;
-      this.fechanacimiento = residente.fecha_nacimiento.split("T")[0];
+      this.fechanacimiento = residente.fecha_nacimiento;
       this.imagen = null;
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
@@ -235,31 +255,48 @@ export class ResidenteComponent implements OnInit {
       this.nombres = "";
       this.residente.edit = false;
       this.telefono = "";
-      this.is_principal = new Boolean();
+      this.is_principal = true;
       this.autorizacion = new Boolean();
       this.imagen = null;
       this.fechanacimiento = "";
       this.usuario = "";
       this.manzana = "";
-      this.villa = 0;
+      this.villa = "";
       this.documento = "";
       this.id_casa = 0;
       this.accion = false;
       this.apellido = "";
       this.imagen = this.imagen;
+      this.tipoUsuario = "";
+      this.validacion = false;
+      this.casasselector = [];
     }
     this.modalService.open(content);
   }
 
   async gestionResidente() {
-    console.log("objeto villa: ", this.villa);
+    let tipoUsuario: string;
+    // console.log("objeto villa: ", this.villa);
+    // if (this.tipoUsuario === "SECUNDARIO") {
+    //   this.is_principal = false;
+    // }
+    if (this.validacion) {
+      console.log("entro a validacion falsa");
+      this.is_principal = false;
+      tipoUsuario = "SECUNDARIO";
+    } else if (!this.validacion) {
+      console.log("entro a validacion true");
+      tipoUsuario = "PRINCIPAL";
+      this.is_principal = true;
+      this.autorizacion = true;
+    }
     let response: any;
     if (this.residente.edit) {
       const body = {
         // id_casa: Number(this.villa),
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
-        // cedula: this.cedula,
+        tipo_usuario: this.tipoUsuario,
         fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
           // apellido: this.apellido,
@@ -275,13 +312,14 @@ export class ResidenteComponent implements OnInit {
       };
       console.log("body editar residente: ", body);
       response = await this.auth.editResidente(this.id, body);
-      this.villa = 0
+      this.villa = 0;
     } else {
       const body = {
-        id_casa: this.villa,
+        id_casa: Number(this.villa),
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         cedula: this.cedula,
+        tipo_usuario: this.tipoUsuario,
         fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
           apellido: this.apellido,
@@ -293,12 +331,11 @@ export class ResidenteComponent implements OnInit {
           // pdf: this.pdf
           // documento: this.pdf,
         },
-        documento: this.documento
-
+        documento: this.documento,
       };
       console.log("body crear residente: ", body);
       response = await this.auth.createResidente(body);
-      this.villa = 0
+      this.villa = 0;
     }
     if (response) {
       this.modalService.dismissAll();
@@ -346,5 +383,65 @@ export class ResidenteComponent implements OnInit {
   }
   goToLink(url: string) {
     window.open(url, "_blank");
+  }
+
+  getFiltroMz(value) {
+    this.fitroVilla = "todas";
+    this.filtroTipo = "todas";
+    if (value === "todas") {
+      value = "";
+    }
+    // console.log("valor mz: ", value);
+    this.auth.getCasasByManzana(value).subscribe((resp: any) => {
+      this.casasselector = resp;
+      this.getResidenteByMzn(value);
+      console.log("casasselector: ", resp);
+    });
+  }
+
+  getFiltroVilla(value) {
+    console.log("villa: ", value); // this.filtroTipo = "todas";
+    // if (this.fitroVilla === "todas") {
+    this.filtroTipo = "todas";
+    // }
+    if (value === "todas") {
+      value = "";
+    }
+    // console.log("Value villa:", value);
+    this.auth
+      .filtroResidenteMzVilla(this.filtroMz, value)
+      .subscribe((resp: any) => {
+        this.residentes = resp;
+      });
+  }
+
+  getfilterTipo(value) {
+    // this.fitroVilla = "todas";
+    // this.filtroTipo = "todas";
+    if (value === "todas") {
+      value = "";
+    }
+    this.auth
+      .filtroResidenteMzVillaTipo(this.filtroMz, this.fitroVilla, value)
+      .subscribe((resp: any) => {
+        this.residentes = resp;
+      });
+  }
+
+  restablecerFiltroBusqueda() {
+    this.filtroMz = null;
+    this.fitroVilla = null;
+    // this.filtroTipo = null;
+    this.getResidente();
+  }
+
+  getResidenteByMzn(manzana) {
+    let mz = manzana;
+    let villa = null;
+    let tipo = null;
+    this.auth.filtroResidenteMz(manzana, villa, tipo).subscribe((resp: any) => {
+      this.residentes = resp;
+      console.log("residentes: ", resp);
+    });
   }
 }

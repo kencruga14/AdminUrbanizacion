@@ -120,6 +120,7 @@ export class ListabitacoraComponent implements OnInit {
   }
 
   getFecha(value) {
+    this.filtroTipo = ""
     this.buscadorVilla = value;
     this.getvivistasfilterMzVilla(this.buscadorManazana, value);
     console.log("casa seleccionada: ", value);

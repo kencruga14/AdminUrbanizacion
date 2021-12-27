@@ -1,4 +1,9 @@
-
+th,
+td {
+  /* padding: 10px;
+  width: 50%; */
+  white-space: nowrap;
+}
 
 .box img {
   width: 100%;
@@ -24,4 +29,7 @@
   width: 20.5px;
   height: 20.5px;
   border-radius: 25%;
+}
+.transparente {
+  color: white;
 }

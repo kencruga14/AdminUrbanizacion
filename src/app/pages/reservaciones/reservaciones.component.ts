@@ -81,10 +81,11 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getEstado(value) {
-    // this.filtroAutorizacion=""
-    // this.filtroEstado=""
+    // this.filtroAutorizacion = ""
+    // this.filtroEstado = ""
     // this.tipoAutorizacionFija=""
     if (this.filtroAutorizacion == "TEMPORAL") {
+
       this.estados = [
         {
           texto: "Anulada",
@@ -121,9 +122,19 @@ export class ReservacionesComponent implements OnInit {
     );
   }
 
-
-
-
+  filtrarAutorizacion(value) {
+    this.filtroAutorizacion = ""
+    this.filtroEstado = ""
+    this.tipoAutorizacionFija = ""
+    this.paramVilla = value;
+    console.log("casa: ", value);
+    this.getAutorizaciones(
+      this.tipoAutorizacionFija,
+      this.filtroAutorizacion,
+      this.filtroEstado,
+      this.filtrovilla
+    );
+  }
 
   async getAutorizaciones(
     tipoFija = null,

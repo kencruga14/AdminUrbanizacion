@@ -5,9 +5,52 @@
             <h4 class="card-title">Lista de Usuarios</h4>
             <button class="btn btn-dark" (click)="openResidente(contentResidente)">Crear Usuario</button>
             <div class="form-group col-md-4 m-t-20" style="display: inline-flex;float:right">
-                <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
+                <input type="text" class="form-control" name="filterName" placeholder="Buscar por nombre..."
                     [(ngModel)]="filterName">
             </div>
+
+            <div class="form-row align-items-center">
+                <div class="form-group col-sm-2 my-1">
+                    <label>Manzana</label>
+                    <select name="manzana" [(ngModel)]="filtroMz" class="form-control custom-select"
+                        (change)="getFiltroMz($event.target.value)">
+                        <option value="todas" hidden>Todas</option>
+                        <option value="todas"> Todas</option>
+                        <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
+                    </select>
+                    <!-- fm: {{filtroMz }} -->
+                </div>
+                <!-- fm: {{filtroMz}} -->
+                <div class="form-group col-sm-2 my-1">
+                    <label>Villa</label>
+                    <select [disabled]="filtroMz ==='todas' || !filtroMz" name="villa" [(ngModel)]="fitroVilla"
+                        class="form-control custom-select" (change)="getFiltroVilla($event.target.value)">
+                        <option value="todas" hidden>Todas</option>
+                        <option value="todas">Todas</option>
+                        <option *ngFor="let ur of casasselector" value="{{ur.villa}}">{{ur.villa}}</option>
+                    </select>
+                    <!-- fv: {{fitroVilla}} -->
+                </div>
+
+                <div class="form-group col-sm-3 my-1">
+                    <label>Tipo de usuario</label>
+                    <select [disabled]="fitroVilla === 'todas'" name="estado" [(ngModel)]="filtroTipo"
+                        class="form-control custom-select" (change)="getfilterTipo($event.target.value)">
+                        <option value="todas" hidden>Todas</option>
+                        <option value="todas">Todas</option>
+                        <option value="PRINCIPAL">Principal</option>
+                        <option value="SECUNDARIO">Secundario</option>
+                    </select>
+                    <!-- ft: {{filtroTipo}} -->
+                </div>
+                <div class="form-group col-sm-1 my-1">
+                    <label class="transparente">dd.</label><br>
+                    <button (click)="restablecerFiltroBusqueda()" type="button" class="btn btn-success"
+                        data-toggle="tooltip" data-placement="right" title="Restablecer filtro"><i
+                            class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
+
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
                 <table style="zoom: 0.96;" id="myTable" class="table color-bordered-table inverse-bordered-table">
@@ -21,6 +64,7 @@
                             <th>Apellidos</th>
                             <th>Cédula</th>
                             <th>Usuario</th>
+                            <th>Tipo</th>
                             <th>Correo</th>
                             <th>Celular</th>
                             <th>Convencional </th>
@@ -49,6 +93,7 @@
                             <td>{{et.usuario.apellido}}</td>
                             <td>{{et.cedula}}</td>
                             <td>{{et.usuario.usuario}}</td>
+                            <td>{{et.tipo_usuario | titlecase}}</td>
                             <td>{{et.usuario.correo}}</td>
                             <td>{{et.usuario.celular}}</td>
                             <td>{{et.usuario.telefono}}</td>
@@ -80,14 +125,14 @@
                                         class="fa fa-trash text-danger m-r-10"></i> </a>
                             </td>
                         </tr>
-                        <tr *ngIf="(residentes).length === 0">
+                        <tr *ngIf="residentes?.length < 1">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
                                     existen datos</label></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
+
         </div>
     </div>
     <ng-template #contentResidente let-modal>
@@ -106,11 +151,11 @@
                 <div *ngIf=" !residente.edit">
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
-                            required placeholder="Nombre">
+                            required placeholder="Nombres">
                     </div>
                     <div class="form-group">
                         <input [value]="apellido" [(ngModel)]="apellido" name="apellido" class="form-control"
-                            type="text" required placeholder="Apellido">
+                            type="text" required placeholder="Apellidos">
                     </div>
                     <div class="form-group">
                         <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text"
@@ -137,7 +182,7 @@
                     <div class="form-group">
                         <label>Manzana</label>
                         <select name="manzana" [(ngModel)]="manzana" class="form-control custom-select"
-                            (change)="getVillas($event.target.value)">
+                            (change)="getVillas($event.target.value)" required>
                             <option *ngFor="let ur of manzanaselector" value="{{ur.manzana}}">{{ur.manzana}}</option>
                         </select>
                     </div>
@@ -145,23 +190,43 @@
                     <div class="form-group">
                         <!-- idcasa: {{villa}} -->
                         <label>Villa</label>
-                        <select name="id_villa" [(ngModel)]="villa" class="form-control custom-select">
-                            <option *ngFor="let ur of casasselector" [ngValue]="ur.ID">{{ur.villa}}</option>
-                            <option value="0" hidden></option>
+                        <select (change)="filtroTipoUsuario($event.target.value)" name="id_villa" [(ngModel)]="villa"
+                            class="form-control custom-select" required>
+                            <option *ngFor="let ur of casasselector" value="{{ur.ID}}">{{ur.villa}}</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Votación</label>
-                        <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
-                            <option [ngValue]="true">Si</option>
-                            <option [ngValue]="false">No</option>
-                        </select>
+                    <div class="form-group" *ngIf="validacion">
+                        <label>Tipo de Usuario:</label>
+                        <input [value]="tipoUsuario" [(ngModel)]="tipoUsuario" name="tipoUsuario" class="form-control"
+                            type="text" placeholder="Secundario" readonly>
                     </div>
 
-                    <div class="form-group">
-                        <label>Crear Autorizaciones</label>
-                        <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
+                    <div class="form-group" *ngIf="!validacion && manzana">
+                        <label>Tipo de Usuario:</label>
+                        <select name="tipo_usuario" [(ngModel)]="tipoUsuario" class="form-control custom-select">
+                            <option value="PRINCIPAL">Principal</option>
+                            <option value="SECUNDARIO">Secundario</option>
+                        </select>
+                    </div>
+                    <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
+                        <label>¿Este usuario podrá responder encuestas?</label>
+                        <input name="principal" class="form-control" type="text" placeholder="Si" readonly>
+                    </div>
+
+                    <div class="form-group" *ngIf="tipoUsuario !='PRINCIPAL'">
+                        <label>¿Este usuario podrá responder encuestas?</label>
+                        <input name="principals" class="form-control" type="text" placeholder="No" readonly>
+                    </div>
+                    <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
+                        <label>¿Este usuario podrá crear autorizaciones?</label>
+                        <input name="autorizacion" class="form-control" type="text" placeholder="Si" readonly>
+                    </div>
+
+                    <div class="form-group" *ngIf="tipoUsuario !=='PRINCIPAL'">
+                        <label>¿Este usuario podrá crear autorizaciones?</label>
+                        <select required name="autorizacion" [(ngModel)]="autorizacion"
+                            class="form-control custom-select" required>
                             <option [ngValue]="true">Si</option>
                             <option [ngValue]="false">No</option>
                         </select>
@@ -170,15 +235,15 @@
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
                         <br>
-                        <p-calendar  required [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
+                        <p-calendar required [(ngModel)]="fechanacimiento" dateFormat="dd-mm-yy" [showIcon]="true"
                             [maxDate]="fechaMaxima" [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
-                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}"></p-calendar>
+                            yearRange="1940:2021" [ngModelOptions]="{standalone: true}" required></p-calendar>
                     </div>
 
-                    <div  class="form-group">
-                        <label>Pdf</label>
+                    <div class="form-group">
+                        <label>Pdf cédula</label>
                         <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
-                            class="form-control" type="file" accept="application/pdf" required>
+                            class="form-control" type="file" accept="application/pdf">
                     </div>
 
                 </div>
@@ -202,7 +267,7 @@
                             required placeholder="Usuario" readonly>
                     </div>
 
-                  
+
 
                     <div class="form-group">
                         <input [value]="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text"
@@ -231,8 +296,8 @@
 
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
-                        <input [value]="fechanacimiento" [(ngModel)]="fechanacimiento" name="otra" class="form-control" type="date"
-                        required  >
+                        <input [value]="fechanacimiento" [ngModel]="fechanacimiento | date: 'dd-MM-yyyy'" name="otra"
+                            class="form-control" type="date" required>
                         <br>
                     </div>
 
@@ -251,20 +316,6 @@
                             <option [ngValue]="false">No</option>
                         </select>
                     </div>
-
-                    <!-- <div class="form-group">
-                        <label>Fecha de nacimiento</label>
-                        <input [value]=" fechanacimiento" [ngModel]="fechanacimiento | date: 'dd-MM-yyyy'"
-                            name="fechanacimientos" class="form-control" type="text" readonly >
-                    </div> -->
-
-                 
-                    
-                    <!-- <div class="form-group">
-                        <label>Pdf</label>
-                        <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="pdf"
-                            class="form-control" type="file" accept="application/pdf" required>
-                    </div> -->
 
                 </div>
 
