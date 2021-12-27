@@ -60,3 +60,8 @@
 .derecha {
   float: right;
 }
+
+
+.fila{
+  width:  200px !important;
+}
