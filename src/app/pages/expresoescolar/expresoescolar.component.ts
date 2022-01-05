@@ -174,9 +174,9 @@ export class ExpresoescolarComponent implements OnInit {
   async gestionExpreso() {
     let response: any;
     if (this.expreso.edit) {
-      if (!this.changeFoto) {
-        delete this.imagen
-      }
+   
+
+      
       // if (this.imagenEdit.includes("https")) {
       //   this.imagenEdit = "";
       // }
@@ -196,7 +196,9 @@ export class ExpresoescolarComponent implements OnInit {
         tipo_usuario: "EXPRESO",
         // pdf: this.pdf,
       };
-
+      if (!this.changeFoto) {
+        delete body.imagen
+      }
       response = await this.auth.editExpreso(this.id_expreso, body);
     } else {
       const body = {

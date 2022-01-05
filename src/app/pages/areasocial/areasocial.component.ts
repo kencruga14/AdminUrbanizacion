@@ -271,6 +271,7 @@ export class AreasocialComponent implements OnInit {
       if (this.tiempo_reservacion_minutos == 0) {
         this.tiempo_reservacion_minutos = "";
       }
+      if (area.tipoAforo === 'ILIMITADO') this.aforo=""
       this.seleccionCosto = area.seleccionCosto;
       this.precio = area.precio;
       this.estado = area.estado;
@@ -354,8 +355,8 @@ export class AreasocialComponent implements OnInit {
 
   async gestionArea() {
     let response: any;
-
     if (this.area.edit) {
+      // if (this.tipoAforo === 'ILIMITADO') this.aforo=""
       const body = {
         imagen: this.imagenAlt,
         nombre: this.nombre,
@@ -436,14 +437,25 @@ export class AreasocialComponent implements OnInit {
   }
 
   openReservas(content, item) {
-    // this.getReservasAreaSocial(item.ID);
-    this.reservas=[]
-    this.fechaHorario = "";
-    this.idTemporal = item.ID;
-    this.modalService.open(content, { size: "lg" });
+    console.log(item.tipoArea==='PUBLICA')
+    if (item.precio == 0) {
+      Swal.fire({
+        title:
+          "<h2>Esta área fué creada para que su ingreso sea sin reservación.</h2>",
+        confirmButtonColor: "#343A40",
+        confirmButtonText: "OK",
+      });
+    }else{
+      this.reservas=[]
+      this.fechaHorario = "";
+      this.idTemporal = item.ID;
+      this.modalService.open(content, { size: "lg" });
+    }
+
   }
 
   openInfo(content, item) {
+   
     this.getInfoAreaSocial(item.ID, content);
   }
 
@@ -609,4 +621,9 @@ export class AreasocialComponent implements OnInit {
       }
     });
   }
+
+  reset(){
+    this.aforo=""
+  }
+
 }

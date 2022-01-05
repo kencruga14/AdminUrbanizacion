@@ -156,7 +156,7 @@
 
           <div class="form-group">
             <label>Aforo</label>
-            <select required name="aforo" [(ngModel)]="tipoAforo" class="form-control custom-select">
+            <select  (change)="reset()"  required name="aforo" [(ngModel)]="tipoAforo" class="form-control custom-select">
               <option selected hidden value="">
                 Seleccione Aforo
               </option>
@@ -271,7 +271,7 @@
                   <th scope="col">Fecha</th>
                   <th scope="col">Desde</th>
                   <th scope="col">Hasta</th>
-                  <th style="padding-left: 20px;" scope="col">Tipo</th>
+                  <th style="padding-left: 20px;" scope="col">Uso</th>
                   <th style="text-align:center" scope="col">Valor</th>
               
                   <th scope="col">Estado</th>
@@ -332,10 +332,10 @@
               <div class="col-6">
                 <h3> Aforo: </h3>
               </div>
-              <div *ngIf="informacionArea.aforo==0" class="col-6">
+              <div *ngIf="informacionArea.tipoAforo==='ILIMITADO'" class="col-6">
                 <h3> Ilimitado</h3>
               </div>
-              <div *ngIf="informacionArea.aforo!=0" class="col-6">
+              <div *ngIf="informacionArea.tipoAforo==='LIMITADO'" class="col-6">
                 <h3> {{informacionArea.aforo}} personas </h3>
               </div>
 
@@ -352,10 +352,10 @@
               <div class="col-6">
                 <h3> Modalidad: </h3>
               </div>
-              <div *ngIf="informacionArea.precio>0" class="col-6">
+              <div *ngIf="informacionArea.tipoArea==='RESERVACIONES'" class="col-6">
                 <h3> Con Reservación </h3>
               </div>
-              <div *ngIf="informacionArea.precio==0" class="col-6">
+              <div *ngIf="informacionArea.tipoArea==='PUBLICA'" class="col-6">
                 <h3> Abierta al publico </h3>
               </div>
               <div *ngIf="informacionArea.tiempo_reservacion_minutos>0" class="col-6">

@@ -57,20 +57,21 @@
                 </div>
             </div>
 
-            <div class="table-responsive m-t-40">
+            <div class="table-responsive m-t-40" style="height: 678px; overflow-y: scroll;">
                 <table id="myTable" style="width: 100%" class="table color-bordered-table inverse-bordered-table">
 
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
                             <th>Imagen</th>
+                            <th>Manzana</th>
+                            <th>Villa</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Cédula</th>
                             <th>Usuario</th>
                             <th>Asunto</th>
-                            <th>Manzana</th>
-                            <th>Villa</th>
+                         
                             <th>Fecha Ingreso </th>
                             <th>Hora Ingreso </th>
                             <th>Medio Ingreso </th>
@@ -95,15 +96,15 @@
                                         data-target=".bd-example-modal-lg" />
                                 </figure>
                             </td>
+                            <td>{{visit.casa.manzana}}</td>
+                            <td>{{visit.casa.villa}}</td>
+                            
                             <td>{{visit.nombres}}</td>
                             <td>{{visit.apellidos}}</td>
                             <td>{{visit.cedula}}</td>
                             <td>{{visit.tipo_usuario}}</td>
                             <td>{{visit.motivo}}</td>
-                            <td>{{visit.casa.manzana}}</td>
-                            <td>{{visit.casa.villa}}</td>
-                            <!-- <td>{{visit.casa.villa}}</td> -->
-                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] }}</td>
+                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] | date: 'MM/dd/yyyy'}}</td>
                             <td *ngIf="!visit.entrada"> </td>
                             <td *ngIf="visit.entrada">
                                 {{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +
@@ -115,7 +116,7 @@
                             <td *ngIf="!visit.entrada"></td>
 
 
-                            <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] }}</td>
+                            <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] | date: 'MM/dd/yyyy' }}</td>
                             <td *ngIf="!visit.salida"> </td>
                             <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0]
                                 + ':' +
