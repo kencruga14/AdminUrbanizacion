@@ -399,8 +399,7 @@ export class AreasocialComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
-      text: "Esta acción no se puede reversar",
-      icon: "warning",
+ 
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -570,8 +569,7 @@ export class AreasocialComponent implements OnInit {
   async eliminarHorario(id: any) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este item ?",
-      text: "Esta acción no se puede revertir ",
-      icon: "warning",
+  
       showCancelButton: true,
       confirmButtonColor: "#343a40",
       cancelButtonColor: "#d33",
@@ -590,8 +588,7 @@ export class AreasocialComponent implements OnInit {
   async eliminarDiaExcluido(id: number) {
     Swal.fire({
       title: "¿Seguro que desea habilitar este día?",
-      text: "Esta acción no se puede revertir ",
-      icon: "warning",
+    
       showCancelButton: true,
       confirmButtonColor: "#343a40",
       cancelButtonColor: "#d33",

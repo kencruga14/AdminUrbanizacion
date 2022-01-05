@@ -875,8 +875,7 @@ export class AlicuotaComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
-      text: "Esta acción no se puede reversar",
-      icon: "warning",
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -962,7 +961,7 @@ export class AlicuotaComponent implements OnInit {
   UpdatePago() {
     Swal.fire({
       title: "¿Está seguro de realizar esta acción?",
-      // text: "Esta acción no se puede reversar",
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",

@@ -158,8 +158,7 @@ export class EmprendimientoComponent implements OnInit {
   deleteE(id: number) {
     Swal.fire({
       title: "¿Esta seguro de eliminarlo?",
-      text: "Esta acción no se puede revertir",
-      showCancelButton: true,
+ 
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí",
