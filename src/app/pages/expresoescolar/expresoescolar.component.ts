@@ -174,9 +174,9 @@ export class ExpresoescolarComponent implements OnInit {
   async gestionExpreso() {
     let response: any;
     if (this.expreso.edit) {
-   
 
-      
+
+
       // if (this.imagenEdit.includes("https")) {
       //   this.imagenEdit = "";
       // }
@@ -239,7 +239,7 @@ export class ExpresoescolarComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
-  
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
