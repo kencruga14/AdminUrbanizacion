@@ -95,7 +95,7 @@ export class AdmingaritaComponent implements OnInit {
       this.contrasena = "";
       this.adming.edit = false;
       this.imagen = this.imagen;
-      this.imagenPerfil=""
+      this.imagenPerfil = ""
     }
     this.modalService.open(content);
   }
@@ -108,6 +108,7 @@ export class AdmingaritaComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
+      this.imagenEdit = reader.result
       this.imagen = reader.result;
       this.imagenPerfil = reader.result;
     };
@@ -129,6 +130,7 @@ export class AdmingaritaComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
+      this.imagenEdit = this.imagenEdit
     };
     this.changeFoto = true;
   }
@@ -136,6 +138,7 @@ export class AdmingaritaComponent implements OnInit {
   async gestionAdmin() {
     let response: any;
     if (this.adming.edit) {
+
       const body = {
         usuario: {
           nombres: this.nombres,
@@ -149,6 +152,8 @@ export class AdmingaritaComponent implements OnInit {
         documento: this.documento
 
       };
+      if (!this.changeFoto) delete body.usuario.imagen
+
       console.log("holi")
 
       console.log("holi")
@@ -184,6 +189,8 @@ export class AdmingaritaComponent implements OnInit {
     this.imagen = null;
     this.imagenPerfil = null;
     this.imagenEdit = null;
+    this.changeFoto = false;
+
     this.getAdmin();
   }
 
@@ -191,7 +198,7 @@ export class AdmingaritaComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
- 
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
