@@ -122,6 +122,8 @@ export class AlicuotaComponent implements OnInit {
     id_alicuota: "",
   };
   alicuotasFinales2 = []
+  alicuotasFinales3 = []
+
   // años = [];
 
   meses = [
@@ -212,6 +214,26 @@ export class AlicuotaComponent implements OnInit {
           numeric: true,
         }) || a.casa.villa.localeCompare(b.casa.villa, "en", { numeric: true })
     );
+    return ints.concat(strs);
+  };
+  sortByMzVillaDate = (ali) => {
+    let ints = [];
+    let strs = [];
+    _.forEach(ali, (r) => {
+      if (_.isNaN(parseInt(r.casa.manzana))) strs.push(r);
+      else ints.push(_.assign(r, { "casa.manzana": parseInt(r.casa.manzana) }));
+    });
+
+    ints.sort(
+      (a, b) => a.casa.fecha_pago - b.casa.fecha_pago && (a.casa.manzana - b.casa.manzana || a.casa.villa - b.casa.villa)
+    );
+    strs.sort(
+      (a, b) =>
+        a.casa.manzana.localeCompare(b.casa.manzana, "en", {
+          numeric: true,
+        }) || a.casa.fecha_pago - b.casa.fecha_pago && (a.casa.villa.localeCompare(b.casa.villa, "en", { numeric: true }))
+    );
+
     return ints.concat(strs);
   };
 
@@ -604,7 +626,92 @@ export class AlicuotaComponent implements OnInit {
         this.totales.total_pendiente = uy;
       } else {
         this.reportes = resp;
+        let alicuotasFinales = {}
 
+        resp.alicuotas.forEach(ali => {
+          if (ali.tipo == "COMUN") {
+            const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+            if (alicuotasFinales[mes]) {
+              const index = this.alicuotasFinales3.findIndex(x => x.label === mes);
+              const temp = this.alicuotasFinales3[index].alicuotas
+              this.alicuotasFinales3[index]["alicuotas"] = [...temp, ali]
+            } else {
+              alicuotasFinales[mes] = {}
+              this.alicuotasFinales3 = [...this.alicuotasFinales3,
+              {
+                label: mes,
+                mes: mes,
+                tipo: ali.tipo,
+                alicuotas: [ali]
+              }]
+            }
+          }
+          if (ali.tipo == "EXTRAORDINARIA") {
+            const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+            if (alicuotasFinales[`EXTRAORDINARIA ${mes}`]) {
+              const index = this.alicuotasFinales3.findIndex(x => x.label === `EXTRAORDINARIA ${mes}`);
+              const temp = this.alicuotasFinales3[index].alicuotas
+              this.alicuotasFinales3[index]["alicuotas"] = [...temp, ali]
+            } else {
+              alicuotasFinales[`EXTRAORDINARIA ${mes}`] = {}
+              this.alicuotasFinales3 = [...this.alicuotasFinales3, {
+                label: `EXTRAORDINARIA ${mes}`, mes: mes,
+                tipo: ali.tipo, alicuotas: [ali]
+              }]
+            }
+          }
+          if (ali.tipo == "SALDO") {
+            const mes = moment(ali.fecha_pago).format("MMMM YYYY")
+            if (alicuotasFinales[`SALDO ${mes}`]) {
+              const index = this.alicuotasFinales3.findIndex(x => x.label === `SALDO ${mes}`);
+              const temp = this.alicuotasFinales3[index].alicuotas
+              this.alicuotasFinales3[index]["alicuotas"] = [...temp, ali]
+            } else {
+              alicuotasFinales[`SALDO ${mes}`] = {}
+              this.alicuotasFinales3 = [...this.alicuotasFinales3, {
+                label: `SALDO ${mes}`, mes: mes,
+                tipo: ali.tipo, alicuotas: [ali]
+              }]
+            }
+          }
+        });
+        this.alicuotasFinales3.forEach(element => {
+          let contPagado = 0
+          element.sumPendiente = 0
+          element.sumVencido = 0
+          element.sumPagado = 0
+          element.alicuotas = this.sortByMzVilla(element.alicuotas)
+          element.alicuotas.forEach(alicuota => {
+            switch (alicuota.estado) {
+              case "PENDIENTE":
+                element.sumPendiente = element.sumPendiente + alicuota.valor
+                element.estado = "PENDIENTE"
+                break;
+              case "VENCIDO":
+                element.estado = "VENCIDO"
+                element.sumVencido = element.sumVencido + alicuota.valor
+
+                break;
+              case "PAGADO":
+                contPagado++
+                element.sumPagado = element.sumPagado + alicuota.valor
+                break;
+
+              default:
+                break;
+            }
+          });
+          if (contPagado == element.alicuotas.length) element.estado = "PAGADO"
+
+        });
+        const final = []
+        this.reportes.alicuotas = []
+        this.alicuotasFinales3.forEach(ali => {
+          ali.alicuotas.forEach(element => {
+            this.reportes.alicuotas.push(element)
+          });
+
+        });
       }
     });
   }
