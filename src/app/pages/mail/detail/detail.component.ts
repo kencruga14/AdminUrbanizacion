@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +9,7 @@ import { MailGlobalVariable, MailService } from '../mail.service';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   @ViewChild("utlimo", { static: false }) chat: ElementRef;
   separatedArrayDetails = [];
   mensaje: any = { adjuntos: [] }
@@ -19,6 +19,9 @@ export class DetailComponent implements OnInit {
   constructor(public ms: MailGlobalVariable,
     public mailService: MailService, public router: Router, public auth: AuthService,
     public modal: NgbModal) { }
+  ngOnDestroy(): void {
+    this.ms.selectedMail = null
+  }
 
   ngOnInit() {
 
@@ -54,7 +57,7 @@ export class DetailComponent implements OnInit {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-          console.log("1",this.ms.selectedMail.mensajes)
+          console.log("1", this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -62,7 +65,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-            console.log("2",this.ms.selectedMail.mensajes)
+            console.log("2", this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 
@@ -77,7 +80,7 @@ export class DetailComponent implements OnInit {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-          console.log("3",this.ms.selectedMail.mensajes)
+          console.log("3", this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -85,7 +88,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-            console.log("4",this.ms.selectedMail.mensajes)
+            console.log("4", this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 

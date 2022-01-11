@@ -26,10 +26,11 @@ import { MailPanelComponent } from "./pages/mail/mail-panel/mail-panel.component
 import { DetailComponent } from "./pages/mail/detail/detail.component";
 import { ComposeComponent } from "./pages/mail/compose/compose.component";
 import { InicioComponent } from "./pages/inicio/inicio.component";
+import { HomeGuard } from "./guards/home.guard";
 
 
 const routes: Routes = [
-  { path: "login", component: LoginComponent },
+  { path: "login", component: LoginComponent, canActivate: [HomeGuard] },
   { path: "cambiarcontrasena/:usuario", component: CambiarcontrasenaComponent },
 
   {
