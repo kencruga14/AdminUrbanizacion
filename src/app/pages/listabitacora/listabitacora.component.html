@@ -71,7 +71,7 @@
                             <th>Cédula</th>
                             <th>Usuario</th>
                             <th>Asunto</th>
-                         
+
                             <th>Fecha Ingreso </th>
                             <th>Hora Ingreso </th>
                             <th>Medio Ingreso </th>
@@ -82,7 +82,7 @@
                             <th>Placa Salida</th>
                             <th>Guardia</th>
                             <th>Estado</th>
-                            <th>Por:</th>
+                            <!-- <th>Por:</th> -->
 
                         </tr>
                     </thead>
@@ -98,13 +98,14 @@
                             </td>
                             <td>{{visit.casa.manzana}}</td>
                             <td>{{visit.casa.villa}}</td>
-                            
+
                             <td>{{visit.nombres}}</td>
                             <td>{{visit.apellidos}}</td>
                             <td>{{visit.cedula}}</td>
                             <td>{{visit.tipo_usuario}}</td>
                             <td>{{visit.motivo}}</td>
-                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] | date: 'MM/dd/yyyy'}}</td>
+                            <td *ngIf="visit.entrada"> {{visit.entrada.hora_entrada.split("T")[0] | date: 'MM/dd/yyyy'}}
+                            </td>
                             <td *ngIf="!visit.entrada"> </td>
                             <td *ngIf="visit.entrada">
                                 {{visit.entrada.hora_entrada.split("T")[1].split(":")[0] + ':' +
@@ -116,7 +117,8 @@
                             <td *ngIf="!visit.entrada"></td>
 
 
-                            <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] | date: 'MM/dd/yyyy' }}</td>
+                            <td *ngIf="visit.salida"> {{visit.salida.hora_salida.split("T")[0] | date: 'MM/dd/yyyy' }}
+                            </td>
                             <td *ngIf="!visit.salida"> </td>
                             <td *ngIf="visit.salida">{{visit.salida.hora_salida.split("T")[1].split(":")[0]
                                 + ':' +
@@ -154,7 +156,7 @@
                                     <strong>SIN RESPUESTA</strong>
                                 </Div>
                             </td>
-                            <td *ngIf="visit.Estado === 'ACEPTADA POR LLAMADA'">
+                            <!-- <td *ngIf="visit.Estado === 'ACEPTADA POR LLAMADA'">
                                 <Div class="aceptada">
                                     <strong>{{visit.Estado}}</strong>
                                 </Div>
@@ -163,9 +165,9 @@
                                 <Div class="rechazada">
                                     <strong>{{visit.Estado}}</strong>
                                 </Div>
-                            </td>
+                            </td> 
                             <td *ngIf="visit.contestador && visit.Estado!='SIN_RESPUESTA'">{{visit.contestador.usuario}}
-                            </td>
+                            </td> -->
                         </tr>
                         <tr *ngIf="(bitacoras).length === 0">
                             <td style="text-align: center !important;" colspan="10"><label class="text-primary">No

@@ -156,7 +156,7 @@
 
           <div class="form-group">
             <label>Aforo</label>
-            <select  (change)="reset()"  required name="aforo" [(ngModel)]="tipoAforo" class="form-control custom-select">
+            <select (change)="reset()" required name="aforo" [(ngModel)]="tipoAforo" class="form-control custom-select">
               <option selected hidden value="">
                 Seleccione Aforo
               </option>
@@ -187,7 +187,7 @@
               <option selected hidden value="">
                 Seleccione Area
               </option>
-              <option value="PUBLICA">Abierta al Publico</option>
+              <option value="PUBLICA">Abierta al Público</option>
               <option value="RESERVACIONES">Con Reservaciones</option>
             </select>
           </div>
@@ -251,12 +251,13 @@
             <div class="row mt-0 mb-2 ">
               <div class="col-md-7 col-12">
                 <div class="input-group">
-                  <label for="" class="mt-2 mr-2"> Seleccione una Fecha  </label>
+                  <label for="" class="mt-2 mr-2"> Seleccione una Fecha </label>
                   <input type="date" class="form-control" [(ngModel)]="fechaHorario" id="filterFechaBefore" />
                 </div>
               </div>
               <div class="col-md-2 col-12">
-                <button [disabled]="!fechaHorario" type="button" class="btn btn-info " (click)="gestionReservaHorarios($event.target.value)">
+                <button [disabled]="!fechaHorario" type="button" class="btn btn-info "
+                  (click)="gestionReservaHorarios($event.target.value)">
                   Buscar
                 </button>
               </div>
@@ -273,7 +274,7 @@
                   <th scope="col">Hasta</th>
                   <th style="padding-left: 20px;" scope="col">Uso</th>
                   <th style="text-align:center" scope="col">Valor</th>
-              
+
                   <th scope="col">Estado</th>
                   <th scope="col">Mz.</th>
                   <th scope="col">Villa</th>
@@ -288,19 +289,19 @@
                     <td style="padding-left: 25px;">{{ div.hora_inicio.split("T")[1].split("-")[0]|slice:0:5 }} </td>
                     <td style="padding-left: 25px;">{{ div.hora_fin.split("T")[1].split("-")[0]|slice:0:5 }}</td>
                     <td *ngIf="div.valor_cancelado!=0"> PAGADO </td>
-                    <td *ngIf="div.valor_cancelado==0">  </td>
-                    <td style="padding-left: 25px;" *ngIf="div.valor_cancelado!=0"> {{div.valor_cancelado}}  </td>
-                    <td *ngIf="div.valor_cancelado==0">  </td>
-                    <td *ngIf="div.reservado" class="label label-danger" > Reservado </td>
-                    <td *ngIf="!div.reservado" style="background: rgb(29, 185, 29);" class="label" > Disponible </td>
+                    <td *ngIf="div.valor_cancelado==0"> </td>
+                    <td style="padding-left: 25px;" *ngIf="div.valor_cancelado!=0"> {{div.valor_cancelado}} </td>
+                    <td *ngIf="div.valor_cancelado==0"> </td>
+                    <td *ngIf="div.reservado" class="label label-danger"> Reservado </td>
+                    <td *ngIf="!div.reservado" style="background: rgb(29, 185, 29);" class="label"> Disponible </td>
                     <td style="padding-left: 15px;">{{ div.casa.manzana}}</td>
                     <td style="padding-left: 25px;">{{ div.casa.villa}}</td>
                     <td [width]="80">{{ div.usuario.nombres}}</td>
                   </tr>
                   <tr style="text-align: center !important;" *ngIf="reservas.length<1">
-                    <td  colspan="90"><label class="text-primary">No hay horarios disponibles por mostrar</label></td>
-                 </tr>
-             
+                    <td colspan="90"><label class="text-primary">No hay horarios disponibles por mostrar</label></td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -356,7 +357,7 @@
                 <h3> Con Reservación </h3>
               </div>
               <div *ngIf="informacionArea.tipoArea==='PUBLICA'" class="col-6">
-                <h3> Abierta al publico </h3>
+                <h3> Abierta al público </h3>
               </div>
               <div *ngIf="informacionArea.tiempo_reservacion_minutos>0" class="col-6">
                 <h3> Tiempo Reserva: </h3>
@@ -460,8 +461,8 @@
                     <td [width]="80">{{ div.residente.usuario.nombres}}</td>
                   </tr>
                   <tr style="text-align: center !important;" *ngIf="!fechaRecaudacionFin">
-                    <td  colspan="90"><label class="text-primary">Seleccione fechas a consultar</label></td>
-                 </tr>
+                    <td colspan="90"><label class="text-primary">Seleccione fechas a consultar</label></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -576,7 +577,7 @@
                 <div class="col-12" *ngIf="!item.edit">
                   <div class="form-group">
                     <label>Dia</label>
-                    <select  name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select"
+                    <select name="tiempo_reservacion_minutos" [(ngModel)]="item.dia" class="form-control custom-select"
                       (change)="desahibilitardia($event.target.value)">
                       <option value="Monday">Lunes</option>
                       <option value="Tuesday">Martes</option>
@@ -610,7 +611,7 @@
                     <div class="ui-g ui-fluid">
                       <div class="ui-g-12 ui-md-12">
                         <label for="fecha_inicio">Fecha Inicio</label><br>
-                        <p-calendar  [(ngModel)]="item.fecha_inicio" dateFormat="dd-mm-yy" [showIcon]="true"
+                        <p-calendar [(ngModel)]="item.fecha_inicio" dateFormat="dd-mm-yy" [showIcon]="true"
                           [locale]="es" [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2040"
                           [ngModelOptions]="{standalone: true}"></p-calendar>
                       </div>
@@ -692,7 +693,8 @@
             </div>
 
             <div class="modal-footer">
-              <button *ngIf="!item.edit" class="btn btn-red" type="submit" [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin || !excluirdias ">
+              <button *ngIf="!item.edit" class="btn btn-red" type="submit"
+                [disabled]="!form.valid || !item.dia || !item.fecha_inicio || !item.fecha_fin || !excluirdias ">
                 <span *ngIf="auth.loading"><span class="spinner-border spinner-border-sm mr-2" role="status"
                     aria-hidden="true"></span>
                   Loading...
