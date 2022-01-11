@@ -1,8 +1,8 @@
 .main-part{
-    display:flex;
-    height: calc(100vh - 175px);
-    align-items: strech;
-  }
+  display:flex;
+  height: calc(100vh - 175px);
+  align-items: strech;
+}
   $left-part-width: 260px;
   $border-color: rgba(120, 130, 140, 0.13) !default;
 
@@ -46,4 +46,33 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
+}
+@media (max-width: 767px) {
+  .left-part {
+    left: -260px;
+    z-index: 1;
+    position:absolute;
+    height:calc(100vh - 175px);
+    transition: 0.1s ease-in;
+    &.show-panel {
+      left: 0px;
+    }
+  }
+  
+}
+@media (max-width: 766px) {
+  .left-part {
+    left: - $left-part-width;
+    z-index: 1;
+    position:absolute;
+    height:calc(100vh - 175px);
+    transition: 0.1s ease-in;
+    &.show-panel {
+      left: 0px;
+    }
+}
+.right-part {
+  width: 100%;
+  margin-left: 0px;
+}
 }

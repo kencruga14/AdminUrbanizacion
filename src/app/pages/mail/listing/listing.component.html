@@ -1,6 +1,6 @@
-<a class="btn btn-success show-left-part d-block d-md-none ti-close" href="javascript:void(0)"
-    (click)="mobileSidebar()"></a>
-<div  class="main-part" style="height: calc(100vh - 154px);">
+<a [ngClass]="(showSidebar)?'ti-close':'ti-menu'" class="btn btn-success show-left-part d-block d-md-none"
+    href="javascript:void(0)" (click)="mobileSidebar()"></a>
+<div class="main-part" style="height: calc(100vh - 154px);">
     <div class="left-part bg-white fixed-left-part" [ngClass]="{'show-panel': showSidebar}"
         style="width: 200px !important;">
         <div class="position-relative" style="height:100%;">
@@ -39,19 +39,20 @@
             </ul>
         </div>
     </div>
-    <div class="right-part" style=" overflow-y: hidden !important;">
-        <div class="card mb-0" style=" overflow-y: hidden !important;">
-            <div class="row no-gutters" style=" overflow-y: hidden !important;">
-                <div class="col-md-5  border-right">
+    <div class="right-part">
+        <div class="card mb-0">
+            <div class="row no-gutters">
+                <div class="col-md-5  border-right" [hidden]="ms.selectedMail">
                     <div class="position-relative" style="height:100%;">
 
 
-                        <div class="position-relative" style="height: calc(100vh - 150px); overflow-y: scroll;">
+                        <div class="position-relative"
+                            style="height: calc(100vh - 150px); overflow-y: scroll; overflow-x: hidden;">
                             <div *ngIf="!loading">
                                 <div *ngFor="let mail of ms.mailList ; let i = index" (click)="mailSelected(mail)"
                                     style="cursor: pointer;"
                                     [ngStyle]="{'background-color':ms.selectedMailId==mail.ID? '#f2f4f8' : 'white' }">
-                                    <div  style="zoom: 0.90;" class="pl-2 pr-2 pt-3 pb-1 border-bottom">
+                                    <div style="zoom: 0.90;" class="pl-2 pr-2 pt-3 pb-1 border-bottom">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="row t " *ngIf="mail.is_admin">

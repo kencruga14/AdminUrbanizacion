@@ -43,7 +43,6 @@ export class ListingComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.mailboxesChanged("Recibidos")
     this.ms.collectionSize = this.recibidos.length;
 

@@ -299,10 +299,10 @@ export class ResidenteComponent implements OnInit {
         tipo_usuario: this.tipoUsuario,
         fecha_nacimiento: moment(this.fechanacimiento).format(),
         usuario: {
-          // apellido: this.apellido,
+          apellido: this.apellido,
           celular: this.celular,
           correo: this.correo,
-          // nombres: this.nombres,
+          nombres: this.nombres,
           telefono: this.telefono,
           // usuario: this.usuario,
           // pdf: this.pdf
@@ -361,7 +361,7 @@ export class ResidenteComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
-  
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
