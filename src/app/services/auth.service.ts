@@ -262,6 +262,30 @@ export class AuthService {
         );
     });
   }
+  deleteBuzon(id: number) {
+    this.loading = true;
+    const headers = new HttpHeaders({
+      token: this.userToken,
+    });
+    return new Promise((resolve) => {
+      this.http
+        .delete(`${environment.apiUrl}/admin-etapa/buzon/${id}`, {
+          headers,
+        })
+        .subscribe(
+          (response: any) => {
+            this.showAlert(response.message, "success", "Listo");
+            resolve(true);
+            this.loading = false;
+          },
+          (error: any) => {
+            this.loading = false;
+            this.showAlert(error.error.message, "error");
+            resolve(false);
+          }
+        );
+    });
+  }
 
   deleteAdmin(id: number) {
     this.loading = true;
@@ -303,7 +327,7 @@ export class AuthService {
   }
 
 
-  getCasaFiltros( casa: string, villa :string) {
+  getCasaFiltros(casa: string, villa: string) {
     let params = new HttpParams();
     params = params.append("mz", casa);
     params = params.append("villa", villa);
@@ -311,7 +335,7 @@ export class AuthService {
       token: this.userToken,
     });
     return this.http
-      .get(`${environment.apiUrl}/admin-etapa/casa`, { headers ,params })
+      .get(`${environment.apiUrl}/admin-etapa/casa`, { headers, params })
       .pipe(
         map((resp: any) => {
           return resp.respuesta;
@@ -1227,7 +1251,7 @@ export class AuthService {
   }
 
 
-  
+
   getReservacionesAreaSocialxId(id: string, fecha1: string) {
     let params = new HttpParams();
     params = params.append("fecha", fecha1);
@@ -2136,7 +2160,7 @@ export class AuthService {
     if (villa === "todas" || villa === null) {
       villa = "";
       tipo = ""
-    } 
+    }
     const headers = new HttpHeaders({
       token: this.userToken,
     });
@@ -2155,8 +2179,8 @@ export class AuthService {
   }
 
   filtroResidenteMzVilla(mz, villa) {
-    if(mz==='todas'){
-      mz=""
+    if (mz === 'todas') {
+      mz = ""
     }
     const headers = new HttpHeaders({
       token: this.userToken,
@@ -2194,11 +2218,11 @@ export class AuthService {
     const headers = new HttpHeaders({
       token: this.userToken,
     });
-    if(villa==='todas'){
-      villa=""
+    if (villa === 'todas') {
+      villa = ""
     }
-    if(mz==='todas'){
-      mz=""
+    if (mz === 'todas') {
+      mz = ""
     }
     return this.http
       .get(

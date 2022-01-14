@@ -61,6 +61,9 @@
   
 }
 @media (max-width: 766px) {
+  .hide-panel{
+    display: none;
+  }
   .left-part {
     left: - $left-part-width;
     z-index: 1;

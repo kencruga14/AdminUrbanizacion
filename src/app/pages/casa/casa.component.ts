@@ -11,11 +11,11 @@ import _ from "lodash";
   styleUrls: ["./casa.component.css"],
 })
 export class CasaComponent implements OnInit {
-  filtroManzana:any;
-  filtrovilla:any;
-  manzanas :any;
-  manzanaselector : any = []
-  casasselector : any = []
+  filtroManzana: any;
+  filtrovilla: any;
+  manzanas: any;
+  manzanaselector: any = []
+  casasselector: any = []
   casas: UsuarioModelo[] = [];
   etapas: UsuarioModelo[] = [];
   id_casa: 0;
@@ -24,6 +24,7 @@ export class CasaComponent implements OnInit {
   fijo: "";
   edit: false;
   celular: "";
+  propietario = "";
   piso: "";
   departamento: "";
   familia: "";
@@ -59,8 +60,8 @@ export class CasaComponent implements OnInit {
 
   ngOnInit() {
     this.getCasa();
-    this.filtroManzana=""
-    this.filtrovilla=""
+    this.filtroManzana = ""
+    this.filtrovilla = ""
     const info_eta = localStorage.getItem("info_etapa");
     const info_urb = localStorage.getItem("info_urb");
     this.eta = [JSON.parse(info_urb), JSON.parse(info_eta)];
@@ -148,6 +149,7 @@ export class CasaComponent implements OnInit {
         departamento: this.departamento,
         villa: this.villa,
         familia: this.familia,
+        propietario: this.propietario
       };
       JSON.stringify(body);
       console.log("cuerpo editar casa: ", body);
@@ -161,9 +163,10 @@ export class CasaComponent implements OnInit {
         departamento: this.departamento,
         villa: this.villa,
         familia: this.familia,
+        propietario: this.propietario
+
       };
       JSON.stringify(body);
-      console.log("cuerpo crear casa: ", body);
       response = await this.auth.createCasa(body);
     }
     if (response) {
@@ -174,7 +177,7 @@ export class CasaComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
-  
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -194,21 +197,21 @@ export class CasaComponent implements OnInit {
     }
   }
 
-  getFiltroCasa(){
-    this.filtrovilla =""
+  getFiltroCasa() {
+    this.filtrovilla = ""
     this.auth.getCasasByManzana(this.filtroManzana).subscribe((resp: any) => {
       this.casasselector = resp;
       console.log("casas x manzana: ", this.casasselector);
     });
-    this.auth.getCasaFiltros(this.filtroManzana,this.filtrovilla).subscribe((resp: any) => {
+    this.auth.getCasaFiltros(this.filtroManzana, this.filtrovilla).subscribe((resp: any) => {
       this.casas = resp;
       console.log("casas x manzana: ", this.casasselector);
     });
   }
 
 
-  getFiltroVilla(){
-    this.auth.getCasaFiltros(this.filtroManzana,this.filtrovilla).subscribe((resp: any) => {
+  getFiltroVilla() {
+    this.auth.getCasaFiltros(this.filtroManzana, this.filtrovilla).subscribe((resp: any) => {
       this.casas = resp;
     });
   }

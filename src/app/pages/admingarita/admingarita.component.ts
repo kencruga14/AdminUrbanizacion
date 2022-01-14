@@ -72,7 +72,6 @@ export class AdmingaritaComponent implements OnInit {
   }
 
   openAdmin(content, adming = null) {
-    console.log("user selccionado: ", adming);
     if (adming) {
       this.id_admin = adming.ID;
       this.id = adming.ID;
@@ -83,8 +82,10 @@ export class AdmingaritaComponent implements OnInit {
       this.telefono = adming.usuario.telefono;
       this.celular = adming.usuario.celular;
       this.imagenEdit = adming.usuario.imagen;
+      this.documento = adming.documento;
       this.adming.edit = true;
     } else {
+      this.documento = null
       this.id_admin = 0;
       this.telefono = "";
       this.celular = "";
@@ -152,12 +153,8 @@ export class AdmingaritaComponent implements OnInit {
         documento: this.documento
 
       };
+      console.log("DSADAS ", this.documento)
       if (!this.changeFoto) delete body.usuario.imagen
-
-      console.log("holi")
-
-      console.log("holi")
-
       JSON.stringify(body);
       response = await this.auth.editAdminGarita(this.id, body);
     } else {
@@ -218,13 +215,13 @@ export class AdmingaritaComponent implements OnInit {
     }
   }
   PDF(event: any) {
+
     const fileData = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.documento = reader.result;
     };
-    console.log("documento base: ", this.documento);
   }
 
   goToLink(url: string) {

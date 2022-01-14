@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { MailGlobalVariable, MailService } from '../mail.service';
+import _ from "lodash";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail',
@@ -117,6 +119,35 @@ export class DetailComponent implements OnInit, OnDestroy {
     console.log(this.mensaje.adjuntos)
 
     this.modal.open(content, { size: 'lg' });
+  }
+  async eliminar() {
+
+
+    Swal.fire({
+      title: "¿Seguro que desea eliminar este registro?",
+
+      showCancelButton: true,
+      confirmButtonColor: "#343A40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.value) {
+        const response = await this.auth.deleteBuzon(this.ms.selectedMail.ID)
+        let temp;
+        if (response) {
+          let mail = this.ms.selectedMail
+          this.ms.selectedMail = null
+          this.ms.selectedMailId = 0
+          _.remove(this.ms.mailList, function (n) {
+            return n.ID == mail.ID;
+          });
+
+        }
+      }
+    });
+
+
   }
   preview(event: any) {
     this.selectedFiles = event.target.files;

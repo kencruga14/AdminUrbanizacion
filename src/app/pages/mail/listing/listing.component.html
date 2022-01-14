@@ -42,7 +42,7 @@
     <div class="right-part">
         <div class="card mb-0">
             <div class="row no-gutters">
-                <div class="col-md-5  border-right" [hidden]="ms.selectedMail">
+                <div class="col-md-5  border-right" [ngClass]="{'hide-panel':  ms.selectedMail}">
                     <div class="position-relative" style="height:100%;">
 
 
@@ -98,6 +98,7 @@
                                                             <img src="../../../../assets/images/clip.png"
                                                                 style="height: 20px;" alt="">
                                                         </div>
+
                                                     </div>
 
                                                 </div>
@@ -118,6 +119,7 @@
                                                             {{ mail.publicador.nombres.split(' ')[0]}}
                                                             {{mail.publicador.apellido}}</span>
                                                     </div>
+
                                                     <div class="col-3 text-right">
                                                         <div class="" style="height: 100%;">
                                                             <span *ngIf='!mail.leido' class="label label-themecolor "
