@@ -194,6 +194,11 @@
 
           <div class="div" *ngIf="tipoArea ==='RESERVACIONES'  ">
 
+            <div class="form-group">
+              <label>Numero de Reservas Permitidas por Mes:</label>
+              <input [value]="aforo" [(ngModel)]="reservas_mes_residente" name="numeroPermi2" class="form-control" type="number"
+                placeholder="">
+            </div>
 
             <div class="form-group">
               <label>Tiempo de Reserva</label>

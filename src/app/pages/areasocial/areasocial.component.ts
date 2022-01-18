@@ -53,6 +53,7 @@ export class AreasocialComponent implements OnInit {
   id: 0;
   tiempo_reservacion_minutos: any;
   seleccionCosto: string;
+  reservas_mes_residente:any;
   changeFoto = false;
   hora_apertura: "";
   hora_cierre: "";
@@ -275,6 +276,7 @@ export class AreasocialComponent implements OnInit {
       this.seleccionCosto = area.seleccionCosto;
       this.precio = area.precio;
       this.estado = area.estado;
+      this.reservas_mes_residente = area.reservas_mes_residente
       this.area = area;
       this.area.edit = true;
     } else {
@@ -359,6 +361,7 @@ export class AreasocialComponent implements OnInit {
       // if (this.tipoAforo === 'ILIMITADO') this.aforo=""
       const body = {
         imagen: this.imagenAlt,
+        reservas_mes_residente: this.reservas_mes_residente,
         nombre: this.nombre,
         tipoAforo: this.tipoAforo,
         aforo: parseInt(this.aforo),
@@ -373,6 +376,7 @@ export class AreasocialComponent implements OnInit {
       const body = {
         imagen: this.imagen,
         nombre: this.nombre,
+        reservas_mes_residente: this.reservas_mes_residente,
         tipoAforo: this.tipoAforo,
         aforo: parseInt(this.aforo),
         normas: this.normas,
