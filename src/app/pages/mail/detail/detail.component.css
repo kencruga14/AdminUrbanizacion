@@ -17,3 +17,20 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
+@media (max-width: 766px) {
+  .movil{
+display: block;
+  }
+  .web{
+display: none;
+  }
+}
+@media (min-width: 766px) {
+  .movil{
+display: none;
+  }
+  .web{
+    display: block;
+
+  }
+}

@@ -35,3 +35,14 @@ td {
   background-color: red;
   color: white;
 }
+
+@media (max-width: 1600px){
+  .header-ali{
+    width: 65vw;
+  }
+}
+@media (min-width: 1601px){
+  .header-ali{
+    width: 74vw;
+  }
+}

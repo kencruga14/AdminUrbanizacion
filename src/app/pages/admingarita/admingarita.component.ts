@@ -72,7 +72,6 @@ export class AdmingaritaComponent implements OnInit {
   }
 
   openAdmin(content, adming = null) {
-    console.log("user selccionado: ", adming);
     if (adming) {
       this.id_admin = adming.ID;
       this.id = adming.ID;
@@ -83,8 +82,10 @@ export class AdmingaritaComponent implements OnInit {
       this.telefono = adming.usuario.telefono;
       this.celular = adming.usuario.celular;
       this.imagenEdit = adming.usuario.imagen;
+      this.documento = adming.documento;
       this.adming.edit = true;
     } else {
+      this.documento = null
       this.id_admin = 0;
       this.telefono = "";
       this.celular = "";
@@ -95,7 +96,7 @@ export class AdmingaritaComponent implements OnInit {
       this.contrasena = "";
       this.adming.edit = false;
       this.imagen = this.imagen;
-      this.imagenPerfil=""
+      this.imagenPerfil = ""
     }
     this.modalService.open(content);
   }
@@ -108,6 +109,7 @@ export class AdmingaritaComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
+      this.imagenEdit = reader.result
       this.imagen = reader.result;
       this.imagenPerfil = reader.result;
     };
@@ -129,6 +131,7 @@ export class AdmingaritaComponent implements OnInit {
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.imagenEdit = reader.result;
+      this.imagenEdit = this.imagenEdit
     };
     this.changeFoto = true;
   }
@@ -136,6 +139,7 @@ export class AdmingaritaComponent implements OnInit {
   async gestionAdmin() {
     let response: any;
     if (this.adming.edit) {
+
       const body = {
         usuario: {
           nombres: this.nombres,
@@ -149,10 +153,8 @@ export class AdmingaritaComponent implements OnInit {
         documento: this.documento
 
       };
-      console.log("holi")
-
-      console.log("holi")
-
+      console.log("DSADAS ", this.documento)
+      if (!this.changeFoto) delete body.usuario.imagen
       JSON.stringify(body);
       response = await this.auth.editAdminGarita(this.id, body);
     } else {
@@ -184,6 +186,8 @@ export class AdmingaritaComponent implements OnInit {
     this.imagen = null;
     this.imagenPerfil = null;
     this.imagenEdit = null;
+    this.changeFoto = false;
+
     this.getAdmin();
   }
 
@@ -191,7 +195,7 @@ export class AdmingaritaComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: "¿Seguro que desea eliminar este registro?",
- 
+
       showCancelButton: true,
       confirmButtonColor: "#343A40",
       cancelButtonColor: "#d33",
@@ -211,13 +215,13 @@ export class AdmingaritaComponent implements OnInit {
     }
   }
   PDF(event: any) {
+
     const fileData = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(fileData);
     reader.onload = (response) => {
       this.documento = reader.result;
     };
-    console.log("documento base: ", this.documento);
   }
 
   goToLink(url: string) {

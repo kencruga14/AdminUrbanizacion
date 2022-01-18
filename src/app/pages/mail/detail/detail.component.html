@@ -1,4 +1,5 @@
 <div *ngIf='ms.selectedMail'>
+
     <!-- <div class="d-flex align-items-center p-3 border-bottom">
         <h4 class="mb-0">{{ms.selectedMail.Subject}}
             <span *ngFor="let l of ms.selectedMail.label" class="ml-2">
@@ -16,24 +17,33 @@
             </span>
         </h4>
     </div> -->
-    <div class="p-3">
+    <div class="p-3 ">
         <div class="mb-1 ">
             <!-- <img [src]="ms.selectedMail.publicador.imagen" class="rounded-circle" alt="userimg" width="35" height="35"> -->
             <div>
                 <div class="row">
+                    <div class="col-7 text-left movil mb-2">
+                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'dd-MM-yyyy, h:mm a'}}</span>
+
+                    </div>
+                    <div class="col-5 text-right movil">
+                        <button class="ml-2 btn btn-sm btn-danger" (click)="eliminar()">Eliminar</button>
+
+                    </div>
                     <div class="  col-md-8 text-left" *ngIf="!ms.selectedMail.is_admin">
-                      <span *ngIf="!ms.selectedMail.is_admin" style="font-weight: bold; font-size: 1.1rem;">De : </span>    <span *ngIf="ms.selectedMail.is_admin" style="font-weight: bold; font-size: 1rem;">Para : </span>   
-                      <p *ngIf="ms.selectedMail.casa" class="ml-1  mt-4 mb-4 label label-success pt-1"
+                        <span *ngIf="!ms.selectedMail.is_admin" style="font-weight: bold; font-size: 1.1rem;">De :
+                        </span> <span *ngIf="ms.selectedMail.is_admin" style="font-weight: bold; font-size: 1rem;">Para
+                            : </span>
+                        <p *ngIf="ms.selectedMail.casa" class="ml-1   mb-4 label label-success pt-1"
                             style="font-size: 1.1rem; background-color: #f1f9fc; color: #7875ea;">
                             Mz {{ms.selectedMail.casa?.manzana}}
                             Villa {{ms.selectedMail.casa?.villa}}</p>
-                 
-                          <p class="mb-4" style="font-size: 1.1rem;"> <b style="font-weight: bold; font-size: 1.1rem;" >Residente :</b> {{ms.selectedMail.publicador.nombres}} {{ms.selectedMail.publicador.apellido}}
-                            <p>
+
+
                     </div>
                     <div class="col-md-8" *ngIf="ms.selectedMail.is_admin">
                         <div class=" align-items-center  text-left">
-                            <h5 class="mb-0 mr-2 mt-3 mb-3"> <b class="mt-1" style="font-size: 1rem;"  >Para:</b>
+                            <h5 class="mb-0 mr-2 mt-3 mb-3"> <b class="mt-1" style="font-size: 1rem;">Para:</b>
 
                                 <span *ngIf="ms.selectedMail.publico" class="label label-light-info mr-2 ml-1">
                                     Todos
@@ -48,13 +58,31 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 text-center">
-                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'d-M-yyyy, h:mm a'}}</span>
+                    <div class="col-md-4 text-right web">
+                        <span class="text-muted">{{ms.selectedMail.CreatedAt| date:'dd-MM-yyyy, h:mm a'}}</span>
+                        <button class="ml-2 btn btn-sm btn-danger" (click)="eliminar()">Eliminar</button>
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="mb-4" style="font-size: 1.1rem;"> <b
+                                style="font-weight: bold; font-size: 1.1rem;">Residente :</b>
+                            {{ms.selectedMail.publicador.nombres}} {{ms.selectedMail.publicador.apellido}}
+                        <p>
+
 
                     </div>
                 </div>
 
-                <span style="font-weight: bold; font-size: 1.22rem;  " class="mt-3 mb-5">{{ms.selectedMail.titulo}}</span>
+                <span style="font-weight: bold; font-size: 1.22rem;  "
+                    class="mt-3 mb-5">{{ms.selectedMail.titulo}}</span>
                 <br>
             </div>
 
@@ -64,11 +92,11 @@
             <h5 style="margin-bottom: 5px;" *ngFor="let linea of this.mailService.array; let i=index">
                 {{linea}}
             </h5>
-        
+
         </div>
 
         <div class="row ">
-            <div class=" p-0 col-md-1 text-center" *ngFor="let archivo of ms.selectedMail.archivos; let i=index">
+            <div class=" p-0 col-md-1 ml-3" *ngFor="let archivo of ms.selectedMail.archivos; let i=index">
                 <a (click)="goToLink(archivo.url)">
                     <img src="assets/images/clip.png" style="height: 20px; " alt="">
                     <br>
@@ -90,6 +118,7 @@
 
 
         </div> -->
+
     </div>
 
     <!-- <div style="background-color: #f1f1f1; border-color: #f1f1f1; height: 20px;"></div> -->
@@ -190,6 +219,7 @@
 
         </div>
     </div> -->
+
 </div>
 <ng-template #content let-modal>
 

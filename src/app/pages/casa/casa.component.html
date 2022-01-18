@@ -9,19 +9,19 @@
                  [(ngModel)]="filterName">
             </div> -->
 
-                     <!-----filtro manzana-->
-                     <div class="row mt-4">
-                         <div class="col-3">
-                            <div class="form-group">
-                                <label>Seleccione Manzana</label>
-                                <select name="manzana" [(ngModel)]="filtroManzana" class="form-control custom-select"
-                                    (change)="getFiltroCasa($event.target.value)">
-                                    <option value="" >Todas</option>
-                                    <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">{{ur.manzana}}</option>
-                                </select>
-                            </div>
-                         </div>
-                         <!-- <div class="col-3">
+            <!-----filtro manzana-->
+            <div class="row mt-4">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>Seleccione Manzana</label>
+                        <select name="manzana" [(ngModel)]="filtroManzana" class="form-control custom-select"
+                            (change)="getFiltroCasa($event.target.value)">
+                            <option value="">Todas</option>
+                            <option *ngFor="let ur of manzanaselector" value="{{ ur.manzana }}">{{ur.manzana}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="col-3">
                             <div class="form-group">
                                 <label>Seleccione Villa</label>
                                 <select [disabled]="!filtroManzana" name="villa" [(ngModel)]="filtrovilla"
@@ -31,13 +31,13 @@
                                 </select>
                             </div>
                          </div> -->
-                         <div class="col-6">
+                <div class="col-6">
 
-                         </div>
-                     </div>
-                  
-                    <!-----filtro villa-->
-                  
+                </div>
+            </div>
+
+            <!-----filtro villa-->
+
 
             <h6 class="card-subtitle"></h6>
             <div class="table-responsive m-t-40">
@@ -60,14 +60,18 @@
                             <td>{{casa.celular}}</td>
                             <!-- <td>${{casa.valor_alicuotas}}</td> -->
                             <td>
-                                <a data-toggle="tooltip" data-original-title="Editar" (click)="openCasa(contentCasa, casa)"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(casa.ID)"> <i class="fa fa-trash text-danger m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Editar"
+                                    (click)="openCasa(contentCasa, casa)"> <i
+                                        class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(casa.ID)"> <i
+                                        class="fa fa-trash text-danger m-r-10"></i> </a>
 
                             </td>
                         </tr>
                         <tr *ngIf="(casas).length === 0">
-                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No existen datos</label></td>
-                            
+                            <td style="text-align: center !important;" colspan="10"><label class="text-primary">No
+                                    existen datos</label></td>
+
                         </tr>
 
 
@@ -82,22 +86,29 @@
             <h4 *ngIf="!casa.edit" class="modal-title" id="modal-basic-title">Crear casa</h4>
             <h4 *ngIf="casa.edit" class="modal-title" id="modal-basic-title">Editar casa</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <form (ngSubmit)="gestionCasa()" #form="ngForm">
             <div class="modal-body">
 
                 <div class="form-group">
-                    <input [value]="manzana"  [(ngModel)]="manzana" name="manzana" class="form-control" type="text" required placeholder="Ingrese la manzana">
+                    <input [value]="manzana" [(ngModel)]="manzana" name="manzana" class="form-control" type="text"
+                        required placeholder="Ingrese la manzana">
                 </div>
                 <div class="form-group">
-                    <input [value]="villa" [(ngModel)]="villa" name="villa" class="form-control" type="text" required placeholder="Ingrese la villa">
+                    <input [value]="villa" [(ngModel)]="villa" name="villa" class="form-control" type="text" required
+                        placeholder="Ingrese la villa">
                 </div>
-              <div class="form-group">
-                <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text" required placeholder="Ingrese el celular">
-            </div>
-            <!-- <div class="form-group">
+                <div class="form-group">
+                    <input [value]="celular" [(ngModel)]="celular" name="celular" class="form-control" type="text"
+                        required placeholder="Ingrese el celular">
+                </div>
+                <div class="form-group">
+                    <input [value]="propietario" [(ngModel)]="propietario" name="propietario" class="form-control"
+                        type="text" required placeholder="Ingrese propietario">
+                </div>
+                <!-- <div class="form-group">
                 <input [value]="valor_alicuota" [(ngModel)]="valor_alicuota" name="valor_alicuota" class="form-control" type="number" required placeholder="Valor Alicuota">
             </div> -->
             </div>

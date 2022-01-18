@@ -81,11 +81,12 @@ export class ReservacionesComponent implements OnInit {
   }
 
   getEstado(value) {
+    this.filtroEstado
     // this.filtroAutorizacion = ""
     // this.filtroEstado = ""
     // this.tipoAutorizacionFija=""
     if (this.filtroAutorizacion == "TEMPORAL") {
-
+      this.filtroEstado = ""
       this.estados = [
         {
           texto: "Anulada",

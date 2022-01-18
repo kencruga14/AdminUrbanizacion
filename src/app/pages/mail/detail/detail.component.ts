@@ -1,15 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { MailGlobalVariable, MailService } from '../mail.service';
+import _ from "lodash";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   @ViewChild("utlimo", { static: false }) chat: ElementRef;
   separatedArrayDetails = [];
   mensaje: any = { adjuntos: [] }
@@ -19,6 +21,9 @@ export class DetailComponent implements OnInit {
   constructor(public ms: MailGlobalVariable,
     public mailService: MailService, public router: Router, public auth: AuthService,
     public modal: NgbModal) { }
+  ngOnDestroy(): void {
+    this.ms.selectedMail = null
+  }
 
   ngOnInit() {
 
@@ -54,7 +59,7 @@ export class DetailComponent implements OnInit {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-          console.log("1",this.ms.selectedMail.mensajes)
+          console.log("1", this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -62,7 +67,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-            console.log("2",this.ms.selectedMail.mensajes)
+            console.log("2", this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 
@@ -77,7 +82,7 @@ export class DetailComponent implements OnInit {
           this.auth.showAlert("Correo enviado", "success");
           const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
           this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-          console.log("3",this.ms.selectedMail.mensajes)
+          console.log("3", this.ms.selectedMail.mensajes)
         }
         if (archivos.length > 0) {
           const adjuntos = await this.auth.enviarMensajeAdjunto(response[1], formData)
@@ -85,7 +90,7 @@ export class DetailComponent implements OnInit {
             this.auth.showAlert("Correo enviado", "success");
             const response2 = await this.auth.getMensajePorId(this.ms.selectedMail.ID)
             this.ms.selectedMail.mensajes = response2[1].mensajes.reverse()
-            console.log("4",this.ms.selectedMail.mensajes)
+            console.log("4", this.ms.selectedMail.mensajes)
           } else {
             this.auth.showAlert("Error al enviar correo.", "error");
 
@@ -114,6 +119,35 @@ export class DetailComponent implements OnInit {
     console.log(this.mensaje.adjuntos)
 
     this.modal.open(content, { size: 'lg' });
+  }
+  async eliminar() {
+
+
+    Swal.fire({
+      title: "¿Seguro que desea eliminar este registro?",
+
+      showCancelButton: true,
+      confirmButtonColor: "#343A40",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.value) {
+        const response = await this.auth.deleteBuzon(this.ms.selectedMail.ID)
+        let temp;
+        if (response) {
+          let mail = this.ms.selectedMail
+          this.ms.selectedMail = null
+          this.ms.selectedMailId = 0
+          _.remove(this.ms.mailList, function (n) {
+            return n.ID == mail.ID;
+          });
+
+        }
+      }
+    });
+
+
   }
   preview(event: any) {
     this.selectedFiles = event.target.files;

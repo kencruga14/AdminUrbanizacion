@@ -11,23 +11,23 @@
             <div class="row">
                 <div class="col-3 mt-5">
                     <input type="text" class="form-control" name="filterName" placeholder="Buscar..."
-                    [(ngModel)]="filterName">
+                        [(ngModel)]="filterName">
                 </div>
                 <div class="col-4">
 
                 </div>
                 <div class="col-3 ">
-                   
+
                 </div>
                 <div class="col-2">
 
                 </div>
-               
+
             </div>
 
             <h6 class="card-subtitle"></h6>
             <!-- <div class="table table-responsive "> -->
-            <table style="width: 68.5%;" id="myTable" class="table color-bordered-table inverse-bordered-table">
+            <table id="myTable" class="table table-responsive color-bordered-table inverse-bordered-table">
                 <thead>
                     <tr style="text-align: center;">
                         <th class="w-5">No</th>
@@ -65,9 +65,8 @@
                             </figure>
                         </td>
                         <td>
-                            <!-- <a data-toggle="tooltip" data-original-title="Editar"
-                                    (click)="openAdmin(contentAdmin, c)"> <i
-                                        class="fa fa-pencil text-inverse m-r-10"></i> </a> -->
+                            <a data-toggle="tooltip" data-original-title="Editar" (click)="openAdmin(contentAdmin, c)">
+                                <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                             <a data-toggle="tooltip" data-original-title="Eliminar" (click)="delete(c.ID)"> <i
                                     class="fa fa-trash text-danger m-r-10"></i> </a>
                         </td>
@@ -94,7 +93,7 @@
         <form (ngSubmit)="gestionAdmin()" #form="ngForm">
             <div class="modal-body">
 
-                <!-- <div class="form-group" *ngIf="imagenEdit">
+                <div class="form-group" *ngIf="imagenEdit">
                     <div class="image-preview mb-3" *ngIf="imagenEdit">
                         <img class="img-fluid" [src]="imagenEdit" height="500" width="100" />
                     </div>
@@ -116,19 +115,17 @@
                         El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
                         359 x 316.
                     </small>
-                </div> -->
-                <div class="form-group">
-                    <!-- ImagenCrear -->
+                </div>
+                <!-- ImagenCrear -->
+
+                <!-- <div class="form-group">
                     <div class="image-preview mb-3" *ngIf="imagenPerfil">
                         <img required class="avatar" [src]="imagenPerfil" height="60px" width="60px" />
                     </div>
                     <label for="imagen">Cargar Imagen de Perfil</label>
                     <input required type="file" name="image" (change)="preview($event)" accept="image/*" />
-                    <!-- <small id="passwordHelpBlock" class="form-text text-muted">
-                        El peso de la imagen debe ser menor 2Mb a y la resolucion debe ser
-                        359 x 316.
-                    </small> -->
-                </div>
+                    
+                </div> -->
 
                 <div class="form-group">
                     <input ngValue="Nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
@@ -150,26 +147,17 @@
                     <input ngValue="correo" [(ngModel)]="correo" name="correo" class="form-control" type="text" required
                         placeholder="Correo">
                 </div>
-
-
-                <div class="form-group">
-                    <label>Cargar Cédula-PDF </label>
-                    <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
-                        class="form-control" type="file" accept="application/pdf">
+                <label> Cédula-PDF </label>
+                <input type="file" accept="application/pdf" (change)="PDF($event)" #fileBanner
+                    [ngStyle]="{'display':documento ? 'none' : 'block' }">
+                <div *ngIf="documento">
+                    <button type="button" class="btn btn-info btn-sm" (click)="fileBanner.click()">Cambiar PDF</button>
                 </div>
 
-                <!-- <div class="form-group">
-                    <label for=""> </label> <br>
-                    <input required [(ngModel)]="pdf2" type="file" name="upload"
-                        accept="application/pdf,application/vnd.ms-excel" />
-                </div> -->
-
-
-
-
-                <!-- <div class="form-group">
-                    <input ngValue="contrasena" [(ngModel)]="contrasena" name="contrasena" class="form-control"
-                        type="text" required placeholder="Contraseña">
+                <!-- <div class="form-group" *ngIf="!adming.edit">
+                    <label> Cédula-PDF </label>
+                    <input [value]="documento" (change)="PDF($event)" [(ngModel)]="documento" name="documento"
+                        class="form-control" type="file" accept="application/pdf">
                 </div> -->
             </div>
             <div class="modal-footer">
