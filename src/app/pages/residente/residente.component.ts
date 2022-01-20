@@ -32,6 +32,7 @@ export class ResidenteComponent implements OnInit {
   telefono: "";
   documento: any;
   fechanacimiento: any;
+  fecha_nacimiento: any;
   imagen = null;
   id: 0;
   imagenPerfila: any;
@@ -237,7 +238,8 @@ export class ResidenteComponent implements OnInit {
       this.residente.edit = true;
       this.telefono = residente.usuario.telefono;
       this.usuario = residente.usuario.usuario;
-      this.fechanacimiento = residente.fecha_nacimiento;
+      this.fecha_nacimiento = residente.fecha_nacimiento.split('T')[0];
+      this.tipoUsuario =residente.tipo_usuario
       this.imagen = null;
       this.id_casa = residente.id_casa;
       this.manzana = residente.casa.manzana;
@@ -261,6 +263,7 @@ export class ResidenteComponent implements OnInit {
       this.fechanacimiento = "";
       this.usuario = "";
       this.manzana = "";
+      this.tipoUsuario=""
       this.villa = "";
       this.documento = "";
       this.id_casa = 0;
@@ -276,10 +279,6 @@ export class ResidenteComponent implements OnInit {
 
   async gestionResidente() {
     let tipoUsuario: string;
-    // console.log("objeto villa: ", this.villa);
-    // if (this.tipoUsuario === "SECUNDARIO") {
-    //   this.is_principal = false;
-    // }
     if (this.validacion) {
       console.log("entro a validacion falsa");
       this.is_principal = false;
@@ -288,8 +287,9 @@ export class ResidenteComponent implements OnInit {
       console.log("entro a validacion true");
       tipoUsuario = "PRINCIPAL";
       this.is_principal = true;
-      this.autorizacion = true;
+      // this.autorizacion = true;
     }
+
     let response: any;
     if (this.residente.edit) {
       const body = {
@@ -297,7 +297,8 @@ export class ResidenteComponent implements OnInit {
         is_principal: this.is_principal,
         autorizacion: this.autorizacion,
         tipo_usuario: this.tipoUsuario,
-        fecha_nacimiento: moment(this.fechanacimiento).format(),
+        cedula:this.cedula,
+        fecha_nacimiento: this.fecha_nacimiento,
         usuario: {
           apellido: this.apellido,
           celular: this.celular,

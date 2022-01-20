@@ -132,7 +132,7 @@
                         required placeholder="Nombre y Apellidos">
                 </div>
                 <div class="form-group">
-                    <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
+                    <input  [readOnly]="adming.edit"  [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
                         required placeholder="Usuario">
                 </div>
                 <div class="form-group">

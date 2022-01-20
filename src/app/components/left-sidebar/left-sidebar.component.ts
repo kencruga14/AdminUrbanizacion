@@ -18,9 +18,11 @@ export class LeftSidebarComponent implements OnInit {
 
   constructor(public auth: AuthService,
     private router: Router,
-    private modalService: NgbModal,) { }
+    private modalService: NgbModal,
+    public requestServ: AuthService) { }
 
   ngOnInit() {
+    this.requestServ.dimensionPantalla();
     const infomaster = localStorage.getItem("info");
     this.permisos = JSON.parse(localStorage.getItem("permisos"))
     this.modulos = JSON.parse(localStorage.getItem("modulos"))

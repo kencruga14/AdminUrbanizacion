@@ -54,18 +54,34 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
-                <div *ngFor="let m of masters">
-                    <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 60%;" [src]="m.imagen"
-                        alt="user">
-                    <strong style="color: white;">{{m.nombres }} {{m.apellido+" "}}</strong>
-                    <!-- <a  href="" class="btn btn-secondary ml-3" (click)="openLogOut(contentLogOut)">Salir</a> -->
-                    <button href="" class="btn btn-secondary ml-3" (click)="logout()">Salir </button>
-
-                    <!-- <i class="fa fa-sign-out" aria-hidden="true"></i> -->
-
-                    <!-- <i  style="font-size: larger;" class="fa fa-sign-out" aria-hidden="true"></i> -->
+                <div class="div" *ngIf="!auth.esMovil">
+                    <div *ngFor="let m of masters">
+                        <img style="width: 44px; height: 44px; margin-right: 10px;border-radius: 60%;" [src]="m.imagen"
+                            alt="user">
+                        <strong style="color: white;">{{m.nombres }} {{m.apellido+" "}}</strong>
+                        <button href="" class="btn btn-secondary ml-3" (click)="logout()">Salir </button>
+                    </div>
                 </div>
-
+              
+                <div class="div" *ngIf="auth.esMovil">
+                    <div *ngFor="let m of masters">
+                        <div class="row">
+                            <div class="col-2 mt-1 text-right"> 
+                                <img style="width: 32px; height: 32px;border-radius: 60%;" [src]="m.imagen"
+                                alt="user">
+                            </div>
+                            <div class="col-6 mt-2 text-right">
+                                <strong style="color: white;font-size: 14px;">{{m.nombres.split(" ")[0] }} {{m.apellido.split(" ")[0] +" "}}</strong>
+                            </div>
+                            <div class="col-4 text-left">
+                                <button href="" class="btn btn-secondary " (click)="logout()">Salir </button>
+                            </div>
+                        </div>
+                     
+                
+                      
+                    </div>
+                </div>
 
                 <!--<div class="dropdown-menu dropdown-menu-right scale-up">
                         <ul class="dropdown-user">

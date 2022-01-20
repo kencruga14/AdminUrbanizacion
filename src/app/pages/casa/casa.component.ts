@@ -79,6 +79,7 @@ export class CasaComponent implements OnInit {
       this.celular = casa.celular;
       (this.valor_alicuota = casa.valor_alicuotas),
         (this.departamento = casa.departamento);
+      this.propietario = casa.propietario  
       this.manzana = casa.manzana;
       this.villa = casa.villa;
       this.familia = casa.familia;
@@ -89,6 +90,7 @@ export class CasaComponent implements OnInit {
       this.villa = "";
       this.casa.edit = false;
       this.familia = "";
+      this.propietario= "";
       this.celular = "";
       this.valor_alicuota = 0;
       this.departamento = "";

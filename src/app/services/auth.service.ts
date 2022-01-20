@@ -19,6 +19,10 @@ export class AuthService {
   info: any;
   infoGuard: any;
   modulos: any;
+  public esMovil: boolean;
+  public innerWidth: any;
+  public innerHeight: any;
+  public esTablet = false;
 
   constructor(private http: HttpClient) {
     this.leerToken();
@@ -118,6 +122,25 @@ export class AuthService {
     }
     return this.userToken;
   }
+
+  dimensionPantalla() {
+    this.innerWidth = window.innerWidth;
+    this.innerHeight = window.innerHeight;
+    if (this.innerWidth < 1400) {
+      this.esTablet = true;
+      if (this.innerWidth < 700) {
+        this.esMovil = true;
+        console.log("es movil", this.esMovil);
+      }
+    } else {
+      this.esTablet = false;
+      this.esMovil = false;
+    }
+  }
+  
+
+
+
   //DATOS LOGIN
   getDataUrb() {
     const headers = new HttpHeaders({
@@ -2286,4 +2309,6 @@ export class AuthService {
         );
     });
   }
+
+
 }

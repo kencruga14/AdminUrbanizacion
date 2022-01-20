@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class TopbarComponent implements OnInit {
 masters: UsuarioModelo[] =[]; 
-  constructor(private auth: AuthService,
+  constructor(public auth: AuthService,
     private router: Router,
     private modalService: NgbModal,) { }
 

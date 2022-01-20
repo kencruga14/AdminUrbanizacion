@@ -97,8 +97,10 @@
                             <td>{{et.usuario.correo}}</td>
                             <td>{{et.usuario.celular}}</td>
                             <td>{{et.usuario.telefono}}</td>
-                            <td *ngIf="et.is_principal == true">Si</td>
-                            <td *ngIf="et.is_principal == false">No</td>
+                            <td *ngIf="et.tipo_usuario === 'PRINCIPAL'">Si</td>
+                            <td *ngIf="et.tipo_usuario !== 'PRINCIPAL'">No</td>
+                            <!-- <td *ngIf="et.is_principal == true">Si</td>
+                            <td *ngIf="et.is_principal == false">No</td> -->
                             <td *ngIf="et.fecha_nacimiento ==='Fecha inválida'">F inválida</td>
                             <td *ngIf="et.fecha_nacimiento !=='Fecha inválida' ">{{et.fecha_nacimiento | date:
                                 'dd-MM-yyyy'}}</td>
@@ -111,8 +113,10 @@
                                         alt="image" />
                                 </figure>
                             </td>
-                            <td *ngIf="et.autorizacion == true">Si</td>
-                            <td *ngIf="et.autorizacion == false">No</td> <!-- <td></td> -->
+                            <td *ngIf="et.tipo_usuario === 'PRINCIPAL'">Si</td>
+                            <td *ngIf="et.tipo_usuario === 'SECUNDARIO' && et.autorizacion == true ">Si</td>
+                            <td *ngIf="et.tipo_usuario === 'SECUNDARIO' && et.autorizacion == false ">No</td>
+                            <!-- <td></td> -->
                             <td>
                                 <!-- <a data-toggle="tooltip" data-original-title="pdf"> <i
                                         class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -209,28 +213,34 @@
                             <option value="SECUNDARIO">Secundario</option>
                         </select>
                     </div>
-                    <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
-                        <label>¿Este usuario podrá responder encuestas?</label>
-                        <input name="principal" class="form-control" type="text" placeholder="Si">
+
+                    <div class="tipousuario"  *ngIf="tipoUsuario">
+                        <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
+                            <label>¿Este usuario podrá responder encuestas?</label>
+                            <input name="principal" class="form-control" type="text" placeholder="Si" readonly>
+                        </div>
+    
+                        <div class="form-group" *ngIf="tipoUsuario !='PRINCIPAL'">
+                            <label>¿Este usuario podrá responder encuestas?</label>
+                            <input name="principals" class="form-control" type="text" placeholder="No" readonly>
+                        </div>
+    
+                        <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
+                            <label>¿Este usuario podrá crear autorizaciones?</label>
+                            <input  [(ngModel)]="autorizacion" name="autorizacion" class="form-control" type="text"  readonly>
+                        </div>
+    
+                        <div class="form-group" *ngIf="tipoUsuario !=='PRINCIPAL'">
+                            <label>¿Este usuario podrá crear autorizaciones?</label>
+                            <select required name="autorizacion" [(ngModel)]="autorizacion"
+                                class="form-control custom-select" required>
+                                <option [ngValue]="true">Si</option>
+                                <option [ngValue]="false">No</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group" *ngIf="tipoUsuario !='PRINCIPAL'">
-                        <label>¿Este usuario podrá responder encuestas?</label>
-                        <input name="principals" class="form-control" type="text" placeholder="No" readonly>
-                    </div>
-                    <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
-                        <label>¿Este usuario podrá crear autorizaciones?</label>
-                        <input name="autorizacion" class="form-control" type="text" placeholder="Si" readonly>
-                    </div>
-
-                    <div class="form-group" *ngIf="tipoUsuario !=='PRINCIPAL'">
-                        <label>¿Este usuario podrá crear autorizaciones?</label>
-                        <select required name="autorizacion" [(ngModel)]="autorizacion"
-                            class="form-control custom-select" required>
-                            <option [ngValue]="true">Si</option>
-                            <option [ngValue]="false">No</option>
-                        </select>
-                    </div>
+                  
 
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
@@ -262,8 +272,9 @@
                         <input [value]="cedula" [(ngModel)]="cedula" name="cedula" class="form-control" type="text"
                             required placeholder="Cédula">
                     </div>
+
                     <div class="form-group">
-                        <input [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
+                        <input   readonly [value]="usuario" [(ngModel)]="usuario" name="usuario" class="form-control" type="text"
                             required placeholder="Usuario">
                     </div>
 
@@ -296,22 +307,43 @@
 
                     <div class="form-group">
                         <label>Fecha de nacimiento</label>
-                        <input [value]="fechanacimiento" [ngModel]="fechanacimiento |date:  'yyyy-MM-dd'" name="otra"
+                        <input [value]="fecha_nacimiento" [(ngModel)]="fecha_nacimiento" name="otra"
                             class="form-control" type="date" required>
                         <br>
                     </div>
 
-                    <div class="form-group">
+                    <div  class="form-group">
+                        <label>Tipo de usuario </label>
+                        <input [value]="tipoUsuario" [(ngModel)]="tipoUsuario" name="villa2" class="form-control" type="text"
+                           disabled  required>
+                    </div>
+
+                    <div *ngIf="tipoUsuario ==='PRINCIPAL'" class="form-group">
                         <label>¿Este usuario podrá responder encuestas?</label>
-                        <select name="is_principal" [(ngModel)]="is_principal" class="form-control custom-select">
-                            <option [ngValue]="true">Si</option>
-                            <option [ngValue]="false">No</option>
+                        <select disabled name="is_principal"  class="form-control custom-select">
+                            <option selected >Si</option>
+                        
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div *ngIf="tipoUsuario !=='PRINCIPAL'" class="form-group">
+                        <label>¿Este usuario podrá responder encuestas?</label>
+                        <select disabled name="is_principal" class="form-control custom-select">
+                            <option selected >No</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="tipoUsuario ==='PRINCIPAL'" class="form-group">
                         <label>¿Este usuario podrá crear autorizaciones?</label>
-                        <select name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
+                        <select disabled name="autorizacionn" class="form-control custom-select">
+                            <option selected >Si</option>
+                            <option >No</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="tipoUsuario ==='SECUNDARIO'"  class="form-group">
+                        <label>¿Este usuario podrá crear autorizaciones?</label>
+                        <select  name="autorizacion" [(ngModel)]="autorizacion" class="form-control custom-select">
                             <option [ngValue]="true">Si</option>
                             <option [ngValue]="false">No</option>
                         </select>

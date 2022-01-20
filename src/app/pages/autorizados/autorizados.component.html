@@ -111,8 +111,8 @@
                         placeholder="Cédula">
                 </div>
                 <div class="form-group">
-                    <input [(ngModel)]="usuario.usuario" name="user" class="form-control" type="text" required
-                        placeholder="usuario">
+                    <input [readOnly]="autorizado.edit" [(ngModel)]="usuario.usuario" name="user" class="form-control" type="text" required
+                        placeholder="Usuario">
                 </div>
                 <div class="form-group">
                     <input [(ngModel)]="usuario.correo" name="correo" class="form-control" type="email" required

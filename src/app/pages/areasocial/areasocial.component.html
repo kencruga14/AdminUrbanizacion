@@ -183,7 +183,7 @@
 
           <div class="form-group">
             <label> Modalidad:</label>
-            <select required name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
+            <select    required name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
               <option selected hidden value="">
                 Seleccione Area
               </option>
@@ -195,8 +195,8 @@
           <div class="div" *ngIf="tipoArea ==='RESERVACIONES'  ">
 
             <div class="form-group">
-              <label>Numero de Reservas Permitidas por Mes:</label>
-              <input [value]="aforo" [(ngModel)]="reservas_mes_residente" name="numeroPermi2" class="form-control" type="number"
+              <label> Reservaciones permitidas por usuarios en el mes :</label>
+              <input [value]="reservas_mes_residente" [(ngModel)]="reservas_mes_residente" name="numeroPermi2" class="form-control" type="number"
                 placeholder="">
             </div>
 

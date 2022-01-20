@@ -5,6 +5,7 @@ export class UsuarioModelo {
   nombres: string;
   nombre: string;
   apellido: string;
+  propietario : string;
   manzana: any;
   villa: any;
   imagen: any;

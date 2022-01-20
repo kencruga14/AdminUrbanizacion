@@ -289,6 +289,7 @@ export class AreasocialComponent implements OnInit {
       this.normas = "";
       this.tipoArea = "";
       this.tiempo_reservacion_minutos = "";
+      this.reservas_mes_residente=""
       this.seleccionCosto = "";
       this.precio = "";
       this.estado = "";
