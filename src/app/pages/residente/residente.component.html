@@ -227,7 +227,8 @@
     
                         <div class="form-group" *ngIf="tipoUsuario ==='PRINCIPAL'">
                             <label>¿Este usuario podrá crear autorizaciones?</label>
-                            <input  [(ngModel)]="autorizacion" name="autorizacion" class="form-control" type="text"  readonly>
+                            <!-- <input  [(ngModel)]="autorizacion" name="autorizacion" class="form-control" type="text"  readonly> -->
+                            <input name="principal" class="form-control" type="text" placeholder="Si" readonly>
                         </div>
     
                         <div class="form-group" *ngIf="tipoUsuario !=='PRINCIPAL'">
@@ -259,6 +260,11 @@
                 </div>
 
                 <div *ngIf="residente.edit">
+
+
+
+
+
 
                     <div class="form-group">
                         <input [value]="nombres" [(ngModel)]="nombres" name="nombres" class="form-control" type="text"
@@ -296,13 +302,13 @@
                     <div class="form-group">
                         <label>Manzana</label>
                         <input [value]=" manzana" [(ngModel)]="manzana" name="manzana" class="form-control" type="text"
-                            required>
+                           readonly required>
                     </div>
 
                     <div class="form-group">
                         <label>Villa</label>
                         <input [value]=" villa" [(ngModel)]="villa" name="villa" class="form-control" type="text"
-                            required>
+                         readonly   required>
                     </div>
 
                     <div class="form-group">
@@ -372,7 +378,9 @@
         </div>
         <div class="modal-body" *ngIf="imagenPerfil">
             <figure class="box">
-                <img [src]="imagenPerfil.usuario.imagen" alt="image" />
+                <img *ngIf="!auth.esMovil" height="550"  width="700" [src]="imagenPerfil.usuario.imagen" alt="image" />
+                <img *ngIf="auth.esMovil" height="100%"  width="100%" [src]="imagenPerfil.usuario.imagen" alt="image" />
+            
             </figure>
         </div>
     </ng-template>

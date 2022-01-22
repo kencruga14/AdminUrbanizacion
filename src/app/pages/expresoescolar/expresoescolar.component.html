@@ -170,7 +170,7 @@
                     <!-- CREAR -->
                     <label>Pdf cédula</label>
                     <input [value]="pdf" (change)="PDF($event)" [(ngModel)]="pdf" name="pdf" class="form-control"
-                        type="file" accept="application/pdf" required>
+                        type="file" accept="application/pdf" >
                 </div>
 
             </div>
@@ -197,7 +197,8 @@
         </div>
         <div class="modal-body" *ngIf="imagenPerfil">
             <figure class="box">
-                <img [src]="imagenPerfil.imagen" alt="image" />
+                    <img *ngIf="!auth.esMovil" height="550"  width="700" [src]="imagenPerfil.imagen" alt="image" />
+                    <img *ngIf="auth.esMovil" height="100%"  width="100%" [src]="imagenPerfil.imagen" alt="image" />
             </figure>
         </div>
     </ng-template>

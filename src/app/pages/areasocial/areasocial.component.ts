@@ -289,7 +289,7 @@ export class AreasocialComponent implements OnInit {
       this.normas = "";
       this.tipoArea = "";
       this.tiempo_reservacion_minutos = "";
-      this.reservas_mes_residente=""
+      this.reservas_mes_residente="",
       this.seleccionCosto = "";
       this.precio = "";
       this.estado = "";
@@ -343,7 +343,7 @@ export class AreasocialComponent implements OnInit {
       .subscribe((resp: any) => {
         if (resp) {
           this.reservas = resp.horarios_disponibles;
-          console.log("hor", this.reservas)
+          
         }
       });
   }
@@ -386,6 +386,7 @@ export class AreasocialComponent implements OnInit {
         seleccionCosto: this.seleccionCosto,
         precio: parseInt(this.precio),
       };
+      if(!body.reservas_mes_residente) delete body.reservas_mes_residente
       if (!body.imagen) {
         Swal.fire({
           title: "Por favor ingrese una imagen",
@@ -629,6 +630,17 @@ export class AreasocialComponent implements OnInit {
 
   reset(){
     this.aforo=""
+  }
+
+  limpiar(){
+    this.tiempo_reservacion_minutos = "";
+    this.reservas_mes_residente="",
+    this.seleccionCosto = "";
+    this.precio = "";
+  }
+  
+  limpiar2(){
+    this.precio = "";
   }
 
 }

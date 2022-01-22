@@ -11,7 +11,6 @@
                     (click)='openModal(content)'> Nuevo Mensaje
                 </button>
             </div>
-
             <ul class="mailbox list-style-none">
                 <li>
                     <div class="message-center" style="height: calc(100vh - 340px); ">
@@ -28,12 +27,9 @@
                                     <span *ngIf='mail.name==="Recibidos" && ms.inboxCount>0'
                                         class="badge badge-pill font-medium px-3 d-flex align-items-center"
                                         style="background-color:#7875ea ; color: white;">{{ms.inboxCount}}</span>
-
-
                                 </div>
                             </a>
                         </div>
-
                     </div>
                 </li>
             </ul>

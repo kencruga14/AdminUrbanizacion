@@ -37,7 +37,7 @@
                             <td>{{i+1}}</td>
                             <td>
                                 <figure>
-                                    <img class="avatar" style="height:40px !important" [src]="autorizado.usuario.imagen"
+                                    <img class="avatar" style="height:40px !important" [src]="autorizado.usuario.imagen" 
                                         alt="image" data-holder-rendered="true" (click)="openImage(autorizado.usuario)"
                                         data-toggle="modal" data-target=".bd-example-modal-lg" />
                                 </figure>
@@ -246,9 +246,9 @@
                         <tr>
                             <td *ngIf="infoPermisos.ingreso">Registro de Ingresos</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td *ngIf="infoPermisos.alicuota">Alícuotas</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td *ngIf="infoPermisos.emprendimiento">Emprendimientos</td>
                         </tr>
@@ -294,6 +294,7 @@
 
 
 </div>
+
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -303,10 +304,10 @@
                     Imagen de Registro Ingreso
                 </h4>
             </div>
-
             <div class="modal-body text-center" *ngIf="imagenPerfil">
                 <figure class="box">
-                    <img [src]="imagenPerfil.imagen" alt="image" />
+                    <img *ngIf="!auth.esMovil" height="550"  width="700" [src]="imagenPerfil.imagen" alt="image" />
+                    <img *ngIf="auth.esMovil" height="100%"  width="100%" [src]="imagenPerfil.imagen" alt="image" />
                 </figure>
             </div>
         </div>

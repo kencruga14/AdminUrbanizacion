@@ -289,6 +289,7 @@ export class ResidenteComponent implements OnInit {
       this.is_principal = true;
       // this.autorizacion = true;
     }
+    
 
     let response: any;
     if (this.residente.edit) {

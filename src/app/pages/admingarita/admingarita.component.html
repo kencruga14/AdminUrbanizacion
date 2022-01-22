@@ -179,7 +179,8 @@
         </div>
         <div class="modal-body" *ngIf="imagenPerfil">
             <figure class="box">
-                <img [src]="imagenPerfil.usuario.imagen" alt="image" />
+                <img *ngIf="!auth.esMovil" height="550"  width="700" [src]="imagenPerfil.usuario.imagen" alt="image" />
+                <img *ngIf="auth.esMovil" height="100%"  width="100%" [src]="imagenPerfil.usuario.imagen" alt="image" />
             </figure>
         </div>
     </ng-template>

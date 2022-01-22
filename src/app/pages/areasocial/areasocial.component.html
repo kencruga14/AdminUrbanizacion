@@ -183,7 +183,7 @@
 
           <div class="form-group">
             <label> Modalidad:</label>
-            <select    required name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
+            <select  (change)="limpiar()"  required name="area" [(ngModel)]="tipoArea" class="form-control custom-select">
               <option selected hidden value="">
                 Seleccione Area
               </option>
@@ -216,7 +216,7 @@
             </div>
             <div class="form-group">
               <label> Uso :</label>
-              <select name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
+              <select  (change)="limpiar2()" name="seleccionCosto" [(ngModel)]="seleccionCosto" class="form-control custom-select">
                 <option selected hidden value="">
                   Seleccione Uso
                 </option>
@@ -299,9 +299,9 @@
                     <td *ngIf="div.valor_cancelado==0"> </td>
                     <td *ngIf="div.reservado" class="label label-danger"> Reservado </td>
                     <td *ngIf="!div.reservado" style="background: rgb(29, 185, 29);" class="label"> Disponible </td>
-                    <td style="padding-left: 15px;">{{ div.casa.manzana}}</td>
-                    <td style="padding-left: 25px;">{{ div.casa.villa}}</td>
-                    <td [width]="80">{{ div.usuario.nombres}}</td>
+                    <td style="padding-left: 15px;">{{ div.casa?.manzana}}</td>
+                    <td style="padding-left: 25px;">{{ div.casa?.villa}}</td>
+                    <td [width]="80">{{ div.usuario?.nombres}}</td>
                   </tr>
                   <tr style="text-align: center !important;" *ngIf="reservas.length<1">
                     <td colspan="90"><label class="text-primary">No hay horarios disponibles por mostrar</label></td>
