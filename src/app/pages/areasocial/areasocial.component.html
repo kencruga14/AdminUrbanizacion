@@ -196,8 +196,8 @@
 
             <div class="form-group">
               <label> Reservaciones permitidas por usuarios en el mes :</label>
-              <input [value]="reservas_mes_residente" [(ngModel)]="reservas_mes_residente" name="numeroPermi2" class="form-control" type="number"
-                placeholder="">
+              <input [value]="reservas_mes_residente" [(ngModel)]="reservas_mes_residente" name="numeroPermi2"
+                class="form-control" type="number" placeholder="">
             </div>
 
             <div class="form-group">
@@ -299,9 +299,10 @@
                     <td *ngIf="div.valor_cancelado==0"> </td>
                     <td *ngIf="div.reservado" class="label label-danger"> Reservado </td>
                     <td *ngIf="!div.reservado" style="background: rgb(29, 185, 29);" class="label"> Disponible </td>
-                    <td style="padding-left: 15px;">{{ div.casa?.manzana}}</td>
-                    <td style="padding-left: 25px;">{{ div.casa?.villa}}</td>
-                    <td [width]="80">{{ div.usuario?.nombres}}</td>
+                    <td *ngIf="div.reservado" style="padding-left: 15px;">{{ div.residente.casa.manzana}}</td>
+                    <td *ngIf="div.reservado" style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
+                    <td *ngIf="div.reservado" [width]="80">{{ div.residente.usuario.nombres +
+                      " " + div.residente.usuario.apellido}}</td>
                   </tr>
                   <tr style="text-align: center !important;" *ngIf="reservas.length<1">
                     <td colspan="90"><label class="text-primary">No hay horarios disponibles por mostrar</label></td>
@@ -449,7 +450,7 @@
                   <th style="padding-left: 20px;" scope="col">Tipo</th>
                   <th style="text-align:center" scope="col">Valor</th>
                   <th scope="col">Mz.</th>
-                  <th scope="col">Villa</th>
+                  <th scope="col">Villa</th>asdfsadfasdf
                   <th [width]="80" scope="col">Reservado por:</th>
                 </thead>
                 <tbody>
@@ -461,9 +462,10 @@
                     <td *ngIf="div.valor_cancelado!=0"> PAGADO </td>
                     <td *ngIf="div.valor_cancelado==0"> GRATIS </td>
                     <td style="padding-left: 25px;">{{ div.valor_cancelado }}</td>
-                    <td style="padding-left: 15px;">{{ div.residente.casa.manzana}}</td>
-                    <td style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
-                    <td [width]="80">{{ div.residente.usuario.nombres}}</td>
+                    <td *ngIf="div.reservado" style="padding-left: 15px;">{{ div.residente.casa.manzana}}</td>
+                    <td *ngIf="div.reservado" style="padding-left: 25px;">{{ div.residente.casa.villa}}</td>
+                    <td *ngIf="div.reservado" [width]="80">{{ div.residente.usuario.nombres +
+                      " " + div.residente.usuario.apellido}}</td>
                   </tr>
                   <tr style="text-align: center !important;" *ngIf="!fechaRecaudacionFin">
                     <td colspan="90"><label class="text-primary">Seleccione fechas a consultar</label></td>
